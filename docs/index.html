@@ -292,7 +292,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -303,8 +303,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -317,9 +317,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span
@@ -342,36 +342,33 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree1162c4845a87fe276fba03df4a8dffecd2082042targetblank1162c48a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreea669c61e5d4983ae956ce5c3be066a81b50a2250targetblanka669c61a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/1162c4845a87fe276fba03df4a8dffecd2082042" target="_blank">1162c48</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/a669c61e5d4983ae956ce5c3be066a81b50a2250" target="_blank">a669c61</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree1162c4845a87fe276fba03df4a8dffecd2082042targetblank1162c48a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreea669c61e5d4983ae956ce5c3be066a81b50a2250targetblanka669c61a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -381,7 +378,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/1162c4845a87fe276fba03df4a8dffecd2082042" target="_blank">1162c48</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/a669c61e5d4983ae956ce5c3be066a81b50a2250" target="_blank">a669c61</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -396,40 +393,10 @@ were generated:
 </p>
 <pre><code>
 Untracked files:
-    Untracked:  analysis/ACAT_random.Rmd
-    Untracked:  analysis/ECT_2peer.Rmd
-    Untracked:  analysis/ECT_2peer_fdr01.Rmd
-    Untracked:  analysis/ECT_redo.Rmd
-    Untracked:  analysis/ECT_redo_acat_corrected.Rmd
-    Untracked:  analysis/ECT_redo_acat_corrected_acatfdr02.Rmd
-    Untracked:  analysis/ECT_redo_acat_filtered.Rmd
-    Untracked:  analysis/ECT_redo_acat_filtered_2digits.Rmd
-    Untracked:  analysis/ECT_redo_fdr01.Rmd
-    Untracked:  analysis/ECT_redo_fisher_filtered.Rmd
-    Untracked:  analysis/ECT_redo_fisheracat_fdr01.Rmd
-    Untracked:  analysis/ECT_redo_fisheracat_fdr02.Rmd
-    Untracked:  analysis/ECT_redo_gtexwb.Rmd
-    Untracked:  analysis/ECT_redo_gtexwb_acat_filtered_2digits.Rmd
-    Untracked:  analysis/ECT_redo_plier.Rmd
-    Untracked:  analysis/ECT_redo_plier_acat_2digits.Rmd
-    Untracked:  analysis/ECT_summary_differentsettings.Rmd
-    Untracked:  analysis/acat_2peer.Rmd
     Untracked:  analysis/acat_fdr.Rmd
-    Untracked:  analysis/acat_fdr_plier.Rmd
-    Untracked:  analysis/check_pval.Rmd
-    Untracked:  analysis/coloc_fdr.Rmd
-    Untracked:  analysis/compare_acat_fisher.Rmd
-    Untracked:  analysis/hsq_pc_fdr.Rmd
-    Untracked:  analysis/hsq_pc_regressed.Rmd
-    Untracked:  analysis/magma_2peer.Rmd
-    Untracked:  analysis/magma_fdr.Rmd
-    Untracked:  analysis/pc_regress_out_peer.Rmd
-    Untracked:  analysis/redo_correct_lfdr.Rmd
-    Untracked:  analysis/redo_correct_lfdr_gtexwholeblood.Rmd
-    Untracked:  analysis/redo_correct_lfdr_plier.Rmd
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/redo_correct_lfdr.Rmd
 
 </code></pre>
 <p>
@@ -474,6 +441,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/a669c61e5d4983ae956ce5c3be066a81b50a2250/analysis/index.Rmd" target="_blank">a669c61</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2022-12-01
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/a669c61e5d4983ae956ce5c3be066a81b50a2250/docs/index.html" target="_blank">a669c61</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2022-12-01
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 html

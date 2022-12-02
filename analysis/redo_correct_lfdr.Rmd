@@ -48,7 +48,7 @@ not use:
 
 [Compare ACAT and Fisher exact test results](https://xsun1229.github.io/factor_analysis/compare_acat_fisher.html)
 
-[ACAT](https://xsun1229.github.io/factor_analysis/acat_fdr.html)
+[ACAT](https://xsun1229.github.io/factor_analysis_new/acat_fdr.html)
 
 3. MAGMA
 
