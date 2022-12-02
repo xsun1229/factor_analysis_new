@@ -1,0 +1,67 @@
+---
+title: "Correcting FDR for CEDAR KEGG PC"
+author: "XSun"
+date: "2022-10-19"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Introduction
+
+In the earlier analysis, we used local FDR to compute the SNP FDR in association tests. We will correct it here. 
+
+
+# Results
+
+
+1. ECT 
+
+[Summary -- different settings](https://xsun1229.github.io/factor_analysis_new/ECT_summary_differentsettings.html)
+
+[SNP FDR cutoff: 0.2](https://xsun1229.github.io/factor_analysis/ECT_redo.html)
+
+[SNP FDR cutoff: 0.2 -- corrected ACAT FDR < 0.1](https://xsun1229.github.io/factor_analysis_new/ECT_redo_acat_corrected.html)
+
+[SNP FDR cutoff: 0.2 -- corrected ACAT FDR < 0.2](https://xsun1229.github.io/factor_analysis_new/ECT_redo_acat_corrected_acatfdr02.html)
+
+[SNP FDR cutoff: 0.2 -- FET FDR <0.1](https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisher_filtered.html)
+
+[SNP FDR cutoff: 0.2 -- FET FDR <0.2](https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisher_FDR02.html)
+
+
+[SNP FDR cutoff: 0.2 -- FET FDR < 0.1 OR corrected ACAT FDR < 0.1](https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisheracat_fdr01.html)
+
+[SNP FDR cutoff: 0.2 -- FET FDR < 0.2 OR corrected ACAT FDR < 0.2](ECT_redo_fisheracat_fdr02.html)
+
+
+
+not use: 
+
+[SNP FDR cutoff: 0.2 -- acat filter applied](https://xsun1229.github.io/factor_analysis/ECT_redo_acat_filtered.html)
+
+[SNP FDR cutoff: 0.2 -- acat filter applied, keep 2 decimal places of ECT FDR](https://xsun1229.github.io/factor_analysis/ECT_redo_acat_filtered_2digits.html)
+
+[SNP FDR cutoff: 0.1](https://xsun1229.github.io/factor_analysis/ECT_redo_fdr01.html)
+
+2. Convergence test 
+
+[Compare ACAT and Fisher exact test results](https://xsun1229.github.io/factor_analysis/compare_acat_fisher.html)
+
+[ACAT](https://xsun1229.github.io/factor_analysis/acat_fdr.html)
+
+3. MAGMA
+
+[Details](https://xsun1229.github.io/factor_analysis/magma_fdr.html)
+
+4. Heritability
+
+[Details](https://xsun1229.github.io/factor_analysis/hsq_pc_fdr.html)
+
+5. p-values in gene ~ SNP & factor ~ SNP
+
+[Details](https://xsun1229.github.io/factor_analysis/check_pval.html)
+
+6. Colocalization analysis
+
+[SNP FDR cutoff: 0.2, without any acat filter](https://xsun1229.github.io/factor_analysis/coloc_fdr.html)

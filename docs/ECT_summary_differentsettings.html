@@ -9,9 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="XSun" />
 
+<meta name="date" content="2022-12-01" />
 
-<title>Factor Analysis</title>
+<title>ECT summary under different settings</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,6 +31,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -234,6 +239,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -241,6 +309,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -284,7 +362,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Factor Analysis</h1>
+<h1 class="title toc-ignore">ECT summary under different settings</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2022-12-01</h4>
 
 </div>
 
@@ -351,10 +431,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -396,37 +476,14 @@ were generated:
 </p>
 <pre><code>
 Untracked files:
-    Untracked:  analysis/ACAT_random.Rmd
-    Untracked:  analysis/ECT_2peer.Rmd
-    Untracked:  analysis/ECT_2peer_fdr01.Rmd
-    Untracked:  analysis/ECT_redo.Rmd
     Untracked:  analysis/ECT_redo_acat_corrected.Rmd
     Untracked:  analysis/ECT_redo_acat_corrected_acatfdr02.Rmd
-    Untracked:  analysis/ECT_redo_acat_filtered.Rmd
-    Untracked:  analysis/ECT_redo_acat_filtered_2digits.Rmd
-    Untracked:  analysis/ECT_redo_fdr01.Rmd
+    Untracked:  analysis/ECT_redo_fisher_FDR02.Rmd
     Untracked:  analysis/ECT_redo_fisher_filtered.Rmd
     Untracked:  analysis/ECT_redo_fisheracat_fdr01.Rmd
     Untracked:  analysis/ECT_redo_fisheracat_fdr02.Rmd
-    Untracked:  analysis/ECT_redo_gtexwb.Rmd
-    Untracked:  analysis/ECT_redo_gtexwb_acat_filtered_2digits.Rmd
-    Untracked:  analysis/ECT_redo_plier.Rmd
-    Untracked:  analysis/ECT_redo_plier_acat_2digits.Rmd
     Untracked:  analysis/ECT_summary_differentsettings.Rmd
-    Untracked:  analysis/acat_2peer.Rmd
-    Untracked:  analysis/acat_fdr.Rmd
-    Untracked:  analysis/acat_fdr_plier.Rmd
-    Untracked:  analysis/check_pval.Rmd
-    Untracked:  analysis/coloc_fdr.Rmd
-    Untracked:  analysis/compare_acat_fisher.Rmd
-    Untracked:  analysis/hsq_pc_fdr.Rmd
-    Untracked:  analysis/hsq_pc_regressed.Rmd
-    Untracked:  analysis/magma_2peer.Rmd
-    Untracked:  analysis/magma_fdr.Rmd
-    Untracked:  analysis/pc_regress_out_peer.Rmd
     Untracked:  analysis/redo_correct_lfdr.Rmd
-    Untracked:  analysis/redo_correct_lfdr_gtexwholeblood.Rmd
-    Untracked:  analysis/redo_correct_lfdr_plier.Rmd
 
 Unstaged changes:
     Modified:   analysis/index.Rmd
@@ -444,178 +501,190 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
-(<code>docs/index.html</code>) files. If you’ve configured a remote Git
-repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
-in the table below to view the files as they were in that past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/cbbcbfc1a7b6283064db004db7d1ba6bc4c8651f/docs/index.html" target="_blank">cbbcbfc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/843cb09f76528ec62db6085ced408fcecae8c3d9/analysis/index.Rmd" target="_blank">843cb09</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<div id="latest-results" class="section level1">
-<h1><strong>Latest Results</strong></h1>
-<p><strong>KEGG PC – CEDAR</strong></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/redo_correct_lfdr.html">Correcting
-FDR</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/pc_regress_out_peer.html">Regressing
-out PEER factors when computing PCs</a></p>
-<p><strong>PLIER LV – CEDAR</strong></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/redo_correct_lfdr_plier.html">Correcting
-FDR</a></p>
-<p><strong>KEGG PC – GTEx whole blood</strong></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/redo_correct_lfdr_gtexwholeblood.html">Correcting
-FDR</a></p>
+<div id="pairs-used-in-ect" class="section level1">
+<h1>Pairs used in ECT</h1>
+<table>
+<colgroup>
+<col width="45%" />
+<col width="7%" />
+<col width="6%" />
+<col width="6%" />
+<col width="13%" />
+<col width="13%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Bcell</th>
+<th>CD14</th>
+<th>CD15</th>
+<th>Tcell(cd4+)</th>
+<th>Tcell(cd8+)</th>
+<th>plt</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>no filter</td>
+<td>6856</td>
+<td>9098</td>
+<td>4214</td>
+<td>6366</td>
+<td>5743</td>
+<td>3772</td>
+</tr>
+<tr class="even">
+<td>Corrected ACAT FDR &lt; 0.1</td>
+<td>1373</td>
+<td>4228</td>
+<td>1199</td>
+<td>795</td>
+<td>177</td>
+<td>1221</td>
+</tr>
+<tr class="odd">
+<td>Corrected ACAT FDR &lt; 0.2</td>
+<td>5071</td>
+<td>7892</td>
+<td>2439</td>
+<td>3943</td>
+<td>236</td>
+<td>2156</td>
+</tr>
+<tr class="even">
+<td>FET FDR &lt; 0.1</td>
+<td>1679</td>
+<td>3569</td>
+<td>17</td>
+<td>1398</td>
+<td>0</td>
+<td>171</td>
+</tr>
+<tr class="odd">
+<td>FET FDR &lt; 0.2</td>
+<td>3033</td>
+<td>5212</td>
+<td>422</td>
+<td>2700</td>
+<td>1</td>
+<td>918</td>
+</tr>
+<tr class="even">
+<td>Corrected ACAT FDR &lt; 0.2 or FET FDR &lt; 0.2</td>
+<td>5690</td>
+<td>8437</td>
+<td>2570</td>
+<td>4827</td>
+<td>237</td>
+<td>2641</td>
+</tr>
+<tr class="odd">
+<td>Corrected ACAT FDR &lt; 0.1 or FET FDR &lt; 0.1</td>
+<td>2682</td>
+<td>5968</td>
+<td>1210</td>
+<td>1948</td>
+<td>177</td>
+<td>1308</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="introduction" class="section level1">
-<h1><strong>1. Introduction</strong></h1>
-<p>GWAS has found many variants. However, the mechanisms of these
-variants are often unknown.</p>
-<div id="challenge" class="section level2">
-<h2><strong>1.1 Challenge</strong></h2>
-<ol style="list-style-type: decimal">
-<li><p>Most existing studies of variant functions focus on cis-effects,
-i.e. immediate gene targets (one gene a time). The results do not
-immediately suggest common biological processes disrupted in human
-diseases.</p></li>
-<li><p>Some studies have looked at trans-effects of variants, i.e. genes
-whose expression are affected by the disease-associated variants.
-However, these trans-eQTL studies are often under-powered because of
-smaller effects of trans-acting eQTLs and multiple testing
-burdens.</p></li>
-</ol>
-</div>
-<div id="approachhypothesis" class="section level2">
-<h2><strong>1.2 Approach/Hypothesis</strong></h2>
-<p>The effects of GWAS variants of a disease converge a relatively small
-number of biological processes.</p>
-<p>This hypothesis motivates an approach where we test association of
-disease-associated variants on expression factors, which capture the
-expression of a set of related genes in a process. This approach focuses
-on variants already associated with a disease, as opposed to all
-variants in the genome, thus increasing the statistical signal. Also by
-studying a small set of pathways, it has the advantage of reducing the
-burden of multiple testing. Furthermore, we propose to use MR-type of
-approach to test causality of expression factors on phenotypes.</p>
-<p><a href="https://xsun1229.github.io/factor_analysis/T1D.html">A
-motivating example - T1D PC5</a></p>
-</div>
-</div>
-<div id="analyses" class="section level1">
-<h1><strong>2. Analyses</strong></h1>
-<div id="understanding-genetics-of-expression-factors"
-class="section level2">
-<h2><strong>2.1 Understanding genetics of expression
-factors</strong></h2>
-<p>In this part, we’re trying to answer the questions below:</p>
-<ul>
-<li><p>Are expression factors genetically determined? Can we build
-prediction model of expression factors using genetic variants?</p></li>
-<li><p>What are the SNPs and genes controlling expression
-factors?</p></li>
-</ul>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/variants_factors.html">For
-more details</a></p>
-</div>
-<div id="genetic-relationship-between-the-expression-factors-and-traits"
-class="section level2">
-<h2><strong>2.2 Genetic relationship between the expression factors and
-traits</strong></h2>
-<p>We’d like to show that the factors have a causal effect on
-outcome(traits), but it’s difficult to establish.<br />
-So we state a weaker hypothesis first: GWAS variants of a trait often
-converge to a relatively small number of processes, which can be
-represented as expression factors.</p>
-<p>Then we strengthen hypothesis: if the effects of SNPs on LV is
-correlated with their effects on trait when there is a causal effect of
-LV on trait.</p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/factors_traits.html">For
-more details</a></p>
-</div>
-</div>
-<div id="module-based-factor-analysis" class="section level1">
-<h1><strong>2.3 Module-based factor analysis</strong></h1>
-<p>We used WGCNA to find modules in GTEx expression data. Then inferred
-some expression factors in each module with the expectation that these
-factor can capture the biological processes better.</p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/module_based_factors.html">For
-more details</a></p>
-</div>
-<div id="case-studies" class="section level1">
-<h1><strong>2.4 Case Studies</strong></h1>
-<p>Some special cases and our motivating examples are here.</p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/case_studies.html">For
-more details</a></p>
+<div id="summary" class="section level1">
+<h1>Summary</h1>
+<table>
+<colgroup>
+<col width="21%" />
+<col width="15%" />
+<col width="16%" />
+<col width="31%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>#pairs passing ECT FDR &lt; 0.1</th>
+<th>#pairs passing MAGMA FDR &lt; 0.1</th>
+<th>#pairs passing MAGMA FDR &lt; 0.1 / #pairs passing ECT FDR &lt;
+0.1</th>
+<th>#pairs with 0.1&lt; ECT FDR &lt; 0.2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a
+href="https://xsun1229.github.io/factor_analysis/ECT_redo.html">no
+filter</a></td>
+<td>10</td>
+<td>6</td>
+<td>60.00%</td>
+<td>131</td>
+</tr>
+<tr class="even">
+<td><a
+href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_acat_corrected.html">Corrected
+ACAT FDR &lt; 0.1</a></td>
+<td>2</td>
+<td>1</td>
+<td>50.00%</td>
+<td>45</td>
+</tr>
+<tr class="odd">
+<td><a
+href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_acat_corrected_acatfdr02.html">Corrected
+ACAT FDR &lt; 0.2</a></td>
+<td>11</td>
+<td>7</td>
+<td>63.64%</td>
+<td>108</td>
+</tr>
+<tr class="even">
+<td><a
+href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisher_filtered.html">FET
+FDR &lt; 0.1</a></td>
+<td>18</td>
+<td>9</td>
+<td>50.00%</td>
+<td>94</td>
+</tr>
+<tr class="odd">
+<td><a
+href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisher_FDR02.html">FET
+FDR &lt; 0.2</a></td>
+<td>0</td>
+<td>0</td>
+<td>0.00%</td>
+<td>108</td>
+</tr>
+<tr class="even">
+<td><a
+href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisheracat_fdr01.html">Corrected
+ACAT FDR &lt; 0.2 or FET FDR &lt; 0.2</a></td>
+<td>8</td>
+<td>5</td>
+<td>62.50%</td>
+<td>116</td>
+</tr>
+<tr class="odd">
+<td><a
+href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisheracat_fdr02.html">Corrected
+ACAT FDR &lt; 0.1 or FET FDR &lt; 0.1</a></td>
+<td>5</td>
+<td>3</td>
+<td>60.00%</td>
+<td>102</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
@@ -634,6 +703,8 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -666,6 +737,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

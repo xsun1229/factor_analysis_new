@@ -1,0 +1,33 @@
+---
+title: "ECT summary under different settings"
+author: "XSun"
+date: "2022-12-01"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Pairs used in ECT
+
+| Setting                                   | Bcell | CD14 | CD15 | Tcell(cd4+) | Tcell(cd8+) | plt  |
+|-------------------------------------------|-------|------|------|-------------|-------------|------|
+| no filter                                 | 6856  | 9098 | 4214 | 6366        | 5743        | 3772 |
+| Corrected ACAT FDR < 0.1                  | 1373  | 4228 | 1199 | 795         | 177         | 1221 |
+| Corrected ACAT FDR < 0.2                  | 5071  | 7892 | 2439 | 3943        | 236         | 2156 |
+| FET FDR < 0.1                             | 1679  | 3569 | 17   | 1398        | 0           | 171  |
+| FET FDR < 0.2                             | 3033  | 5212 | 422  | 2700        | 1           | 918  |
+| Corrected ACAT FDR < 0.2 or FET FDR < 0.2 | 5690  | 8437 | 2570 | 4827        | 237         | 2641 |
+| Corrected ACAT FDR < 0.1 or FET FDR < 0.1 | 2682  | 5968 | 1210 | 1948        | 177         | 1308 |
+
+
+# Summary
+
+| Setting                                   | #pairs passing ECT FDR < 0.1 | #pairs passing MAGMA FDR < 0.1 | #pairs passing MAGMA FDR < 0.1 / #pairs passing ECT FDR < 0.1 | #pairs with 0.1< ECT FDR < 0.2 |
+|-------------------------------------------|------------------------------|--------------------------------|---------------------------------------------------------------|--------------------------------|
+| [no filter](https://xsun1229.github.io/factor_analysis/ECT_redo.html)                                 | 10                           | 6                              | 60.00%                                                        | 131                            |
+| [Corrected ACAT FDR < 0.1](https://xsun1229.github.io/factor_analysis_new/ECT_redo_acat_corrected.html)                  | 2                            | 1                              | 50.00%                                                        | 45                             |
+| [Corrected ACAT FDR < 0.2](https://xsun1229.github.io/factor_analysis_new/ECT_redo_acat_corrected_acatfdr02.html)                  | 11                           | 7                              | 63.64%                                                        | 108                            |
+| [FET FDR < 0.1](https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisher_filtered.html)                             | 18                           | 9                              | 50.00%                                                        | 94                             |
+| [FET FDR < 0.2](https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisher_FDR02.html)                             | 0                            | 0                              | 0.00%                                                         | 108                            |
+| [Corrected ACAT FDR < 0.2 or FET FDR < 0.2](https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisheracat_fdr01.html) | 8                            | 5                              | 62.50%                                                        | 116                            |
+| [Corrected ACAT FDR < 0.1 or FET FDR < 0.1](https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisheracat_fdr02.html) | 5                            | 3                              | 60.00%                                                        | 102                            |

@@ -9,9 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="XSun" />
 
+<meta name="date" content="2022-10-19" />
 
-<title>Factor Analysis</title>
+<title>Correcting FDR for CEDAR KEGG PC</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,6 +31,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -234,6 +239,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -241,6 +309,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -284,7 +362,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Factor Analysis</h1>
+<h1 class="title toc-ignore">Correcting FDR for CEDAR KEGG PC</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2022-10-19</h4>
 
 </div>
 
@@ -351,10 +431,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -444,178 +524,75 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
-(<code>docs/index.html</code>) files. If you’ve configured a remote Git
-repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
-in the table below to view the files as they were in that past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/cbbcbfc1a7b6283064db004db7d1ba6bc4c8651f/docs/index.html" target="_blank">cbbcbfc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/843cb09f76528ec62db6085ced408fcecae8c3d9/analysis/index.Rmd" target="_blank">843cb09</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<div id="latest-results" class="section level1">
-<h1><strong>Latest Results</strong></h1>
-<p><strong>KEGG PC – CEDAR</strong></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/redo_correct_lfdr.html">Correcting
-FDR</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/pc_regress_out_peer.html">Regressing
-out PEER factors when computing PCs</a></p>
-<p><strong>PLIER LV – CEDAR</strong></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/redo_correct_lfdr_plier.html">Correcting
-FDR</a></p>
-<p><strong>KEGG PC – GTEx whole blood</strong></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/redo_correct_lfdr_gtexwholeblood.html">Correcting
-FDR</a></p>
-</div>
 <div id="introduction" class="section level1">
-<h1><strong>1. Introduction</strong></h1>
-<p>GWAS has found many variants. However, the mechanisms of these
-variants are often unknown.</p>
-<div id="challenge" class="section level2">
-<h2><strong>1.1 Challenge</strong></h2>
+<h1>Introduction</h1>
+<p>In the earlier analysis, we used local FDR to compute the SNP FDR in
+association tests. We will correct it here.</p>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
 <ol style="list-style-type: decimal">
-<li><p>Most existing studies of variant functions focus on cis-effects,
-i.e. immediate gene targets (one gene a time). The results do not
-immediately suggest common biological processes disrupted in human
-diseases.</p></li>
-<li><p>Some studies have looked at trans-effects of variants, i.e. genes
-whose expression are affected by the disease-associated variants.
-However, these trans-eQTL studies are often under-powered because of
-smaller effects of trans-acting eQTLs and multiple testing
-burdens.</p></li>
+<li>ECT</li>
 </ol>
-</div>
-<div id="approachhypothesis" class="section level2">
-<h2><strong>1.2 Approach/Hypothesis</strong></h2>
-<p>The effects of GWAS variants of a disease converge a relatively small
-number of biological processes.</p>
-<p>This hypothesis motivates an approach where we test association of
-disease-associated variants on expression factors, which capture the
-expression of a set of related genes in a process. This approach focuses
-on variants already associated with a disease, as opposed to all
-variants in the genome, thus increasing the statistical signal. Also by
-studying a small set of pathways, it has the advantage of reducing the
-burden of multiple testing. Furthermore, we propose to use MR-type of
-approach to test causality of expression factors on phenotypes.</p>
-<p><a href="https://xsun1229.github.io/factor_analysis/T1D.html">A
-motivating example - T1D PC5</a></p>
-</div>
-</div>
-<div id="analyses" class="section level1">
-<h1><strong>2. Analyses</strong></h1>
-<div id="understanding-genetics-of-expression-factors"
-class="section level2">
-<h2><strong>2.1 Understanding genetics of expression
-factors</strong></h2>
-<p>In this part, we’re trying to answer the questions below:</p>
-<ul>
-<li><p>Are expression factors genetically determined? Can we build
-prediction model of expression factors using genetic variants?</p></li>
-<li><p>What are the SNPs and genes controlling expression
-factors?</p></li>
-</ul>
 <p><a
-href="https://xsun1229.github.io/factor_analysis/variants_factors.html">For
-more details</a></p>
-</div>
-<div id="genetic-relationship-between-the-expression-factors-and-traits"
-class="section level2">
-<h2><strong>2.2 Genetic relationship between the expression factors and
-traits</strong></h2>
-<p>We’d like to show that the factors have a causal effect on
-outcome(traits), but it’s difficult to establish.<br />
-So we state a weaker hypothesis first: GWAS variants of a trait often
-converge to a relatively small number of processes, which can be
-represented as expression factors.</p>
-<p>Then we strengthen hypothesis: if the effects of SNPs on LV is
-correlated with their effects on trait when there is a causal effect of
-LV on trait.</p>
+href="https://xsun1229.github.io/factor_analysis/ECT_summary_differentsettings.html">Summary
+– different settings</a></p>
 <p><a
-href="https://xsun1229.github.io/factor_analysis/factors_traits.html">For
-more details</a></p>
-</div>
-</div>
-<div id="module-based-factor-analysis" class="section level1">
-<h1><strong>2.3 Module-based factor analysis</strong></h1>
-<p>We used WGCNA to find modules in GTEx expression data. Then inferred
-some expression factors in each module with the expectation that these
-factor can capture the biological processes better.</p>
+href="https://xsun1229.github.io/factor_analysis/ECT_redo_fisher_filtered.html">SNP
+FDR cutoff: 0.2 – fisher filter applied</a></p>
 <p><a
-href="https://xsun1229.github.io/factor_analysis/module_based_factors.html">For
-more details</a></p>
-</div>
-<div id="case-studies" class="section level1">
-<h1><strong>2.4 Case Studies</strong></h1>
-<p>Some special cases and our motivating examples are here.</p>
+href="https://xsun1229.github.io/factor_analysis/ECT_redo_acat_corrected.html">SNP
+FDR cutoff: 0.2 – corrected acat filter applied</a></p>
 <p><a
-href="https://xsun1229.github.io/factor_analysis/case_studies.html">For
-more details</a></p>
+href="https://xsun1229.github.io/factor_analysis/ECT_redo_acat_filtered_2digits.html">SNP
+FDR cutoff: 0.2 – acat filter applied, keep 2 decimal places of ECT
+FDR</a></p>
+<p><a
+href="https://xsun1229.github.io/factor_analysis/ECT_redo_acat_filtered.html">SNP
+FDR cutoff: 0.2 – acat filter applied</a></p>
+<p><a
+href="https://xsun1229.github.io/factor_analysis/ECT_redo.html">SNP FDR
+cutoff: 0.2</a></p>
+<p><a
+href="https://xsun1229.github.io/factor_analysis/ECT_redo_fdr01.html">SNP
+FDR cutoff: 0.1</a></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Convergence test</li>
+</ol>
+<p><a
+href="https://xsun1229.github.io/factor_analysis/compare_acat_fisher.html">Compare
+ACAT and Fisher exact test results</a></p>
+<p><a
+href="https://xsun1229.github.io/factor_analysis/acat_fdr.html">ACAT</a></p>
+<ol start="3" style="list-style-type: decimal">
+<li>MAGMA</li>
+</ol>
+<p><a
+href="https://xsun1229.github.io/factor_analysis/magma_fdr.html">Details</a></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Heritability</li>
+</ol>
+<p><a
+href="https://xsun1229.github.io/factor_analysis/hsq_pc_fdr.html">Details</a></p>
+<ol start="5" style="list-style-type: decimal">
+<li>p-values in gene ~ SNP &amp; factor ~ SNP</li>
+</ol>
+<p><a
+href="https://xsun1229.github.io/factor_analysis/check_pval.html">Details</a></p>
+<ol start="6" style="list-style-type: decimal">
+<li>Colocalization analysis</li>
+</ol>
+<p><a
+href="https://xsun1229.github.io/factor_analysis/coloc_fdr.html">SNP FDR
+cutoff: 0.2, without any acat filter</a></p>
 </div>
 
 
@@ -634,6 +611,8 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -666,6 +645,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
