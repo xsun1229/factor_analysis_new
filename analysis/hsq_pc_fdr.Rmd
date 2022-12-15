@@ -30,7 +30,7 @@ p2 <- list()
 for (i in 1:length(celltypes)){
   
   folder_celltype <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/9.pcs_40genes_rerun/3.heritability/")
-  file_hsq <- paste0(folder_celltype,"hsq_processed.txt")
+  file_hsq <- paste0(folder_celltype,"hsq_processed_co.txt")
   
   H <- read.table(file_hsq, header = T)
   sum_sorted <- H[order(as.numeric(H$hsq)),]
