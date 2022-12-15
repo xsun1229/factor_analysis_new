@@ -9,7 +9,7 @@ editor_options:
 
 # Introduction
 
-Pathways with no less than 40 genes were included in our analysis.
+Pathways with no less than 20 genes were included in our analysis.
 
 # Results
 
