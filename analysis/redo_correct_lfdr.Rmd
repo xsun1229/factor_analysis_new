@@ -1,5 +1,5 @@
 ---
-title: "Correcting FDR for CEDAR KEGG PC"
+title: "Correcting FDR for CEDAR KEGG PC (40 genes)"
 author: "XSun"
 date: "2022-10-19"
 output: workflowr::wflow_html
@@ -11,6 +11,7 @@ editor_options:
 
 In the earlier analysis, we used local FDR to compute the SNP FDR in association tests. We will correct it here. 
 
+Pathways with no less than 40 genes were included in our analysis.
 
 # Results
 
@@ -56,7 +57,7 @@ not use:
 
 4. Heritability
 
-[Details](https://xsun1229.github.io/factor_analysis/hsq_pc_fdr.html)
+[Details](https://xsun1229.github.io/factor_analysis_new/hsq_pc_fdr.html)
 
 5. p-values in gene ~ SNP & factor ~ SNP
 

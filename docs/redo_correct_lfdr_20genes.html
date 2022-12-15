@@ -11,9 +11,9 @@
 
 <meta name="author" content="XSun" />
 
-<meta name="date" content="2022-10-19" />
+<meta name="date" content="2022-12-15" />
 
-<title>Correcting FDR for CEDAR KEGG PC (40 genes)</title>
+<title>Correcting FDR for CEDAR KEGG PC (20genes)</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -362,10 +362,10 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Correcting FDR for CEDAR KEGG PC (40
-genes)</h1>
+<h1 class="title toc-ignore">Correcting FDR for CEDAR KEGG PC
+(20genes)</h1>
 <h4 class="author">XSun</h4>
-<h4 class="date">2022-10-19</h4>
+<h4 class="date">2022-12-15</h4>
 
 </div>
 
@@ -432,10 +432,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -499,116 +499,16 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/redo_correct_lfdr.Rmd</code>) and
-HTML (<code>docs/redo_correct_lfdr.html</code>) files. If you’ve
-configured a remote Git repository (see <code>?wflow_git_remote</code>),
-click on the hyperlinks in the table below to view the files as they
-were in that past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/d7557e0fb1b7c0df19ddfc338f93b38e1c261526/analysis/redo_correct_lfdr.Rmd" target="_blank">d7557e0</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/d7557e0fb1b7c0df19ddfc338f93b38e1c261526/docs/redo_correct_lfdr.html" target="_blank">d7557e0</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/a669c61e5d4983ae956ce5c3be066a81b50a2250/analysis/redo_correct_lfdr.Rmd" target="_blank">a669c61</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/a669c61e5d4983ae956ce5c3be066a81b50a2250/docs/redo_correct_lfdr.html" target="_blank">a669c61</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-update
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>In the earlier analysis, we used local FDR to compute the SNP FDR in
-association tests. We will correct it here.</p>
 <p>Pathways with no less than 40 genes were included in our
 analysis.</p>
 </div>
@@ -618,69 +518,20 @@ analysis.</p>
 <li>ECT</li>
 </ol>
 <p><a
-href="https://xsun1229.github.io/factor_analysis_new/ECT_summary_differentsettings.html">Summary
-– different settings</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/ECT_redo.html">SNP FDR
-cutoff: 0.2</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_acat_corrected.html">SNP
-FDR cutoff: 0.2 – corrected ACAT FDR &lt; 0.1</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_acat_corrected_acatfdr02.html">SNP
-FDR cutoff: 0.2 – corrected ACAT FDR &lt; 0.2</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisher_filtered.html">SNP
-FDR cutoff: 0.2 – FET FDR &lt;0.1</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisher_FDR02.html">SNP
-FDR cutoff: 0.2 – FET FDR &lt;0.2</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_fisheracat_fdr01.html">SNP
-FDR cutoff: 0.2 – FET FDR &lt; 0.1 OR corrected ACAT FDR &lt;
-0.1</a></p>
-<p><a href="ECT_redo_fisheracat_fdr02.html">SNP FDR cutoff: 0.2 – FET
-FDR &lt; 0.2 OR corrected ACAT FDR &lt; 0.2</a></p>
-<p>not use:</p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/ECT_redo_acat_filtered.html">SNP
-FDR cutoff: 0.2 – acat filter applied</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/ECT_redo_acat_filtered_2digits.html">SNP
-FDR cutoff: 0.2 – acat filter applied, keep 2 decimal places of ECT
-FDR</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/ECT_redo_fdr01.html">SNP
-FDR cutoff: 0.1</a></p>
+href="https://xsun1229.github.io/factor_analysis_new/ECT_redo_fdr_20genes.html">Without
+any filter</a></p>
 <ol start="2" style="list-style-type: decimal">
 <li>Convergence test</li>
 </ol>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/compare_acat_fisher.html">Compare
-ACAT and Fisher exact test results</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/acat_fdr.html">ACAT</a></p>
+<p>TO DO</p>
 <ol start="3" style="list-style-type: decimal">
 <li>MAGMA</li>
 </ol>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/magma_fdr.html">Details</a></p>
+<p>TO DO</p>
 <ol start="4" style="list-style-type: decimal">
 <li>Heritability</li>
 </ol>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/hsq_pc_fdr.html">Details</a></p>
-<ol start="5" style="list-style-type: decimal">
-<li>p-values in gene ~ SNP &amp; factor ~ SNP</li>
-</ol>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/check_pval.html">Details</a></p>
-<ol start="6" style="list-style-type: decimal">
-<li>Colocalization analysis</li>
-</ol>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/coloc_fdr.html">SNP FDR
-cutoff: 0.2, without any acat filter</a></p>
+<p>TO DO</p>
 </div>
 
 

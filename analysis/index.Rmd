@@ -13,7 +13,9 @@ editor_options:
 
 **KEGG PC -- CEDAR**
 
-[Correcting FDR](https://xsun1229.github.io/factor_analysis_new/redo_correct_lfdr.html)
+[Correcting FDR - 20 genes](https://xsun1229.github.io/factor_analysis_new/redo_correct_lfdr_20genes.html)
+
+[Correcting FDR - 40 genes](https://xsun1229.github.io/factor_analysis_new/redo_correct_lfdr.html)
 
 [Regressing out PEER factors when computing PCs](https://xsun1229.github.io/factor_analysis/pc_regress_out_peer.html)
 

@@ -1,7 +1,7 @@
 ---
-title: "Effect Size Consistency Tests (SNP FDR < 0.2, FDR corrected, Fisher FDR < 0.1)"
+title: "Effect Size Consistency Tests (SNP FDR < 0.2, FDR corrected, pathways with >=20 genes included)"
 author: "XSun"
-date: "2022-11-24"
+date: "2022-12-01"
 output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
@@ -20,7 +20,9 @@ Workflow:
 
 1. Association test: factor ~ snp + covariates 
 
-2. For the pairs have multiple snps (>=3) passing FDR < 0.2 && Fisher FDR < 0.1, do ECT
+2. For the pairs have multiple snps (>=3) passing FDR < 0.2 && corrected ACAT FDR < 0.2 or FET FDR <0.2, do ECT
+
+3. Pathways with >= 20 genes were included here.
 
 # Results
 
@@ -35,9 +37,9 @@ path <- c("4.B_cell_kegg","6.CD14_positive_monocyte_kegg","8.CD15_positive_leuko
 x <- c()
 y <- c()
 for (i in 1:length(path)){
-  folder_path <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/9.pcs_40genes_rerun/2.ECT/")
+  folder_path <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/10.20genes_rerun/2.ECT/")
   
-  load(paste0(folder_path,"results/ECT_summary_table_fisher_filtered_p_005.rdata"))
+  load(paste0(folder_path,"results/ECT_summary_table.rdata"))
   x[i] <- sum(df_sum$fdr_ECT < 0.1)
   y[i] <- sum(df_sum$fdr_ECT < 0.2) 
   
@@ -88,12 +90,13 @@ path <- c("4.B_cell_kegg","6.CD14_positive_monocyte_kegg","8.CD15_positive_leuko
 
 p1 <- list()
 p2 <- list()
-for (i in 1:5){ 
+p3 <- list()
+for (i in 1:length(type)){ 
   
-  file_ect_results <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/9.pcs_40genes_rerun/2.ECT/results/ECT_results.rdata")
+  file_ect_results <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/10.20genes_rerun/2.ECT/results/ECT_results.rdata")
   load(file_ect_results)
   
-  file_ect_summary <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/9.pcs_40genes_rerun/2.ECT/results/ECT_summary_table_fisher_filtered_p_005.rdata")
+  file_ect_summary <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/10.20genes_rerun/2.ECT/results/ECT_summary_table.rdata")
   load(file_ect_summary)
   
   plot_sum <- df_sum[df_sum$num_snp_pass_cutoff >= 3,] ######
@@ -167,65 +170,91 @@ for (i in 1:5){
           text= element_text(family="Times New Roman"))
   
   
+  
+  p <- as.data.frame(plot_sum$pval_ECT)
+  colnames(p) <- "p"
+  p3[[i]] <-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
+    theme_bw(base_line_size =0.3) +
+    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "ECT p-values",
+         y = "Count") +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) 
+  
 }
 
 
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]], nrow = 2)
-all2 <- grid.arrange(p2[[1]],p2[[2]],p2[[3]],p2[[4]],p2[[5]], nrow = 2)
-
-#all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
-#all2 <- grid.arrange(p2[[1]],p2[[2]],p2[[3]],p2[[4]],p2[[5]],p2[[6]], nrow = 2)
+all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+all2 <- grid.arrange(p2[[1]],p2[[2]],p2[[3]],p2[[4]],p2[[5]],p2[[6]], nrow = 2)
+all3 <- grid.arrange(p3[[1]],p3[[2]],p3[[3]],p3[[4]],p3[[5]],p3[[6]], nrow = 2)
 ```
 
 
 ### Top pairs with ECT FDR <0.2
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-path <- c("4.B_cell_kegg","6.CD14_positive_monocyte_kegg","8.CD15_positive_leukocyte_kegg","16.platelet_kegg","10.T_cell_kegg","14.thymocyte_kegg")
-type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
-
-summary <- c()
-for (i in 1:length(path)){
-  folder_path <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/9.pcs_40genes_rerun/2.ECT/")
-  
-  load(paste0(folder_path,"results/ECT_summary_table_fisher_filtered_p_005.rdata"))
-  
-  if (sum(df_sum$fdr_ECT < 0.2) > 0) {
-    tmp <- df_sum[df_sum$fdr_ECT < 0.2,]
-    tmp$celltype <- type[i]
-    
-    #colnames(summary) <- colnames(tmp)
-    summary <- rbind(summary,tmp)
-  }
-  
-}
-
-summary <- cbind(summary$celltype,summary)
-summary <- summary[,-ncol(summary)]
-colnames(summary)[1] <- "Celltypes"
-
-
-ect <- summary
-
-
-folder_magma <- "/project2/xinhe/xsun/CEDAR/MAGMA_FDR_corrected/results/genesetanalysis/"
-
-magma_p <- c()
-#magma_fdr <- c()
-for (i in 1:nrow(ect)) {
-  
-  file_magma <- paste0(folder_magma,ect$trait[i],".sum.magma.rdata")
-  load(file_magma)
-  
-  index <- which(summary$codes == ect$pwy_code[i])
-  magma_p[i] <- summary$P[index]
-  #magma_fdr[i] <- summary$fdr[index]
-}
-
-ect$magma_p <- magma_p
-ect$magma_fdr <- p.adjust(magma_p, method = "fdr")
-
+load("/project2/xinhe/xsun/CEDAR/MAGMA_FDR_corrected/results/CEDAR_KEGG_compare_20genes.rdata")
 DT::datatable(ect, options = list(pageLength =10))
+
+# path <- c("4.B_cell_kegg","6.CD14_positive_monocyte_kegg","8.CD15_positive_leukocyte_kegg","16.platelet_kegg","10.T_cell_kegg","14.thymocyte_kegg")
+# type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+# 
+# summary <- c()
+# for (i in 1:length(path)){
+#   folder_path <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/10.20genes_rerun/2.ECT/")
+#   
+#   load(paste0(folder_path,"results/ECT_summary_table.rdata"))
+#   
+#   if (sum(df_sum$fdr_ECT < 0.2) > 0) {
+#     tmp <- df_sum[df_sum$fdr_ECT < 0.2,]
+#     tmp$celltype <- type[i]
+#     
+#     #colnames(summary) <- colnames(tmp)
+#     summary <- rbind(summary,tmp)
+#   }
+#   
+# }
+# 
+# summary <- cbind(summary$celltype,summary)
+# summary <- summary[,-ncol(summary)]
+# colnames(summary)[1] <- "Celltypes"
+# 
+# 
+# ect <- summary
+# 
+# 
+# folder_magma <- "/project2/xinhe/xsun/CEDAR/MAGMA_FDR_corrected/results/genesetanalysis/"
+# 
+# magma_p <- c()
+# #magma_fdr <- c()
+# for (i in 1:nrow(ect)) {
+#   
+#   file_magma <- paste0(folder_magma,ect$trait[i],".sum.magma.rdata")
+#   load(file_magma)
+#   
+#   index <- which(summary$codes == ect$pwy_code[i])
+#   magma_p[i] <- summary$P[index]
+#   #magma_fdr[i] <- summary$fdr[index]
+# }
+# 
+# ect$magma_p <- magma_p
+# ect$magma_fdr <- p.adjust(magma_p, method = "fdr")
+# 
+# DT::datatable(ect, options = list(pageLength =10))
+# 
+# 
+# load("/project2/xinhe/xsun/CEDAR/MAGMA_FDR_corrected/results/final_results_random_included.rdata")
+# ect_final$pair <- paste0(ect_final$trait,"-",ect_final$factor)
+# ect_select <- cbind(ect_final$pair,ect_final$magma_p,ect_final$magma_fdr,ect_final$magma_random_P,ect_final$mbe_reverse, ect_final$mbe_pval_reverse)
+# colnames(ect_select) <- c("pair","magma_p","magma_fdr","magma_random_P","mbe_reverse","mbe_pval_reverse")
+# summary$pair <- paste0(summary$trait,"-",summary$factor)
+# summary <- merge(summary,ect_select, by ="pair")
+# summary <- summary[,-1]
+# DT::datatable(summary, options = list(pageLength =10))
 ```
 
 <!-- ## MAGMA results -->

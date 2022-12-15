@@ -1,0 +1,31 @@
+---
+title: "Correcting FDR for CEDAR KEGG PC (20genes)"
+author: "XSun"
+date: "2022-12-15"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Introduction
+
+Pathways with no less than 40 genes were included in our analysis.
+
+# Results
+
+
+1. ECT 
+
+[Without any filter](https://xsun1229.github.io/factor_analysis_new/ECT_redo_fdr_20genes.html)
+
+2. Convergence test 
+
+TO DO
+
+3. MAGMA
+
+TO DO
+
+4. Heritability
+
+TO DO
