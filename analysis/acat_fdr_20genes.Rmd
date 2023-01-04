@@ -1,0 +1,452 @@
+---
+title: "ACAT (20 genes)"
+author: "XSun"
+date: "2023-01-04"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
+suppressMessages(library(data.table))
+suppressMessages(library(htmltools))
+```
+
+# Results (calibrated ACAT p-values)
+
+For each trait (trait X), use the random ACAT p-values related to trait X (all factor-trait X pairs) as null distribution, then correct the real ACAT p-values. All calibration will be done within each trait.
+
+We calibrated p-values according to: 
+
+p_corr[t] <- sum(p_real[t] > p_random)/length(p_random)
+
+For those p_corr == 0, we set p_corr[p_corr == 0] <- 0.5/length(p_random)
+
+# ACAT summary
+
+The following tables show the top pairs with lowest calibrated ACAT p-values for each trait, only pairs with >=3 supporting SNPs are included.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE,fig.height=10, fig.width=15}
+traits <- c("EUR.UC","EUR.CD","EUR.IBD","mch","mchc","mcv","rdw","ret","baso","plt","pct","pdw","mpv","hct","hgb","mono","eo","gran","lymph","myeloid_wbc","neut","rbc","wbc","ukb.allasthma","allergy","T1D")
+path <- c("4.B_cell_kegg","6.CD14_positive_monocyte_kegg","8.CD15_positive_leukocyte_kegg","16.platelet_kegg","10.T_cell_kegg","14.thymocyte_kegg")
+
+
+#load("/project2/xinhe/xsun/CEDAR/ACAT_randomsnp_FDR_corrected/results/acat_real.rdata")
+load("/project2/xinhe/xsun/CEDAR/ACAT_randomsnp_FDR_corrected/results/calibratedbytrait_acat_real_p.rdata")
+pathway <- read.table("/project2/xinhe/xsun/pathways/kegg/pathway_name.txt",stringsAsFactors = F, fill = T, sep = "\t",colClasses = "character")
+colnames(pathway) <- c("code","name")
+#for (i in 1:length(acat_allcelltypes)){
+  i <- 1
+  acat_celltype <- acat_corr_all[[i]]
+  
+  file_snp_num <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/10.20genes_rerun/2.ECT/results/number_snp_fdr02_allpairs.rdata")
+  load(file_snp_num)
+  
+  file_expr <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/1.find_factors/all.pwy_g_expr_.rdata")
+  load(file_expr)
+  
+  acat_summary <- c()
+  acat_summary_list <- list()
+  for (j in 1:length(snp_num_fdr02)) {
+    
+    trait <- names(snp_num_fdr02)[j]
+    index_acat <- grep(pattern = trait, names(acat_celltype))
+    acat_trait <- acat_celltype[index_acat]
+    
+    snp_trait <- snp_num_fdr02[[j]]
+    snp_trait <- snp_trait[snp_trait >=3]
+    snp_trait <- data.frame(cbind(paste0(trait,"_",names(snp_trait)),snp_trait))
+    colnames(snp_trait) <- c("pair","num_snp")
+    
+    acat_trait <- data.frame(cbind(names(acat_trait),acat_trait))
+    colnames(acat_trait) <- c("pair","acat_p")
+    acat_trait_snp <- merge(acat_trait,snp_trait,by = "pair")
+
+    acat_trait_snp_sort <- acat_trait_snp[order(acat_trait_snp$acat_p,decreasing = F),]
+    acat_trait_snp_sort_10 <- acat_trait_snp_sort[1:10,]
+    
+    pwy_name <- c()
+    for (t in 1:nrow(acat_trait_snp_sort_10)) {
+      
+      spl <- unlist(strsplit(acat_trait_snp_sort_10$pair[t],split ="_"))
+      
+      if(length(spl) ==3) {
+        pwy <- as.numeric(unlist(strsplit(spl[2],split = "pwy"))[2])
+      }else {
+        pwy <- as.numeric(unlist(strsplit(spl[3],split = "pwy"))[2])
+      }
+          
+      pwy_code_pair <- as.character(geneexpr_all_pway[[pwy]]$pathway[1])
+      pwy_name_pair <- pathway[pathway$code == pwy_code_pair,2]
+
+      pwy_name <- c(pwy_name,pwy_name_pair)
+      
+    }
+    acat_trait_snp_sort_10$pwy_name <- pwy_name
+    acat_trait_snp_sort_10 <- as.matrix(acat_trait_snp_sort_10)
+    
+    acat_summary <- rbind(acat_summary,acat_trait_snp_sort_10)
+    acat_summary_list[[j]] <- acat_trait_snp_sort_10
+  }
+  acat_summary <- data.frame(acat_summary)
+  rownames(acat_summary) <- seq(1,nrow(acat_summary),by=1)
+  print(names(acat_corr_all)[i])
+  colnames(acat_summary)[2] <- "corrected_acat_p"
+  DT::datatable(acat_summary)
+  #print(acat_summary)
+
+  i <- 2
+  acat_celltype <- acat_corr_all[[i]]
+  
+  file_snp_num <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/10.20genes_rerun/2.ECT/results/number_snp_fdr02_allpairs.rdata")
+  load(file_snp_num)
+  
+  file_expr <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/1.find_factors/all.pwy_g_expr_.rdata")
+  load(file_expr)
+  
+  acat_summary <- c()
+  acat_summary_list <- list()
+  for (j in 1:length(snp_num_fdr02)) {
+    
+    trait <- names(snp_num_fdr02)[j]
+    index_acat <- grep(pattern = trait, names(acat_celltype))
+    acat_trait <- acat_celltype[index_acat]
+    
+    snp_trait <- snp_num_fdr02[[j]]
+    snp_trait <- snp_trait[snp_trait >=3]
+    snp_trait <- data.frame(cbind(paste0(trait,"_",names(snp_trait)),snp_trait))
+    colnames(snp_trait) <- c("pair","num_snp")
+    
+    acat_trait <- data.frame(cbind(names(acat_trait),acat_trait))
+    colnames(acat_trait) <- c("pair","acat_p")
+    acat_trait_snp <- merge(acat_trait,snp_trait,by = "pair")
+
+    acat_trait_snp_sort <- acat_trait_snp[order(acat_trait_snp$acat_p,decreasing = F),]
+    acat_trait_snp_sort_10 <- acat_trait_snp_sort[1:10,]
+    
+    pwy_name <- c()
+    for (t in 1:nrow(acat_trait_snp_sort_10)) {
+      
+      spl <- unlist(strsplit(acat_trait_snp_sort_10$pair[t],split ="_"))
+      
+      if(length(spl) ==3) {
+        pwy <- as.numeric(unlist(strsplit(spl[2],split = "pwy"))[2])
+      }else {
+        pwy <- as.numeric(unlist(strsplit(spl[3],split = "pwy"))[2])
+      }
+          
+      pwy_code_pair <- as.character(geneexpr_all_pway[[pwy]]$pathway[1])
+      pwy_name_pair <- pathway[pathway$code == pwy_code_pair,2]
+
+      pwy_name <- c(pwy_name,pwy_name_pair)
+      
+    }
+    acat_trait_snp_sort_10$pwy_name <- pwy_name
+    acat_trait_snp_sort_10 <- as.matrix(acat_trait_snp_sort_10)
+    
+    acat_summary <- rbind(acat_summary,acat_trait_snp_sort_10)
+    acat_summary_list[[j]] <- acat_trait_snp_sort_10
+  }
+  acat_summary <- data.frame(acat_summary)
+  rownames(acat_summary) <- seq(1,nrow(acat_summary),by=1)
+  print(names(acat_corr_all)[i])
+  colnames(acat_summary)[2] <- "corrected_acat_p"
+  DT::datatable(acat_summary)
+  
+    i <- 3
+  acat_celltype <- acat_corr_all[[i]]
+  
+  file_snp_num <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/10.20genes_rerun/2.ECT/results/number_snp_fdr02_allpairs.rdata")
+  load(file_snp_num)
+  
+  file_expr <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/1.find_factors/all.pwy_g_expr_.rdata")
+  load(file_expr)
+  
+  acat_summary <- c()
+  acat_summary_list <- list()
+  for (j in 1:length(snp_num_fdr02)) {
+    
+    trait <- names(snp_num_fdr02)[j]
+    index_acat <- grep(pattern = trait, names(acat_celltype))
+    acat_trait <- acat_celltype[index_acat]
+    
+    snp_trait <- snp_num_fdr02[[j]]
+    snp_trait <- snp_trait[snp_trait >=3]
+    snp_trait <- data.frame(cbind(paste0(trait,"_",names(snp_trait)),snp_trait))
+    colnames(snp_trait) <- c("pair","num_snp")
+    
+    acat_trait <- data.frame(cbind(names(acat_trait),acat_trait))
+    colnames(acat_trait) <- c("pair","acat_p")
+    acat_trait_snp <- merge(acat_trait,snp_trait,by = "pair")
+
+    acat_trait_snp_sort <- acat_trait_snp[order(acat_trait_snp$acat_p,decreasing = F),]
+    acat_trait_snp_sort_10 <- acat_trait_snp_sort[1:10,]
+    
+    pwy_name <- c()
+    for (t in 1:nrow(acat_trait_snp_sort_10)) {
+      
+      spl <- unlist(strsplit(acat_trait_snp_sort_10$pair[t],split ="_"))
+      
+      if(length(spl) ==3) {
+        pwy <- as.numeric(unlist(strsplit(spl[2],split = "pwy"))[2])
+      }else {
+        pwy <- as.numeric(unlist(strsplit(spl[3],split = "pwy"))[2])
+      }
+          
+      pwy_code_pair <- as.character(geneexpr_all_pway[[pwy]]$pathway[1])
+      pwy_name_pair <- pathway[pathway$code == pwy_code_pair,2]
+
+      pwy_name <- c(pwy_name,pwy_name_pair)
+      
+    }
+    acat_trait_snp_sort_10$pwy_name <- pwy_name
+    acat_trait_snp_sort_10 <- as.matrix(acat_trait_snp_sort_10)
+    
+    acat_summary <- rbind(acat_summary,acat_trait_snp_sort_10)
+    acat_summary_list[[j]] <- acat_trait_snp_sort_10
+  }
+  acat_summary <- data.frame(acat_summary)
+  rownames(acat_summary) <- seq(1,nrow(acat_summary),by=1)
+  print(names(acat_corr_all)[i])
+  colnames(acat_summary)[2] <- "corrected_acat_p"
+  DT::datatable(acat_summary)
+
+    i <- 4
+  acat_celltype <- acat_corr_all[[i]]
+  
+  file_snp_num <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/10.20genes_rerun/2.ECT/results/number_snp_fdr02_allpairs.rdata")
+  load(file_snp_num)
+  
+  file_expr <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/1.find_factors/all.pwy_g_expr_.rdata")
+  load(file_expr)
+  
+  acat_summary <- c()
+  acat_summary_list <- list()
+  for (j in 1:length(snp_num_fdr02)) {
+    
+    trait <- names(snp_num_fdr02)[j]
+    index_acat <- grep(pattern = trait, names(acat_celltype))
+    acat_trait <- acat_celltype[index_acat]
+    
+    snp_trait <- snp_num_fdr02[[j]]
+    snp_trait <- snp_trait[snp_trait >=3]
+    snp_trait <- data.frame(cbind(paste0(trait,"_",names(snp_trait)),snp_trait))
+    colnames(snp_trait) <- c("pair","num_snp")
+    
+    acat_trait <- data.frame(cbind(names(acat_trait),acat_trait))
+    colnames(acat_trait) <- c("pair","acat_p")
+    acat_trait_snp <- merge(acat_trait,snp_trait,by = "pair")
+
+    acat_trait_snp_sort <- acat_trait_snp[order(acat_trait_snp$acat_p,decreasing = F),]
+    acat_trait_snp_sort_10 <- acat_trait_snp_sort[1:10,]
+    
+    pwy_name <- c()
+    for (t in 1:nrow(acat_trait_snp_sort_10)) {
+      
+      spl <- unlist(strsplit(acat_trait_snp_sort_10$pair[t],split ="_"))
+      
+      if(length(spl) ==3) {
+        pwy <- as.numeric(unlist(strsplit(spl[2],split = "pwy"))[2])
+      }else {
+        pwy <- as.numeric(unlist(strsplit(spl[3],split = "pwy"))[2])
+      }
+          
+      pwy_code_pair <- as.character(geneexpr_all_pway[[pwy]]$pathway[1])
+      pwy_name_pair <- pathway[pathway$code == pwy_code_pair,2]
+
+      pwy_name <- c(pwy_name,pwy_name_pair)
+      
+    }
+    acat_trait_snp_sort_10$pwy_name <- pwy_name
+    acat_trait_snp_sort_10 <- as.matrix(acat_trait_snp_sort_10)
+    
+    acat_summary <- rbind(acat_summary,acat_trait_snp_sort_10)
+    acat_summary_list[[j]] <- acat_trait_snp_sort_10
+  }
+  acat_summary <- data.frame(acat_summary)
+  rownames(acat_summary) <- seq(1,nrow(acat_summary),by=1)
+  print(names(acat_corr_all)[i])
+  colnames(acat_summary)[2] <- "corrected_acat_p"
+  DT::datatable(acat_summary)
+  
+  
+    i <- 5
+  acat_celltype <- acat_corr_all[[i]]
+  
+  file_snp_num <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/10.20genes_rerun/2.ECT/results/number_snp_fdr02_allpairs.rdata")
+  load(file_snp_num)
+  
+  file_expr <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/1.find_factors/all.pwy_g_expr_.rdata")
+  load(file_expr)
+  
+  acat_summary <- c()
+  acat_summary_list <- list()
+  for (j in 1:length(snp_num_fdr02)) {
+    
+    trait <- names(snp_num_fdr02)[j]
+    index_acat <- grep(pattern = trait, names(acat_celltype))
+    acat_trait <- acat_celltype[index_acat]
+    
+    snp_trait <- snp_num_fdr02[[j]]
+    snp_trait <- snp_trait[snp_trait >=3]
+    snp_trait <- data.frame(cbind(paste0(trait,"_",names(snp_trait)),snp_trait))
+    colnames(snp_trait) <- c("pair","num_snp")
+    
+    acat_trait <- data.frame(cbind(names(acat_trait),acat_trait))
+    colnames(acat_trait) <- c("pair","acat_p")
+    acat_trait_snp <- merge(acat_trait,snp_trait,by = "pair")
+
+    acat_trait_snp_sort <- acat_trait_snp[order(acat_trait_snp$acat_p,decreasing = F),]
+    acat_trait_snp_sort_10 <- acat_trait_snp_sort[1:10,]
+    
+    pwy_name <- c()
+    for (t in 1:nrow(acat_trait_snp_sort_10)) {
+      
+      spl <- unlist(strsplit(acat_trait_snp_sort_10$pair[t],split ="_"))
+      
+      if(length(spl) ==3) {
+        pwy <- as.numeric(unlist(strsplit(spl[2],split = "pwy"))[2])
+      }else {
+        pwy <- as.numeric(unlist(strsplit(spl[3],split = "pwy"))[2])
+      }
+          
+      pwy_code_pair <- as.character(geneexpr_all_pway[[pwy]]$pathway[1])
+      pwy_name_pair <- pathway[pathway$code == pwy_code_pair,2]
+
+      pwy_name <- c(pwy_name,pwy_name_pair)
+      
+    }
+    acat_trait_snp_sort_10$pwy_name <- pwy_name
+    acat_trait_snp_sort_10 <- as.matrix(acat_trait_snp_sort_10)
+    
+    acat_summary <- rbind(acat_summary,acat_trait_snp_sort_10)
+    acat_summary_list[[j]] <- acat_trait_snp_sort_10
+  }
+  acat_summary <- data.frame(acat_summary)
+  rownames(acat_summary) <- seq(1,nrow(acat_summary),by=1)
+  print(names(acat_corr_all)[i])
+  colnames(acat_summary)[2] <- "corrected_acat_p"
+  DT::datatable(acat_summary)
+  
+    i <- 6
+  acat_celltype <- acat_corr_all[[i]]
+  
+  file_snp_num <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/10.20genes_rerun/2.ECT/results/number_snp_fdr02_allpairs.rdata")
+  load(file_snp_num)
+  
+  file_expr <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/1.find_factors/all.pwy_g_expr_.rdata")
+  load(file_expr)
+  
+  acat_summary <- c()
+  acat_summary_list <- list()
+  for (j in 1:length(snp_num_fdr02)) {
+    
+    trait <- names(snp_num_fdr02)[j]
+    index_acat <- grep(pattern = trait, names(acat_celltype))
+    acat_trait <- acat_celltype[index_acat]
+    
+    snp_trait <- snp_num_fdr02[[j]]
+    snp_trait <- snp_trait[snp_trait >=3]
+    snp_trait <- data.frame(cbind(paste0(trait,"_",names(snp_trait)),snp_trait))
+    colnames(snp_trait) <- c("pair","num_snp")
+    
+    acat_trait <- data.frame(cbind(names(acat_trait),acat_trait))
+    colnames(acat_trait) <- c("pair","acat_p")
+    acat_trait_snp <- merge(acat_trait,snp_trait,by = "pair")
+
+    acat_trait_snp_sort <- acat_trait_snp[order(acat_trait_snp$acat_p,decreasing = F),]
+    acat_trait_snp_sort_10 <- acat_trait_snp_sort[1:10,]
+    
+    pwy_name <- c()
+    for (t in 1:nrow(acat_trait_snp_sort_10)) {
+      
+      spl <- unlist(strsplit(acat_trait_snp_sort_10$pair[t],split ="_"))
+      
+      if(length(spl) ==3) {
+        pwy <- as.numeric(unlist(strsplit(spl[2],split = "pwy"))[2])
+      }else {
+        pwy <- as.numeric(unlist(strsplit(spl[3],split = "pwy"))[2])
+      }
+          
+      pwy_code_pair <- as.character(geneexpr_all_pway[[pwy]]$pathway[1])
+      pwy_name_pair <- pathway[pathway$code == pwy_code_pair,2]
+
+      pwy_name <- c(pwy_name,pwy_name_pair)
+      
+    }
+    acat_trait_snp_sort_10$pwy_name <- pwy_name
+    acat_trait_snp_sort_10 <- as.matrix(acat_trait_snp_sort_10)
+    
+    acat_summary <- rbind(acat_summary,acat_trait_snp_sort_10)
+    acat_summary_list[[j]] <- acat_trait_snp_sort_10
+  }
+  acat_summary <- data.frame(acat_summary)
+  rownames(acat_summary) <- seq(1,nrow(acat_summary),by=1)
+  print(names(acat_corr_all)[i])
+  colnames(acat_summary)[2] <- "corrected_acat_p"
+  DT::datatable(acat_summary)
+  
+#}
+
+```
+
+
+# Summary plots
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE,fig.height=10, fig.width=18}
+
+##### qqplot
+load("/project2/xinhe/xsun/CEDAR/ACAT_randomsnp_FDR_20genes/results/calibratedbytrait_acat_real_p.rdata")
+type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+plot <- list()
+for (i in 1:length(type)){
+  
+  p <- acat_corr_all[[i]]
+
+  plotdata <- data.frame(observed = -log10(sort(p)),
+                         expected = -log10(ppoints(length(p))))
+  #  
+  
+  plot[[i]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
+    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
+    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
+         y = expression(paste("Observed -log"[10],"(p-value)"))) +
+    
+    theme(axis.title.x = element_text(size = 10),
+          axis.text.x = element_text(size = 8, color = "black"),
+          axis.title.y = element_text(size = 10),
+          axis.text.y = element_text(size = 8, color = "black"),
+          text= element_text(family="Times New Roman")) 
+  
+  
+}
+all <- grid.arrange(plot[[1]],plot[[2]],plot[[3]],plot[[4]],plot[[5]],plot[[6]], nrow = 2)
+
+
+for (i in 1:length(type)){
+  
+  p <- as.data.frame(acat_corr_all[[i]])
+  colnames(p) <- "p"
+  #  
+  
+  
+  plot[[i]] <- ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
+    theme_bw(base_line_size =0.3) +
+    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "Corrected ACAT p-values",
+         y = "Count") +
+    
+    theme(axis.title.x = element_text(size = 13),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) 
+  
+  
+}
+all <- grid.arrange(plot[[1]],plot[[2]],plot[[3]],plot[[4]],plot[[5]],plot[[6]], nrow = 2)
+```

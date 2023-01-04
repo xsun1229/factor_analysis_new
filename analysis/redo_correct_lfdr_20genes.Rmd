@@ -20,11 +20,13 @@ Pathways with no less than 20 genes were included in our analysis.
 
 2. Convergence test 
 
-TO DO
+[ACAT](https://xsun1229.github.io/factor_analysis_new/acat_fdr_20genes.html)
+
+[FET](https://xsun1229.github.io/factor_analysis_new/fet_fdr_20genes.html)
 
 3. MAGMA
 
-TO DO
+[Details](https://xsun1229.github.io/factor_analysis_new/magma_fdr_20genes.html)
 
 4. Heritability
 

@@ -1,0 +1,74 @@
+---
+title: "Fisher exact test (FET, 20genes)"
+author: "XSun"
+date: "2023-01-04"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
+```
+
+# Introduction
+
+For each factor - trait pair, we counted the number of SNPs passing p-value < 0.05 from real data and compare the numbers from random data using Fisher Exact test. The p-values of the tests were recorded. 
+
+# Fisher Exact results
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE,fig.height=10, fig.width=15}
+
+type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+load("/project2/xinhe/xsun/CEDAR/global_analysis_FDR_corrected/results/fisher_p_005_20genes.rdata")
+
+p_qq <- list()
+p_hist <- list()
+for (i in 1:length(type)) {
+  
+  p_celltype <- p_fisher_allcelltype[[i]]
+  p_all <- c()
+  for (j in 1:length(p_celltype)) {
+    p_all <- c(p_all,p_celltype[[j]])
+  }
+  
+  
+  plotdata <- data.frame(observed = -log10(sort(p_all)),
+                         expected = -log10(ppoints(length(p_all))))
+  #  
+  
+  p_qq[[i]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3,) +
+    geom_point(aes(expected, observed), shape = 1, size = 3, color= "steelblue") +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
+    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
+         y = expression(paste("Observed -log"[10],"(p-value)"))) +
+    
+    theme(axis.title.x = element_text(size = 13),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) 
+  
+  p_all <- as.data.frame(p_all)  
+  colnames(p_all) <- "p"
+  
+  p_hist[[i]] <- ggplot(p_all, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
+    theme_bw(base_line_size =0.3) +
+    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "FET p-values",
+         y = "Count") +
+    
+    theme(axis.title.x = element_text(size = 13),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) 
+  
+}
+
+all1 <- grid.arrange(p_qq[[1]],p_qq[[2]],p_qq[[3]],p_qq[[4]],p_qq[[5]],p_qq[[6]], nrow = 2)
+
+all2 <- grid.arrange(p_hist[[1]],p_hist[[2]],p_hist[[3]],p_hist[[4]],p_hist[[5]],p_hist[[6]], nrow = 2)
+```
