@@ -10,7 +10,7 @@ editor_options:
 
 [Number of candidate IVs](https://xsun1229.github.io/factor_analysis_new/rerun_num_snp.html)
 
-[ACAT (RUNNING)](https://xsun1229.github.io/factor_analysis_new/rerun_acat.html)
+[ACAT](https://xsun1229.github.io/factor_analysis_new/rerun_acat.html)
 
 [ECT](https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html)
 

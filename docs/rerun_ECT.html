@@ -451,10 +451,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -547,15 +547,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree6d63e23768a8e68f05cea8e49c20c307e6448c73targetblank6d63e23a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree22c132429889e4f513480c0af6fbfaf2f038aac2targetblank22c1324a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/6d63e23768a8e68f05cea8e49c20c307e6448c73" target="_blank">6d63e23</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/22c132429889e4f513480c0af6fbfaf2f038aac2" target="_blank">22c1324</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree6d63e23768a8e68f05cea8e49c20c307e6448c73targetblank6d63e23a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree22c132429889e4f513480c0af6fbfaf2f038aac2targetblank22c1324a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -565,7 +565,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/6d63e23768a8e68f05cea8e49c20c307e6448c73" target="_blank">6d63e23</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/22c132429889e4f513480c0af6fbfaf2f038aac2" target="_blank">22c1324</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -579,16 +579,9 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  analysis/factor_gwas.Rmd
-    Untracked:  analysis/re_run_1203.Rmd
-    Untracked:  analysis/rerun_ECT.Rmd
-    Untracked:  analysis/rerun_acat.Rmd
-    Untracked:  analysis/rerun_num_snp.Rmd
-
 Unstaged changes:
-    Modified:   analysis/hsq_pc_fdr.Rmd
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/re_run_1203.Rmd
+    Modified:   analysis/rerun_ECT.Rmd
 
 </code></pre>
 <p>
@@ -603,10 +596,74 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/rerun_ECT.Rmd</code>) and HTML
+(<code>docs/rerun_ECT.html</code>) files. If you’ve configured a remote
+Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/analysis/rerun_ECT.Rmd" target="_blank">22c1324</a>
+</td>
+<td>
+Xiaotong Sun
+</td>
+<td>
+2023-12-06
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/rerun_ECT.html" target="_blank">22c1324</a>
+</td>
+<td>
+Xiaotong Sun
+</td>
+<td>
+2023-12-06
+</td>
+<td>
+update
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -672,6 +729,43 @@ for (t in 1:length(type)) {
 
 all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_ECT.Rmd/unnamed-chunk-2-1.png" target="_blank">22c1324</a>
+</td>
+<td>
+Xiaotong Sun
+</td>
+<td>
+2023-12-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="ect-p-values" class="section level1">
 <h1>ECT p-values</h1>
@@ -703,6 +797,43 @@ for (i in 1:length(celltypes)) {
 
 all1 &lt;- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_ECT.Rmd/unnamed-chunk-3-1.png" target="_blank">22c1324</a>
+</td>
+<td>
+Xiaotong Sun
+</td>
+<td>
+2023-12-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>p1 &lt;- list()
 for (i in 1:length(celltypes)) {
   
@@ -732,6 +863,43 @@ for (i in 1:length(celltypes)) {
 
 all1 &lt;- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-2">
+Past versions of unnamed-chunk-3-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_ECT.Rmd/unnamed-chunk-3-2.png" target="_blank">22c1324</a>
+</td>
+<td>
+Xiaotong Sun
+</td>
+<td>
+2023-12-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="histogram-for-storeys-pi1-computed-from-ect-p-values"
 class="section level1">
@@ -758,6 +926,43 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
 
 p</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_ECT.Rmd/unnamed-chunk-4-1.png" target="_blank">22c1324</a>
+</td>
+<td>
+Xiaotong Sun
+</td>
+<td>
+2023-12-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="ect-summary-plot" class="section level1">
 <h1>ECT summary plot</h1>
@@ -804,6 +1009,43 @@ bar &lt;- ggplot(df, aes(type, total, fill=event)) +
 
 bar</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_ECT.Rmd/unnamed-chunk-5-1.png" target="_blank">22c1324</a>
+</td>
+<td>
+Xiaotong Sun
+</td>
+<td>
+2023-12-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="tables-for-pairs-with-ect-fdr-0.2" class="section level1">
 <h1>Tables for pairs with ECT FDR &lt; 0.2</h1>
@@ -834,6 +1076,43 @@ hist &lt;- ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),co
 
 hist</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_ECT.Rmd/unnamed-chunk-7-1.png" target="_blank">22c1324</a>
+</td>
+<td>
+Xiaotong Sun
+</td>
+<td>
+2023-12-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="without-filtering" class="section level2">
 <h2>Without filtering</h2>
@@ -854,6 +1133,178 @@ hist &lt;- ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),co
         text= element_text(family=&quot;Times&quot;)) 
 hist</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_ECT.Rmd/unnamed-chunk-8-1.png" target="_blank">22c1324</a>
+</td>
+<td>
+Xiaotong Sun
+</td>
+<td>
+2023-12-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="effect-size-plots-for-top-pairs-ect-fdr-0.1"
+class="section level1">
+<h1>Effect size plots for top pairs (ECT FDR &lt; 0.1)</h1>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/summary_mbe_steiger.rdata&quot;)
+
+df_sorted &lt;- df_all[order(as.numeric(df_all$fdr_ECT), decreasing = F),]
+df_sorted &lt;- df_sorted[df_sorted$fdr_ECT &lt; 0.1,]
+
+B_cell &lt;- get(load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc/harmo/B_cell_harmo.rdata&quot;))
+CD14_positive_monocyte &lt;- get(load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc/harmo/CD14_positive_monocyte_harmo.rdata&quot;))
+platelet &lt;- get(load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc/harmo/platelet_harmo.rdata&quot;))
+
+harmo &lt;- list(B_cell,CD14_positive_monocyte,platelet)
+names(harmo) &lt;- c(&quot;B_cell&quot;,&quot;CD14_positive_monocyte&quot;,&quot;platelet&quot;)
+
+eff&lt;- list()
+for (i in 1:nrow(df_sorted)){
+  
+  celltype_pair &lt;- celltypes[which(type == df_sorted$celltypes[i])]
+  trait &lt;- df_sorted$trait[i]
+  factor &lt;- df_sorted$factor[i]
+  pathway &lt;- df_sorted$pwy_name[i]
+
+  assoc_harmo &lt;- harmo[[celltype_pair]]
+  
+  dat &lt;- assoc_harmo[[trait]][[factor]]
+  snp_select &lt;- dat[dat$fdr &lt; fdr_cutoff,]
+  fit &lt;- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  ect_p &lt;- df_sorted$pval_ECT[df_sorted$factor == factor &amp;df_sorted$trait ==trait]
+  
+  eff[[i]] &lt;- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+  
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01 ,alpha=0.6) +
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = &quot;black&quot;),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = &quot;black&quot;),
+        text= element_text(family=&quot;Times&quot;),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_smooth(method = lm, se = F, color = &quot;grey&quot;, size = 0.5) +
+  
+  geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste(&quot;R^2 = &quot;,signif(summary(fit)$r.squared, 3),
+                           
+                           &quot; \nECT p-value =&quot;,ect_p),
+             #&quot; \np-value =&quot;,signif(summary(fit)$coef[1,4], 3)),
+             color = &quot;black&quot;,
+             family = &quot;Times&quot;,
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  ggtitle(paste0(pathway,&quot;-&quot;,factor,&quot;-&quot;,trait))  +
+  
+  xlab(&quot;effectsize.factor&quot;) + ylab(&quot;effectsize.gwas&quot;) +
+  geom_vline(xintercept = 0,color = &quot;grey&quot;,linetype = &quot;dashed&quot;) +
+  geom_hline(yintercept = 0,color = &quot;grey&quot;,linetype = &quot;dashed&quot;) 
+  
+}
+do.call(&quot;grid.arrange&quot;, c(eff, ncol = 5))</code></pre>
+<p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-9-1.png" width="2400" style="display: block; margin: auto;" /></p>
+</div>
+<div id="checking-if-the-ect-ivs-pass-the-steiger-filtering"
+class="section level1">
+<h1>Checking if the ECT IVs pass the Steiger filtering</h1>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/compare_snp_filtered.rdata&quot;)
+
+df_all &lt;- df_all[df_all$snp_pass_steiger_filter!=df_all$num_snp_pass_cutoff,]
+DT::datatable(df_all)</code></pre>
+<div id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"data":[["292","417","1682","2781","3281","4354","4605","4846","5355","6797","2562","2772","6077","6105","7664","7679","7803","7834","8564","3037","3053","3103","3207"],["gran","gran","mch","mpv","myeloid_wbc","pct","rbc","rbc","ret","EUR.UC","mchc","mchc","rbc","rbc","baso","baso","baso","baso","EUR.IBD","ret","ret","ret","ret"],["pwy144_pc2","pwy234_pc3","pwy197_pc4","pwy279_pc4","pwy234_pc3","pwy112_pc5","pwy101_pc4","pwy289_pc4","pwy161_pc4","pwy145_pc1","pwy144_pc5","pwy299_pc3","pwy287_pc1","pwy304_pc1","pwy216_pc1","pwy223_pc1","pwy299_pc1","pwy315_pc2","pwy183_pc5","pwy113_pc4","pwy117_pc3","pwy142_pc3","pwy202_pc4"],["AMPK signaling pathway","Non-alcoholic fatty liver disease","Long-term potentiation","Toxoplasmosis","Non-alcoholic fatty liver disease","ErbB signaling pathway","Spliceosome","Human T-cell leukemia virus 1 infection","Apelin signaling pathway","Apoptosis","AMPK signaling pathway","MicroRNAs in cancer","Influenza A","Glioma","Progesterone-mediated oocyte maturation","Oxytocin signaling pathway","MicroRNAs in cancer","Hepatocellular carcinoma","Natural killer cell mediated cytotoxicity","Ras signaling pathway","cAMP signaling pathway","mTOR signaling pathway","Cholinergic synapse"],[0.0014999,0.000456,2.8e-05,0.00021,3.9e-05,3.1e-05,0.0012999,0.000849,0.000121,0.001476,0.0005,0.000109,0.000387,0.000197,0.000433,0.00059,0.00025,0.000687,0.000301,0.000715,0.000169,0.000104,0.000343],[0.194959224074074,0.140087541666667,0.0645748,0.093879125,0.0645748,0.0645748,0.186204042857143,0.175268558823529,0.0877375,0.194959224074074,0.193174137931034,0.193174137931034,0.193174137931034,0.193174137931034,0.193174137931034,0.193174137931034,0.193174137931034,0.197645921052632,0.193174137931034,0.1869725,0.117849333333333,0.0945584,0.144348],[11,9,9,9,13,7,7,10,11,3,4,10,6,7,11,8,11,9,4,10,12,17,6],[9,8,8,8,10,6,6,9,10,2,3,8,5,5,10,7,10,8,3,9,10,16,5],["B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Platelet","Platelet","Platelet","Platelet"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_name<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n      <th>snp_pass_steiger_filter<\/th>\n      <th>celltypes<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>df_sorted &lt;- df_all[order(as.numeric(df_all$fdr_ECT), decreasing = F),]
+df_sorted &lt;- df_sorted[df_sorted$fdr_ECT &lt; 0.1,]
+
+load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/harmo_reverse.rdata&quot;)
+
+fdr_cutoff &lt;- 0.2
+
+
+eff&lt;- list()
+for (i in 1:nrow(df_sorted)){
+  
+  celltype_pair &lt;- celltypes[which(type == df_sorted$celltypes[i])]
+  trait &lt;- df_sorted$trait[i]
+  factor &lt;- df_sorted$factor[i]
+  pathway &lt;- df_sorted$pwy_name[i]
+  
+  name &lt;- paste0(celltype_pair,&quot;-&quot;,factor,&quot;-&quot;,trait)
+  
+  dat &lt;- harmo_list_all[[name]]
+
+  snp_select &lt;- dat[dat$fdr &lt; fdr_cutoff,]
+  
+  fit &lt;- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  #ect_p &lt;- df_sorted$pval_ECT[df_sorted$factor == factor &amp;df_sorted$trait ==trait]
+  
+  eff[[i]] &lt;- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=steiger_dir)) +
+  
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=steiger_dir), width=0.01 ,alpha=0.6) +
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = &quot;black&quot;),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = &quot;black&quot;),
+        text= element_text(family=&quot;Times&quot;),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_smooth(method = lm, se = F, color = &quot;grey&quot;, size = 0.5) +
+  
+  geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste(&quot;R^2 = &quot;,signif(summary(fit)$r.squared, 3)),
+             #&quot; \np-value =&quot;,signif(summary(fit)$coef[1,4], 3)),
+             color = &quot;black&quot;,
+             family = &quot;Times&quot;,
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  ggtitle(paste0(pathway,&quot;-&quot;,factor,&quot;-&quot;,trait))  +
+  
+  xlab(&quot;effectsize.factor&quot;) + ylab(&quot;effectsize.gwas&quot;) +
+  geom_vline(xintercept = 0,color = &quot;grey&quot;,linetype = &quot;dashed&quot;) +
+  geom_hline(yintercept = 0,color = &quot;grey&quot;,linetype = &quot;dashed&quot;) 
+  
+}
+do.call(&quot;grid.arrange&quot;, c(eff, ncol = 5))</code></pre>
+<p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-10-2.png" width="2400" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -881,21 +1332,21 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] tidyselect_1.1.2  xfun_0.30         bslib_0.3.1       purrr_0.3.4      
- [5] colorspace_2.0-3  vctrs_0.4.1       generics_0.1.2    htmltools_0.5.2  
- [9] yaml_2.3.5        utf8_1.2.2        rlang_1.0.5       jquerylib_0.1.4  
-[13] later_1.3.0       pillar_1.7.0      glue_1.6.2        withr_2.5.0      
-[17] DBI_1.1.2         lifecycle_1.0.1   stringr_1.4.0     munsell_0.5.0    
-[21] gtable_0.3.0      workflowr_1.7.0   htmlwidgets_1.5.4 evaluate_0.15    
-[25] labeling_0.4.2    knitr_1.39        fastmap_1.1.0     crosstalk_1.2.0  
-[29] httpuv_1.6.5      fansi_1.0.3       highr_0.9         Rcpp_1.0.8.3     
-[33] promises_1.2.0.1  scales_1.2.0      DT_0.22           jsonlite_1.8.0   
-[37] farver_2.1.0      fs_1.5.2          digest_0.6.29     stringi_1.7.6    
-[41] dplyr_1.0.9       grid_4.2.0        rprojroot_2.0.3   cli_3.6.1        
-[45] tools_4.2.0       magrittr_2.0.3    sass_0.4.1        tibble_3.1.7     
-[49] crayon_1.5.1      pkgconfig_2.0.3   ellipsis_0.3.2    assertthat_0.2.1 
-[53] rmarkdown_2.14    rstudioapi_0.13   R6_2.5.1          git2r_0.30.1     
-[57] compiler_4.2.0   </code></pre>
-</div>
+ [5] lattice_0.20-45   splines_4.2.0     colorspace_2.0-3  vctrs_0.4.1      
+ [9] generics_0.1.2    htmltools_0.5.2   mgcv_1.8-40       yaml_2.3.5       
+[13] utf8_1.2.2        rlang_1.0.5       jquerylib_0.1.4   later_1.3.0      
+[17] pillar_1.7.0      glue_1.6.2        withr_2.5.0       DBI_1.1.2        
+[21] lifecycle_1.0.1   stringr_1.4.0     munsell_0.5.0     gtable_0.3.0     
+[25] workflowr_1.7.0   htmlwidgets_1.5.4 evaluate_0.15     labeling_0.4.2   
+[29] knitr_1.39        fastmap_1.1.0     crosstalk_1.2.0   httpuv_1.6.5     
+[33] fansi_1.0.3       highr_0.9         Rcpp_1.0.8.3      DT_0.22          
+[37] promises_1.2.0.1  scales_1.2.0      jsonlite_1.8.0    farver_2.1.0     
+[41] fs_1.5.2          digest_0.6.29     stringi_1.7.6     dplyr_1.0.9      
+[45] grid_4.2.0        rprojroot_2.0.3   cli_3.6.1         tools_4.2.0      
+[49] magrittr_2.0.3    sass_0.4.1        tibble_3.1.7      crayon_1.5.1     
+[53] whisker_0.4       pkgconfig_2.0.3   Matrix_1.5-3      ellipsis_0.3.2   
+[57] assertthat_0.2.1  rmarkdown_2.14    rstudioapi_0.13   R6_2.5.1         
+[61] nlme_3.1-157      git2r_0.30.1      compiler_4.2.0   </code></pre>
 </div>
 </div>
 

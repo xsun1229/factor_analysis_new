@@ -270,3 +270,139 @@ hist <- ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color
 hist
 ```
 
+
+
+
+# Effect size plots for top pairs (ECT FDR < 0.1)
+
+```{r message=FALSE,warning=F, fig.height=20, fig.width=25}
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/summary_mbe_steiger.rdata")
+
+df_sorted <- df_all[order(as.numeric(df_all$fdr_ECT), decreasing = F),]
+df_sorted <- df_sorted[df_sorted$fdr_ECT < 0.1,]
+
+B_cell <- get(load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc/harmo/B_cell_harmo.rdata"))
+CD14_positive_monocyte <- get(load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc/harmo/CD14_positive_monocyte_harmo.rdata"))
+platelet <- get(load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc/harmo/platelet_harmo.rdata"))
+
+harmo <- list(B_cell,CD14_positive_monocyte,platelet)
+names(harmo) <- c("B_cell","CD14_positive_monocyte","platelet")
+
+eff<- list()
+for (i in 1:nrow(df_sorted)){
+  
+  celltype_pair <- celltypes[which(type == df_sorted$celltypes[i])]
+  trait <- df_sorted$trait[i]
+  factor <- df_sorted$factor[i]
+  pathway <- df_sorted$pwy_name[i]
+
+  assoc_harmo <- harmo[[celltype_pair]]
+  
+  dat <- assoc_harmo[[trait]][[factor]]
+  snp_select <- dat[dat$fdr < fdr_cutoff,]
+  fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  ect_p <- df_sorted$pval_ECT[df_sorted$factor == factor &df_sorted$trait ==trait]
+  
+  eff[[i]] <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+  
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01 ,alpha=0.6) +
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_smooth(method = lm, se = F, color = "grey", size = 0.5) +
+  
+  geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste("R^2 = ",signif(summary(fit)$r.squared, 3),
+                           
+                           " \nECT p-value =",ect_p),
+             #" \np-value =",signif(summary(fit)$coef[1,4], 3)),
+             color = "black",
+             family = "Times",
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  ggtitle(paste0(pathway,"-",factor,"-",trait))  +
+  
+  xlab("effectsize.factor") + ylab("effectsize.gwas") +
+  geom_vline(xintercept = 0,color = "grey",linetype = "dashed") +
+  geom_hline(yintercept = 0,color = "grey",linetype = "dashed") 
+  
+}
+do.call("grid.arrange", c(eff, ncol = 5))
+
+
+```
+
+# Checking if the ECT IVs pass the Steiger filtering
+```{r message=FALSE,warning=F, fig.height=10, fig.width=25}
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/compare_snp_filtered.rdata")
+
+df_all <- df_all[df_all$snp_pass_steiger_filter!=df_all$num_snp_pass_cutoff,]
+DT::datatable(df_all)
+
+df_sorted <- df_all[order(as.numeric(df_all$fdr_ECT), decreasing = F),]
+df_sorted <- df_sorted[df_sorted$fdr_ECT < 0.1,]
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/harmo_reverse.rdata")
+
+fdr_cutoff <- 0.2
+
+
+eff<- list()
+for (i in 1:nrow(df_sorted)){
+  
+  celltype_pair <- celltypes[which(type == df_sorted$celltypes[i])]
+  trait <- df_sorted$trait[i]
+  factor <- df_sorted$factor[i]
+  pathway <- df_sorted$pwy_name[i]
+  
+  name <- paste0(celltype_pair,"-",factor,"-",trait)
+  
+  dat <- harmo_list_all[[name]]
+
+  snp_select <- dat[dat$fdr < fdr_cutoff,]
+  
+  fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  #ect_p <- df_sorted$pval_ECT[df_sorted$factor == factor &df_sorted$trait ==trait]
+  
+  eff[[i]] <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=steiger_dir)) +
+  
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=steiger_dir), width=0.01 ,alpha=0.6) +
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_smooth(method = lm, se = F, color = "grey", size = 0.5) +
+  
+  geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste("R^2 = ",signif(summary(fit)$r.squared, 3)),
+             #" \np-value =",signif(summary(fit)$coef[1,4], 3)),
+             color = "black",
+             family = "Times",
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  ggtitle(paste0(pathway,"-",factor,"-",trait))  +
+  
+  xlab("effectsize.factor") + ylab("effectsize.gwas") +
+  geom_vline(xintercept = 0,color = "grey",linetype = "dashed") +
+  geom_hline(yintercept = 0,color = "grey",linetype = "dashed") 
+  
+}
+do.call("grid.arrange", c(eff, ncol = 5))
+```
