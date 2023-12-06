@@ -547,15 +547,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree22c132429889e4f513480c0af6fbfaf2f038aac2targetblank22c1324a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree4beb577ddf96e3d00635c3512bf7fd7d86e9ad9ftargetblank4beb577a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/22c132429889e4f513480c0af6fbfaf2f038aac2" target="_blank">22c1324</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/4beb577ddf96e3d00635c3512bf7fd7d86e9ad9f" target="_blank">4beb577</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree22c132429889e4f513480c0af6fbfaf2f038aac2targetblank22c1324a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree4beb577ddf96e3d00635c3512bf7fd7d86e9ad9ftargetblank4beb577a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -565,7 +565,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/22c132429889e4f513480c0af6fbfaf2f038aac2" target="_blank">22c1324</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/4beb577ddf96e3d00635c3512bf7fd7d86e9ad9f" target="_blank">4beb577</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -580,7 +580,6 @@ were generated:
 </p>
 <pre><code>
 Unstaged changes:
-    Modified:   analysis/re_run_1203.Rmd
     Modified:   analysis/rerun_ECT.Rmd
 
 </code></pre>
@@ -627,6 +626,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/4beb577ddf96e3d00635c3512bf7fd7d86e9ad9f/analysis/rerun_ECT.Rmd" target="_blank">4beb577</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-06
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/4beb577ddf96e3d00635c3512bf7fd7d86e9ad9f/docs/rerun_ECT.html" target="_blank">4beb577</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-06
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1237,6 +1270,43 @@ for (i in 1:nrow(df_sorted)){
 }
 do.call(&quot;grid.arrange&quot;, c(eff, ncol = 5))</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-9-1.png" width="2400" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/4beb577ddf96e3d00635c3512bf7fd7d86e9ad9f/docs/figure/rerun_ECT.Rmd/unnamed-chunk-9-1.png" target="_blank">4beb577</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="checking-if-the-ect-ivs-pass-the-steiger-filtering"
 class="section level1">
@@ -1244,7 +1314,9 @@ class="section level1">
 <pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/compare_snp_filtered.rdata&quot;)
 
 df_all &lt;- df_all[df_all$snp_pass_steiger_filter!=df_all$num_snp_pass_cutoff,]
-DT::datatable(df_all)</code></pre>
+print(&quot;The pairs containing the IVs not passing the Steiger filtering&quot;)</code></pre>
+<pre><code>[1] &quot;The pairs containing the IVs not passing the Steiger filtering&quot;</code></pre>
+<pre class="r"><code>DT::datatable(df_all)</code></pre>
 <div id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"data":[["292","417","1682","2781","3281","4354","4605","4846","5355","6797","2562","2772","6077","6105","7664","7679","7803","7834","8564","3037","3053","3103","3207"],["gran","gran","mch","mpv","myeloid_wbc","pct","rbc","rbc","ret","EUR.UC","mchc","mchc","rbc","rbc","baso","baso","baso","baso","EUR.IBD","ret","ret","ret","ret"],["pwy144_pc2","pwy234_pc3","pwy197_pc4","pwy279_pc4","pwy234_pc3","pwy112_pc5","pwy101_pc4","pwy289_pc4","pwy161_pc4","pwy145_pc1","pwy144_pc5","pwy299_pc3","pwy287_pc1","pwy304_pc1","pwy216_pc1","pwy223_pc1","pwy299_pc1","pwy315_pc2","pwy183_pc5","pwy113_pc4","pwy117_pc3","pwy142_pc3","pwy202_pc4"],["AMPK signaling pathway","Non-alcoholic fatty liver disease","Long-term potentiation","Toxoplasmosis","Non-alcoholic fatty liver disease","ErbB signaling pathway","Spliceosome","Human T-cell leukemia virus 1 infection","Apelin signaling pathway","Apoptosis","AMPK signaling pathway","MicroRNAs in cancer","Influenza A","Glioma","Progesterone-mediated oocyte maturation","Oxytocin signaling pathway","MicroRNAs in cancer","Hepatocellular carcinoma","Natural killer cell mediated cytotoxicity","Ras signaling pathway","cAMP signaling pathway","mTOR signaling pathway","Cholinergic synapse"],[0.0014999,0.000456,2.8e-05,0.00021,3.9e-05,3.1e-05,0.0012999,0.000849,0.000121,0.001476,0.0005,0.000109,0.000387,0.000197,0.000433,0.00059,0.00025,0.000687,0.000301,0.000715,0.000169,0.000104,0.000343],[0.194959224074074,0.140087541666667,0.0645748,0.093879125,0.0645748,0.0645748,0.186204042857143,0.175268558823529,0.0877375,0.194959224074074,0.193174137931034,0.193174137931034,0.193174137931034,0.193174137931034,0.193174137931034,0.193174137931034,0.193174137931034,0.197645921052632,0.193174137931034,0.1869725,0.117849333333333,0.0945584,0.144348],[11,9,9,9,13,7,7,10,11,3,4,10,6,7,11,8,11,9,4,10,12,17,6],[9,8,8,8,10,6,6,9,10,2,3,8,5,5,10,7,10,8,3,9,10,16,5],["B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Platelet","Platelet","Platelet","Platelet"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_name<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n      <th>snp_pass_steiger_filter<\/th>\n      <th>celltypes<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[4,5,6,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>df_sorted &lt;- df_all[order(as.numeric(df_all$fdr_ECT), decreasing = F),]
@@ -1288,8 +1360,10 @@ for (i in 1:nrow(df_sorted)){
   
   geom_smooth(method = lm, se = F, color = &quot;grey&quot;, size = 0.5) +
   
-  geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
-             label = paste(&quot;R^2 = &quot;,signif(summary(fit)$r.squared, 3)),
+   geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste(&quot;R^2 = &quot;,signif(summary(fit)$r.squared, 3),
+                           
+                           &quot; \nECT p-value =&quot;,ect_p),
              #&quot; \np-value =&quot;,signif(summary(fit)$coef[1,4], 3)),
              color = &quot;black&quot;,
              family = &quot;Times&quot;,
@@ -1305,6 +1379,43 @@ for (i in 1:nrow(df_sorted)){
 }
 do.call(&quot;grid.arrange&quot;, c(eff, ncol = 5))</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-10-2.png" width="2400" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-2">
+Past versions of unnamed-chunk-10-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/4beb577ddf96e3d00635c3512bf7fd7d86e9ad9f/docs/figure/rerun_ECT.Rmd/unnamed-chunk-10-2.png" target="_blank">4beb577</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

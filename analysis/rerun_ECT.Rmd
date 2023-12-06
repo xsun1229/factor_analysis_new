@@ -342,10 +342,12 @@ do.call("grid.arrange", c(eff, ncol = 5))
 ```
 
 # Checking if the ECT IVs pass the Steiger filtering
-```{r message=FALSE,warning=F, fig.height=10, fig.width=25}
+
+```{r message=FALSE,warning=F, fig.height=8, fig.width=25}
 load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/compare_snp_filtered.rdata")
 
 df_all <- df_all[df_all$snp_pass_steiger_filter!=df_all$num_snp_pass_cutoff,]
+print("The pairs containing the IVs not passing the Steiger filtering")
 DT::datatable(df_all)
 
 df_sorted <- df_all[order(as.numeric(df_all$fdr_ECT), decreasing = F),]
@@ -389,8 +391,10 @@ for (i in 1:nrow(df_sorted)){
   
   geom_smooth(method = lm, se = F, color = "grey", size = 0.5) +
   
-  geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
-             label = paste("R^2 = ",signif(summary(fit)$r.squared, 3)),
+   geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste("R^2 = ",signif(summary(fit)$r.squared, 3),
+                           
+                           " \nECT p-value =",ect_p),
              #" \np-value =",signif(summary(fit)$coef[1,4], 3)),
              color = "black",
              family = "Times",
