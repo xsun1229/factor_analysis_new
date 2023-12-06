@@ -8,10 +8,21 @@ editor_options:
   chunk_output_type: console
 ---
 
+# **Re-run 12/03**
+
+**KEGG PC -- CEDAR**
+
+[link](https://xsun1229.github.io/factor_analysis_new/re_run_1203.html)
+
+
+
+
 
 # **Latest Results**
 
 **KEGG PC -- CEDAR**
+
+[Factor GWAS](https://xsun1229.github.io/factor_analysis_new/factor_gwas.html)
 
 [Correcting FDR - 20 genes](https://xsun1229.github.io/factor_analysis_new/redo_correct_lfdr_20genes.html)
 

@@ -1,0 +1,18 @@
+---
+title: "Rerun the analyses"
+author: "XSun"
+date: "2023-12-03"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+
+[Number of candidate IVs](https://xsun1229.github.io/factor_analysis_new/rerun_num_snp.html)
+
+[ACAT (RUNNING)](https://xsun1229.github.io/factor_analysis_new/rerun_acat.html)
+
+[ECT](https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html)
+
+
+

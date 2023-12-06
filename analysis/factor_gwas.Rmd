@@ -1,0 +1,65 @@
+---
+title: "factor_gwas"
+author: "XSun"
+date: "2023-07-27"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
+```
+# Introduction
+
+For the factors with heritability > 0.9 or  p-value < 0.1, we did factor - GWAS and counted the number of independent signals. The variants with p-value < 5E-8 are treated as a GWAS signal. If the distance between two signals is less than or equal to 1Mb, we considered it as the same signal.
+
+The number of factors in GWAS:
+
+| cell types    | number of factors used in factor GWAS |
+|---------------|---------------------------------------|
+| B cell        | 192                                   |
+| Monocyte      | 78                                    |
+| Leukocyte     | 49                                    |
+| T cell (CD4+) | 250                                   |
+| T cell (CD8+) | 219                                   |
+| Platelet      | 269                                   |
+
+
+# Number of GWAS signals 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE,fig.height=5, fig.width=12}
+
+
+type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+path <- c("4.B_cell_kegg","6.CD14_positive_monocyte_kegg","8.CD15_positive_leukocyte_kegg","16.platelet_kegg","10.T_cell_kegg","14.thymocyte_kegg")
+
+p1 <- list()
+for (i in 1:length(type)){ 
+
+  file <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/9.pcs_40genes_rerun/1.factors/results/num_gwas_signals.rdata")
+  load(file)
+  
+  num_signal_all <- as.data.frame(num_signal_all)
+  colnames(num_signal_all) <- "num"
+  p1[[i]] <-  ggplot(num_signal_all, aes(x=num)) + geom_histogram(breaks = seq(0, max(num_signal_all), by = 1),color="white",fill = "steelblue")+ 
+    theme_bw(base_line_size =0.3) +
+    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of independent signals",
+         y = "Count") +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) +
+    
+    annotate(geom = "text", x = Inf, y = Inf, label = paste0("The total number of tested factor = ",nrow(num_signal_all)),
+      hjust = 1, vjust = 1,  size = 5,  family = "Times",   color = "black")
+
+  
+}
+
+all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+
+```

@@ -1,0 +1,42 @@
+---
+title: "The number of filtered SNPs"
+author: "XSun"
+date: "2023-12-03"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+We filtered the SNPs based on the GWAS and LD R2 computed from CEDAR data sets. The numbers of filtered SNPs are shown below:
+
+
+| Trait         | # of snps |
+|---------------|----------:|
+| eo            |       173 |
+| gran          |       159 |
+| hct           |       121 |
+| hgb           |       134 |
+| lymph         |       183 |
+| mch           |       213 |
+| mchc          |        80 |
+| mcv           |       234 |
+| mpv           |       221 |
+| mono          |       186 |
+| myeloid_wbc   |       160 |
+| neut          |       160 |
+| plt           |       237 |
+| pdw           |       166 |
+| pct           |       236 |
+| rbc           |       185 |
+| rdw           |       185 |
+| ret           |       161 |
+| wbc           |       185 |
+| baso          |        78 |
+| T1D           |        41 |
+| ukb.allasthma |        79 |
+| EUR.IBD       |        67 |
+| EUR.CD        |        54 |
+| EUR.UC        |        41 |
+| allergy       |        77 |
+
+

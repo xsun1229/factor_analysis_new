@@ -9,9 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="XSun" />
 
+<meta name="date" content="2023-07-27" />
 
-<title>Factor Analysis</title>
+<title>factor_gwas</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,6 +31,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -234,6 +239,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -241,6 +309,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -284,7 +362,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Factor Analysis</h1>
+<h1 class="title toc-ignore">factor_gwas</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2023-07-27</h4>
 
 </div>
 
@@ -317,7 +397,7 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span> 1
 </p>
@@ -351,12 +431,96 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221201)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221201code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221201)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
@@ -414,269 +578,101 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
-(<code>docs/index.html</code>) files. If you’ve configured a remote Git
-repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
-in the table below to view the files as they were in that past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/6733ea2a94596cc6af3707dbaa1ac384d8a3e2fc/docs/index.html" target="_blank">6733ea2</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-15
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/739fe64ca5d5b7e6e340118fbf5d957f96e890c2/analysis/index.Rmd" target="_blank">739fe64</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-15
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/d7557e0fb1b7c0df19ddfc338f93b38e1c261526/docs/index.html" target="_blank">d7557e0</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/a669c61e5d4983ae956ce5c3be066a81b50a2250/analysis/index.Rmd" target="_blank">a669c61</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/a669c61e5d4983ae956ce5c3be066a81b50a2250/docs/index.html" target="_blank">a669c61</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/cbbcbfc1a7b6283064db004db7d1ba6bc4c8651f/docs/index.html" target="_blank">cbbcbfc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/843cb09f76528ec62db6085ced408fcecae8c3d9/analysis/index.Rmd" target="_blank">843cb09</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2022-12-01
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<div id="latest-results" class="section level1">
-<h1><strong>Latest Results</strong></h1>
-<p><strong>KEGG PC – CEDAR</strong></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/factor_gwas.html">Factor
-GWAS</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/redo_correct_lfdr_20genes.html">Correcting
-FDR - 20 genes</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/redo_correct_lfdr.html">Correcting
-FDR - 40 genes</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/pc_regress_out_peer.html">Regressing
-out PEER factors when computing PCs</a></p>
-<p><strong>PLIER LV – CEDAR</strong></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/redo_correct_lfdr_plier.html">Correcting
-FDR</a></p>
-<p><strong>KEGG PC – GTEx whole blood</strong></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/redo_correct_lfdr_gtexwholeblood.html">Correcting
-FDR</a></p>
-</div>
 <div id="introduction" class="section level1">
-<h1><strong>1. Introduction</strong></h1>
-<p>GWAS has found many variants. However, the mechanisms of these
-variants are often unknown.</p>
-<div id="challenge" class="section level2">
-<h2><strong>1.1 Challenge</strong></h2>
-<ol style="list-style-type: decimal">
-<li><p>Most existing studies of variant functions focus on cis-effects,
-i.e. immediate gene targets (one gene a time). The results do not
-immediately suggest common biological processes disrupted in human
-diseases.</p></li>
-<li><p>Some studies have looked at trans-effects of variants, i.e. genes
-whose expression are affected by the disease-associated variants.
-However, these trans-eQTL studies are often under-powered because of
-smaller effects of trans-acting eQTLs and multiple testing
-burdens.</p></li>
-</ol>
+<h1>Introduction</h1>
+<p>For the factors with heritability &gt; 0.9 or p-value &lt; 0.1, we
+did factor - GWAS and counted the number of independent signals. The
+variants with p-value &lt; 5E-8 are treated as a GWAS signal. If the
+distance between two signals is less than or equal to 1Mb, we considered
+it as the same signal.</p>
+<p>The number of factors in GWAS:</p>
+<table>
+<thead>
+<tr class="header">
+<th>cell types</th>
+<th>number of factors used in factor GWAS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>B cell</td>
+<td>192</td>
+</tr>
+<tr class="even">
+<td>Monocyte</td>
+<td>78</td>
+</tr>
+<tr class="odd">
+<td>Leukocyte</td>
+<td>49</td>
+</tr>
+<tr class="even">
+<td>T cell (CD4+)</td>
+<td>250</td>
+</tr>
+<tr class="odd">
+<td>T cell (CD8+)</td>
+<td>219</td>
+</tr>
+<tr class="even">
+<td>Platelet</td>
+<td>269</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="approachhypothesis" class="section level2">
-<h2><strong>1.2 Approach/Hypothesis</strong></h2>
-<p>The effects of GWAS variants of a disease converge a relatively small
-number of biological processes.</p>
-<p>This hypothesis motivates an approach where we test association of
-disease-associated variants on expression factors, which capture the
-expression of a set of related genes in a process. This approach focuses
-on variants already associated with a disease, as opposed to all
-variants in the genome, thus increasing the statistical signal. Also by
-studying a small set of pathways, it has the advantage of reducing the
-burden of multiple testing. Furthermore, we propose to use MR-type of
-approach to test causality of expression factors on phenotypes.</p>
-<p><a href="https://xsun1229.github.io/factor_analysis/T1D.html">A
-motivating example - T1D PC5</a></p>
+<div id="number-of-gwas-signals" class="section level1">
+<h1>Number of GWAS signals</h1>
+<p><img src="figure/factor_gwas.Rmd/unnamed-chunk-2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+[1] C
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] gridExtra_2.3 ggplot2_3.3.5
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8.3     highr_0.9        pillar_1.7.0     compiler_4.2.0  
+ [5] bslib_0.3.1      later_1.3.0      jquerylib_0.1.4  git2r_0.30.1    
+ [9] workflowr_1.7.0  tools_4.2.0      digest_0.6.29    jsonlite_1.8.0  
+[13] evaluate_0.15    lifecycle_1.0.1  tibble_3.1.7     gtable_0.3.0    
+[17] pkgconfig_2.0.3  rlang_1.0.5      DBI_1.1.2        cli_3.3.0       
+[21] rstudioapi_0.13  yaml_2.3.5       xfun_0.30        fastmap_1.1.0   
+[25] withr_2.5.0      dplyr_1.0.9      stringr_1.4.0    knitr_1.39      
+[29] generics_0.1.2   fs_1.5.2         vctrs_0.4.1      sass_0.4.1      
+[33] tidyselect_1.1.2 rprojroot_2.0.3  grid_4.2.0       glue_1.6.2      
+[37] R6_2.5.1         fansi_1.0.3      rmarkdown_2.14   farver_2.1.0    
+[41] purrr_0.3.4      magrittr_2.0.3   scales_1.2.0     promises_1.2.0.1
+[45] ellipsis_0.3.2   htmltools_0.5.2  assertthat_0.2.1 colorspace_2.0-3
+[49] httpuv_1.6.5     labeling_0.4.2   utf8_1.2.2       stringi_1.7.6   
+[53] munsell_0.5.0    crayon_1.5.1    </code></pre>
 </div>
-</div>
-<div id="analyses" class="section level1">
-<h1><strong>2. Analyses</strong></h1>
-<div id="understanding-genetics-of-expression-factors"
-class="section level2">
-<h2><strong>2.1 Understanding genetics of expression
-factors</strong></h2>
-<p>In this part, we’re trying to answer the questions below:</p>
-<ul>
-<li><p>Are expression factors genetically determined? Can we build
-prediction model of expression factors using genetic variants?</p></li>
-<li><p>What are the SNPs and genes controlling expression
-factors?</p></li>
-</ul>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/variants_factors.html">For
-more details</a></p>
-</div>
-<div id="genetic-relationship-between-the-expression-factors-and-traits"
-class="section level2">
-<h2><strong>2.2 Genetic relationship between the expression factors and
-traits</strong></h2>
-<p>We’d like to show that the factors have a causal effect on
-outcome(traits), but it’s difficult to establish.<br />
-So we state a weaker hypothesis first: GWAS variants of a trait often
-converge to a relatively small number of processes, which can be
-represented as expression factors.</p>
-<p>Then we strengthen hypothesis: if the effects of SNPs on LV is
-correlated with their effects on trait when there is a causal effect of
-LV on trait.</p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/factors_traits.html">For
-more details</a></p>
-</div>
-</div>
-<div id="module-based-factor-analysis" class="section level1">
-<h1><strong>2.3 Module-based factor analysis</strong></h1>
-<p>We used WGCNA to find modules in GTEx expression data. Then inferred
-some expression factors in each module with the expectation that these
-factor can capture the biological processes better.</p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/module_based_factors.html">For
-more details</a></p>
-</div>
-<div id="case-studies" class="section level1">
-<h1><strong>2.4 Case Studies</strong></h1>
-<p>Some special cases and our motivating examples are here.</p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis/case_studies.html">For
-more details</a></p>
 </div>
 
 
@@ -695,6 +691,8 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -727,6 +725,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

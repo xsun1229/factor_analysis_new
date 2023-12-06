@@ -142,7 +142,7 @@ all_qq <- grid.arrange(p2[[1]],p2[[2]],p2[[3]],p2[[4]],p2[[5]],p2[[6]], nrow = 2
 
 ## Summary table
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE,}
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE, fig.width=5,fig.height=5}
 celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
 path <- c("4.B_cell_kegg","6.CD14_positive_monocyte_kegg","8.CD15_positive_leukocyte_kegg","16.platelet_kegg","10.T_cell_kegg","14.thymocyte_kegg")
 type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
@@ -234,6 +234,10 @@ i <- 3
   df <- merge(df,H, by="factor")
   print(type[[i]])
   DT::datatable(df, options = list(pageLength =5))
+  
+  df <- df[complete.cases(df$hsq_gemma),]
+  plot(df$hsq_gemma,df$hsq_gcta)
+  abline(a=0,b=1,col="red")
   
   i <- 5
   folder_celltype <- paste0("/project2/xinhe/xsun/CEDAR/",path[i],"/9.pcs_40genes_rerun/4.heritability_gemma/")

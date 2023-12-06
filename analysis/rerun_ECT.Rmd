@@ -1,0 +1,272 @@
+---
+title: "ECT"
+author: "XSun"
+date: "2023-12-03"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+  
+---
+
+```{r }
+suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
+suppressMessages(library(tidyr))
+suppressMessages(library(forcats))
+
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+
+```
+
+
+# Number of supporting SNPs for each pair
+```{r }
+folder_assoc <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc/assoc_all/"
+
+fdr_cutoff <- 0.2
+
+p <- list()
+for (t in 1:length(type)) {
+  
+  file_assoc <- paste0(folder_assoc,celltypes[t],"_all.rdata")
+  load(file_assoc)
+  
+  num_celltype <- c()
+  for (i in 1:length(assoc_all)) {
+    
+    assoc_trait <- assoc_all[[i]]
+    
+    num_trait <- c()
+    for (j in 1:length(assoc_trait)) {
+      
+      assoc_pair <- assoc_trait[[j]]
+      assoc_pair$fdr <- p.adjust(assoc_pair$P,method = "fdr")
+      
+      num <- sum(assoc_pair$fdr <fdr_cutoff )
+      num_trait <- c(num_trait,num)
+    }
+    
+    num_celltype <- c(num_celltype,num_trait)
+  }
+  
+  summary <- as.data.frame(table(num_celltype))
+  summary$num_celltype <- as.numeric(as.character(summary$num_celltype))
+  
+  p[[t]] <- ggplot(summary, aes(x = num_celltype, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(type[t]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(aes(label = ifelse(num_celltype %% 5 == 0, as.character(Freq), "")),
+              colour = "black", size = 2, vjust = -0.1, family = "Times",) +
+    annotate(geom = "text", x = Inf, y = Inf, label = paste0("# of candidate pairs = ", sum(num_celltype >= 3)),
+             hjust = 1, vjust = 1, size = 3, family = "Times", color = "black") +
+    theme(axis.title.x = element_text(size = 10),
+          axis.text.x = element_text(size = 8, color = "black"),
+          axis.title.y = element_text(size = 10),
+          axis.text.y = element_text(size = 8, color = "black"),
+          text = element_text(family = "Times")) +
+    scale_x_continuous(breaks = seq(0, max(num_celltype), 5))
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+```
+
+# ECT p-values
+
+
+```{r }
+folder_ect <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT/"
+
+p1 <- list()
+for (i in 1:length(celltypes)) {
+  
+  file_ect <- paste0(folder_ect,celltypes[i],"_ECT_summary_table.rdata")
+  load(file_ect)
+  
+  p <- as.data.frame(df_sum$pval_ECT)
+  colnames(p) <- "p"
+  p1[[i]] <-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
+    theme_bw(base_line_size =0.3) +
+    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "ECT p-values",
+         y = "Count") +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) 
+  
+  
+}
+
+
+all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+
+p1 <- list()
+for (i in 1:length(celltypes)) {
+  
+   file_ect <- paste0(folder_ect,celltypes[i],"_ECT_summary_table.rdata")
+  load(file_ect)
+  
+  p <- as.data.frame(df_sum$pval_ECT)
+  colnames(p) <- "p"
+  
+  plotdata <- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
+                       expected = -log10(ppoints(nrow(p))))
+ 
+
+  p1[[i]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
+    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
+    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
+       y = expression(paste("Observed -log"[10],"(p-value)"))) +
+  
+    theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black"),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+}
+
+all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+
+```
+
+# Histogram for Storey's pi1 computed from ECT p-values
+
+```{r} 
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_story.rdata")
+
+values <- pi1_all
+#labels <- c('CD19+', 'CD14+', 'CD15+', 'PLT', 'CD4+', 'CD8+')
+#labels <- names(pi1_all)
+labels <- c("B cell \n(CD19+)","Monocyte \n(CD14+)","Leukocyte \n(CD15+)","Platelet","T cell \n(CD4+)","T cell \n(CD8+)")
+data <- data.frame(labels, values)
+
+# Create the bar plot
+p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
+  geom_bar(stat="identity", color="steelblue", fill="steelblue") +
+  labs(x="Cell Types", y="Storey's Pi1") +
+  theme_minimal()  +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black", angle = 45, hjust = 1,vjust = 1.1),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+p
+```
+
+# ECT summary plot
+
+```{r }
+
+folder_ect <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT/"
+
+x <- c()
+y <- c()
+for (i in 1:length(celltypes)){
+  
+  file_ect <- paste0(folder_ect,celltypes[i],"_ECT_summary_table.rdata")
+
+  load(file_ect)
+  x[i] <- sum(df_sum$fdr_ECT < 0.1)
+  y[i] <- sum(df_sum$fdr_ECT < 0.2)
+
+}
+
+
+data <- data.frame(x, y,type)
+df <- gather(data, event, total, x:y)
+
+
+bar <- ggplot(df, aes(type, total, fill=event)) +
+#ggplot(df, aes(type, total, fill=event)) +
+  theme_bw(base_line_size =0.3) +
+  
+  geom_bar(stat = "identity", position = 'dodge',alpha=0.9) +
+  scale_fill_manual(name="group", values=c("#F8766D", "darkturquoise"),labels=c("FDR < 0.1","0.1 < FDR < 0.2")) +
+  
+  aes(x = fct_inorder(type)) + 
+  
+  labs(x = "Cell types", y = "Count") +
+  
+  geom_text(aes(label = total),position = position_dodge(0.9),
+            color="black",size = 3,vjust = -0.3) +
+  
+  ylim(0,80) +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 8, color = "black", angle = 45, hjust = 1, vjust = 1.1),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+bar
+```
+
+# Tables for pairs with ECT FDR < 0.2
+```{r }
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/summary_mbe_steiger.rdata")
+DT::datatable(df_all)
+
+```
+
+# MBE
+
+## Steiger filtered
+
+```{r }
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/summary_mbe_steiger.rdata")
+
+p <- as.data.frame(as.numeric(df_all$mbe_pval_reverse_steiger))
+colnames(p) <- "p"
+
+hist <- ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
+  theme_bw(base_line_size =0.3) +
+  labs(x = "MBE p-values",
+       y = "Count") +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black"),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+hist
+```
+
+
+
+## Without filtering
+
+```{r }
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/summary_mbe_steiger.rdata")
+
+p <- as.data.frame(as.numeric(df_all$mbe_pval_reverse))
+colnames(p) <- "p"
+
+hist <- ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
+  theme_bw(base_line_size =0.3) +
+  labs(x = "MBE p-values",
+       y = "Count") +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black"),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+hist
+```
+
