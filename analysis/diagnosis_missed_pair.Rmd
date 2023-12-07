@@ -1,0 +1,69 @@
+---
+title: "Diagnosis for the missed top pair"
+author: "XSun"
+date: "2023-12-07"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+```{r }
+suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
+```
+
+A new locus on chr22 was included. All of these 4 variants passed Steiger filtering. 
+
+```{r}
+
+fdr_cutoff <- 0.2
+
+celltype <- "T_cell"
+trait <- "EUR.CD"
+factor <- "pwy124_pc1"
+
+file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc/harmo/",celltype,"_harmo.rdata")
+load(file_harmo)
+
+dat <- assoc_harmo[[trait]][[factor]]
+
+snp_select <- dat[dat$fdr < fdr_cutoff,]
+
+fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+
+#ect_p <- df_all$pval_ECT[df_all$factor == factor &df_all$trait ==trait]
+
+eff1 <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+  
+  geom_point(size = 4) + 
+  
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01 ,alpha=0.6) +
+  
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+  
+  geom_label(aes(x = -0.2, y = 0.4), hjust = 0, 
+             label = paste("R^2 = ",signif(summary(fit)$r.squared, 3)),
+             #" \np-value =",signif(summary(fit)$coef[1,4], 3)),
+             color = "black",
+             family = "Times",
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  xlab("effectsize.factor") + ylab("effectsize.gwas") +
+  geom_vline(xintercept = 0,color = "grey",linetype = "dashed") +
+  geom_hline(yintercept = 0,color = "grey",linetype = "dashed") 
+
+eff1
+```
+

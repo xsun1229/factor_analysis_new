@@ -14,5 +14,6 @@ editor_options:
 
 [ECT](https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html)
 
+[Diagnosis for the missed top pair](https://xsun1229.github.io/factor_analysis_new/diagnosis_missed_pair.html)
 
 

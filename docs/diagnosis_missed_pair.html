@@ -11,9 +11,9 @@
 
 <meta name="author" content="XSun" />
 
-<meta name="date" content="2023-12-06" />
+<meta name="date" content="2023-12-07" />
 
-<title>ACAT</title>
+<title>Diagnosis for the missed top pair</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -374,9 +374,9 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">ACAT</h1>
+<h1 class="title toc-ignore">Diagnosis for the missed top pair</h1>
 <h4 class="author">XSun</h4>
-<h4 class="date">2023-12-06</h4>
+<h4 class="date">2023-12-07</h4>
 
 </div>
 
@@ -443,10 +443,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -571,6 +571,9 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
+Untracked files:
+    Untracked:  analysis/diagnosis_missed_pair.Rmd
+
 Unstaged changes:
     Modified:   analysis/re_run_1203.Rmd
     Modified:   analysis/rerun_acat.Rmd
@@ -588,499 +591,67 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/rerun_acat.Rmd</code>) and HTML
-(<code>docs/rerun_acat.html</code>) files. If you’ve configured a remote
-Git repository (see <code>?wflow_git_remote</code>), click on the
-hyperlinks in the table below to view the files as they were in that
-past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/analysis/rerun_acat.Rmd" target="_blank">22c1324</a>
-</td>
-<td>
-Xiaotong Sun
-</td>
-<td>
-2023-12-06
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/rerun_acat.html" target="_blank">22c1324</a>
-</td>
-<td>
-Xiaotong Sun
-</td>
-<td>
-2023-12-06
-</td>
-<td>
-update
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
 <pre class="r"><code>suppressMessages(library(ggplot2))
-suppressMessages(library(gridExtra))
-suppressMessages(library(tidyr))
-suppressMessages(library(forcats))
+suppressMessages(library(gridExtra))</code></pre>
+<p>A new locus on chr22 was included. All of these 4 variants passed
+Steiger filter.</p>
+<pre class="r"><code>fdr_cutoff &lt;- 0.2
 
-celltypes &lt;- c(&quot;B_cell&quot;,&quot;CD14_positive_monocyte&quot;,&quot;CD15_positive_leukocyte&quot;,&quot;platelet&quot;,&quot;T_cell&quot;,&quot;thymocyte&quot;)
-type &lt;- c(&quot;B cell (CD19+)&quot;,&quot;Monocyte (CD14+)&quot;,&quot;Leukocyte (CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell (CD4+)&quot;,&quot;T cell (CD8+)&quot;)</code></pre>
-<div id="origin-acat-p-values" class="section level1">
-<h1>Origin ACAT p-values</h1>
-<pre class="r"><code>folder_acat &lt;- &quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/&quot;
+celltype &lt;- &quot;T_cell&quot;
+trait &lt;- &quot;EUR.CD&quot;
+factor &lt;- &quot;pwy124_pc1&quot;
 
-p1 &lt;- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat &lt;- paste0(folder_acat,celltypes[i],&quot;_real_acat.rdata&quot;)
-  load(file_acat)
-  
-  p &lt;- as.data.frame(unlist(acat_celltype))
-  colnames(p) &lt;- &quot;p&quot;
-  p1[[i]] &lt;-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color=&quot;white&quot;,fill = &quot;steelblue&quot;)+ 
-    theme_bw(base_line_size =0.3) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = &quot;ACAT p-values from real data&quot;,
-         y = &quot;Count&quot;) +
-    
-    theme(axis.title.x = element_text(size = 14),
-          axis.text.x = element_text(size = 12, color = &quot;black&quot;),
-          axis.title.y = element_text(size = 14),
-          axis.text.y = element_text(size = 12, color = &quot;black&quot;),
-          text= element_text(family=&quot;Times&quot;)) 
-  
-  
-}
+file_harmo &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc/harmo/&quot;,celltype,&quot;_harmo.rdata&quot;)
+load(file_harmo)
 
-all1 &lt;- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)</code></pre>
-<p><img src="figure/rerun_acat.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
-Past versions of unnamed-chunk-2-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-2-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_acat.Rmd/unnamed-chunk-2-1.png" target="_blank">22c1324</a>
-</td>
-<td>
-Xiaotong Sun
-</td>
-<td>
-2023-12-06
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>p1 &lt;- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat &lt;- paste0(folder_acat,celltypes[i],&quot;_real_acat.rdata&quot;)
-  load(file_acat)
-  
-  p &lt;- as.data.frame(unlist(acat_celltype))
-  colnames(p) &lt;- &quot;p&quot;
-  
-  plotdata &lt;- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
-                       expected = -log10(ppoints(nrow(p))))
- 
+dat &lt;- assoc_harmo[[trait]][[factor]]
 
-  p1[[i]] &lt;- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
-    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = &quot;steelblue&quot;) +
-    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = &quot;red&quot;) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = expression(paste(&quot;Expected -log&quot;[10],&quot;(p-value)&quot;)),
-       y = expression(paste(&quot;Observed -log&quot;[10],&quot;(p-value)&quot;))) +
-  
-    theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = &quot;black&quot;),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = &quot;black&quot;),
-        text= element_text(family=&quot;Times&quot;)) 
-  
-  
-}
+snp_select &lt;- dat[dat$fdr &lt; fdr_cutoff,]
 
-all1 &lt;- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)</code></pre>
-<p><img src="figure/rerun_acat.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-2">
-Past versions of unnamed-chunk-2-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-2-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_acat.Rmd/unnamed-chunk-2-2.png" target="_blank">22c1324</a>
-</td>
-<td>
-Xiaotong Sun
-</td>
-<td>
-2023-12-06
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="corrected-acat-p-values" class="section level1">
-<h1>corrected ACAT p-values</h1>
-<p>We sampled the SNPs 100 times, matching the number of SNP in LD &amp;
-MAF using vSampler. Then we used the random SNPs the do the factor ~ SNP
-association tests and compute the acat p-values for each pair. We used
-these random acat p-values to correct the origin ACAT p-values.</p>
-<p>If we corrected the ACAT p-values within each pair, we have:</p>
-<p>(the lowest p-value = 0+1/100+1)</p>
-<pre class="r"><code>folder_acat &lt;- &quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/&quot;
+fit &lt;- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
 
-p1 &lt;- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat &lt;- paste0(folder_acat,celltypes[i],&quot;_corrected_acat.rdata&quot;)
-  load(file_acat)
-  
-  p &lt;- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) &lt;- &quot;p&quot;
-  p1[[i]] &lt;-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color=&quot;white&quot;,fill = &quot;steelblue&quot;)+ 
-    theme_bw(base_line_size =0.3) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = &quot;Corrected ACAT p-values&quot;,
-         y = &quot;Count&quot;) +
-    
-    theme(axis.title.x = element_text(size = 14),
-          axis.text.x = element_text(size = 12, color = &quot;black&quot;),
-          axis.title.y = element_text(size = 14),
-          axis.text.y = element_text(size = 12, color = &quot;black&quot;),
-          text= element_text(family=&quot;Times&quot;)) 
-  
-  
-}
+#ect_p &lt;- df_all$pval_ECT[df_all$factor == factor &amp;df_all$trait ==trait]
 
-all1 &lt;- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)</code></pre>
-<p><img src="figure/rerun_acat.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
-Past versions of unnamed-chunk-3-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-3-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_acat.Rmd/unnamed-chunk-3-1.png" target="_blank">22c1324</a>
-</td>
-<td>
-Xiaotong Sun
-</td>
-<td>
-2023-12-06
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>p1 &lt;- list()
-for (i in 1:length(celltypes)) {
+eff1 &lt;- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
   
-  file_acat &lt;- paste0(folder_acat,celltypes[i],&quot;_corrected_acat.rdata&quot;)
-  load(file_acat)
+  geom_point(size = 4) + 
   
-  p &lt;- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) &lt;- &quot;p&quot;
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01 ,alpha=0.6) +
   
-  plotdata &lt;- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
-                       expected = -log10(ppoints(nrow(p))))
- 
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = &quot;black&quot;),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = &quot;black&quot;),
+        text= element_text(family=&quot;Times&quot;),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = &quot;grey&quot;, size = 0.5) +
+  
+  geom_label(aes(x = -0.2, y = 0.4), hjust = 0, 
+             label = paste(&quot;R^2 = &quot;,signif(summary(fit)$r.squared, 3)),
+             #&quot; \np-value =&quot;,signif(summary(fit)$coef[1,4], 3)),
+             color = &quot;black&quot;,
+             family = &quot;Times&quot;,
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  xlab(&quot;effectsize.factor&quot;) + ylab(&quot;effectsize.gwas&quot;) +
+  geom_vline(xintercept = 0,color = &quot;grey&quot;,linetype = &quot;dashed&quot;) +
+  geom_hline(yintercept = 0,color = &quot;grey&quot;,linetype = &quot;dashed&quot;) 
 
-  p1[[i]] &lt;- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
-    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = &quot;steelblue&quot;) +
-    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = &quot;red&quot;) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = expression(paste(&quot;Expected -log&quot;[10],&quot;(p-value)&quot;)),
-       y = expression(paste(&quot;Observed -log&quot;[10],&quot;(p-value)&quot;))) +
-  
-    theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = &quot;black&quot;),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = &quot;black&quot;),
-        text= element_text(family=&quot;Times&quot;)) 
-  
-  
-}
-
-all1 &lt;- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)</code></pre>
-<p><img src="figure/rerun_acat.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-2">
-Past versions of unnamed-chunk-3-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-3-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/docs/figure/rerun_acat.Rmd/unnamed-chunk-3-2.png" target="_blank">22c1324</a>
-</td>
-<td>
-Xiaotong Sun
-</td>
-<td>
-2023-12-06
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>If we corrected the ACAT p-values within each cell type (pool all
-ACAT p-values in each cell type), we have:</p>
-<p>(the lowest p-value = 0+1/(total pair * 100)+1)</p>
-<pre class="r"><code>folder_acat &lt;- &quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/&quot;
-
-p1 &lt;- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat &lt;- paste0(folder_acat,celltypes[i],&quot;_corrected_acat_pool_celltype.rdata&quot;)
-  load(file_acat)
-  
-  p &lt;- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) &lt;- &quot;p&quot;
-  p1[[i]] &lt;-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color=&quot;white&quot;,fill = &quot;steelblue&quot;)+ 
-    theme_bw(base_line_size =0.3) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = &quot;Corrected ACAT p-values&quot;,
-         y = &quot;Count&quot;) +
-    
-    theme(axis.title.x = element_text(size = 14),
-          axis.text.x = element_text(size = 12, color = &quot;black&quot;),
-          axis.title.y = element_text(size = 14),
-          axis.text.y = element_text(size = 12, color = &quot;black&quot;),
-          text= element_text(family=&quot;Times&quot;)) 
-  
-  
-}
-
-all1 &lt;- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)</code></pre>
-<p><img src="figure/rerun_acat.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>p1 &lt;- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat &lt;- paste0(folder_acat,celltypes[i],&quot;_corrected_acat_pool_celltype.rdata&quot;)
-  load(file_acat)
-  
-  p &lt;- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) &lt;- &quot;p&quot;
-  
-  plotdata &lt;- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
-                       expected = -log10(ppoints(nrow(p))))
- 
-
-  p1[[i]] &lt;- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
-    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = &quot;steelblue&quot;) +
-    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = &quot;red&quot;) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = expression(paste(&quot;Expected -log&quot;[10],&quot;(p-value)&quot;)),
-       y = expression(paste(&quot;Observed -log&quot;[10],&quot;(p-value)&quot;))) +
-  
-    theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = &quot;black&quot;),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = &quot;black&quot;),
-        text= element_text(family=&quot;Times&quot;)) 
-  
-  
-}
-
-all1 &lt;- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)</code></pre>
-<p><img src="figure/rerun_acat.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="histogram-for-storeys-pi1-computed-from-acat-p-values"
-class="section level1">
-<h1>Histogram for Storey’s pi1 computed from ACAT p-values</h1>
-<div id="origin-p-values" class="section level2">
-<h2>Origin p-values</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/story_real_acat.rdata&quot;)
-
-values &lt;- pi1_all
-#labels &lt;- c(&#39;CD19+&#39;, &#39;CD14+&#39;, &#39;CD15+&#39;, &#39;PLT&#39;, &#39;CD4+&#39;, &#39;CD8+&#39;)
-#labels &lt;- names(pi1_all)
-labels &lt;- c(&quot;B cell \n(CD19+)&quot;,&quot;Monocyte \n(CD14+)&quot;,&quot;Leukocyte \n(CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell \n(CD4+)&quot;,&quot;T cell \n(CD8+)&quot;)
-data &lt;- data.frame(labels, values)
-
-# Create the bar plot
-p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
-  geom_bar(stat=&quot;identity&quot;, color=&quot;steelblue&quot;, fill=&quot;steelblue&quot;) +
-  labs(x=&quot;Cell Types&quot;, y=&quot;Storey&#39;s Pi1 for origin acat p-values&quot;) +
-  theme_minimal()  +
-  
-  theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = &quot;black&quot;, angle = 45, hjust = 1,vjust = 1.1),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = &quot;black&quot;),
-        text= element_text(family=&quot;Times&quot;)) 
-
-p</code></pre>
-<p><img src="figure/rerun_acat.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="corrected-p-values" class="section level2">
-<h2>Corrected p-values</h2>
-<p>If we corrected the ACAT p-values within each pair</p>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/story_corrected_acat.rdata&quot;)
-
-values &lt;- pi1_all
-#labels &lt;- c(&#39;CD19+&#39;, &#39;CD14+&#39;, &#39;CD15+&#39;, &#39;PLT&#39;, &#39;CD4+&#39;, &#39;CD8+&#39;)
-#labels &lt;- names(pi1_all)
-labels &lt;- c(&quot;B cell \n(CD19+)&quot;,&quot;Monocyte \n(CD14+)&quot;,&quot;Leukocyte \n(CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell \n(CD4+)&quot;,&quot;T cell \n(CD8+)&quot;)
-data &lt;- data.frame(labels, values)
-
-# Create the bar plot
-p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
-  geom_bar(stat=&quot;identity&quot;, color=&quot;steelblue&quot;, fill=&quot;steelblue&quot;) +
-  labs(x=&quot;Cell Types&quot;, y=&quot;Storey&#39;s Pi1 for corrected acat p-values&quot;) +
-  theme_minimal()  +
-  
-  theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = &quot;black&quot;, angle = 45, hjust = 1,vjust = 1.1),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = &quot;black&quot;),
-        text= element_text(family=&quot;Times&quot;)) 
-
-p</code></pre>
-<p><img src="figure/rerun_acat.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>If we corrected the ACAT p-values within each cell type (pool all
-ACAT p-values in each cell type)</p>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/story_corrected_acat_pool_celltype.rdata&quot;)
-
-values &lt;- pi1_all
-#labels &lt;- c(&#39;CD19+&#39;, &#39;CD14+&#39;, &#39;CD15+&#39;, &#39;PLT&#39;, &#39;CD4+&#39;, &#39;CD8+&#39;)
-#labels &lt;- names(pi1_all)
-labels &lt;- c(&quot;B cell \n(CD19+)&quot;,&quot;Monocyte \n(CD14+)&quot;,&quot;Leukocyte \n(CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell \n(CD4+)&quot;,&quot;T cell \n(CD8+)&quot;)
-data &lt;- data.frame(labels, values)
-
-# Create the bar plot
-p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
-  geom_bar(stat=&quot;identity&quot;, color=&quot;steelblue&quot;, fill=&quot;steelblue&quot;) +
-  labs(x=&quot;Cell Types&quot;, y=&quot;Storey&#39;s Pi1 for corrected acat p-values&quot;) +
-  theme_minimal()  +
-  
-  theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = &quot;black&quot;, angle = 45, hjust = 1,vjust = 1.1),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = &quot;black&quot;),
-        text= element_text(family=&quot;Times&quot;)) 
-
-p</code></pre>
-<p><img src="figure/rerun_acat.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+eff1</code></pre>
+<p><img src="figure/diagnosis_missed_pair.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1104,25 +675,23 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] forcats_0.5.1 tidyr_1.2.0   gridExtra_2.3 ggplot2_3.3.5
+[1] gridExtra_2.3 ggplot2_3.3.5
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.1.2 xfun_0.30        bslib_0.3.1      purrr_0.3.4     
- [5] colorspace_2.0-3 vctrs_0.4.1      generics_0.1.2   htmltools_0.5.2 
- [9] yaml_2.3.5       utf8_1.2.2       rlang_1.0.5      jquerylib_0.1.4 
-[13] later_1.3.0      pillar_1.7.0     glue_1.6.2       withr_2.5.0     
-[17] DBI_1.1.2        lifecycle_1.0.1  stringr_1.4.0    munsell_0.5.0   
-[21] gtable_0.3.0     workflowr_1.7.0  evaluate_0.15    labeling_0.4.2  
-[25] knitr_1.39       fastmap_1.1.0    httpuv_1.6.5     fansi_1.0.3     
-[29] highr_0.9        Rcpp_1.0.8.3     promises_1.2.0.1 scales_1.2.0    
-[33] jsonlite_1.8.0   farver_2.1.0     fs_1.5.2         digest_0.6.29   
-[37] stringi_1.7.6    dplyr_1.0.9      grid_4.2.0       rprojroot_2.0.3 
-[41] cli_3.6.1        tools_4.2.0      magrittr_2.0.3   sass_0.4.1      
-[45] tibble_3.1.7     crayon_1.5.1     whisker_0.4      pkgconfig_2.0.3 
-[49] ellipsis_0.3.2   assertthat_0.2.1 rmarkdown_2.14   rstudioapi_0.13 
-[53] R6_2.5.1         git2r_0.30.1     compiler_4.2.0  </code></pre>
-</div>
-</div>
+ [1] Rcpp_1.0.8.3     highr_0.9        pillar_1.7.0     compiler_4.2.0  
+ [5] bslib_0.3.1      later_1.3.0      jquerylib_0.1.4  git2r_0.30.1    
+ [9] workflowr_1.7.0  tools_4.2.0      digest_0.6.29    jsonlite_1.8.0  
+[13] evaluate_0.15    lifecycle_1.0.1  tibble_3.1.7     gtable_0.3.0    
+[17] pkgconfig_2.0.3  rlang_1.0.5      DBI_1.1.2        cli_3.6.1       
+[21] rstudioapi_0.13  yaml_2.3.5       xfun_0.30        fastmap_1.1.0   
+[25] withr_2.5.0      dplyr_1.0.9      stringr_1.4.0    knitr_1.39      
+[29] generics_0.1.2   fs_1.5.2         vctrs_0.4.1      sass_0.4.1      
+[33] tidyselect_1.1.2 rprojroot_2.0.3  grid_4.2.0       glue_1.6.2      
+[37] R6_2.5.1         fansi_1.0.3      rmarkdown_2.14   farver_2.1.0    
+[41] purrr_0.3.4      magrittr_2.0.3   scales_1.2.0     promises_1.2.0.1
+[45] ellipsis_0.3.2   htmltools_0.5.2  assertthat_0.2.1 colorspace_2.0-3
+[49] httpuv_1.6.5     labeling_0.4.2   utf8_1.2.2       stringi_1.7.6   
+[53] munsell_0.5.0    crayon_1.5.1    </code></pre>
 </div>
 
 
