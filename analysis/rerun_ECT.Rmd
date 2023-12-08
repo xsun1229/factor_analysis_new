@@ -329,7 +329,7 @@ for (i in 1:nrow(df_sorted)){
              size = 4,
              label.size = NA,
              alpha = 0) + 
-  ggtitle(paste0(pathway,"-",factor,"-",trait))  +
+  ggtitle(paste0(pathway,"-\n",factor,"-\n",trait))  +
   
   xlab("effectsize.factor") + ylab("effectsize.gwas") +
   geom_vline(xintercept = 0,color = "grey",linetype = "dashed") +
@@ -337,7 +337,60 @@ for (i in 1:nrow(df_sorted)){
   
 }
 do.call("grid.arrange", c(eff, ncol = 5))
+```
 
+```{r message=FALSE,warning=F, fig.height=4, fig.width=20}
+index <- which(df_all$trait %in%c("EUR.IBD","ukb.allasthma"))
+df_sorted <- df_all[index,]
+eff<- list()
+for (i in 1:nrow(df_sorted)){
+  
+  celltype_pair <- celltypes[which(type == df_sorted$celltypes[i])]
+  trait <- df_sorted$trait[i]
+  factor <- df_sorted$factor[i]
+  pathway <- df_sorted$pwy_name[i]
+
+  assoc_harmo <- harmo[[celltype_pair]]
+  
+  dat <- assoc_harmo[[trait]][[factor]]
+  snp_select <- dat[dat$fdr < fdr_cutoff,]
+  fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  ect_p <- df_sorted$pval_ECT[df_sorted$factor == factor &df_sorted$trait ==trait]
+  
+  eff[[i]] <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+  
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01 ,alpha=0.6) +
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+  
+  geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste("R^2 = ",signif(summary(fit)$r.squared, 3),
+                           
+                           " \nECT p-value =",ect_p),
+             #" \np-value =",signif(summary(fit)$coef[1,4], 3)),
+             color = "black",
+             family = "Times",
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  ggtitle(paste0(pathway,"-\n",factor,"-\n",trait))  +
+  
+  xlab("effectsize.factor") + ylab("effectsize.gwas") +
+  geom_vline(xintercept = 0,color = "grey",linetype = "dashed") +
+  geom_hline(yintercept = 0,color = "grey",linetype = "dashed") 
+  
+}
+do.call("grid.arrange", c(eff, ncol = 5))
 
 ```
 
@@ -409,4 +462,67 @@ for (i in 1:nrow(df_sorted)){
   
 }
 do.call("grid.arrange", c(eff, ncol = 5))
+```
+
+
+# Some highlighted traits
+
+```{r fig.height= 20, fig.width=10, warning=F, message=F}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/summary_mbe_steiger.rdata")
+
+
+p <- list()
+for (traits in c("lymph","baso","ret")) {
+  
+  #print(traits)  
+  
+sum_traits <- df_all[df_all$trait == traits,]
+
+# pwy <- c("05220","04060","04640","04010","03013","05235","04664","05166","05169","00230")
+# selected <- sum_traits[sum_traits$pwy_code %in% pwy,]
+
+selected <- sum_traits
+index <- which(duplicated(selected$pwy_name))
+selected$pwy_name[index] <- paste0(selected$pwy_name[index]," ")
+
+selected$lgectpval <- -log10(selected$pval_ECT)
+selected <- selected[order(selected$lgectpval,decreasing = T),]
+selected$num_snp_pass_cutoff[nrow(selected)] <- paste0(selected$num_snp_pass_cutoff[nrow(selected)]," (# of supporting variants)")
+
+selected$pwy_name <- factor(selected$pwy_name, levels = rev(unique(selected$pwy_name)))
+
+p[[length(p)+1]] <- ggplot(selected) +
+  theme_bw(base_line_size =0.3) +
+  geom_col(aes(x=lgectpval, y=pwy_name, fill = celltypes), width = 0.6) +
+  geom_text(
+    data = selected,
+    aes(0, y = pwy_name, label = pwy_name),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 3,
+    family = "Times"
+  ) + 
+  geom_text(
+    data = selected,
+    aes(lgectpval, y = pwy_name, label = num_snp_pass_cutoff),
+    hjust = 0,
+    nudge_x = 0.01,
+    colour = "black",
+    size = 3,
+    family = "Times"
+  ) +
+  labs(x.title = "Lymphocyte Count",
+       x = expression(paste("-log"[10],"(ECT p-value)")),
+       y="Pathways") +
+  theme(axis.text.y = element_blank(),
+        text= element_text(family="Times")) +
+  xlim(0,ceiling(max(selected$lgectpval))) +
+  ggtitle(traits)
+  
+}
+
+do.call("grid.arrange", c(p, ncol = 1))
+
 ```

@@ -547,15 +547,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreee1bd91a6475d5f76a2ab5df57260d68082f3ad49targetblanke1bd91aa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree67e648422429420d7494df5e83c8f96b09cb949ftargetblank67e6484a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/e1bd91a6475d5f76a2ab5df57260d68082f3ad49" target="_blank">e1bd91a</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/67e648422429420d7494df5e83c8f96b09cb949f" target="_blank">67e6484</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreee1bd91a6475d5f76a2ab5df57260d68082f3ad49targetblanke1bd91aa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree67e648422429420d7494df5e83c8f96b09cb949ftargetblank67e6484a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -565,7 +565,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/e1bd91a6475d5f76a2ab5df57260d68082f3ad49" target="_blank">e1bd91a</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/67e648422429420d7494df5e83c8f96b09cb949f" target="_blank">67e6484</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -579,13 +579,8 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  analysis/diagnosis_missed_pair.Rmd
-
 Unstaged changes:
-    Modified:   analysis/re_run_1203.Rmd
     Modified:   analysis/rerun_ECT.Rmd
-    Modified:   analysis/rerun_acat.Rmd
 
 </code></pre>
 <p>
@@ -631,6 +626,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/334add9a5ca4f81f2ad2d4b697e9f2d4421787ca/analysis/rerun_ECT.Rmd" target="_blank">334add9</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-07
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/334add9a5ca4f81f2ad2d4b697e9f2d4421787ca/docs/rerun_ECT.html" target="_blank">334add9</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-07
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1300,7 +1329,7 @@ for (i in 1:nrow(df_sorted)){
              size = 4,
              label.size = NA,
              alpha = 0) + 
-  ggtitle(paste0(pathway,&quot;-&quot;,factor,&quot;-&quot;,trait))  +
+  ggtitle(paste0(pathway,&quot;-\n&quot;,factor,&quot;-\n&quot;,trait))  +
   
   xlab(&quot;effectsize.factor&quot;) + ylab(&quot;effectsize.gwas&quot;) +
   geom_vline(xintercept = 0,color = &quot;grey&quot;,linetype = &quot;dashed&quot;) +
@@ -1333,6 +1362,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/334add9a5ca4f81f2ad2d4b697e9f2d4421787ca/docs/figure/rerun_ECT.Rmd/unnamed-chunk-9-1.png" target="_blank">334add9</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-07
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/4beb577ddf96e3d00635c3512bf7fd7d86e9ad9f/docs/figure/rerun_ECT.Rmd/unnamed-chunk-9-1.png" target="_blank">4beb577</a>
 </td>
 <td>
@@ -1346,6 +1386,58 @@ XSun
 </table>
 </div>
 </div>
+<pre class="r"><code>index &lt;- which(df_all$trait %in%c(&quot;EUR.IBD&quot;,&quot;ukb.allasthma&quot;))
+df_sorted &lt;- df_all[index,]
+eff&lt;- list()
+for (i in 1:nrow(df_sorted)){
+  
+  celltype_pair &lt;- celltypes[which(type == df_sorted$celltypes[i])]
+  trait &lt;- df_sorted$trait[i]
+  factor &lt;- df_sorted$factor[i]
+  pathway &lt;- df_sorted$pwy_name[i]
+
+  assoc_harmo &lt;- harmo[[celltype_pair]]
+  
+  dat &lt;- assoc_harmo[[trait]][[factor]]
+  snp_select &lt;- dat[dat$fdr &lt; fdr_cutoff,]
+  fit &lt;- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  ect_p &lt;- df_sorted$pval_ECT[df_sorted$factor == factor &amp;df_sorted$trait ==trait]
+  
+  eff[[i]] &lt;- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+  
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01 ,alpha=0.6) +
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = &quot;black&quot;),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = &quot;black&quot;),
+        text= element_text(family=&quot;Times&quot;),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = &quot;grey&quot;, size = 0.5) +
+  
+  geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste(&quot;R^2 = &quot;,signif(summary(fit)$r.squared, 3),
+                           
+                           &quot; \nECT p-value =&quot;,ect_p),
+             #&quot; \np-value =&quot;,signif(summary(fit)$coef[1,4], 3)),
+             color = &quot;black&quot;,
+             family = &quot;Times&quot;,
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  ggtitle(paste0(pathway,&quot;-\n&quot;,factor,&quot;-\n&quot;,trait))  +
+  
+  xlab(&quot;effectsize.factor&quot;) + ylab(&quot;effectsize.gwas&quot;) +
+  geom_vline(xintercept = 0,color = &quot;grey&quot;,linetype = &quot;dashed&quot;) +
+  geom_hline(yintercept = 0,color = &quot;grey&quot;,linetype = &quot;dashed&quot;) 
+  
+}
+do.call(&quot;grid.arrange&quot;, c(eff, ncol = 5))</code></pre>
+<p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-10-1.png" width="1920" style="display: block; margin: auto;" /></p>
 </div>
 <div id="checking-if-the-ect-ivs-pass-the-steiger-filtering"
 class="section level1">
@@ -1417,55 +1509,66 @@ for (i in 1:nrow(df_sorted)){
   
 }
 do.call(&quot;grid.arrange&quot;, c(eff, ncol = 5))</code></pre>
-<p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-10-2.png" width="2400" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-2">
-Past versions of unnamed-chunk-10-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/e1bd91a6475d5f76a2ab5df57260d68082f3ad49/docs/figure/rerun_ECT.Rmd/unnamed-chunk-10-2.png" target="_blank">e1bd91a</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2023-12-06
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/4beb577ddf96e3d00635c3512bf7fd7d86e9ad9f/docs/figure/rerun_ECT.Rmd/unnamed-chunk-10-2.png" target="_blank">4beb577</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2023-12-06
-</td>
-</tr>
-</tbody>
-</table>
+<p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-11-2.png" width="2400" style="display: block; margin: auto;" /></p>
 </div>
-</div>
+<div id="some-highlighted-traits" class="section level1">
+<h1>Some highlighted traits</h1>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/summary_mbe_steiger.rdata&quot;)
+
+
+p &lt;- list()
+for (traits in c(&quot;lymph&quot;,&quot;baso&quot;,&quot;ret&quot;)) {
+  
+  #print(traits)  
+  
+sum_traits &lt;- df_all[df_all$trait == traits,]
+
+# pwy &lt;- c(&quot;05220&quot;,&quot;04060&quot;,&quot;04640&quot;,&quot;04010&quot;,&quot;03013&quot;,&quot;05235&quot;,&quot;04664&quot;,&quot;05166&quot;,&quot;05169&quot;,&quot;00230&quot;)
+# selected &lt;- sum_traits[sum_traits$pwy_code %in% pwy,]
+
+selected &lt;- sum_traits
+index &lt;- which(duplicated(selected$pwy_name))
+selected$pwy_name[index] &lt;- paste0(selected$pwy_name[index],&quot; &quot;)
+
+selected$lgectpval &lt;- -log10(selected$pval_ECT)
+selected &lt;- selected[order(selected$lgectpval,decreasing = T),]
+selected$num_snp_pass_cutoff[nrow(selected)] &lt;- paste0(selected$num_snp_pass_cutoff[nrow(selected)],&quot; (# of supporting variants)&quot;)
+
+selected$pwy_name &lt;- factor(selected$pwy_name, levels = rev(unique(selected$pwy_name)))
+
+p[[length(p)+1]] &lt;- ggplot(selected) +
+  theme_bw(base_line_size =0.3) +
+  geom_col(aes(x=lgectpval, y=pwy_name, fill = celltypes), width = 0.6) +
+  geom_text(
+    data = selected,
+    aes(0, y = pwy_name, label = pwy_name),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = &quot;white&quot;,
+    size = 3,
+    family = &quot;Times&quot;
+  ) + 
+  geom_text(
+    data = selected,
+    aes(lgectpval, y = pwy_name, label = num_snp_pass_cutoff),
+    hjust = 0,
+    nudge_x = 0.01,
+    colour = &quot;black&quot;,
+    size = 3,
+    family = &quot;Times&quot;
+  ) +
+  labs(x.title = &quot;Lymphocyte Count&quot;,
+       x = expression(paste(&quot;-log&quot;[10],&quot;(ECT p-value)&quot;)),
+       y=&quot;Pathways&quot;) +
+  theme(axis.text.y = element_blank(),
+        text= element_text(family=&quot;Times&quot;)) +
+  xlim(0,ceiling(max(selected$lgectpval))) +
+  ggtitle(traits)
+  
+}
+
+do.call(&quot;grid.arrange&quot;, c(p, ncol = 1))</code></pre>
+<p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
