@@ -8,6 +8,8 @@ output:
     toc: true
 ---
 
+Funtions used
+
 ```{r }
 suppressMessages(library(ggplot2))
 suppressMessages(library(gridExtra))
@@ -16,6 +18,98 @@ suppressMessages(library(forcats))
 
 celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
 type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+
+qqplot <- function(pvalues,title=NULL) {
+  
+  pval <- pvalues[complete.cases(pvalues)]
+  title <- title
+  plotdata <- data.frame(observed = -log10(sort(as.numeric(pval))),
+                         expected = -log10(ppoints(length(pval))))
+  
+  qq <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
+    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
+    ggtitle(title) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
+         y = expression(paste("Observed -log"[10],"(p-value)"))) +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black") )
+  
+  return(qq)
+  
+}
+
+histogram <- function(pvalues,title=NULL,xlab =NULL) {
+  
+  p <- as.data.frame(pvalues)
+  colnames(p) <- "p"
+  
+  plot <-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
+    theme_bw(base_line_size =0.3) +
+    ggtitle(title) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = xlab,
+         y = "Count") +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) 
+  
+  return(plot)
+  
+}
+
+qqplot_multi <- function(pvalues_list, legend_names = NULL, colors = NULL, title = NULL) {
+  
+  # Check if legend names are provided, else use default names
+  if (is.null(legend_names) || length(legend_names) != length(pvalues_list)) {
+    legend_names <- paste("Set", seq_along(pvalues_list))
+  }
+  
+  # Check if colors are provided, else use rainbow colors
+  if (is.null(colors) || length(colors) != length(pvalues_list)) {
+    colors <- rainbow(length(pvalues_list))
+  }
+  
+  # Initialize an empty list for storing data frames
+  plotdata_list <- list()
+  
+  # Loop through each vector of p-values
+  for (i in seq_along(pvalues_list)) {
+    pval <- pvalues_list[[i]][complete.cases(pvalues_list[[i]])]
+    data <- data.frame(
+      observed = -log10(sort(as.numeric(pval))),
+      expected = -log10(ppoints(length(pval))),
+      set = legend_names[i]  # Use provided legend name
+    )
+    plotdata_list[[i]] <- data
+  }
+  
+  # Combine all data frames into one
+  plotdata <- do.call(rbind, plotdata_list)
+  
+  # Plotting
+  qq <- ggplot(plotdata, aes(x = expected, y = observed, color = set)) + 
+    theme_bw(base_line_size = 0.3) +
+    geom_point(shape = 1, size = 1.5) +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "black") +
+    ggtitle(title) + 
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = expression(paste("Expected -log"[10], "(p-value)")),
+         y = expression(paste("Observed -log"[10], "(p-value)")),
+         color = "Groups") +
+    scale_color_manual(values = colors) +  # Use provided or default colors
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"))
+  
+  return(qq)
+}
 
 ```
 
@@ -26,60 +120,21 @@ type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T 
 folder_acat <- "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/"
 
 p1 <- list()
+p2 <- list()
 for (i in 1:length(celltypes)) {
   
   file_acat <- paste0(folder_acat,celltypes[i],"_real_acat.rdata")
   load(file_acat)
   
-  p <- as.data.frame(unlist(acat_celltype))
-  colnames(p) <- "p"
-  p1[[i]] <-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
-    theme_bw(base_line_size =0.3) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = "ACAT p-values from real data",
-         y = "Count") +
-    
-    theme(axis.title.x = element_text(size = 14),
-          axis.text.x = element_text(size = 12, color = "black"),
-          axis.title.y = element_text(size = 14),
-          axis.text.y = element_text(size = 12, color = "black"),
-          text= element_text(family="Times")) 
-  
+  p <- unlist(acat_celltype)
+  p1[[i]] <- histogram(pvalues = p,title = type[i],xlab = "ACAT p-values from real data")
+  p2[[i]] <- qqplot(pvalues = p,title = type[i])
   
 }
 
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+grid.arrange(grobs=p1, nrow = 2)
+grid.arrange(grobs=p2, nrow = 2)
 
-p1 <- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat <- paste0(folder_acat,celltypes[i],"_real_acat.rdata")
-  load(file_acat)
-  
-  p <- as.data.frame(unlist(acat_celltype))
-  colnames(p) <- "p"
-  
-  plotdata <- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
-                       expected = -log10(ppoints(nrow(p))))
- 
-
-  p1[[i]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
-    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
-    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
-       y = expression(paste("Observed -log"[10],"(p-value)"))) +
-  
-    theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = "black"),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = "black"),
-        text= element_text(family="Times")) 
-  
-  
-}
-
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
 
 ```
 
@@ -90,60 +145,20 @@ all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
 folder_acat <- "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/"
 
 p1 <- list()
+p2 <- list()
 for (i in 1:length(celltypes)) {
   
   file_acat <- paste0(folder_acat,celltypes[i],"_real_acat_mhcexcluded.rdata")
   load(file_acat)
   
-  p <- as.data.frame(unlist(acat_celltype))
-  colnames(p) <- "p"
-  p1[[i]] <-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
-    theme_bw(base_line_size =0.3) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = "ACAT p-values from real data",
-         y = "Count") +
-    
-    theme(axis.title.x = element_text(size = 14),
-          axis.text.x = element_text(size = 12, color = "black"),
-          axis.title.y = element_text(size = 14),
-          axis.text.y = element_text(size = 12, color = "black"),
-          text= element_text(family="Times")) 
-  
+  p <- unlist(acat_celltype)
+  p1[[i]] <- histogram(pvalues = p,title = type[i],xlab = "ACAT p-values from real data")
+  p2[[i]] <- qqplot(pvalues = p,title = type[i])
   
 }
 
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
-
-p1 <- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat <- paste0(folder_acat,celltypes[i],"_real_acat_mhcexcluded.rdata")
-  load(file_acat)
-  
-  p <- as.data.frame(unlist(acat_celltype))
-  colnames(p) <- "p"
-  
-  plotdata <- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
-                       expected = -log10(ppoints(nrow(p))))
- 
-
-  p1[[i]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
-    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
-    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
-       y = expression(paste("Observed -log"[10],"(p-value)"))) +
-  
-    theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = "black"),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = "black"),
-        text= element_text(family="Times")) 
-  
-  
-}
-
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+grid.arrange(grobs=p1, nrow = 2)
+grid.arrange(grobs=p2, nrow = 2)
 
 ```
 
@@ -161,60 +176,20 @@ If we corrected the ACAT p-values within each pair, we have:
 folder_acat <- "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/"
 
 p1 <- list()
+p2 <- list()
 for (i in 1:length(celltypes)) {
   
   file_acat <- paste0(folder_acat,celltypes[i],"_corrected_acat.rdata")
   load(file_acat)
   
-  p <- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) <- "p"
-  p1[[i]] <-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
-    theme_bw(base_line_size =0.3) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = "Corrected ACAT p-values",
-         y = "Count") +
-    
-    theme(axis.title.x = element_text(size = 14),
-          axis.text.x = element_text(size = 12, color = "black"),
-          axis.title.y = element_text(size = 14),
-          axis.text.y = element_text(size = 12, color = "black"),
-          text= element_text(family="Times")) 
-  
+  p <- unlist(acat_p_corrected)
+  p1[[i]] <- histogram(pvalues = p,title = type[i],xlab = "Corrected ACAT p-values")
+  p2[[i]] <- qqplot(pvalues = p,title = type[i])
   
 }
 
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
-
-p1 <- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat <- paste0(folder_acat,celltypes[i],"_corrected_acat.rdata")
-  load(file_acat)
-  
-  p <- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) <- "p"
-  
-  plotdata <- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
-                       expected = -log10(ppoints(nrow(p))))
- 
-
-  p1[[i]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
-    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
-    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
-       y = expression(paste("Observed -log"[10],"(p-value)"))) +
-  
-    theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = "black"),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = "black"),
-        text= element_text(family="Times")) 
-  
-  
-}
-
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+grid.arrange(grobs=p1, nrow = 2)
+grid.arrange(grobs=p2, nrow = 2)
 
 ```
 
@@ -228,60 +203,20 @@ If we corrected the ACAT p-values within each cell type (pool all ACAT p-values 
 folder_acat <- "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/"
 
 p1 <- list()
+p2 <- list()
 for (i in 1:length(celltypes)) {
   
   file_acat <- paste0(folder_acat,celltypes[i],"_corrected_acat_pool_celltype.rdata")
   load(file_acat)
   
-  p <- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) <- "p"
-  p1[[i]] <-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
-    theme_bw(base_line_size =0.3) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = "Corrected ACAT p-values",
-         y = "Count") +
-    
-    theme(axis.title.x = element_text(size = 14),
-          axis.text.x = element_text(size = 12, color = "black"),
-          axis.title.y = element_text(size = 14),
-          axis.text.y = element_text(size = 12, color = "black"),
-          text= element_text(family="Times")) 
-  
+  p <- unlist(acat_p_corrected)
+  p1[[i]] <- histogram(pvalues = p,title = type[i],xlab = "Corrected ACAT p-values")
+  p2[[i]] <- qqplot(pvalues = p,title = type[i])
   
 }
 
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
-
-p1 <- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat <- paste0(folder_acat,celltypes[i],"_corrected_acat_pool_celltype.rdata")
-  load(file_acat)
-  
-  p <- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) <- "p"
-  
-  plotdata <- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
-                       expected = -log10(ppoints(nrow(p))))
- 
-
-  p1[[i]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
-    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
-    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
-       y = expression(paste("Observed -log"[10],"(p-value)"))) +
-  
-    theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = "black"),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = "black"),
-        text= element_text(family="Times")) 
-  
-  
-}
-
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+grid.arrange(grobs=p1, nrow = 2)
+grid.arrange(grobs=p2, nrow = 2)
 
 ```
 
@@ -300,60 +235,20 @@ If we corrected the ACAT p-values within each pair, we have:
 folder_acat <- "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/"
 
 p1 <- list()
+p2 <- list()
 for (i in 1:length(celltypes)) {
   
   file_acat <- paste0(folder_acat,celltypes[i],"_corrected_acat_mhcexcluded.rdata")
   load(file_acat)
   
-  p <- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) <- "p"
-  p1[[i]] <-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
-    theme_bw(base_line_size =0.3) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = "Corrected ACAT p-values",
-         y = "Count") +
-    
-    theme(axis.title.x = element_text(size = 14),
-          axis.text.x = element_text(size = 12, color = "black"),
-          axis.title.y = element_text(size = 14),
-          axis.text.y = element_text(size = 12, color = "black"),
-          text= element_text(family="Times")) 
-  
+  p <- unlist(acat_p_corrected)
+  p1[[i]] <- histogram(pvalues = p,title = type[i],xlab = "Corrected ACAT p-values")
+  p2[[i]] <- qqplot(pvalues = p,title = type[i])
   
 }
 
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
-
-p1 <- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat <- paste0(folder_acat,celltypes[i],"_corrected_acat_mhcexcluded.rdata")
-  load(file_acat)
-  
-  p <- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) <- "p"
-  
-  plotdata <- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
-                       expected = -log10(ppoints(nrow(p))))
- 
-
-  p1[[i]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
-    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
-    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
-       y = expression(paste("Observed -log"[10],"(p-value)"))) +
-  
-    theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = "black"),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = "black"),
-        text= element_text(family="Times")) 
-  
-  
-}
-
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+grid.arrange(grobs=p1, nrow = 2)
+grid.arrange(grobs=p2, nrow = 2)
 
 ```
 
@@ -367,62 +262,91 @@ If we corrected the ACAT p-values within each cell type (pool all ACAT p-values 
 folder_acat <- "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/"
 
 p1 <- list()
+p2 <- list()
 for (i in 1:length(celltypes)) {
   
   file_acat <- paste0(folder_acat,celltypes[i],"_corrected_acat_pool_celltype_mhcexcluded.rdata")
   load(file_acat)
   
-  p <- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) <- "p"
-  p1[[i]] <-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
-    theme_bw(base_line_size =0.3) +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = "Corrected ACAT p-values",
-         y = "Count") +
-    
-    theme(axis.title.x = element_text(size = 14),
-          axis.text.x = element_text(size = 12, color = "black"),
-          axis.title.y = element_text(size = 14),
-          axis.text.y = element_text(size = 12, color = "black"),
-          text= element_text(family="Times")) 
-  
+  p <- unlist(acat_p_corrected)
+  p1[[i]] <- histogram(pvalues = p,title = type[i],xlab = "Corrected ACAT p-values")
+  p2[[i]] <- qqplot(pvalues = p,title = type[i])
   
 }
 
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
-
-p1 <- list()
-for (i in 1:length(celltypes)) {
-  
-  file_acat <- paste0(folder_acat,celltypes[i],"_corrected_acat_pool_celltype_mhcexcluded.rdata")
-  load(file_acat)
-  
-  p <- as.data.frame(unlist(acat_p_corrected))
-  colnames(p) <- "p"
-  
-  plotdata <- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
-                       expected = -log10(ppoints(nrow(p))))
- 
-
-  p1[[i]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
-    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
-    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
-    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
-    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
-       y = expression(paste("Observed -log"[10],"(p-value)"))) +
-  
-    theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = "black"),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = "black"),
-        text= element_text(family="Times")) 
-  
-  
-}
-
-all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+grid.arrange(grobs=p1, nrow = 2)
+grid.arrange(grobs=p2, nrow = 2)
 
 ```
+
+
+
+# Pool all real/random ACAT values in one plot
+
+## MHC included
+
+```{r}
+
+folder_acat <- "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/"
+
+p_real <- c()
+p_random <- c()
+for (i in 1:length(celltypes)) {
+  
+  file_acat <- paste0(folder_acat,celltypes[i],"_real_acat.rdata")
+  load(file_acat)
+  p <- unlist(acat_celltype)
+  p_real <- c(p_real,p)
+  
+  file_acat <- paste0(folder_acat,celltypes[i],"_random_acat.rdata")
+  load(file_acat)
+  p <- unlist(acat_all)
+  p_random <- c(p_random,p)
+
+}
+
+set.seed(1)
+p_random_sample <- sample(p_random,size = length(p_random)/100,replace = F)
+
+p_list <- list(p_real,p_random_sample)
+
+qqplot_multi(pvalues_list = p_list,legend_names = c("p_real","p_random"))
+
+```
+
+
+
+## MHC excluded
+
+```{r}
+
+folder_acat <- "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/"
+
+p_real <- c()
+p_random <- c()
+for (i in 1:length(celltypes)) {
+  
+  file_acat <- paste0(folder_acat,celltypes[i],"_real_acat_mhcexcluded.rdata")
+  load(file_acat)
+  p <- unlist(acat_celltype)
+  p_real <- c(p_real,p)
+  
+  file_acat <- paste0(folder_acat,celltypes[i],"_random_acat_mhcexcluded.rdata")
+  load(file_acat)
+  p <- unlist(acat_all)
+  p_random <- c(p_random,p)
+
+}
+
+set.seed(1)
+p_random_sample <- sample(p_random,size = length(p_random)/100,replace = F)
+
+p_list <- list(p_real,p_random_sample)
+
+qqplot_multi(pvalues_list = p_list,legend_names = c("p_real","p_random"))
+
+```
+
 
 
 # Histogram for Storey's pi1 computed from ACAT p-values

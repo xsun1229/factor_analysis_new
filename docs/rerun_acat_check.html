@@ -11,9 +11,9 @@
 
 <meta name="author" content="XSun" />
 
-<meta name="date" content="2023-12-03" />
+<meta name="date" content="2024-02-16" />
 
-<title>Rerun the analyses</title>
+<title>ACAT checking</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -35,6 +35,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -233,6 +234,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -357,11 +361,19 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Rerun the analyses</h1>
+
+<h1 class="title toc-ignore">ACAT checking</h1>
 <h4 class="author">XSun</h4>
-<h4 class="date">2023-12-03</h4>
+<h4 class="date">2024-02-16</h4>
 
 </div>
 
@@ -390,11 +402,11 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-02-19
+<strong>Last updated:</strong> 2024-02-16
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span> 1
 </p>
@@ -428,12 +440,96 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221201)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221201code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221201)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
@@ -473,11 +569,7 @@ were generated:
 </p>
 <pre><code>
 Untracked files:
-    Untracked:  analysis/rerun_acat_diag.Rmd
-
-Unstaged changes:
-    Modified:   analysis/re_run_1203.Rmd
-    Modified:   analysis/rerun_acat.Rmd
+    Untracked:  analysis/rerun_acat_check.Rmd
 
 </code></pre>
 <p>
@@ -492,142 +584,183 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/re_run_1203.Rmd</code>) and HTML
-(<code>docs/re_run_1203.html</code>) files. If you’ve configured a
-remote Git repository (see <code>?wflow_git_remote</code>), click on the
-hyperlinks in the table below to view the files as they were in that
-past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/334add9a5ca4f81f2ad2d4b697e9f2d4421787ca/analysis/re_run_1203.Rmd" target="_blank">334add9</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2023-12-07
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/334add9a5ca4f81f2ad2d4b697e9f2d4421787ca/docs/re_run_1203.html" target="_blank">334add9</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2023-12-07
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/4beb577ddf96e3d00635c3512bf7fd7d86e9ad9f/analysis/re_run_1203.Rmd" target="_blank">4beb577</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2023-12-06
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/4beb577ddf96e3d00635c3512bf7fd7d86e9ad9f/docs/re_run_1203.html" target="_blank">4beb577</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2023-12-06
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/22c132429889e4f513480c0af6fbfaf2f038aac2/analysis/re_run_1203.Rmd" target="_blank">22c1324</a>
-</td>
-<td>
-Xiaotong Sun
-</td>
-<td>
-2023-12-06
-</td>
-<td>
-update
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/rerun_num_snp.html">Number
-of candidate IVs</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/rerun_acat.html">ACAT</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/rerun_acat_diag.html">Diagnosis
-for ACAT</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html">ECT</a></p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/diagnosis_missed_pair.html">Diagnosis
-for the missed top pair</a></p>
+<div id="funtions-used" class="section level2">
+<h2>Funtions used</h2>
+<pre class="r"><code>library(ggplot2)
+library(gridExtra)
+qqplot &lt;- function(pvalues,title=NULL) {
+  
+  pval &lt;- pvalues[complete.cases(pvalues)]
+  title &lt;- title
+  plotdata &lt;- data.frame(observed = -log10(sort(as.numeric(pval))),
+                         expected = -log10(ppoints(length(pval))))
+  
+  qq &lt;- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
+    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = &quot;steelblue&quot;) +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = &quot;red&quot;) +
+    ggtitle(title) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = expression(paste(&quot;Expected -log&quot;[10],&quot;(p-value)&quot;)),
+         y = expression(paste(&quot;Observed -log&quot;[10],&quot;(p-value)&quot;))) +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = &quot;black&quot;),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = &quot;black&quot;) )
+  
+  return(qq)
+  
+}</code></pre>
+</div>
+<div id="qq-plots-for-the-corrected-acat-p-values"
+class="section level1">
+<h1>qq plots for the corrected acat p-values</h1>
+<div id="b-cell" class="section level2">
+<h2>B cell</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/B_cell_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
+
+p &lt;- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
+<p><img src="figure/rerun_acat_check.Rmd/unnamed-chunk-2-1.png" width="2400" style="display: block; margin: auto;" /></p>
+</div>
+<div id="cd14_positive_monocyte" class="section level2">
+<h2>CD14_positive_monocyte</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD14_positive_monocyte_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
+
+p &lt;- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
+<p><img src="figure/rerun_acat_check.Rmd/unnamed-chunk-3-1.png" width="2400" style="display: block; margin: auto;" /></p>
+</div>
+<div id="cd15_positive_leukocyte" class="section level2">
+<h2>CD15_positive_leukocyte</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD15_positive_leukocyte_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
+
+p &lt;- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
+<p><img src="figure/rerun_acat_check.Rmd/unnamed-chunk-4-1.png" width="2400" style="display: block; margin: auto;" /></p>
+</div>
+<div id="platelet" class="section level2">
+<h2>platelet</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/platelet_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
+
+p &lt;- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
+<p><img src="figure/rerun_acat_check.Rmd/unnamed-chunk-5-1.png" width="2400" style="display: block; margin: auto;" /></p>
+</div>
+<div id="t-cell-cd4" class="section level2">
+<h2>T cell (Cd4+)</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/T_cell_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
+
+p &lt;- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
+<p><img src="figure/rerun_acat_check.Rmd/unnamed-chunk-6-1.png" width="2400" style="display: block; margin: auto;" /></p>
+</div>
+<div id="t-cell-cd8" class="section level2">
+<h2>T cell (CD8+)</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/thymocyte_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
+
+p &lt;- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
+<p><img src="figure/rerun_acat_check.Rmd/unnamed-chunk-7-1.png" width="2400" style="display: block; margin: auto;" /></p>
+</div>
+<div id="cd14_positive_monocyte-1" class="section level2">
+<h2>CD14_positive_monocyte</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD14_positive_monocyte_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
+
+p &lt;- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
+<p><img src="figure/rerun_acat_check.Rmd/unnamed-chunk-8-1.png" width="2400" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+[1] C
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] gridExtra_2.3 ggplot2_3.3.5
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8.3     highr_0.9        pillar_1.9.0     compiler_4.2.0  
+ [5] bslib_0.3.1      later_1.3.0      jquerylib_0.1.4  git2r_0.30.1    
+ [9] workflowr_1.7.0  tools_4.2.0      digest_0.6.29    jsonlite_1.8.0  
+[13] evaluate_0.15    lifecycle_1.0.4  tibble_3.2.1     gtable_0.3.0    
+[17] pkgconfig_2.0.3  rlang_1.1.2      cli_3.6.1        rstudioapi_0.13 
+[21] yaml_2.3.5       xfun_0.41        fastmap_1.1.0    withr_2.5.0     
+[25] dplyr_1.1.4      stringr_1.5.1    knitr_1.39       generics_0.1.2  
+[29] fs_1.5.2         vctrs_0.6.5      sass_0.4.1       tidyselect_1.2.0
+[33] rprojroot_2.0.3  grid_4.2.0       glue_1.6.2       R6_2.5.1        
+[37] fansi_1.0.3      rmarkdown_2.25   farver_2.1.0     magrittr_2.0.3  
+[41] scales_1.2.0     promises_1.2.0.1 htmltools_0.5.2  colorspace_2.0-3
+[45] httpuv_1.6.5     labeling_0.4.2   utf8_1.2.2       stringi_1.7.6   
+[49] munsell_0.5.0   </code></pre>
+</div>
+</div>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -678,6 +811,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
