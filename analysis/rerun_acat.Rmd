@@ -8,6 +8,7 @@ output:
     toc: true
 ---
 
+
 Funtions used
 
 ```{r }
@@ -347,6 +348,18 @@ qqplot_multi(pvalues_list = p_list,legend_names = c("p_real","p_random"))
 
 ```
 
+
+
+
+## corrected 
+
+```{r}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/corrected_acat_poolall.rdata")
+histogram(pvalues = acat_p_correct,xlab = "Corrected ACAT p-values")
+qqplot(acat_p_correct)
+
+```
 
 
 # Histogram for Storey's pi1 computed from ACAT p-values
