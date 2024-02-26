@@ -1,0 +1,51 @@
+---
+title: "Locus zoom plots for all pairs with ECT FDR < 0.1"
+author: "XSun"
+date: "2024-02-23"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+
+```{r}
+
+library(locuszoomr)
+
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+types <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata")
+df_all <- df_all[df_all$fdr_ECT < 0.1,]
+
+folder_data <- "/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/data/data_lz/"
+files_all<- list.files(path = folder_data, full.names = TRUE)
+#for (i in 1:nrow(df_all)){
+for (i in 1:2){ 
+  pair <- df_all[i,]
+  
+  type <- pair$celltypes
+  celltype <- celltypes[which(types == type)]
+  trait <- pair$trait
+  factor <- pair$factor
+  pwy <- pair$pwy_name
+  
+  pattern <- paste0(celltype,"-",factor,"-",trait)
+  
+  file_snps <- files_all[grep(pattern = pattern,x = files_all)]
+
+  print( paste0(celltype,", ",pwy,", ",trait))
+  for (j in 1:length(file_snps)) {
+    
+    load(file_snps[j])
+    
+    locus_plot(loc,labels = c("index"),legend_pos = 'topright',maxrows = 3, filter_gene_biotype = 'protein_coding',
+             gene_col = 'grey', exon_col = 'orange', exon_border = 'darkgrey')
+  }
+  
+  
+}
+
+```
+

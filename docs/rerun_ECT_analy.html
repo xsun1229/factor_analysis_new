@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="XSun" />
+
+<meta name="date" content="2024-02-22" />
+
+<title>ECT result analyzing</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">factor_analysis_new</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/xsun1229/factor_analysis_new">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">ECT result analyzing</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2024-02-22</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2024-02-26
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221201)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221201code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221201)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree402e4ba928eab4cd9fa38de32abeff5f8851999ftargetblank402e4baa">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/402e4ba928eab4cd9fa38de32abeff5f8851999f" target="_blank">402e4ba</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree402e4ba928eab4cd9fa38de32abeff5f8851999ftargetblank402e4baa"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/402e4ba928eab4cd9fa38de32abeff5f8851999f" target="_blank">402e4ba</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Untracked files:
+    Untracked:  analysis/rerun_ECT_analy.Rmd
+    Untracked:  analysis/rerun_lz.Rmd
+
+Unstaged changes:
+    Modified:   analysis/re_run_1203.Rmd
+    Modified:   analysis/rerun_ECT.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="functions-used" class="section level2">
+<h2>Functions used</h2>
+<pre class="r"><code>library(tibble)
+library(dplyr)
+library(ggplot2)
+
+traits &lt;- c(&quot;eo&quot;, &quot;gran&quot;, &quot;hct&quot;, &quot;hgb&quot;, &quot;lymph&quot;, &quot;mch&quot;, &quot;mchc&quot;, &quot;mcv&quot;, 
+            &quot;mpv&quot;, &quot;mono&quot;, &quot;myeloid_wbc&quot;, &quot;neut&quot;, &quot;plt&quot;, &quot;pdw&quot;, &quot;pct&quot;, 
+            &quot;rbc&quot;, &quot;rdw&quot;, &quot;ret&quot;, &quot;wbc&quot;, &quot;baso&quot;, &quot;T1D&quot;, &quot;ukb.allasthma&quot;, 
+            &quot;EUR.IBD&quot;, &quot;EUR.CD&quot;, &quot;EUR.UC&quot;, &quot;allergy&quot;)
+celltypes &lt;- c(&quot;B_cell&quot;,&quot;CD14_positive_monocyte&quot;,&quot;CD15_positive_leukocyte&quot;,&quot;platelet&quot;,&quot;T_cell&quot;,&quot;thymocyte&quot;)
+type &lt;- c(&quot;B cell (CD19+)&quot;,&quot;Monocyte (CD14+)&quot;,&quot;Leukocyte (CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell (CD4+)&quot;,&quot;T cell (CD8+)&quot;)
+
+
+plot_selected_pwys &lt;- function(trait, summary_df) {
+  
+  # Subset summary_df for the given trait
+  selected &lt;- summary_df[summary_df$trait == trait, ]
+  
+  # Handle duplicated pathway names by appending a space
+  index &lt;- which(duplicated(selected$pwy_name))
+  selected$pwy_name[index] &lt;- paste0(selected$pwy_name[index], &quot; &quot;)
+  
+  # Transform p-values and order by -log10(pval)
+  selected$lgectpval &lt;- -log10(selected$pval_ECT)
+  selected &lt;- selected[order(selected$lgectpval, decreasing = TRUE), ]
+  
+  # Append note to the last num_snp_pass_cutoff value
+  selected$num_snp_pass_cutoff[nrow(selected)] &lt;- paste0(selected$num_snp_pass_cutoff[nrow(selected)], &quot; (# of supporting variants)&quot;)
+  
+  # Set pathway names as a factor with levels in the desired order
+  selected$pwy_name &lt;- factor(selected$pwy_name, levels = rev(unique(selected$pwy_name)))
+  
+  # Create the plot
+  p &lt;- ggplot(selected) +
+    theme_bw(base_line_size = 0.3) +
+    geom_col(aes(x = lgectpval, y = pwy_name, fill = celltypes), width = 0.6) +
+    geom_text(aes(0, y = pwy_name, label = pwy_name), hjust = 0, nudge_x = 0.1, colour = &quot;white&quot;, size = 3, family = &quot;Times&quot;) + 
+    geom_text(aes(lgectpval, y = pwy_name, label = num_snp_pass_cutoff), hjust = 0, nudge_x = 0.01, colour = &quot;black&quot;, size = 3, family = &quot;Times&quot;) +
+    labs(x = expression(paste(&quot;-log&quot;[10], &quot;(ECT p-value)&quot;)), y = &quot;Pathways&quot;) +
+    theme(axis.text.y = element_blank(), text = element_text(family = &quot;Times&quot;)) +
+    xlim(0, ceiling(max(selected$lgectpval))) +
+    ggtitle(trait)
+  
+  return(p)
+}
+
+
+plot_selected_traits &lt;- function(pwy, summary_df) {
+  
+  # Subset summary_df for the given trait
+  selected &lt;- summary_df[summary_df$pwy_name == pwy, ]
+  
+  # Handle duplicated trait names by appending a space
+  index &lt;- which(duplicated(selected$trait))
+  selected$trait[index] &lt;- paste0(selected$trait[index], &quot; &quot;)
+  
+  # Transform p-values and order by -log10(pval)
+  selected$lgectpval &lt;- -log10(selected$pval_ECT)
+  selected &lt;- selected[order(selected$lgectpval, decreasing = TRUE), ]
+  
+  # Append note to the last num_snp_pass_cutoff value
+  selected$num_snp_pass_cutoff[nrow(selected)] &lt;- paste0(selected$num_snp_pass_cutoff[nrow(selected)], &quot; (# of supporting variants)&quot;)
+  
+  # Set pathway names as a factor with levels in the desired order
+  selected$trait &lt;- factor(selected$trait, levels = rev(unique(selected$trait)))
+  
+  # Create the plot
+  p &lt;- ggplot(selected) +
+    theme_bw(base_line_size = 0.3) +
+    geom_col(aes(x = lgectpval, y = trait, fill = celltypes), width = 0.6) +
+    geom_text(aes(0, y = trait, label = trait), hjust = 0, nudge_x = 0.1, colour = &quot;white&quot;, size = 3, family = &quot;Times&quot;) + 
+    geom_text(aes(lgectpval, y = trait, label = num_snp_pass_cutoff), hjust = 0, nudge_x = 0.01, colour = &quot;black&quot;, size = 3, family = &quot;Times&quot;) +
+    labs(x = expression(paste(&quot;-log&quot;[10], &quot;(ECT p-value)&quot;)), y = &quot;Traits&quot;) +
+    theme(axis.text.y = element_blank(), text = element_text(family = &quot;Times&quot;)) +
+    xlim(0, ceiling(max(selected$lgectpval))) +
+    ggtitle(pwy)
+  
+  return(p)
+}</code></pre>
+</div>
+<div id="pathways-identified-across-traits-at-various-cutoffs"
+class="section level1">
+<h1>Pathways identified across Traits at various cutoffs</h1>
+<div id="ect-fdr-0.2" class="section level2">
+<h2>ECT FDR &lt; 0.2</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata&quot;)
+
+num_pwy_pertrait &lt;- lapply(traits,function(trait) {
+       sum(!duplicated(df_all$factor[df_all$trait == trait]))
+  })
+
+num_pwy_pertrait &lt;- unlist(num_pwy_pertrait)
+names(num_pwy_pertrait) &lt;- traits
+
+data_long &lt;- enframe(num_pwy_pertrait, name = &quot;trait&quot;, value = &quot;count&quot;)
+
+# Plot
+ggplot(data_long, aes(x = trait, y = count)) +
+  geom_bar(stat = &quot;identity&quot;, fill = &quot;skyblue&quot;) +
+  theme_minimal() +
+  labs(title = &quot;Number of Pathways per Trait at FDR &lt; 0.2&quot;,
+       x = &quot;Trait&quot;,
+       y = &quot;Number of Pathways&quot;) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) </code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_selected_pwys(trait = &quot;baso&quot;,summary_df = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_selected_pwys(trait = &quot;ret&quot;,summary_df = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_selected_pwys(trait = &quot;lymph&quot;,summary_df = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-4.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ect-fdr-0.1" class="section level2">
+<h2>ECT FDR &lt; 0.1</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata&quot;)
+
+df_all &lt;- df_all[df_all$fdr_ECT &lt; 0.1,]
+
+num_pwy_pertrait &lt;- lapply(traits,function(trait) {
+       sum(!duplicated(df_all$factor[df_all$trait == trait]))
+  })
+
+num_pwy_pertrait &lt;- unlist(num_pwy_pertrait)
+names(num_pwy_pertrait) &lt;- traits
+
+data_long &lt;- enframe(num_pwy_pertrait, name = &quot;trait&quot;, value = &quot;count&quot;)
+
+# Plot
+ggplot(data_long, aes(x = trait, y = count)) +
+  geom_bar(stat = &quot;identity&quot;, fill = &quot;skyblue&quot;) +
+  theme_minimal() +
+  labs(title = &quot;Number of Pathways per Trait at FDR &lt; 0.1&quot;,
+       x = &quot;Trait&quot;,
+       y = &quot;Number of Pathways&quot;) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) </code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_selected_pwys(trait = &quot;ret&quot;,summary_df = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_selected_pwys(trait = &quot;pct&quot;,summary_df = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_selected_pwys(trait = &quot;lymph&quot;,summary_df = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="pathways-involved-in-multiplt-traits" class="section level1">
+<h1>Pathways involved in multiplt traits</h1>
+<div id="ect-fdr-0.2-1" class="section level2">
+<h2>ECT FDR &lt; 0.2</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata&quot;)
+
+pwys &lt;- df_all$pwy_code[!duplicated(df_all$pwy_code)]
+
+num_trait_perpwy &lt;- lapply(pwys,function(pwy) {
+       sum(!duplicated(df_all$trait[df_all$pwy_code == pwy]))
+  })
+
+num_trait_perpwy &lt;- unlist(num_trait_perpwy)
+names(num_trait_perpwy) &lt;- df_all$pwy_name[match(pwys, df_all$pwy_code)]
+
+num_trait_perpwy &lt;- num_trait_perpwy[num_trait_perpwy&gt;1]
+
+data_long &lt;- enframe(num_trait_perpwy, name = &quot;pwy&quot;, value = &quot;count&quot;)
+
+# Plot
+ggplot(data_long, aes(x = pwy, y = count)) +
+  geom_bar(stat = &quot;identity&quot;, fill = &quot;skyblue&quot;) +
+  theme_minimal() +
+  labs(title = &quot;Number of Traits per pwy at FDR &lt; 0.1&quot;,
+       x = &quot;pwy&quot;,
+       y = &quot;Number of Traits&quot;) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) </code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_selected_traits(&quot;Cellular senescence&quot;,df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_selected_traits(&quot;cAMP signaling pathway&quot;,df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ect-fdr-0.1-1" class="section level2">
+<h2>ECT FDR &lt; 0.1</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata&quot;)
+
+df_all &lt;- df_all[df_all$fdr_ECT &lt; 0.1,]
+
+pwys &lt;- df_all$pwy_code[!duplicated(df_all$pwy_code)]
+
+num_trait_perpwy &lt;- lapply(pwys,function(pwy) {
+       sum(!duplicated(df_all$trait[df_all$pwy_code == pwy]))
+  })
+
+num_trait_perpwy &lt;- unlist(num_trait_perpwy)
+names(num_trait_perpwy) &lt;- df_all$pwy_name[match(pwys, df_all$pwy_code)]
+
+num_trait_perpwy &lt;- num_trait_perpwy[num_trait_perpwy&gt;1]
+
+data_long &lt;- enframe(num_trait_perpwy, name = &quot;pwy&quot;, value = &quot;count&quot;)
+
+# Plot
+ggplot(data_long, aes(x = pwy, y = count)) +
+  geom_bar(stat = &quot;identity&quot;, fill = &quot;skyblue&quot;) +
+  theme_minimal() +
+  labs(title = &quot;Number of Traits per pwy at FDR &lt; 0.1&quot;,
+       x = &quot;pwy&quot;,
+       y = &quot;Number of Traits&quot;) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) </code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plot_selected_traits(&quot;Small cell lung cancer&quot;,df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="genes-close-to-supporting-variants-for-pairs-with-ect-fdr-0.1"
+class="section level1">
+<h1>Genes close to supporting variants – for pairs with ECT FDR &lt;
+0.1</h1>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/nearby_gene_added.rdata&quot;)
+
+df &lt;- df_all[,c(&quot;celltypes&quot;,&quot;factor&quot;,&quot;trait&quot;,&quot;pwy_name&quot;,&quot;fdr_ECT&quot;,&quot;num_snp_pass_cutoff&quot;,&quot;gene_near_supp_snps&quot;)]
+colnames(df) &lt;- c(&quot;celltypes&quot;,&quot;factor&quot;,&quot;trait&quot;,&quot;pwy_name&quot;,&quot;fdr_ECT&quot;,&quot;#of supporting SNPs&quot;,&quot;gene near supporting SNPs&quot;)
+DT::datatable(df)</code></pre>
+<div id="htmlwidget-0c923cdc0df2ab45b6f5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0c923cdc0df2ab45b6f5">{"x":{"filter":"none","vertical":false,"data":[["1023","1253","1499","1508","1592","1682","2396","2657","2781","3281","4354","4476","4500","4568","4574","5355","5760","6886","341","3061","3103","3192","3267"],["B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","Monocyte (CD14+)","Platelet","Platelet","Platelet","Platelet","Platelet"],["pwy295_pc1","pwy18_pc3","pwy310_pc1","pwy312_pc1","pwy125_pc4","pwy197_pc4","pwy274_pc4","pwy176_pc4","pwy279_pc4","pwy234_pc3","pwy112_pc5","pwy216_pc3","pwy237_pc5","pwy304_pc4","pwy312_pc5","pwy161_pc4","pwy235_pc5","pwy97_pc5","pwy151_pc5","pwy120_pc4","pwy142_pc3","pwy192_pc5","pwy265_pc2"],["hgb","lymph","lymph","lymph","mch","mch","mcv","mpv","mpv","myeloid_wbc","pct","pct","pct","pct","pct","ret","wbc","ret","hct","ret","ret","ret","ret"],["Transcriptional misregulation in cancer","Purine metabolism","Chronic myeloid leukemia","Small cell lung cancer","Sphingolipid signaling pathway","Long-term potentiation","Yersinia infection","Toll-like receptor signaling pathway","Toxoplasmosis","Non-alcoholic fatty liver disease","ErbB signaling pathway","Progesterone-mediated oocyte maturation","Growth hormone synthesis, secretion and action","Glioma","Small cell lung cancer","Apelin signaling pathway","AGE-RAGE signaling pathway in diabetic complications","RNA degradation","Cellular senescence","Chemokine signaling pathway","mTOR signaling pathway","Leukocyte transendothelial migration","Alcoholism"],[0.0974402352941176,0.0666805,0.077209,0.0877375,0.093879125,0.0645748,0.0877375,0.0645748,0.093879125,0.0645748,0.0645748,0.093879125,0.085105375,0.0645748,0.0934066923076923,0.0877375,0.0877375,0.03798,0.0945584,0.016736,0.0945584,0.0945584,0.0945584],[5,10,9,4,4,9,6,7,9,13,7,3,6,4,7,11,7,3,6,7,17,5,15],[" HNF4A,C20orf62  HSCB,CCDC117,XBP1  KRTCAP2,RP11-201K10.3,TRIM46,MUC1,THBS3,MTX1,GBA,FAM189B,SCAMP3"," SRP9,EPHX1 RAPGEF3,SLC48A1,HDAC7,AC004466.1,VDR GIMAP4,GIMAP6 RBMS1 SPIC CIITA,DEXI,CLEC16A ADCY5 IRGC,SMG9,KCNN4,LYPD5  IL18RAP,SLC9A4"," PRTFDC1 CIITA,DEXI,CLEC16A CLEC16A,RMI2,SOCS1 DAGLB,KDELR2,FLJ20306,GRID2IP C5orf56,IRF1 KIF21B,CACNA1S LDLRAD3  "," GIMAP4,GIMAP6 CLEC16A,RMI2,SOCS1 DOCK5,GNRH1,KCTD9,CDCA2 "," B4GALT2,CCDC24,SLC6A9 CDH3,CDH1 FBXW4,FGF8 TRIM33"," CES4A,CBFB OR10Z1,SPTA1 B4GALT2,CCDC24,SLC6A9 CDH3,CDH1 CABP1,MLEC,UNC119B,ACADS,SPPL3 CGGBP1,RP11-159G9.5 ABCB10,TAF5L,URB2 FBXW4,FGF8 SAMD9"," CMC2,CENPN,ATMIN,C16orf46,GCSH  FAM57B,ALDOA,PPP4C,TBX6,YPEL3,GDPD3,MAPK3 PROZ,PCID2,CUL4A FBXO24,PCOLCE,MOSPD3,TFR2,ACTL6B,GNB2,GIGYF1 SLC7A10,CEBPA"," IL17F,MCM3 P4HA2,PDLIM4,SLC22A4 LDLRAP1 PPIA,H2AFV,PURB KANSL1 MEIS1 PPL,SEC14L5"," IRS1 P4HA2,PDLIM4,SLC22A4 LDLRAP1 OPRD1,EPB41 SIDT1 PICALM HTT,MSANTD1,RGS12 MEIS1 PPL,SEC14L5"," P4HA2,SLC22A4,SLC22A5 NLRP3,OR2B11 PRTFDC1 MS4A6A,MS4A4E ATM,C11orf65 UBASH3B CH25H,LIPA SLC6A18,TERT,CLPTM1L RBPMS RREB1 SNAPC4,SDCCAG3,PMPCA,INPP5E,SEC16A MAST2 HLA-C"," ERG RBPMS PLCB1 GCSAML,OR2C3,OR2G2,OR2G3  ZFP90 TADA2A,DUSP14,SYNRG"," DNAH2,KDM6B,TMEM88,LSMD1,CYB5D1 PDGFC ARVCF,TANGO2"," RBPMS  GCSAML,OR2C3,OR2G2,OR2G3 CBX5,HNRNPA1,NFE2,COPZ1 TADA2A,DUSP14,SYNRG ARVCF,TANGO2","  GCSAML,OR2C3,OR2G2,OR2G3  TADA2A,DUSP14,SYNRG"," FAM160A1 GCSAML,OR2C3,OR2G2,OR2G3  KALRN,UMPS,ITGB5  PARP11 SLFN12L,SLFN14,PEX12,AP2B1"," SLC30A10 PNMA1,ELMSAN1 SEZ6L2,ASPHD1,KCTD13,TMEM219 DRG1,EIF4ENIF1,SFI1  TCEB3,PITHD1,LYPLA2,GALE,HMGCL,FUCA1 ELANE,CFD,MED16,R3HDM4,KISS1R,ARID3A ARHGAP42  BRD3 CDH1,TANGO6"," RP11-12J10.3,FAM53B BACH2 DIP2B EML6 AC021860.1,KLF3  KIT"," ARPC2,GPBAR1,AAMP,PNKD,TMBIM1 ACSBG1,DNAJA4,WDR61 CAPN14,EHD3"," KIF1B,PGD,APITD1,APITD1-CORT ABCA9 SLC39A8 MECOM FAM208A,ARHGEF3 GFOD2,RANBP10,TSNAXIP1"," BPGM,CALD1  YIPF4,BIRC6 DRG1,EIF4ENIF1,SFI1 ELMSAN1,PTGR2,RP5-1021I20.4 PMS2,AIMP2,EIF2AK1,ANKRD61 USP10"," KIAA0922 BPGM,CALD1  BAZ1A PNMA1,ELMSAN1 HLA-DRB1,HLA-DQA1,HLA-DQB1 YIPF4,BIRC6 ARHGEF3 ELMSAN1,PTGR2,RP5-1021I20.4 ACSBG1,DNAJA4,WDR61 PMS2,AIMP2,EIF2AK1,ANKRD61 KANSL1 HSD17B14,PLEKHA4,PPP1R15A,TULP2,NUCB1 AFMID,BIRC5,AC087645.1,TMEM235 LEPREL4,FKBP10,NT5C3B,KLHL10,KLHL11,ACLY CPEB4 VEGFA"," PNMA1,ELMSAN1 ARHGEF3 ELMSAN1,PTGR2,RP5-1021I20.4 PMS2,AIMP2,EIF2AK1,ANKRD61 FLNB"," KIAA0922 BPGM,CALD1  PNMA1,ELMSAN1 MARK3,CKB,TRMT61A,BAG5,KLC1,APOPT1,RP11-73M18.2 ARHGEF3 ARL15 ELMSAN1,PTGR2,RP5-1021I20.4 TNRC6C,TMC6,TMC8,C17orf99,SYNGR2,TK1 PIEZO1,CDT1,APRT,GALNS,AC092384.1 PMS2,AIMP2,EIF2AK1,ANKRD61 RREB1 ANKMY2,BZW2 BRD3 VEGFA"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltypes<\/th>\n      <th>factor<\/th>\n      <th>trait<\/th>\n      <th>pwy_name<\/th>\n      <th>fdr_ECT<\/th>\n      <th>#of supporting SNPs<\/th>\n      <th>gene near supporting SNPs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><a
+href="https://uchicago.box.com/s/8f349903pupvsubmjvbs6daawrjjla1x">Locus
+Zoom plots</a></p>
+</div>
+<div id="if-the-supporting-snps-are-trans-eqtls-reported-in-eqtlgen"
+class="section level1">
+<h1>If the supporting SNPs are trans-eqtls reported in eQTLGen</h1>
+<p>Using top 10 genes with largest abs(gene loadings) and the supporting
+SNPs, we have 7960 gene ~ SNP pairs. 17 of them were reported by
+eQTLGen</p>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/trans_pairs.rdata&quot;)
+DT::datatable(pairs_all[pairs_all$trans,])</code></pre>
+<div id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"data":[["1304","3642","5432","5925","6592","6597","6599","6728","6974","6977","6979","7492","7493","7497","7498","7743","7887"],["NUP210","LEF1","PIK3R1","HLA-F","SLC8A3","PHKB","P2RX1","PDGFA","GNAI2","PPP1CA","ADCY3","ROCK2","ACTN1","PTK2B","MYL12A","GNG11","SRC"],["rs1354034","rs12453507","rs11065979","rs11065979","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034"],["B_cell","B_cell","CD14_positive_monocyte","CD14_positive_monocyte","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet"],["pwy95_pc3","pwy168_pc5","pwy217_pc2","pwy293_pc1","pwy115_pc1","pwy115_pc1","pwy115_pc1","pwy111_pc4","pwy117_pc3","pwy117_pc3","pwy117_pc3","pwy192_pc5","pwy192_pc5","pwy192_pc5","pwy192_pc5","pwy265_pc2","pwy291_pc2"],["lymph","T1D","baso","baso","plt","plt","plt","ret","ret","ret","ret","ret","ret","ret","ret","ret","ret"],["RNA transport","Adherens junction","Estrogen signaling pathway","Human immunodeficiency virus 1 infection","Calcium signaling pathway","Calcium signaling pathway","Calcium signaling pathway","MAPK signaling pathway","cAMP signaling pathway","cAMP signaling pathway","cAMP signaling pathway","Leukocyte transendothelial migration","Leukocyte transendothelial migration","Leukocyte transendothelial migration","Leukocyte transendothelial migration","Alcoholism","Herpes simplex virus 1 infection"],[0.196999933333333,0.175268558823529,0.193174137931034,0.193174137931034,0.179354133333333,0.179354133333333,0.179354133333333,0.194925176470588,0.117849333333333,0.117849333333333,0.117849333333333,0.0945584,0.0945584,0.0945584,0.0945584,0.0945584,0.144348],[9,3,15,12,7,7,7,12,12,12,12,5,5,5,5,15,12],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genes<\/th>\n      <th>snps<\/th>\n      <th>celltype<\/th>\n      <th>factor<\/th>\n      <th>trait<\/th>\n      <th>pwy_name<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n      <th>trans<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+[1] C
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggplot2_3.3.5 dplyr_1.1.4   tibble_3.2.1 
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8.3      highr_0.9         pillar_1.9.0      compiler_4.2.0   
+ [5] bslib_0.3.1       later_1.3.0       jquerylib_0.1.4   git2r_0.30.1     
+ [9] workflowr_1.7.0   tools_4.2.0       digest_0.6.29     gtable_0.3.0     
+[13] jsonlite_1.8.0    evaluate_0.15     lifecycle_1.0.4   pkgconfig_2.0.3  
+[17] rlang_1.1.2       cli_3.6.1         rstudioapi_0.13   crosstalk_1.2.0  
+[21] yaml_2.3.5        xfun_0.41         fastmap_1.1.0     withr_2.5.0      
+[25] stringr_1.5.1     knitr_1.39        htmlwidgets_1.5.4 generics_0.1.2   
+[29] fs_1.5.2          vctrs_0.6.5       sass_0.4.1        DT_0.22          
+[33] grid_4.2.0        rprojroot_2.0.3   tidyselect_1.2.0  glue_1.6.2       
+[37] R6_2.5.1          fansi_1.0.3       rmarkdown_2.25    farver_2.1.0     
+[41] magrittr_2.0.3    scales_1.2.0      promises_1.2.0.1  htmltools_0.5.2  
+[45] colorspace_2.0-3  httpuv_1.6.5      labeling_0.4.2    utf8_1.2.2       
+[49] stringi_1.7.6     munsell_0.5.0    </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

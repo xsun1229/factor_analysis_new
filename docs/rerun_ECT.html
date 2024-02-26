@@ -15,7 +15,7 @@
 
 <title>ECT</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -31,7 +31,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -46,8 +46,8 @@
 <script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
 <link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
 <script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -167,11 +167,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -200,8 +204,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -209,16 +213,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -413,7 +410,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-12-07
+<strong>Last updated:</strong> 2024-02-22
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -547,15 +544,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree67e648422429420d7494df5e83c8f96b09cb949ftargetblank67e6484a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree402e4ba928eab4cd9fa38de32abeff5f8851999ftargetblank402e4baa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/67e648422429420d7494df5e83c8f96b09cb949f" target="_blank">67e6484</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/402e4ba928eab4cd9fa38de32abeff5f8851999f" target="_blank">402e4ba</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree67e648422429420d7494df5e83c8f96b09cb949ftargetblank67e6484a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree402e4ba928eab4cd9fa38de32abeff5f8851999ftargetblank402e4baa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -565,7 +562,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/67e648422429420d7494df5e83c8f96b09cb949f" target="_blank">67e6484</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/402e4ba928eab4cd9fa38de32abeff5f8851999f" target="_blank">402e4ba</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -579,7 +576,11 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
+Untracked files:
+    Untracked:  analysis/rerun_ECT_analy.Rmd
+
 Unstaged changes:
+    Modified:   analysis/re_run_1203.Rmd
     Modified:   analysis/rerun_ECT.Rmd
 
 </code></pre>
@@ -626,6 +627,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6551b5e73dc4bc6f3ad911b5c3c0b1ba95f154bd/analysis/rerun_ECT.Rmd" target="_blank">6551b5e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-08
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/6551b5e73dc4bc6f3ad911b5c3c0b1ba95f154bd/docs/rerun_ECT.html" target="_blank">6551b5e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-08
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1362,6 +1397,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6551b5e73dc4bc6f3ad911b5c3c0b1ba95f154bd/docs/figure/rerun_ECT.Rmd/unnamed-chunk-9-1.png" target="_blank">6551b5e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-08
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/334add9a5ca4f81f2ad2d4b697e9f2d4421787ca/docs/figure/rerun_ECT.Rmd/unnamed-chunk-9-1.png" target="_blank">334add9</a>
 </td>
 <td>
@@ -1438,6 +1484,43 @@ for (i in 1:nrow(df_sorted)){
 }
 do.call(&quot;grid.arrange&quot;, c(eff, ncol = 5))</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-10-1.png" width="1920" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6551b5e73dc4bc6f3ad911b5c3c0b1ba95f154bd/docs/figure/rerun_ECT.Rmd/unnamed-chunk-10-1.png" target="_blank">6551b5e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="checking-if-the-ect-ivs-pass-the-steiger-filtering"
 class="section level1">
@@ -1510,65 +1593,43 @@ for (i in 1:nrow(df_sorted)){
 }
 do.call(&quot;grid.arrange&quot;, c(eff, ncol = 5))</code></pre>
 <p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-11-2.png" width="2400" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-2">
+Past versions of unnamed-chunk-11-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6551b5e73dc4bc6f3ad911b5c3c0b1ba95f154bd/docs/figure/rerun_ECT.Rmd/unnamed-chunk-11-2.png" target="_blank">6551b5e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2023-12-08
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="some-highlighted-traits" class="section level1">
-<h1>Some highlighted traits</h1>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/summary_mbe_steiger.rdata&quot;)
-
-
-p &lt;- list()
-for (traits in c(&quot;lymph&quot;,&quot;baso&quot;,&quot;ret&quot;)) {
-  
-  #print(traits)  
-  
-sum_traits &lt;- df_all[df_all$trait == traits,]
-
-# pwy &lt;- c(&quot;05220&quot;,&quot;04060&quot;,&quot;04640&quot;,&quot;04010&quot;,&quot;03013&quot;,&quot;05235&quot;,&quot;04664&quot;,&quot;05166&quot;,&quot;05169&quot;,&quot;00230&quot;)
-# selected &lt;- sum_traits[sum_traits$pwy_code %in% pwy,]
-
-selected &lt;- sum_traits
-index &lt;- which(duplicated(selected$pwy_name))
-selected$pwy_name[index] &lt;- paste0(selected$pwy_name[index],&quot; &quot;)
-
-selected$lgectpval &lt;- -log10(selected$pval_ECT)
-selected &lt;- selected[order(selected$lgectpval,decreasing = T),]
-selected$num_snp_pass_cutoff[nrow(selected)] &lt;- paste0(selected$num_snp_pass_cutoff[nrow(selected)],&quot; (# of supporting variants)&quot;)
-
-selected$pwy_name &lt;- factor(selected$pwy_name, levels = rev(unique(selected$pwy_name)))
-
-p[[length(p)+1]] &lt;- ggplot(selected) +
-  theme_bw(base_line_size =0.3) +
-  geom_col(aes(x=lgectpval, y=pwy_name, fill = celltypes), width = 0.6) +
-  geom_text(
-    data = selected,
-    aes(0, y = pwy_name, label = pwy_name),
-    hjust = 0,
-    nudge_x = 0.1,
-    colour = &quot;white&quot;,
-    size = 3,
-    family = &quot;Times&quot;
-  ) + 
-  geom_text(
-    data = selected,
-    aes(lgectpval, y = pwy_name, label = num_snp_pass_cutoff),
-    hjust = 0,
-    nudge_x = 0.01,
-    colour = &quot;black&quot;,
-    size = 3,
-    family = &quot;Times&quot;
-  ) +
-  labs(x.title = &quot;Lymphocyte Count&quot;,
-       x = expression(paste(&quot;-log&quot;[10],&quot;(ECT p-value)&quot;)),
-       y=&quot;Pathways&quot;) +
-  theme(axis.text.y = element_blank(),
-        text= element_text(family=&quot;Times&quot;)) +
-  xlim(0,ceiling(max(selected$lgectpval))) +
-  ggtitle(traits)
-  
-}
-
-do.call(&quot;grid.arrange&quot;, c(p, ncol = 1))</code></pre>
-<p><img src="figure/rerun_ECT.Rmd/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1592,24 +1653,23 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] forcats_0.5.1 tidyr_1.2.0   gridExtra_2.3 ggplot2_3.3.5
+[1] forcats_0.5.1 tidyr_1.3.0   gridExtra_2.3 ggplot2_3.3.5
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.1.2  xfun_0.30         bslib_0.3.1       purrr_0.3.4      
- [5] colorspace_2.0-3  vctrs_0.4.1       generics_0.1.2    htmltools_0.5.2  
- [9] yaml_2.3.5        utf8_1.2.2        rlang_1.0.5       jquerylib_0.1.4  
-[13] later_1.3.0       pillar_1.7.0      glue_1.6.2        withr_2.5.0      
-[17] DBI_1.1.2         lifecycle_1.0.1   stringr_1.4.0     munsell_0.5.0    
-[21] gtable_0.3.0      workflowr_1.7.0   htmlwidgets_1.5.4 evaluate_0.15    
-[25] labeling_0.4.2    knitr_1.39        fastmap_1.1.0     crosstalk_1.2.0  
-[29] httpuv_1.6.5      fansi_1.0.3       highr_0.9         Rcpp_1.0.8.3     
-[33] DT_0.22           promises_1.2.0.1  scales_1.2.0      jsonlite_1.8.0   
-[37] farver_2.1.0      fs_1.5.2          digest_0.6.29     stringi_1.7.6    
-[41] dplyr_1.0.9       grid_4.2.0        rprojroot_2.0.3   cli_3.6.1        
-[45] tools_4.2.0       magrittr_2.0.3    sass_0.4.1        tibble_3.1.7     
-[49] crayon_1.5.1      whisker_0.4       pkgconfig_2.0.3   ellipsis_0.3.2   
-[53] assertthat_0.2.1  rmarkdown_2.14    rstudioapi_0.13   R6_2.5.1         
-[57] git2r_0.30.1      compiler_4.2.0   </code></pre>
+ [1] Rcpp_1.0.8.3      highr_0.9         pillar_1.9.0      compiler_4.2.0   
+ [5] bslib_0.3.1       later_1.3.0       jquerylib_0.1.4   git2r_0.30.1     
+ [9] workflowr_1.7.0   tools_4.2.0       digest_0.6.29     jsonlite_1.8.0   
+[13] evaluate_0.15     lifecycle_1.0.4   tibble_3.2.1      gtable_0.3.0     
+[17] pkgconfig_2.0.3   rlang_1.1.2       cli_3.6.1         rstudioapi_0.13  
+[21] crosstalk_1.2.0   yaml_2.3.5        xfun_0.41         fastmap_1.1.0    
+[25] withr_2.5.0       dplyr_1.1.4       stringr_1.5.1     knitr_1.39       
+[29] htmlwidgets_1.5.4 generics_0.1.2    fs_1.5.2          vctrs_0.6.5      
+[33] sass_0.4.1        DT_0.22           tidyselect_1.2.0  rprojroot_2.0.3  
+[37] grid_4.2.0        glue_1.6.2        R6_2.5.1          fansi_1.0.3      
+[41] rmarkdown_2.25    farver_2.1.0      purrr_1.0.2       magrittr_2.0.3   
+[45] whisker_0.4       scales_1.2.0      promises_1.2.0.1  htmltools_0.5.2  
+[49] colorspace_2.0-3  httpuv_1.6.5      labeling_0.4.2    utf8_1.2.2       
+[53] stringi_1.7.6     munsell_0.5.0    </code></pre>
 </div>
 </div>
 

@@ -1,0 +1,260 @@
+---
+title: "ECT result analyzing"
+author: "XSun"
+date: "2024-02-22"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+## Functions used
+
+```{r message=FALSE}
+library(tibble)
+library(dplyr)
+library(ggplot2)
+
+traits <- c("eo", "gran", "hct", "hgb", "lymph", "mch", "mchc", "mcv", 
+            "mpv", "mono", "myeloid_wbc", "neut", "plt", "pdw", "pct", 
+            "rbc", "rdw", "ret", "wbc", "baso", "T1D", "ukb.allasthma", 
+            "EUR.IBD", "EUR.CD", "EUR.UC", "allergy")
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+
+
+plot_selected_pwys <- function(trait, summary_df) {
+  
+  # Subset summary_df for the given trait
+  selected <- summary_df[summary_df$trait == trait, ]
+  
+  # Handle duplicated pathway names by appending a space
+  index <- which(duplicated(selected$pwy_name))
+  selected$pwy_name[index] <- paste0(selected$pwy_name[index], " ")
+  
+  # Transform p-values and order by -log10(pval)
+  selected$lgectpval <- -log10(selected$pval_ECT)
+  selected <- selected[order(selected$lgectpval, decreasing = TRUE), ]
+  
+  # Append note to the last num_snp_pass_cutoff value
+  selected$num_snp_pass_cutoff[nrow(selected)] <- paste0(selected$num_snp_pass_cutoff[nrow(selected)], " (# of supporting variants)")
+  
+  # Set pathway names as a factor with levels in the desired order
+  selected$pwy_name <- factor(selected$pwy_name, levels = rev(unique(selected$pwy_name)))
+  
+  # Create the plot
+  p <- ggplot(selected) +
+    theme_bw(base_line_size = 0.3) +
+    geom_col(aes(x = lgectpval, y = pwy_name, fill = celltypes), width = 0.6) +
+    geom_text(aes(0, y = pwy_name, label = pwy_name), hjust = 0, nudge_x = 0.1, colour = "white", size = 3, family = "Times") + 
+    geom_text(aes(lgectpval, y = pwy_name, label = num_snp_pass_cutoff), hjust = 0, nudge_x = 0.01, colour = "black", size = 3, family = "Times") +
+    labs(x = expression(paste("-log"[10], "(ECT p-value)")), y = "Pathways") +
+    theme(axis.text.y = element_blank(), text = element_text(family = "Times")) +
+    xlim(0, ceiling(max(selected$lgectpval))) +
+    ggtitle(trait)
+  
+  return(p)
+}
+
+
+plot_selected_traits <- function(pwy, summary_df) {
+  
+  # Subset summary_df for the given trait
+  selected <- summary_df[summary_df$pwy_name == pwy, ]
+  
+  # Handle duplicated trait names by appending a space
+  index <- which(duplicated(selected$trait))
+  selected$trait[index] <- paste0(selected$trait[index], " ")
+  
+  # Transform p-values and order by -log10(pval)
+  selected$lgectpval <- -log10(selected$pval_ECT)
+  selected <- selected[order(selected$lgectpval, decreasing = TRUE), ]
+  
+  # Append note to the last num_snp_pass_cutoff value
+  selected$num_snp_pass_cutoff[nrow(selected)] <- paste0(selected$num_snp_pass_cutoff[nrow(selected)], " (# of supporting variants)")
+  
+  # Set pathway names as a factor with levels in the desired order
+  selected$trait <- factor(selected$trait, levels = rev(unique(selected$trait)))
+  
+  # Create the plot
+  p <- ggplot(selected) +
+    theme_bw(base_line_size = 0.3) +
+    geom_col(aes(x = lgectpval, y = trait, fill = celltypes), width = 0.6) +
+    geom_text(aes(0, y = trait, label = trait), hjust = 0, nudge_x = 0.1, colour = "white", size = 3, family = "Times") + 
+    geom_text(aes(lgectpval, y = trait, label = num_snp_pass_cutoff), hjust = 0, nudge_x = 0.01, colour = "black", size = 3, family = "Times") +
+    labs(x = expression(paste("-log"[10], "(ECT p-value)")), y = "Traits") +
+    theme(axis.text.y = element_blank(), text = element_text(family = "Times")) +
+    xlim(0, ceiling(max(selected$lgectpval))) +
+    ggtitle(pwy)
+  
+  return(p)
+}
+
+```
+
+
+# Pathways identified across Traits at various cutoffs
+
+## ECT FDR < 0.2
+
+```{r}
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata")
+
+num_pwy_pertrait <- lapply(traits,function(trait) {
+       sum(!duplicated(df_all$factor[df_all$trait == trait]))
+  })
+
+num_pwy_pertrait <- unlist(num_pwy_pertrait)
+names(num_pwy_pertrait) <- traits
+
+data_long <- enframe(num_pwy_pertrait, name = "trait", value = "count")
+
+# Plot
+ggplot(data_long, aes(x = trait, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  theme_minimal() +
+  labs(title = "Number of Pathways per Trait at FDR < 0.2",
+       x = "Trait",
+       y = "Number of Pathways") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+plot_selected_pwys(trait = "baso",summary_df = df_all)
+plot_selected_pwys(trait = "ret",summary_df = df_all)
+plot_selected_pwys(trait = "lymph",summary_df = df_all)
+
+
+```
+
+## ECT FDR < 0.1
+
+```{r}
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata")
+
+df_all <- df_all[df_all$fdr_ECT < 0.1,]
+
+num_pwy_pertrait <- lapply(traits,function(trait) {
+       sum(!duplicated(df_all$factor[df_all$trait == trait]))
+  })
+
+num_pwy_pertrait <- unlist(num_pwy_pertrait)
+names(num_pwy_pertrait) <- traits
+
+data_long <- enframe(num_pwy_pertrait, name = "trait", value = "count")
+
+# Plot
+ggplot(data_long, aes(x = trait, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  theme_minimal() +
+  labs(title = "Number of Pathways per Trait at FDR < 0.1",
+       x = "Trait",
+       y = "Number of Pathways") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+plot_selected_pwys(trait = "ret",summary_df = df_all)
+plot_selected_pwys(trait = "pct",summary_df = df_all)
+plot_selected_pwys(trait = "lymph",summary_df = df_all)
+
+
+```
+
+
+# Pathways involved in multiplt traits
+
+## ECT FDR < 0.2
+
+```{r}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata")
+
+pwys <- df_all$pwy_code[!duplicated(df_all$pwy_code)]
+
+num_trait_perpwy <- lapply(pwys,function(pwy) {
+       sum(!duplicated(df_all$trait[df_all$pwy_code == pwy]))
+  })
+
+num_trait_perpwy <- unlist(num_trait_perpwy)
+names(num_trait_perpwy) <- df_all$pwy_name[match(pwys, df_all$pwy_code)]
+
+num_trait_perpwy <- num_trait_perpwy[num_trait_perpwy>1]
+
+data_long <- enframe(num_trait_perpwy, name = "pwy", value = "count")
+
+# Plot
+ggplot(data_long, aes(x = pwy, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  theme_minimal() +
+  labs(title = "Number of Traits per pwy at FDR < 0.1",
+       x = "pwy",
+       y = "Number of Traits") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+plot_selected_traits("Cellular senescence",df_all)
+plot_selected_traits("cAMP signaling pathway",df_all)
+```
+
+
+
+
+
+## ECT FDR < 0.1
+
+```{r}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata")
+
+df_all <- df_all[df_all$fdr_ECT < 0.1,]
+
+pwys <- df_all$pwy_code[!duplicated(df_all$pwy_code)]
+
+num_trait_perpwy <- lapply(pwys,function(pwy) {
+       sum(!duplicated(df_all$trait[df_all$pwy_code == pwy]))
+  })
+
+num_trait_perpwy <- unlist(num_trait_perpwy)
+names(num_trait_perpwy) <- df_all$pwy_name[match(pwys, df_all$pwy_code)]
+
+num_trait_perpwy <- num_trait_perpwy[num_trait_perpwy>1]
+
+data_long <- enframe(num_trait_perpwy, name = "pwy", value = "count")
+
+# Plot
+ggplot(data_long, aes(x = pwy, y = count)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  theme_minimal() +
+  labs(title = "Number of Traits per pwy at FDR < 0.1",
+       x = "pwy",
+       y = "Number of Traits") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+plot_selected_traits("Small cell lung cancer",df_all)
+```
+
+
+
+
+# Genes close to supporting variants -- for pairs with ECT FDR < 0.1
+
+
+```{r}
+load("/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/nearby_gene_added.rdata")
+
+df <- df_all[,c("celltypes","factor","trait","pwy_name","fdr_ECT","num_snp_pass_cutoff","gene_near_supp_snps")]
+colnames(df) <- c("celltypes","factor","trait","pwy_name","fdr_ECT","#of supporting SNPs","gene near supporting SNPs")
+DT::datatable(df)
+```
+
+
+[Locus Zoom plots](https://uchicago.box.com/s/8f349903pupvsubmjvbs6daawrjjla1x)
+
+# If the supporting SNPs are trans-eqtls reported in eQTLGen
+
+Using top 10 genes with largest abs(gene loadings) and the supporting SNPs, we have 7960 gene ~ SNP pairs. 17 of them were reported by eQTLGen
+
+```{r}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/trans_pairs.rdata")
+DT::datatable(pairs_all[pairs_all$trans,])
+```
+
+
+
