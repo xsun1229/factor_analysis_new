@@ -369,7 +369,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -380,8 +380,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -390,13 +390,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-02-19
+<strong>Last updated:</strong> 2024-02-29
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span
@@ -419,36 +419,33 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreec1851b02cef0a3558b6af23f0eb8351788421cb0targetblankc1851b0a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aaetargetblank0a6fbdda">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/c1851b02cef0a3558b6af23f0eb8351788421cb0" target="_blank">c1851b0</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae" target="_blank">0a6fbdd</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreec1851b02cef0a3558b6af23f0eb8351788421cb0targetblankc1851b0a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aaetargetblank0a6fbdda"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -458,7 +455,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/c1851b02cef0a3558b6af23f0eb8351788421cb0" target="_blank">c1851b0</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae" target="_blank">0a6fbdd</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -472,13 +469,7 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  analysis/rerun_acat_diag.Rmd
-
-Unstaged changes:
-    Modified:   analysis/re_run_1203.Rmd
-    Modified:   analysis/rerun_acat.Rmd
-
+working directory clean
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not
@@ -523,6 +514,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/analysis/re_run_1203.Rmd" target="_blank">0a6fbdd</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-26
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/e90f62058351e133e5f488ded008efa5b4f18381/analysis/re_run_1203.Rmd" target="_blank">e90f620</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-19
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/e90f62058351e133e5f488ded008efa5b4f18381/docs/re_run_1203.html" target="_blank">e90f620</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-19
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -625,6 +667,9 @@ href="https://xsun1229.github.io/factor_analysis_new/rerun_acat_diag.html">Diagn
 for ACAT</a></p>
 <p><a
 href="https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html">ECT</a></p>
+<p><a
+href="https://xsun1229.github.io/factor_analysis_new/rerun_ECT_analy.html">ECT
+result analyzing</a></p>
 <p><a
 href="https://xsun1229.github.io/factor_analysis_new/diagnosis_missed_pair.html">Diagnosis
 for the missed top pair</a></p>
