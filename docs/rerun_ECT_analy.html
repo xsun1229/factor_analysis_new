@@ -410,7 +410,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-02-26
+<strong>Last updated:</strong> 2024-03-04
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -448,10 +448,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -544,15 +544,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree402e4ba928eab4cd9fa38de32abeff5f8851999ftargetblank402e4baa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree6674ee47c88575efb9da27db963f21b0a4e29f95targetblank6674ee4a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/402e4ba928eab4cd9fa38de32abeff5f8851999f" target="_blank">402e4ba</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/6674ee47c88575efb9da27db963f21b0a4e29f95" target="_blank">6674ee4</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree402e4ba928eab4cd9fa38de32abeff5f8851999ftargetblank402e4baa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree6674ee47c88575efb9da27db963f21b0a4e29f95targetblank6674ee4a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -562,7 +562,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/402e4ba928eab4cd9fa38de32abeff5f8851999f" target="_blank">402e4ba</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/6674ee47c88575efb9da27db963f21b0a4e29f95" target="_blank">6674ee4</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -576,13 +576,8 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  analysis/rerun_ECT_analy.Rmd
-    Untracked:  analysis/rerun_lz.Rmd
-
 Unstaged changes:
-    Modified:   analysis/re_run_1203.Rmd
-    Modified:   analysis/rerun_ECT.Rmd
+    Modified:   analysis/rerun_ECT_analy.Rmd
 
 </code></pre>
 <p>
@@ -597,10 +592,74 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/rerun_ECT_analy.Rmd</code>) and
+HTML (<code>docs/rerun_ECT_analy.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/analysis/rerun_ECT_analy.Rmd" target="_blank">0a6fbdd</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-26
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/rerun_ECT_analy.html" target="_blank">0a6fbdd</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-26
+</td>
+<td>
+update
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -610,6 +669,10 @@ There are no past versions. Publish this analysis with
 <pre class="r"><code>library(tibble)
 library(dplyr)
 library(ggplot2)
+
+library(tidyverse)
+library(ComplexHeatmap)
+library(circlize)
 
 traits &lt;- c(&quot;eo&quot;, &quot;gran&quot;, &quot;hct&quot;, &quot;hgb&quot;, &quot;lymph&quot;, &quot;mch&quot;, &quot;mchc&quot;, &quot;mcv&quot;, 
             &quot;mpv&quot;, &quot;mono&quot;, &quot;myeloid_wbc&quot;, &quot;neut&quot;, &quot;plt&quot;, &quot;pdw&quot;, &quot;pct&quot;, 
@@ -684,12 +747,135 @@ plot_selected_traits &lt;- function(pwy, summary_df) {
     ggtitle(pwy)
   
   return(p)
+}
+
+generate_heatmap &lt;- function(df_all) {
+  # Count the number of occurrences for each trait-pwy_name pair
+  count_data &lt;- df_all %&gt;%
+    dplyr::group_by(trait, pwy_name) %&gt;%
+    dplyr::summarise(n = n(), .groups = &#39;drop&#39;)
+  
+  # Create a matrix for the heatmap
+  heatmap_data &lt;- count_data %&gt;%
+    tidyr::pivot_wider(names_from = pwy_name, values_from = n, values_fill = list(n = 0)) %&gt;%
+    column_to_rownames(var = &quot;trait&quot;) %&gt;%
+    as.matrix()
+  
+  # Determine the range of integer values
+  value_range &lt;- range(heatmap_data, na.rm = TRUE)
+  value_range &lt;- c(floor(value_range[1]), ceiling(value_range[2]))  # Ensure they are integers
+  
+  # Create a sequence of integers within this range
+  int_seq &lt;- seq(value_range[1], value_range[2], by = 1)
+  colors &lt;- colorRampPalette(c(&quot;white&quot;, &quot;red&quot;))(length(int_seq))
+  
+  # Create a named vector where each integer is associated with a specific color
+  color_mapping &lt;- setNames(colors, int_seq)
+  
+  # Generate the heatmap with the specified color mapping
+  ComplexHeatmap::Heatmap(heatmap_data, name = &quot;count&quot;,
+                          column_title = &quot;Pathway Name&quot;, row_title = &quot;Trait&quot;,
+                          col = color_mapping,  # Use the discrete color mapping
+                          border = FALSE, 
+                          show_row_dend = FALSE, 
+                          show_column_dend = FALSE)
 }</code></pre>
+</div>
+<div id="pathways-traits-heat-map" class="section level1">
+<h1>Pathways &amp; traits heat map</h1>
+<div id="ect-fdr-0.2" class="section level2">
+<h2>ECT FDR &lt; 0.2</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata&quot;)
+generate_heatmap(df_all = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-1.png" width="1440" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-1.png" target="_blank">0a6fbdd</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="ect-fdr-0.1" class="section level2">
+<h2>ECT FDR &lt; 0.1</h2>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata&quot;)
+
+df_all &lt;- df_all[df_all$fdr_ECT &lt; 0.1,]
+generate_heatmap(df_all = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-1.png" target="_blank">0a6fbdd</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 </div>
 <div id="pathways-identified-across-traits-at-various-cutoffs"
 class="section level1">
 <h1>Pathways identified across Traits at various cutoffs</h1>
-<div id="ect-fdr-0.2" class="section level2">
+<div id="ect-fdr-0.2-1" class="section level2">
 <h2>ECT FDR &lt; 0.2</h2>
 <pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata&quot;)
 
@@ -709,16 +895,127 @@ ggplot(data_long, aes(x = trait, y = count)) +
   labs(title = &quot;Number of Pathways per Trait at FDR &lt; 0.2&quot;,
        x = &quot;Trait&quot;,
        y = &quot;Number of Pathways&quot;) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) </code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot_selected_pwys(trait = &quot;baso&quot;,summary_df = df_all)</code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot_selected_pwys(trait = &quot;ret&quot;,summary_df = df_all)</code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>plot_selected_pwys(trait = &quot;lymph&quot;,summary_df = df_all)</code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-4.png" width="672" style="display: block; margin: auto;" /></p>
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-1.png" target="_blank">0a6fbdd</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-26
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="ect-fdr-0.1" class="section level2">
+</div>
+<pre class="r"><code>plot_selected_pwys(trait = &quot;baso&quot;,summary_df = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
+Past versions of unnamed-chunk-4-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-2.png" target="_blank">0a6fbdd</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_selected_pwys(trait = &quot;ret&quot;,summary_df = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-3">
+Past versions of unnamed-chunk-4-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-3.png" target="_blank">0a6fbdd</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>plot_selected_pwys(trait = &quot;lymph&quot;,summary_df = df_all)</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-4.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="ect-fdr-0.1-1" class="section level2">
 <h2>ECT FDR &lt; 0.1</h2>
 <pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata&quot;)
 
@@ -740,19 +1037,93 @@ ggplot(data_long, aes(x = trait, y = count)) +
   labs(title = &quot;Number of Pathways per Trait at FDR &lt; 0.1&quot;,
        x = &quot;Trait&quot;,
        y = &quot;Number of Pathways&quot;) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) </code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-1.png" target="_blank">0a6fbdd</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_selected_pwys(trait = &quot;ret&quot;,summary_df = df_all)</code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-2">
+Past versions of unnamed-chunk-5-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-2.png" target="_blank">0a6fbdd</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-02-26
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_selected_pwys(trait = &quot;pct&quot;,summary_df = df_all)</code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>plot_selected_pwys(trait = &quot;lymph&quot;,summary_df = df_all)</code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-4.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="pathways-involved-in-multiplt-traits" class="section level1">
 <h1>Pathways involved in multiplt traits</h1>
-<div id="ect-fdr-0.2-1" class="section level2">
+<div id="ect-fdr-0.2-2" class="section level2">
 <h2>ECT FDR &lt; 0.2</h2>
 <pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata&quot;)
 
@@ -776,14 +1147,14 @@ ggplot(data_long, aes(x = pwy, y = count)) +
   labs(title = &quot;Number of Traits per pwy at FDR &lt; 0.1&quot;,
        x = &quot;pwy&quot;,
        y = &quot;Number of Traits&quot;) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) </code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>plot_selected_traits(&quot;Cellular senescence&quot;,df_all)</code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>plot_selected_traits(&quot;cAMP signaling pathway&quot;,df_all)</code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="ect-fdr-0.1-1" class="section level2">
+<div id="ect-fdr-0.1-2" class="section level2">
 <h2>ECT FDR &lt; 0.1</h2>
 <pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata&quot;)
 
@@ -809,10 +1180,10 @@ ggplot(data_long, aes(x = pwy, y = count)) +
   labs(title = &quot;Number of Traits per pwy at FDR &lt; 0.1&quot;,
        x = &quot;pwy&quot;,
        y = &quot;Number of Traits&quot;) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) </code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>plot_selected_traits(&quot;Small cell lung cancer&quot;,df_all)</code></pre>
-<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="genes-close-to-supporting-variants-for-pairs-with-ect-fdr-0.1"
@@ -860,25 +1231,45 @@ locale:
 [1] C
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] grid      stats     graphics  grDevices utils     datasets  methods  
+[8] base     
 
 other attached packages:
-[1] ggplot2_3.3.5 dplyr_1.1.4   tibble_3.2.1 
+ [1] circlize_0.4.15       ComplexHeatmap_2.12.0 forcats_0.5.1        
+ [4] stringr_1.5.1         purrr_1.0.2           readr_2.1.2          
+ [7] tidyr_1.3.0           tidyverse_1.3.1       ggplot2_3.3.5        
+[10] dplyr_1.1.4           tibble_3.2.1         
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8.3      highr_0.9         pillar_1.9.0      compiler_4.2.0   
- [5] bslib_0.3.1       later_1.3.0       jquerylib_0.1.4   git2r_0.30.1     
- [9] workflowr_1.7.0   tools_4.2.0       digest_0.6.29     gtable_0.3.0     
-[13] jsonlite_1.8.0    evaluate_0.15     lifecycle_1.0.4   pkgconfig_2.0.3  
-[17] rlang_1.1.2       cli_3.6.1         rstudioapi_0.13   crosstalk_1.2.0  
-[21] yaml_2.3.5        xfun_0.41         fastmap_1.1.0     withr_2.5.0      
-[25] stringr_1.5.1     knitr_1.39        htmlwidgets_1.5.4 generics_0.1.2   
-[29] fs_1.5.2          vctrs_0.6.5       sass_0.4.1        DT_0.22          
-[33] grid_4.2.0        rprojroot_2.0.3   tidyselect_1.2.0  glue_1.6.2       
-[37] R6_2.5.1          fansi_1.0.3       rmarkdown_2.25    farver_2.1.0     
-[41] magrittr_2.0.3    scales_1.2.0      promises_1.2.0.1  htmltools_0.5.2  
-[45] colorspace_2.0-3  httpuv_1.6.5      labeling_0.4.2    utf8_1.2.2       
-[49] stringi_1.7.6     munsell_0.5.0    </code></pre>
+ [1] matrixStats_0.62.0  fs_1.5.2            lubridate_1.8.0    
+ [4] doParallel_1.0.17   RColorBrewer_1.1-3  httr_1.4.3         
+ [7] rprojroot_2.0.3     tools_4.2.0         backports_1.4.1    
+[10] bslib_0.3.1         DT_0.22             utf8_1.2.2         
+[13] R6_2.5.1            DBI_1.2.2           BiocGenerics_0.42.0
+[16] colorspace_2.0-3    GetoptLong_1.0.5    withr_2.5.0        
+[19] tidyselect_1.2.0    compiler_4.2.0      git2r_0.30.1       
+[22] cli_3.6.1           rvest_1.0.2         Cairo_1.6-0        
+[25] xml2_1.3.3          labeling_0.4.2      sass_0.4.1         
+[28] scales_1.2.0        digest_0.6.29       rmarkdown_2.25     
+[31] pkgconfig_2.0.3     htmltools_0.5.2     highr_0.9          
+[34] dbplyr_2.1.1        fastmap_1.1.0       htmlwidgets_1.5.4  
+[37] rlang_1.1.2         GlobalOptions_0.1.2 readxl_1.4.0       
+[40] rstudioapi_0.13     farver_2.1.0        shape_1.4.6        
+[43] jquerylib_0.1.4     generics_0.1.2      jsonlite_1.8.0     
+[46] crosstalk_1.2.0     magrittr_2.0.3      Rcpp_1.0.8.3       
+[49] munsell_0.5.0       S4Vectors_0.34.0    fansi_1.0.3        
+[52] lifecycle_1.0.4     stringi_1.7.6       whisker_0.4        
+[55] yaml_2.3.5          parallel_4.2.0      promises_1.2.0.1   
+[58] crayon_1.5.1        haven_2.5.0         hms_1.1.1          
+[61] knitr_1.39          pillar_1.9.0        rjson_0.2.21       
+[64] codetools_0.2-18    stats4_4.2.0        reprex_2.0.1       
+[67] glue_1.6.2          evaluate_0.15       modelr_0.1.8       
+[70] png_0.1-7           vctrs_0.6.5         tzdb_0.4.0         
+[73] httpuv_1.6.5        foreach_1.5.2       cellranger_1.1.0   
+[76] gtable_0.3.0        clue_0.3-61         assertthat_0.2.1   
+[79] xfun_0.41           broom_0.8.0         later_1.3.0        
+[82] iterators_1.0.14    IRanges_2.30.0      workflowr_1.7.0    
+[85] cluster_2.1.3       ellipsis_0.3.2     </code></pre>
 </div>
 </div>
 
