@@ -389,7 +389,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -400,8 +400,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -410,13 +410,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-03-04
+<strong>Last updated:</strong> 2024-03-05
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span
@@ -439,21 +439,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -544,15 +541,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree6674ee47c88575efb9da27db963f21b0a4e29f95targetblank6674ee4a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree577b5d849c10aabe5ecf048cb4d11b19ef21711dtargetblank577b5d8a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/6674ee47c88575efb9da27db963f21b0a4e29f95" target="_blank">6674ee4</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/577b5d849c10aabe5ecf048cb4d11b19ef21711d" target="_blank">577b5d8</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree6674ee47c88575efb9da27db963f21b0a4e29f95targetblank6674ee4a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree577b5d849c10aabe5ecf048cb4d11b19ef21711dtargetblank577b5d8a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -562,7 +559,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/6674ee47c88575efb9da27db963f21b0a4e29f95" target="_blank">6674ee4</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/577b5d849c10aabe5ecf048cb4d11b19ef21711d" target="_blank">577b5d8</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -576,9 +573,7 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Unstaged changes:
-    Modified:   analysis/rerun_ECT_analy.Rmd
-
+working directory clean
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not
@@ -623,6 +618,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/analysis/rerun_ECT_analy.Rmd" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/rerun_ECT_analy.html" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -812,6 +841,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-1.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-2-1.png" target="_blank">0a6fbdd</a>
 </td>
 <td>
@@ -855,6 +895,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-1.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-3-1.png" target="_blank">0a6fbdd</a>
@@ -921,6 +972,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-1.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-1.png" target="_blank">0a6fbdd</a>
 </td>
 <td>
@@ -958,6 +1020,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-2.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-2.png" target="_blank">0a6fbdd</a>
@@ -999,6 +1072,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-3.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-3.png" target="_blank">0a6fbdd</a>
 </td>
 <td>
@@ -1014,6 +1098,43 @@ XSun
 </div>
 <pre class="r"><code>plot_selected_pwys(trait = &quot;lymph&quot;,summary_df = df_all)</code></pre>
 <p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-4">
+Past versions of unnamed-chunk-4-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-4-4.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="ect-fdr-0.1-1" class="section level2">
 <h2>ECT FDR &lt; 0.1</h2>
@@ -1063,6 +1184,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-1.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-1.png" target="_blank">0a6fbdd</a>
 </td>
 <td>
@@ -1102,6 +1234,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-2.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/0a6fbdde1f09a5ba4fd56f14927e4b8ffe901aae/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-2.png" target="_blank">0a6fbdd</a>
 </td>
 <td>
@@ -1117,8 +1260,82 @@ XSun
 </div>
 <pre class="r"><code>plot_selected_pwys(trait = &quot;pct&quot;,summary_df = df_all)</code></pre>
 <p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-3">
+Past versions of unnamed-chunk-5-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-3.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_selected_pwys(trait = &quot;lymph&quot;,summary_df = df_all)</code></pre>
 <p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-4">
+Past versions of unnamed-chunk-5-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-5-4.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="pathways-involved-in-multiplt-traits" class="section level1">
@@ -1149,10 +1366,121 @@ ggplot(data_long, aes(x = pwy, y = count)) +
        y = &quot;Number of Traits&quot;) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
 <p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-6-1.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_selected_traits(&quot;Cellular senescence&quot;,df_all)</code></pre>
 <p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-2">
+Past versions of unnamed-chunk-6-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-6-2.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_selected_traits(&quot;cAMP signaling pathway&quot;,df_all)</code></pre>
 <p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-6-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-3">
+Past versions of unnamed-chunk-6-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-6-3.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="ect-fdr-0.1-2" class="section level2">
 <h2>ECT FDR &lt; 0.1</h2>
@@ -1182,8 +1510,82 @@ ggplot(data_long, aes(x = pwy, y = count)) +
        y = &quot;Number of Traits&quot;) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
 <p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-7-1.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_selected_traits(&quot;Small cell lung cancer&quot;,df_all)</code></pre>
 <p><img src="figure/rerun_ECT_analy.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-2">
+Past versions of unnamed-chunk-7-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/577b5d849c10aabe5ecf048cb4d11b19ef21711d/docs/figure/rerun_ECT_analy.Rmd/unnamed-chunk-7-2.png" target="_blank">577b5d8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2024-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="genes-close-to-supporting-variants-for-pairs-with-ect-fdr-0.1"
