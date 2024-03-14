@@ -14,7 +14,7 @@ output:
 library(tibble)
 library(dplyr)
 library(ggplot2)
-
+library(grid)
 library(tidyverse)
 library(ComplexHeatmap)
 library(circlize)
@@ -26,6 +26,11 @@ traits <- c("eo", "gran", "hct", "hgb", "lymph", "mch", "mchc", "mcv",
 celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
 type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
 
+order <- c("plt","mpv","pdw","pct",
+           "rbc","mcv","hct","mch","mchc","hgb","rdw","ret",
+           "mono","wbc","eo","neut","gran","myeloid_wbc","baso",
+           "lymph",
+           "EUR.UC","EUR.CD","EUR.IBD","T1D","ukb.allasthma","allergy")
 
 plot_selected_pwys <- function(trait, summary_df) {
   
@@ -124,6 +129,109 @@ generate_heatmap <- function(df_all) {
                           border = FALSE, 
                           show_row_dend = FALSE, 
                           show_column_dend = FALSE)
+  
+  
+  
+}
+
+generate_heatmap_filter <- function(df_all, min_occurrence = 1) {
+  # Count the number of occurrences for each trait-pathway pair
+  count_data <- df_all %>%
+    dplyr::group_by(trait, pwy_name) %>%
+    dplyr::summarise(n = n(), .groups = 'drop')
+  
+  # Create a matrix for the heatmap
+  heatmap_data <- count_data %>%
+    tidyr::pivot_wider(names_from = pwy_name, values_from = n, values_fill = list(n = 0)) %>%
+    column_to_rownames(var = "trait") %>%
+    as.matrix()
+  
+  # Filter rows and columns based on the minimum number of occurrences
+  heatmap_data <- heatmap_data[rowSums(heatmap_data) > min_occurrence, ]
+  heatmap_data <- heatmap_data[, colSums(heatmap_data) > min_occurrence]
+  
+  # Determine the range of integer values
+  value_range <- range(heatmap_data, na.rm = TRUE)
+  value_range <- c(floor(value_range[1]), ceiling(value_range[2]))  # Ensure they are integers
+  
+  # Create a sequence of integers within this range
+  int_seq <- seq(value_range[1], value_range[2], by = 1)
+  colors <- colorRampPalette(c("white", "red"))(length(int_seq))
+  
+  # Create a named vector where each integer is associated with a specific color
+  color_mapping <- setNames(colors, int_seq)
+  
+  # Generate the heatmap with the specified color mapping
+  ComplexHeatmap::Heatmap(heatmap_data, name = "count",
+                          column_title = "Pathway Name", row_title = "Trait",
+                          col = color_mapping,  # Use the discrete color mapping
+                          border = FALSE, 
+                          show_row_dend = FALSE, 
+                          show_column_dend = FALSE)
+}
+
+generate_heatmap_filter_reorder <- function(df_all, min_occurrence = 1, order) {
+  # Define the specific order for rows
+
+  
+  # Count the number of occurrences for each trait-pathway pair
+  count_data <- df_all %>%
+    dplyr::group_by(trait, pwy_name) %>%
+    dplyr::summarise(n = n(), .groups = 'drop')
+  
+  # Create a matrix for the heatmap
+  heatmap_data <- count_data %>%
+    tidyr::pivot_wider(names_from = pwy_name, values_from = n, values_fill = list(n = 0)) %>%
+    column_to_rownames(var = "trait") %>%
+    as.matrix()
+  
+  # Filter rows and columns based on the minimum number of occurrences
+  heatmap_data <- heatmap_data[rowSums(heatmap_data) > min_occurrence, ]
+  heatmap_data <- heatmap_data[, colSums(heatmap_data) > min_occurrence]
+  
+  
+  # Reorder rows according to the specified order. 
+  # Make sure all traits in the specified 'order' are present in 'heatmap_data' before reordering
+  existing_traits = intersect(order, rownames(heatmap_data)) # Traits present in heatmap_data
+  heatmap_data <- heatmap_data[existing_traits, ] # Reorder based on these existing traits
+  
+  # Ensure that the heatmap data contains only the rows present in the specified 'order'
+  ordered_heatmap_data <- heatmap_data[match(order, rownames(heatmap_data)), ]
+  
+  # Determine the range of integer values
+  value_range <- range(ordered_heatmap_data, na.rm = TRUE)
+  value_range <- c(floor(value_range[1]), ceiling(value_range[2]))  # Ensure they are integers
+  
+  # Create a sequence of integers within this range
+  int_seq <- seq(value_range[1], value_range[2], by = 1)
+  colors <- colorRampPalette(c("white", "red"))(length(int_seq))
+  
+  # Create a named vector where each integer is associated with a specific color
+  color_mapping <- setNames(colors, int_seq)
+  
+  # Generate the heatmap with the specified color mapping
+  # Now, create the heatmap with the ordered data
+  ordered_heatmap_data <- ordered_heatmap_data[complete.cases(ordered_heatmap_data),]
+  # ComplexHeatmap::Heatmap(ordered_heatmap_data, name = "count",
+  #                         column_title = "Pathway Name", row_title = "Trait",
+  #                         col = color_mapping,  # Use the discrete color mapping
+  #                         border = FALSE, 
+  #                         show_row_dend = FALSE, 
+  #                         show_column_dend = FALSE,
+  #                         cluster_rows = FALSE, # Do not cluster rows
+  #                         cluster_columns = FALSE) # Do not cluster columns
+  
+  ComplexHeatmap::Heatmap(ordered_heatmap_data, name = "count",
+                          column_title = "Pathway Name", row_title = "Trait",
+                          col = color_mapping,  # Use the discrete color mapping
+                          border = FALSE, 
+                          show_row_dend = FALSE, 
+                          show_column_dend = FALSE,
+                          cluster_rows = FALSE,  # Do not cluster rows
+                          cluster_columns = FALSE,  # Do not cluster columns
+                          column_names_rot = 60,
+                          column_names_max_height = unit(20, "cm"))  
+
 }
 
 ```
@@ -132,9 +240,12 @@ generate_heatmap <- function(df_all) {
 
 ## ECT FDR < 0.2
 
-```{r fig.width=15, fig.height=10}
+```{r fig.width=15, fig.height=15}
 load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata")
-generate_heatmap(df_all = df_all)
+
+print("min occurence for each pathway / trait = 2")
+
+generate_heatmap_filter_reorder(df_all = df_all,min_occurrence = 1, order = order)
 
 ```
 
@@ -145,6 +256,9 @@ generate_heatmap(df_all = df_all)
 load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata")
 
 df_all <- df_all[df_all$fdr_ECT < 0.1,]
+
+print("min occurence for each pathway / trait = 1")
+
 generate_heatmap(df_all = df_all)
 
 ```
