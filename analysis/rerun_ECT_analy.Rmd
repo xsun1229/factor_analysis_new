@@ -18,6 +18,7 @@ library(grid)
 library(tidyverse)
 library(ComplexHeatmap)
 library(circlize)
+library(gridExtra)
 
 traits <- c("eo", "gran", "hct", "hgb", "lymph", "mch", "mchc", "mcv", 
             "mpv", "mono", "myeloid_wbc", "neut", "plt", "pdw", "pct", 
@@ -236,7 +237,9 @@ generate_heatmap_filter_reorder <- function(df_all, min_occurrence = 1, order) {
 
 ```
 
-# Pathways & traits heat map 
+# Heat map for Pathways & traits identified at ECT FDR < 0.2/0.1
+
+The x-axis of the heat map is the pathways identified at different cutoffs (ECT FDR < 0.2/0.1), the y-axis is the traits. At ECT FDR <0.2, only pathways and traits occurred more than one time are shown. At ECT FDR <0.1, all pathway and trait pairs are shown.
 
 ## ECT FDR < 0.2
 
@@ -263,7 +266,61 @@ generate_heatmap(df_all = df_all)
 
 ```
 
-# Pathways identified across Traits at various cutoffs
+
+
+
+
+# Heat map for the grouped traits and cell types at ECT FDR < 0.2
+
+We group out traits into 4 groups:
+
+```{r echo=T, eval=T}
+innate <- c("eo","gran","neut","mono","myeloid_wbc","wbc","baso")
+noninnate <- c("hct","hgb","mch","mchc","mcv","mpv","plt","pdw","pct","rbc","rdw","ret")
+lymphcytes <- c("lymph")
+diseases <- c("T1D","ukb.allasthma","EUR.IBD","EUR.CD","EUR.UC","allergy")
+```
+
+Then we count the number of pairs identified for each group - cell type.
+
+```{r eval=T}
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT_summary_mbeadded_ectfdr02_allcelltypes.rdata")
+df_all$grouped_trait <- case_when(
+  df_all$trait %in% innate ~ "Innate",
+  df_all$trait %in% noninnate ~ "Noninnate",
+  df_all$trait %in% lymphcytes ~ "Lymphocytes",
+  df_all$trait %in% diseases ~ "Diseases",
+  TRUE ~ as.character(df_all$trait) # Just in case there are traits not categorized
+)
+
+aggregated_data <- df_all %>%
+  group_by(celltypes, grouped_trait) %>%
+  summarise(count = n(), .groups = 'drop')
+
+
+heatmap_data <- aggregated_data %>%
+  pivot_wider(names_from = grouped_trait, values_from = count, values_fill = list(count = 0))
+
+heatmap_matrix <- as.matrix(heatmap_data[,-1]) # Exclude the first column which contains the cell types
+
+rownames(heatmap_matrix) <- heatmap_data$celltypes
+
+Heatmap(heatmap_matrix,
+        name = "Count", # Names the color legend
+        col = colorRamp2(c(min(heatmap_matrix), mean(heatmap_matrix), max(heatmap_matrix)), c("blue", "white", "red")),
+        column_title = "Grouped Traits", # Title for the column
+        row_title = "Cell Types", # Title for the row
+        column_names_side = "top",
+        row_names_side = "left",
+        show_row_names = TRUE,
+        show_column_names = TRUE,
+        show_row_dend = FALSE, 
+        show_column_dend = FALSE)
+```
+
+
+
+# Histogram for the number of pathways identified across traits at ECT FDR < 0.2/0.1
 
 ## ECT FDR < 0.2
 
@@ -328,7 +385,102 @@ plot_selected_pwys(trait = "lymph",summary_df = df_all)
 ```
 
 
-# Pathways involved in multiplt traits
+
+
+
+
+
+
+# If the highlighted pairs are driven by the same supporting variants (baso, ret and lymph)
+
+```{r message=FALSE, fig.width=10, fig.height=10}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/supp_snp_pwy_hist_heatmap.rdata")
+
+print("baso: the total pathways identified (at ECT FDR <0.2) is: 18")
+print(p_all[[1]])
+print(p_heatmap_all[[1]])
+
+print("ret: the total pathways identified (at ECT FDR <0.2) is: 18")
+print(p_all[[2]])
+print(p_heatmap_all[[2]])
+
+print("lymph: the total pathways identified (at ECT FDR <0.2) is: 10")
+print(p_all[[3]])
+print(p_heatmap_all[[3]])
+
+```
+
+
+
+
+
+# MAGMA p-values for the pathways genes
+
+## Top 10 genes with the largest absolute values
+
+```{r, fig.height=20, fig.width=20}
+load("/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/magma_p_top_genes.rdata")
+p <- list()
+for (i in 1:length(magma_added)) {
+  
+  magma_p <- magma_added[[i]]$magma_p
+  
+  data_frame <- data.frame(
+    Observed = sort(magma_p),
+    Theoretical = qunif(ppoints(length(magma_p)))
+  )
+  
+  # Generate the Q-Q plot
+  p[[i]] <- ggplot(data_frame, aes(x = Theoretical, y = Observed)) +
+    geom_point() +  # Plot the points
+    geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +  # Add a reference line
+    xlab("Expected P-values") +  # Label the x-axis
+    ylab("Observed P-Values") +  # Label the y-axis
+    ggtitle(names(magma_added)[i])
+  
+}
+do.call("grid.arrange", c(p, ncol = 5,nrow=5))
+
+
+```
+
+
+
+
+## All genes in the pathways
+
+```{r, fig.height=20, fig.width=20}
+load("/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/magma_p_all_genes.rdata")
+p <- list()
+for (i in 1:length(magma_added)) {
+  
+  magma_p <- magma_added[[i]]$magma_p
+  
+  data_frame <- data.frame(
+    Observed = sort(magma_p),
+    Theoretical = qunif(ppoints(length(magma_p)))
+  )
+  
+  # Generate the Q-Q plot
+  p[[i]] <- ggplot(data_frame, aes(x = Theoretical, y = Observed)) +
+    geom_point() +  # Plot the points
+    geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +  # Add a reference line
+    xlab("Expected P-values") +  # Label the x-axis
+    ylab("Observed P-Values") +  # Label the y-axis
+    ggtitle(names(magma_added)[i])
+  
+}
+do.call("grid.arrange", c(p, ncol = 5,nrow=5))
+
+
+```
+
+
+
+
+
+# Histogram for pathways involved in multiple traits at ECT FDR < 0.2/0.1
 
 ## ECT FDR < 0.2
 
@@ -411,7 +563,8 @@ plot_selected_traits("Small cell lung cancer",df_all)
 
 
 
-# Genes close to supporting variants -- for pairs with ECT FDR < 0.1
+
+# Cis genes of supporting variants -- for pairs with ECT FDR < 0.1
 
 
 ```{r}
@@ -424,6 +577,7 @@ DT::datatable(df)
 
 
 [Locus Zoom plots](https://uchicago.box.com/s/8f349903pupvsubmjvbs6daawrjjla1x)
+
 
 # If the supporting SNPs are trans-eqtls reported in eQTLGen
 

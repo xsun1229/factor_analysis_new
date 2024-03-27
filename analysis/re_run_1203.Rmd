@@ -7,7 +7,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-
 [Number of candidate IVs](https://xsun1229.github.io/factor_analysis_new/rerun_num_snp.html)
 
 [ACAT](https://xsun1229.github.io/factor_analysis_new/rerun_acat.html)
@@ -16,7 +15,13 @@ editor_options:
 
 [ECT](https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html)
 
+This website contains the updated results we included in the earlier manuscript: 
+
+Supporting variants distribution, ECT results (ECT p-values, Storey's pi1 for ECT p-values, Detailed table for pairs passing ECT FDR < 0.2), Reverse Causality test, Effect size plots
+
 [ECT result analyzing](https://xsun1229.github.io/factor_analysis_new/rerun_ECT_analy.html)
+
+This website contains the downstream analyses for the ECT results.
 
 [Diagnosis for the missed top pair](https://xsun1229.github.io/factor_analysis_new/diagnosis_missed_pair.html)
 

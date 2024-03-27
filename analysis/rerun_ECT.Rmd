@@ -9,6 +9,21 @@ output:
   
 ---
 
+This website contains the updated results we included in the earlier manuscript: 
+
+- [Supporting variants distribution](https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html#Number_of_supporting_SNPs_for_each_pair)
+
+- [ECT p-values](https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html#ECT_p-values)
+
+- [Storey's pi1 for ECT p-values](https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html#Histogram_for_Storey’s_pi1_computed_from_ECT_p-values)
+
+- [Detailed table for pairs passing ECT FDR < 0.2](https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html#Tables_for_pairs_with_ECT_FDR__02)
+
+- [Reverse Causality test](https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html#MBE)
+
+- [Effect size plots](https://xsun1229.github.io/factor_analysis_new/rerun_ECT.html#Effect_size_plots_for_top_pairs_(ECT_FDR__01))
+
+
 ```{r }
 suppressMessages(library(ggplot2))
 suppressMessages(library(gridExtra))
