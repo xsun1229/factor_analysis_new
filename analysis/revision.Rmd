@@ -7,6 +7,10 @@ editor_options:
   chunk_output_type: console
 ---
 
-Checking how the number of supporting SNPs impacts the results
+Checking how the number of supporting SNPs impacts the ECT results
 
 [Link](revision_numsnp.html)
+
+ACAT results
+
+[Link](revision_acat.html)
