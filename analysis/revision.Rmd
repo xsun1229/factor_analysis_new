@@ -1,0 +1,12 @@
+---
+title: "Revision R1"
+author: "XSun"
+date: "2025-09-16"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+Checking how the number of supporting SNPs impacts the results
+
+[Link]()

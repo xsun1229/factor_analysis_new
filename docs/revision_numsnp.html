@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="XSun" />
+
+<meta name="date" content="2025-09-17" />
+
+<title>Checking how the number of supporting SNPs impact the results</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">factor_analysis_new</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/xsun1229/factor_analysis_new">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Checking how the number of supporting SNPs
+impact the results</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2025-09-17</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-09-17
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221201)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221201code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221201)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreef6fe9d92afc0a63a4be9f22e8c039bb35705df16targetblankf6fe9d9a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/f6fe9d92afc0a63a4be9f22e8c039bb35705df16" target="_blank">f6fe9d9</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreef6fe9d92afc0a63a4be9f22e8c039bb35705df16targetblankf6fe9d9a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/f6fe9d92afc0a63a4be9f22e8c039bb35705df16" target="_blank">f6fe9d9</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Untracked files:
+    Untracked:  analysis/revision.Rmd
+    Untracked:  analysis/revision_numsnp.Rmd
+
+Unstaged changes:
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
+suppressMessages(library(tidyr))
+suppressMessages(library(forcats))
+
+celltypes &lt;- c(&quot;B_cell&quot;,&quot;CD14_positive_monocyte&quot;,&quot;CD15_positive_leukocyte&quot;,&quot;platelet&quot;,&quot;T_cell&quot;,&quot;thymocyte&quot;)
+type &lt;- c(&quot;B cell (CD19+)&quot;,&quot;Monocyte (CD14+)&quot;,&quot;Leukocyte (CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell (CD4+)&quot;,&quot;T cell (CD8+)&quot;)
+
+
+DT::datatable(matrix())</code></pre>
+<div id="htmlwidget-0c923cdc0df2ab45b6f5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0c923cdc0df2ab45b6f5">{"x":{"filter":"none","vertical":false,"data":[[null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>V1<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="number-of-supporting-snps-for-each-pair"
+class="section level1">
+<h1>Number of supporting SNPs for each pair</h1>
+<pre class="r"><code>folder_assoc &lt;- &quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc/assoc_all/&quot;
+
+fdr_cutoff &lt;- 0.2
+
+p &lt;- list()
+for (t in 1:length(type)) {
+  
+  file_assoc &lt;- paste0(folder_assoc,celltypes[t],&quot;_all.rdata&quot;)
+  load(file_assoc)
+  
+  num_celltype &lt;- c()
+  for (i in 1:length(assoc_all)) {
+    
+    assoc_trait &lt;- assoc_all[[i]]
+    
+    num_trait &lt;- c()
+    for (j in 1:length(assoc_trait)) {
+      
+      assoc_pair &lt;- assoc_trait[[j]]
+      assoc_pair$fdr &lt;- p.adjust(assoc_pair$P,method = &quot;fdr&quot;)
+      
+      num &lt;- sum(assoc_pair$fdr &lt;fdr_cutoff )
+      num_trait &lt;- c(num_trait,num)
+    }
+    
+    num_celltype &lt;- c(num_celltype,num_trait)
+  }
+  
+  summary &lt;- as.data.frame(table(num_celltype))
+  summary$num_celltype &lt;- as.numeric(as.character(summary$num_celltype))
+  
+  p[[t]] &lt;- ggplot(summary, aes(x = num_celltype, y = Freq)) +
+    geom_bar(stat = &quot;identity&quot;, fill = &quot;steelblue&quot;) +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(type[t]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = &quot;# of supporting SNPs in each pair&quot;, y = &quot;Count&quot;) +
+    geom_text(aes(label = ifelse(num_celltype %% 5 == 0, as.character(Freq), &quot;&quot;)),
+              colour = &quot;black&quot;, size = 2, vjust = -0.1, family = &quot;Times&quot;,) +
+    annotate(geom = &quot;text&quot;, x = Inf, y = Inf, label = paste0(&quot;# of candidate pairs = &quot;, sum(num_celltype &gt;= 3)),
+             hjust = 1, vjust = 1, size = 3, family = &quot;Times&quot;, color = &quot;black&quot;) +
+    theme(axis.title.x = element_text(size = 10),
+          axis.text.x = element_text(size = 8, color = &quot;black&quot;),
+          axis.title.y = element_text(size = 10),
+          axis.text.y = element_text(size = 8, color = &quot;black&quot;),
+          text = element_text(family = &quot;Times&quot;)) +
+    scale_x_continuous(breaks = seq(0, max(num_celltype), 5))
+  
+}
+
+all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)</code></pre>
+<p><img src="figure/revision_numsnp.Rmd/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="number-of-pairs-with-ect-fdr-0.2" class="section level1">
+<h1>Number of pairs with ECT FDR &lt; 0.2</h1>
+<pre class="r"><code>folder_ect &lt;- &quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/ECT/&quot;
+
+p &lt;- list()
+pairs_ect01 &lt;- list()
+for (num_snp in 3:10){
+  
+  x &lt;- c()
+  y &lt;- c()
+  df_all &lt;- c()
+  for (i in 1:length(celltypes)){
+    
+    file_ect &lt;- paste0(folder_ect,celltypes[i],&quot;_ECT_summary_table_numsnp&quot;,num_snp,&quot;.rdata&quot;)
+    
+    df_sum &lt;- get(load(file_ect))
+    x[i] &lt;- sum(df_sum$fdr_ECT &lt;= 0.1)
+    y[i] &lt;- sum(df_sum$fdr_ECT &lt; 0.2 &amp; df_sum$fdr_ECT &gt;0.1)
+   
+    df_all &lt;- rbind(df_all,df_sum[df_sum$fdr_ECT &lt;= 0.1,])
+  }
+  
+  df_all &lt;- df_all[order(df_all$fdr_ECT, decreasing = F),]
+  pairs_ect01[[paste0(&quot;num_snp&quot;,num_snp)]] &lt;- df_all
+  
+  data &lt;- data.frame(x, y, type)
+  df &lt;- gather(data, event, total, x:y)
+  
+  
+  p[[length(p)+1]] &lt;- ggplot(df, aes(type, total, fill=event)) +
+    #ggplot(df, aes(type, total, fill=event)) +
+    theme_bw(base_line_size =0.3) +
+    
+    geom_bar(stat = &quot;identity&quot;, position = &#39;dodge&#39;,alpha=0.9) +
+    scale_fill_manual(name=&quot;group&quot;, values=c(&quot;#F8766D&quot;, &quot;darkturquoise&quot;),labels=c(&quot;FDR &lt; 0.1&quot;,&quot;0.1 &lt; FDR &lt; 0.2&quot;)) +
+    
+    aes(x = fct_inorder(type)) + 
+    
+    labs(x = &quot;Cell types&quot;, y = &quot;Count&quot;) +
+    
+    geom_text(aes(label = total),position = position_dodge(0.9),
+              color=&quot;black&quot;,size = 3,vjust = -0.3) +
+    
+    ylim(0,80) +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 8, color = &quot;black&quot;, angle = 45, hjust = 1, vjust = 1.1),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = &quot;black&quot;),
+          text= element_text(family=&quot;Times&quot;)) +
+    
+    ggtitle(paste0(&quot;#of supporting SNP \n cutoff = &quot;,num_snp))
+  
+  
+  
+}
+
+
+all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]],p[[8]], nrow = 2)</code></pre>
+<p><img src="figure/revision_numsnp.Rmd/unnamed-chunk-3-1.png" width="1344" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>for (num_snp in c(3:10)){
+
+  
+  cat(&quot;&lt;br&gt;&quot;)
+  cat(knitr::knit_print(DT::datatable(pairs_ect01[[paste0(&quot;num_snp&quot;,num_snp)]],caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,paste0(&#39;Pairs with ECT FDR &lt; 0.1 -- snp cutoff = &#39;,num_snp)),options = list(pageLength = 10) )))
+  cat(&quot;&lt;br&gt;&quot;)
+  cat(&quot;&lt;br&gt;&quot;)
+  cat(&quot;&lt;br&gt;&quot;)
+  cat(&quot;&lt;br&gt;&quot;)
+  cat(&quot;&lt;br&gt;&quot;)
+  
+  
+  
+}</code></pre>
+<p><br></p>
+<div id="htmlwidget-ad41175326dc68f35292" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 3<\/caption>","data":[["3061","6886","1682","2657","3281","4354","4568","1253","1499","4500","1508","2396","5355","5760","4574","1592","2781","4476","341","3103","3192","3267","1023"],["ret","ret","mch","mpv","myeloid_wbc","pct","pct","lymph","lymph","pct","lymph","mcv","ret","wbc","pct","mch","mpv","pct","hct","ret","ret","ret","hgb"],["pwy120_pc4","pwy97_pc5","pwy197_pc4","pwy176_pc4","pwy234_pc3","pwy112_pc5","pwy304_pc4","pwy18_pc3","pwy310_pc1","pwy237_pc5","pwy312_pc1","pwy274_pc4","pwy161_pc4","pwy235_pc5","pwy312_pc5","pwy125_pc4","pwy279_pc4","pwy216_pc3","pwy151_pc5","pwy142_pc3","pwy192_pc5","pwy265_pc2","pwy295_pc1"],["04062","03018","04720","04620","04932","04012","05214","00230","05220","04935","05222","05135","04371","04933","05222","04071","05145","04914","04218","04150","04670","05034","05202"],["Chemokine signaling pathway","RNA degradation","Long-term potentiation","Toll-like receptor signaling pathway","Non-alcoholic fatty liver disease","ErbB signaling pathway","Glioma","Purine metabolism","Chronic myeloid leukemia","Growth hormone synthesis, secretion and action","Small cell lung cancer","Yersinia infection","Apelin signaling pathway","AGE-RAGE signaling pathway in diabetic complications","Small cell lung cancer","Sphingolipid signaling pathway","Toxoplasmosis","Progesterone-mediated oocyte maturation","Cellular senescence","mTOR signaling pathway","Leukocyte transendothelial migration","Alcoholism","Transcriptional misregulation in cancer"],[88,65,40,63,108,55,50,65,62,67,60,89,72,51,60,77,74,47,78,55,58,46,99],[8.78822307379105e-07,1.56522490864287e-06,1.89579310080546e-06,1.96089742994342e-06,1.71020585934223e-06,1.31699419209861e-06,7.77003738085457e-05,1.45289281421423e-05,8.26806947324343e-05,5.41600710359324e-05,4.5512031195138e-05,6.43516316225823e-05,0.000112510130672609,4.29862767083396e-06,2.09955494147263e-05,3.56530266744445e-05,6.86591302291877e-05,0.000111746552755386,4.86751784205372e-05,3.61426132715243e-05,0.000344410255275228,0.000220915471523243,0.00011082428485813],[0.985909892900993,0.999996869552633,0.948953414144801,0.981598143385434,0.861314043607462,0.983880051932852,0.996777873322391,0.887599937768342,0.869938253149725,0.969854213483294,0.997743880487893,0.967711907433018,0.789334434698498,0.976111796120926,0.959555516394942,0.998082633964897,0.87576132385121,0.999776519381781,0.971109322338952,0.666176372613751,0.969848186378673,0.634655483999886,0.98285835173606],[4e-06,4e-06,2.8e-05,4.6e-05,3.9e-05,3.1e-05,2.8e-05,5.7e-05,7.7e-05,9.7e-05,0.000148,0.000129,0.000121,0.00015,0.000173,0.000214,0.00021,0.000204,0.000113,0.000104,0.000105,0.000102,0.000236],[0.016736,0.03798,0.0645748,0.0645748,0.0645748,0.0645748,0.0645748,0.0666805,0.077209,0.085105375,0.0877375,0.0877375,0.0877375,0.0877375,0.0934066923076923,0.093879125,0.093879125,0.093879125,0.0945584,0.0945584,0.0945584,0.0945584,0.0974402352941176],[7,3,9,7,13,7,4,10,9,6,4,6,11,7,7,4,9,3,6,17,5,15,5]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-66aaeb19fe992dfb51c2" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-66aaeb19fe992dfb51c2">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 4<\/caption>","data":[["2177","1283","2049","2560","3386","3548","942","1145","3491","1151","1821","4121","4419","241","2213","2282","2346","3552","1213","2152","756","866","2170","3517","4204","2327"],["ret","mch","mpv","myeloid_wbc","pct","pct","lymph","lymph","pct","lymph","mcv","ret","wbc","hct","ret","ret","ret","pct","mch","mpv","hgb","lymph","ret","pct","ret","ret"],["pwy120_pc4","pwy197_pc4","pwy176_pc4","pwy234_pc3","pwy112_pc5","pwy304_pc4","pwy18_pc3","pwy310_pc1","pwy237_pc5","pwy312_pc1","pwy274_pc4","pwy161_pc4","pwy235_pc5","pwy151_pc5","pwy142_pc3","pwy192_pc5","pwy265_pc2","pwy312_pc5","pwy125_pc4","pwy279_pc4","pwy295_pc1","pwy140_pc1","pwy117_pc3","pwy284_pc5","pwy270_pc4","pwy233_pc5"],["04062","04720","04620","04932","04012","05214","00230","05220","04935","05222","05135","04371","04933","04218","04150","04670","05034","05222","04071","05145","05202","04145","04024","05161","05131","04931"],["Chemokine signaling pathway","Long-term potentiation","Toll-like receptor signaling pathway","Non-alcoholic fatty liver disease","ErbB signaling pathway","Glioma","Purine metabolism","Chronic myeloid leukemia","Growth hormone synthesis, secretion and action","Small cell lung cancer","Yersinia infection","Apelin signaling pathway","AGE-RAGE signaling pathway in diabetic complications","Cellular senescence","mTOR signaling pathway","Leukocyte transendothelial migration","Alcoholism","Small cell lung cancer","Sphingolipid signaling pathway","Toxoplasmosis","Transcriptional misregulation in cancer","Phagosome","cAMP signaling pathway","Hepatitis B","Shigellosis","Insulin resistance"],[88,40,63,108,55,50,65,62,67,60,89,72,51,78,55,58,46,60,77,74,99,99,71,110,165,45],[8.78822307379105e-07,1.89579310080546e-06,1.96089742994342e-06,1.71020585934223e-06,1.31699419209861e-06,7.77003738085457e-05,1.45289281421423e-05,8.26806947324343e-05,5.41600710359324e-05,4.5512031195138e-05,6.43516316225823e-05,0.000112510130672609,4.29862767083396e-06,4.86751784205372e-05,3.61426132715243e-05,0.000344410255275228,0.000220915471523243,2.09955494147263e-05,3.56530266744445e-05,6.86591302291877e-05,0.00011082428485813,0.000276072375990014,0.000254327213505423,0.000174750289043928,9.48896599399592e-05,6.05413482015546e-05],[0.985909892900993,0.948953414144801,0.981598143385434,0.861314043607462,0.983880051932852,0.996777873322391,0.887599937768342,0.869938253149725,0.969854213483294,0.997743880487893,0.967711907433018,0.789334434698498,0.976111796120926,0.971109322338952,0.666176372613751,0.969848186378673,0.634655483999886,0.959555516394942,0.998082633964897,0.87576132385121,0.98285835173606,0.748968095749579,0.718221700248599,0.770390565723145,0.962315605138039,0.987320911659144],[4e-06,2.8e-05,4.6e-05,3.9e-05,3.1e-05,2.8e-05,5.7e-05,7.7e-05,9.7e-05,0.000148,0.000129,0.000121,0.00015,0.000113,0.000104,0.000105,0.000102,0.000173,0.000214,0.00021,0.000236,0.000263,0.000169,0.000287,0.000329,0.000219],[0.011844,0.0483092,0.0483092,0.0483092,0.0483092,0.0483092,0.0498845,0.057761,0.063668375,0.0656375,0.0656375,0.0656375,0.0656375,0.0669186,0.0669186,0.0669186,0.0669186,0.0698786923076923,0.0749142666666667,0.0749142666666667,0.07745225,0.0812360588235294,0.0834015,0.0837242777777778,0.0909252105263158,0.092637],[7,9,7,13,7,4,10,9,6,4,6,11,7,6,17,5,15,7,4,9,5,11,12,11,6,5]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-1814506231684700bf53" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1814506231684700bf53">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 5<\/caption>","data":[["1534","686","967","1549","1960","2612","162","1564","1622","1673","858","2692","1371","3161","1527","3379","2735","1656","1640","1635","1643","1716","536","628","2711","1577","3217","1598","1019","1402","1517","235","678","841"],["ret","lymph","mch","mpv","myeloid_wbc","pct","hct","ret","ret","ret","lymph","pct","mcv","ret","ret","wbc","pct","ret","mpv","ret","ret","ret","hgb","lymph","pct","ret","ret","ret","plt","rbc","ret","gran","lymph","lymph"],["pwy120_pc4","pwy18_pc3","pwy197_pc4","pwy176_pc4","pwy234_pc3","pwy112_pc5","pwy151_pc5","pwy142_pc3","pwy192_pc5","pwy265_pc2","pwy310_pc1","pwy237_pc5","pwy274_pc4","pwy161_pc4","pwy117_pc3","pwy235_pc5","pwy312_pc5","pwy233_pc5","pwy279_pc4","pwy202_pc4","pwy212_pc2","pwy291_pc2","pwy295_pc1","pwy140_pc1","pwy284_pc5","pwy151_pc4","pwy270_pc4","pwy176_pc2","pwy115_pc1","pwy151_pc1","pwy113_pc4","pwy234_pc3","pwy174_pc1","pwy296_pc1"],["04062","00230","04720","04620","04932","04012","04218","04150","04670","05034","05220","04935","05135","04371","04024","04933","05222","04931","05145","04725","04910","05168","05202","04145","05161","04218","05131","04620","04020","04218","04014","04932","04612","05203"],["Chemokine signaling pathway","Purine metabolism","Long-term potentiation","Toll-like receptor signaling pathway","Non-alcoholic fatty liver disease","ErbB signaling pathway","Cellular senescence","mTOR signaling pathway","Leukocyte transendothelial migration","Alcoholism","Chronic myeloid leukemia","Growth hormone synthesis, secretion and action","Yersinia infection","Apelin signaling pathway","cAMP signaling pathway","AGE-RAGE signaling pathway in diabetic complications","Small cell lung cancer","Insulin resistance","Toxoplasmosis","Cholinergic synapse","Insulin signaling pathway","Herpes simplex virus 1 infection","Transcriptional misregulation in cancer","Phagosome","Hepatitis B","Cellular senescence","Shigellosis","Toll-like receptor signaling pathway","Calcium signaling pathway","Cellular senescence","Ras signaling pathway","Non-alcoholic fatty liver disease","Antigen processing and presentation","Viral carcinogenesis"],[88,65,40,63,108,55,78,55,58,46,62,67,89,72,71,51,60,45,74,41,62,119,99,99,110,78,165,44,57,78,84,108,57,142],[8.78822307379105e-07,1.45289281421423e-05,1.89579310080546e-06,1.96089742994342e-06,1.71020585934223e-06,1.31699419209861e-06,4.86751784205372e-05,3.61426132715243e-05,0.000344410255275228,0.000220915471523243,8.26806947324343e-05,5.41600710359324e-05,6.43516316225823e-05,0.000112510130672609,0.000254327213505423,4.29862767083396e-06,2.09955494147263e-05,6.05413482015546e-05,6.86591302291877e-05,0.000236409296172742,0.00034501803179733,0.000474241545450774,0.00011082428485813,0.000276072375990014,0.000174750289043928,0.000422114587925949,9.48896599399592e-05,0.00054415579343788,0.000203844563926325,0.00402145916538339,0.00113373433306601,3.20314607368953e-05,0.000516082503148636,0.000230255338021736],[0.985909892900993,0.887599937768342,0.948953414144801,0.981598143385434,0.861314043607462,0.983880051932852,0.971109322338952,0.666176372613751,0.969848186378673,0.634655483999886,0.869938253149725,0.969854213483294,0.967711907433018,0.789334434698498,0.718221700248599,0.976111796120926,0.959555516394942,0.987320911659144,0.87576132385121,0.945840075240735,0.969821730167854,0.68549748739748,0.98285835173606,0.748968095749579,0.770390565723145,0.727356289767604,0.962315605138039,0.962150131100109,0.914232985939921,0.898258770937994,0.709768953593585,0.897079554188371,0.926207025567337,0.946403960327783],[4e-06,5.7e-05,2.8e-05,4.6e-05,3.9e-05,3.1e-05,0.000113,0.000104,0.000105,0.000102,7.7e-05,9.7e-05,0.000129,0.000121,0.000169,0.00015,0.000173,0.000219,0.00021,0.000343,0.000345,0.000288,0.000236,0.000263,0.000287,0.000421,0.000329,0.000535,0.000627,0.000595,0.000715,0.000456,0.000479,0.000473],[0.008232,0.0451326,0.0451326,0.0451326,0.0451326,0.0451326,0.0465108,0.0465108,0.0465108,0.0465108,0.0508071666666667,0.0548604285714286,0.0567456666666667,0.0567456666666667,0.057967,0.059385,0.0622642727272727,0.064386,0.0692825,0.071001,0.071001,0.071001,0.0718710769230769,0.0743726428571429,0.0757488666666667,0.0787652727272727,0.0814069375,0.0917525,0.092169,0.092169,0.098098,0.0998084736842105,0.0998084736842105,0.0998084736842105],[7,10,9,7,13,7,6,17,5,15,9,6,6,11,12,7,7,5,9,6,5,12,5,11,11,11,6,5,7,5,10,9,6,6]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-43c5071fe8a890b96ecd" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-43c5071fe8a890b96ecd">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 6<\/caption>","data":[["1115","505","733","1176","1503","2000","647","2059","120","1140","1223","1037","2405","2564","2094","1110","1251","457","2075","2446","1257","1193","1152","171","498","635","1785","71"],["ret","lymph","mch","mpv","myeloid_wbc","pct","lymph","pct","hct","ret","ret","mcv","ret","wbc","pct","ret","mpv","lymph","pct","ret","ret","ret","ret","gran","lymph","lymph","plt","eo"],["pwy120_pc4","pwy18_pc3","pwy197_pc4","pwy176_pc4","pwy234_pc3","pwy112_pc5","pwy310_pc1","pwy237_pc5","pwy151_pc5","pwy142_pc3","pwy265_pc2","pwy274_pc4","pwy161_pc4","pwy235_pc5","pwy312_pc5","pwy117_pc3","pwy279_pc4","pwy140_pc1","pwy284_pc5","pwy270_pc4","pwy291_pc2","pwy202_pc4","pwy151_pc4","pwy234_pc3","pwy174_pc1","pwy296_pc1","pwy210_pc4","pwy285_pc4"],["04062","00230","04720","04620","04932","04012","05220","04935","04218","04150","05034","05135","04371","04933","05222","04024","05145","04145","05161","05131","05168","04725","04218","04932","04612","05203","04750","05162"],["Chemokine signaling pathway","Purine metabolism","Long-term potentiation","Toll-like receptor signaling pathway","Non-alcoholic fatty liver disease","ErbB signaling pathway","Chronic myeloid leukemia","Growth hormone synthesis, secretion and action","Cellular senescence","mTOR signaling pathway","Alcoholism","Yersinia infection","Apelin signaling pathway","AGE-RAGE signaling pathway in diabetic complications","Small cell lung cancer","cAMP signaling pathway","Toxoplasmosis","Phagosome","Hepatitis B","Shigellosis","Herpes simplex virus 1 infection","Cholinergic synapse","Cellular senescence","Non-alcoholic fatty liver disease","Antigen processing and presentation","Viral carcinogenesis","Inflammatory mediator regulation of TRP channels","Measles"],[88,65,40,63,108,55,62,67,78,55,46,89,72,51,60,71,74,99,110,165,119,41,78,108,57,142,48,96],[8.78822307379105e-07,1.45289281421423e-05,1.89579310080546e-06,1.96089742994342e-06,1.71020585934223e-06,1.31699419209861e-06,8.26806947324343e-05,5.41600710359324e-05,4.86751784205372e-05,3.61426132715243e-05,0.000220915471523243,6.43516316225823e-05,0.000112510130672609,4.29862767083396e-06,2.09955494147263e-05,0.000254327213505423,6.86591302291877e-05,0.000276072375990014,0.000174750289043928,9.48896599399592e-05,0.000474241545450774,0.000236409296172742,0.000422114587925949,3.20314607368953e-05,0.000516082503148636,0.000230255338021736,0.000144920303783313,0.000355204030248947],[0.985909892900993,0.887599937768342,0.948953414144801,0.981598143385434,0.861314043607462,0.983880051932852,0.869938253149725,0.969854213483294,0.971109322338952,0.666176372613751,0.634655483999886,0.967711907433018,0.789334434698498,0.976111796120926,0.959555516394942,0.718221700248599,0.87576132385121,0.748968095749579,0.770390565723145,0.962315605138039,0.68549748739748,0.945840075240735,0.727356289767604,0.897079554188371,0.926207025567337,0.946403960327783,0.923358947929789,0.936351943102457],[4e-06,5.7e-05,2.8e-05,4.6e-05,3.9e-05,3.1e-05,7.7e-05,9.7e-05,0.000113,0.000104,0.000102,0.000129,0.000121,0.00015,0.000173,0.000169,0.00021,0.000263,0.000287,0.000329,0.000288,0.000343,0.000421,0.000456,0.000479,0.000473,0.000508,0.000674],[0.005944,0.0336528,0.0336528,0.0336528,0.0336528,0.0336528,0.037884,0.0409062857142857,0.0419795,0.0419795,0.0419795,0.042312,0.042312,0.04428,0.0464269090909091,0.0502268,0.05166,0.0597212307692308,0.060516,0.0647472,0.071328,0.072814,0.07820075,0.078556,0.078556,0.078556,0.0789271578947369,0.0994824],[7,10,9,7,13,7,9,6,6,17,15,6,11,7,7,12,9,11,11,6,12,6,11,9,6,6,7,6]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-3f22443f93eeeda03f7b" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3f22443f93eeeda03f7b">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 7<\/caption>","data":[["782","384","577","917","1185","1561","506","800","865","1857","1979","1633","777","978","344","1622","892","808","131","1398","515","768","770"],["ret","lymph","mch","mpv","myeloid_wbc","pct","lymph","ret","ret","ret","wbc","pct","ret","mpv","lymph","pct","ret","ret","gran","plt","plt","ret","ret"],["pwy120_pc4","pwy18_pc3","pwy197_pc4","pwy176_pc4","pwy234_pc3","pwy112_pc5","pwy310_pc1","pwy142_pc3","pwy265_pc2","pwy161_pc4","pwy235_pc5","pwy312_pc5","pwy117_pc3","pwy279_pc4","pwy140_pc1","pwy284_pc5","pwy291_pc2","pwy151_pc4","pwy234_pc3","pwy210_pc4","pwy115_pc1","pwy111_pc4","pwy113_pc4"],["04062","00230","04720","04620","04932","04012","05220","04150","05034","04371","04933","05222","04024","05145","04145","05161","05168","04218","04932","04750","04020","04010","04014"],["Chemokine signaling pathway","Purine metabolism","Long-term potentiation","Toll-like receptor signaling pathway","Non-alcoholic fatty liver disease","ErbB signaling pathway","Chronic myeloid leukemia","mTOR signaling pathway","Alcoholism","Apelin signaling pathway","AGE-RAGE signaling pathway in diabetic complications","Small cell lung cancer","cAMP signaling pathway","Toxoplasmosis","Phagosome","Hepatitis B","Herpes simplex virus 1 infection","Cellular senescence","Non-alcoholic fatty liver disease","Inflammatory mediator regulation of TRP channels","Calcium signaling pathway","MAPK signaling pathway","Ras signaling pathway"],[88,65,40,63,108,55,62,55,46,72,51,60,71,74,99,110,119,78,108,48,57,107,84],[8.78822307379105e-07,1.45289281421423e-05,1.89579310080546e-06,1.96089742994342e-06,1.71020585934223e-06,1.31699419209861e-06,8.26806947324343e-05,3.61426132715243e-05,0.000220915471523243,0.000112510130672609,4.29862767083396e-06,2.09955494147263e-05,0.000254327213505423,6.86591302291877e-05,0.000276072375990014,0.000174750289043928,0.000474241545450774,0.000422114587925949,3.20314607368953e-05,0.000144920303783313,0.000203844563926325,0.00090390045782049,0.00113373433306601],[0.985909892900993,0.887599937768342,0.948953414144801,0.981598143385434,0.861314043607462,0.983880051932852,0.869938253149725,0.666176372613751,0.634655483999886,0.789334434698498,0.976111796120926,0.959555516394942,0.718221700248599,0.87576132385121,0.748968095749579,0.770390565723145,0.68549748739748,0.727356289767604,0.897079554188371,0.923358947929789,0.914232985939921,0.647816328707936,0.709768953593585],[4e-06,5.7e-05,2.8e-05,4.6e-05,3.9e-05,3.1e-05,7.7e-05,0.000104,0.000102,0.000121,0.00015,0.000173,0.000169,0.00021,0.000263,0.000287,0.000288,0.000421,0.000456,0.000508,0.000627,0.000792,0.000715],[0.004164,0.0256386,0.0256386,0.0256386,0.0256386,0.0256386,0.0288621666666667,0.036088,0.036088,0.0388755714285714,0.04216875,0.0432307777777778,0.04398225,0.047229,0.0537715454545455,0.0537885833333333,0.0599616,0.0730435,0.078888,0.0816065714285714,0.091608,0.091608,0.091608],[7,10,9,7,13,7,9,17,15,11,7,7,12,9,11,11,12,11,9,7,7,12,10]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-198b30f56771bc600b2c" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-198b30f56771bc600b2c">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 8<\/caption>","data":[["284","433","908","381","561","613","1407","542","637","754","250","1240","567","534","536","100"],["lymph","mch","myeloid_wbc","lymph","ret","ret","ret","ret","ret","mpv","lymph","pct","ret","ret","ret","gran"],["pwy18_pc3","pwy197_pc4","pwy234_pc3","pwy310_pc1","pwy142_pc3","pwy265_pc2","pwy161_pc4","pwy117_pc3","pwy291_pc2","pwy279_pc4","pwy140_pc1","pwy284_pc5","pwy151_pc4","pwy111_pc4","pwy113_pc4","pwy234_pc3"],["00230","04720","04932","05220","04150","05034","04371","04024","05168","05145","04145","05161","04218","04010","04014","04932"],["Purine metabolism","Long-term potentiation","Non-alcoholic fatty liver disease","Chronic myeloid leukemia","mTOR signaling pathway","Alcoholism","Apelin signaling pathway","cAMP signaling pathway","Herpes simplex virus 1 infection","Toxoplasmosis","Phagosome","Hepatitis B","Cellular senescence","MAPK signaling pathway","Ras signaling pathway","Non-alcoholic fatty liver disease"],[65,40,108,62,55,46,72,71,119,74,99,110,78,107,84,108],[1.45289281421423e-05,1.89579310080546e-06,1.71020585934223e-06,8.26806947324343e-05,3.61426132715243e-05,0.000220915471523243,0.000112510130672609,0.000254327213505423,0.000474241545450774,6.86591302291877e-05,0.000276072375990014,0.000174750289043928,0.000422114587925949,0.00090390045782049,0.00113373433306601,3.20314607368953e-05],[0.887599937768342,0.948953414144801,0.861314043607462,0.869938253149725,0.666176372613751,0.634655483999886,0.789334434698498,0.718221700248599,0.68549748739748,0.87576132385121,0.748968095749579,0.770390565723145,0.727356289767604,0.647816328707936,0.709768953593585,0.897079554188371],[5.7e-05,2.8e-05,3.9e-05,7.7e-05,0.000104,0.000102,0.000121,0.000169,0.000288,0.00021,0.000263,0.000287,0.000421,0.000792,0.000715,0.000456],[0.032395,0.032395,0.032395,0.03282125,0.038636,0.038636,0.041261,0.0418556666666667,0.053496,0.059675,0.061166875,0.061166875,0.0625606,0.0840651428571429,0.0840651428571429,0.0863866666666667],[10,9,13,9,17,15,11,12,12,9,11,11,11,12,10,9]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-b544a055166914a18edc" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b544a055166914a18edc">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 9<\/caption>","data":[["203","324","675","282","404","440","392","1058","460","564","408","175","939","385","386","73","68","72","359","452","899","791"],["lymph","mch","myeloid_wbc","lymph","ret","ret","ret","ret","ret","mpv","ret","lymph","pct","ret","ret","gran","lymph","lymph","mchc","mcv","rbc","pct"],["pwy18_pc3","pwy197_pc4","pwy234_pc3","pwy310_pc1","pwy142_pc3","pwy265_pc2","pwy117_pc3","pwy161_pc4","pwy291_pc2","pwy279_pc4","pwy151_pc4","pwy140_pc1","pwy284_pc5","pwy111_pc4","pwy113_pc4","pwy234_pc3","pwy112_pc3","pwy121_pc3","pwy176_pc4","pwy196_pc4","pwy196_pc4","pwy181_pc2"],["00230","04720","04932","05220","04150","05034","04024","04371","05168","05145","04218","04145","05161","04010","04014","04932","04012","04064","04620","04714","04714","04630"],["Purine metabolism","Long-term potentiation","Non-alcoholic fatty liver disease","Chronic myeloid leukemia","mTOR signaling pathway","Alcoholism","cAMP signaling pathway","Apelin signaling pathway","Herpes simplex virus 1 infection","Toxoplasmosis","Cellular senescence","Phagosome","Hepatitis B","MAPK signaling pathway","Ras signaling pathway","Non-alcoholic fatty liver disease","ErbB signaling pathway","NF-kappa B signaling pathway","Toll-like receptor signaling pathway","Thermogenesis","Thermogenesis","JAK-STAT signaling pathway"],[65,40,108,62,55,46,71,72,119,74,78,99,110,107,84,108,56,75,66,130,130,83],[1.45289281421423e-05,1.89579310080546e-06,1.71020585934223e-06,8.26806947324343e-05,3.61426132715243e-05,0.000220915471523243,0.000254327213505423,0.000112510130672609,0.000474241545450774,6.86591302291877e-05,0.000422114587925949,0.000276072375990014,0.000174750289043928,0.00090390045782049,0.00113373433306601,3.20314607368953e-05,0.000753595862556499,0.000288462660294351,2.16204433036626e-05,0.000225600479941531,0.00015402894624796,0.000304398401917599],[0.887599937768342,0.948953414144801,0.861314043607462,0.869938253149725,0.666176372613751,0.634655483999886,0.718221700248599,0.789334434698498,0.68549748739748,0.87576132385121,0.727356289767604,0.748968095749579,0.770390565723145,0.647816328707936,0.709768953593585,0.897079554188371,0.776489464565646,0.823199144810117,0.90661532977888,0.724129499712496,0.384364982650336,0.676512769331871],[5.7e-05,2.8e-05,3.9e-05,7.7e-05,0.000104,0.000102,0.000169,0.000121,0.000288,0.00021,0.000421,0.000263,0.000287,0.000792,0.000715,0.000456,0.000368,0.000301,0.000185,0.000234,0.000301,0.000467],[0.024111,0.024111,0.024111,0.02442825,0.02782,0.02782,0.0301383333333333,0.0307098,0.03852,0.044415,0.045047,0.045525375,0.045525375,0.0605314285714286,0.0605314285714286,0.064296,0.0821376,0.0821376,0.0821376,0.0821376,0.0821376,0.086862],[10,9,13,9,17,15,12,11,12,9,11,11,11,12,10,9,9,9,9,12,31,13]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-0d0e9bf024e70c3c54e0" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0d0e9bf024e70c3c54e0">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 10<\/caption>","data":[["269","296","261","310","147","513","273","791","256","257","124","713","263","208","74","130"],["ret","ret","ret","ret","lymph","myeloid_wbc","ret","ret","ret","ret","lymph","pct","ret","pdw","mch","mono"],["pwy142_pc3","pwy265_pc2","pwy117_pc3","pwy291_pc2","pwy18_pc3","pwy234_pc3","pwy151_pc4","pwy161_pc4","pwy111_pc4","pwy113_pc4","pwy140_pc1","pwy284_pc5","pwy120_pc3","pwy173_pc2","pwy161_pc4","pwy139_pc3"],["04150","05034","04024","05168","00230","04932","04218","04371","04010","04014","04145","05161","04062","04611","04371","04144"],["mTOR signaling pathway","Alcoholism","cAMP signaling pathway","Herpes simplex virus 1 infection","Purine metabolism","Non-alcoholic fatty liver disease","Cellular senescence","Apelin signaling pathway","MAPK signaling pathway","Ras signaling pathway","Phagosome","Hepatitis B","Chemokine signaling pathway","Platelet activation","Apelin signaling pathway","Endocytosis"],[55,46,71,119,65,108,78,72,107,84,99,110,88,70,69,111],[3.61426132715243e-05,0.000220915471523243,0.000254327213505423,0.000474241545450774,1.45289281421423e-05,1.71020585934223e-06,0.000422114587925949,0.000112510130672609,0.00090390045782049,0.00113373433306601,0.000276072375990014,0.000174750289043928,0.00400331441237761,0.00300619913891289,0.000182039492116967,0.00249625640619404],[0.666176372613751,0.634655483999886,0.718221700248599,0.68549748739748,0.887599937768342,0.861314043607462,0.727356289767604,0.789334434698498,0.647816328707936,0.709768953593585,0.748968095749579,0.770390565723145,0.512117041042938,0.642593842439297,0.734407548943156,0.517672481533319],[0.000104,0.000102,0.000169,0.000288,5.7e-05,3.9e-05,0.000421,0.000121,0.000792,0.000715,0.000263,0.000287,0.0015998,0.0022998,0.000389,0.0026997],[0.018876,0.018876,0.020449,0.026136,0.027018,0.027018,0.0305646,0.038236,0.0410708571428571,0.0410708571428571,0.0544152,0.0544152,0.072590925,0.0927586,0.094916,0.09799911],[17,15,12,12,10,13,11,11,12,10,11,11,13,10,12,14]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+[1] C
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] forcats_0.5.1 tidyr_1.3.0   gridExtra_2.3 ggplot2_3.5.1
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.12       highr_0.9         pillar_1.9.0      compiler_4.2.0   
+ [5] bslib_0.3.1       later_1.3.0       jquerylib_0.1.4   git2r_0.30.1     
+ [9] workflowr_1.7.0   tools_4.2.0       digest_0.6.29     jsonlite_1.8.0   
+[13] evaluate_0.15     lifecycle_1.0.4   tibble_3.2.1      gtable_0.3.0     
+[17] pkgconfig_2.0.3   rlang_1.1.2       cli_3.6.1         rstudioapi_0.13  
+[21] crosstalk_1.2.0   yaml_2.3.5        xfun_0.41         fastmap_1.1.0    
+[25] withr_2.5.0       dplyr_1.1.4       stringr_1.5.1     knitr_1.39       
+[29] htmlwidgets_1.5.4 generics_0.1.2    fs_1.5.2          vctrs_0.6.5      
+[33] sass_0.4.1        DT_0.22           tidyselect_1.2.0  rprojroot_2.0.3  
+[37] grid_4.2.0        glue_1.6.2        R6_2.5.1          fansi_1.0.3      
+[41] rmarkdown_2.25    farver_2.1.0      purrr_1.0.2       magrittr_2.0.3   
+[45] scales_1.3.0      promises_1.2.0.1  htmltools_0.5.2   colorspace_2.0-3 
+[49] httpuv_1.6.5      labeling_0.4.2    utf8_1.2.2        stringi_1.7.6    
+[53] munsell_0.5.0    </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

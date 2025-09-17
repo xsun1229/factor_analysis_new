@@ -8,14 +8,17 @@ editor_options:
   chunk_output_type: console
 ---
 
-# **Re-run 12/03**
+
+# **Revision 1**
+
+[link](https://xsun1229.github.io/factor_analysis_new/revision.html)
+
+
+# **Re-run 12/03/2023**
 
 **KEGG PC -- CEDAR**
 
 [link](https://xsun1229.github.io/factor_analysis_new/re_run_1203.html)
-
-
-
 
 
 # **Latest Results**
