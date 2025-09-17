@@ -9,4 +9,4 @@ editor_options:
 
 Checking how the number of supporting SNPs impacts the results
 
-[Link]()
+[Link](revision_numsnp.html)
