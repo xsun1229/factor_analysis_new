@@ -289,7 +289,7 @@ grid.arrange(grobs=p2, nrow = 2)
 
 ## MHC included
 
-If we corrected the ACAT p-values within each cell type (pool all ACAT p-values in each cell type), we have: 
+If we corrected the ACAT p-values within each cell type (pool all ACAT p-values in each trait), we have: 
 
 (the lowest p-value = 0+1/(total pair * 100)+1)
 
@@ -482,38 +482,8 @@ p
 ```
 
 
+
 ## Corrected p-values -- Global null -- MHC included
-
-If we corrected the ACAT p-values within each pair
-
-
-```{r} 
-
-load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/story_corrected_acat.rdata")
-
-values <- pi1_all
-#labels <- c('CD19+', 'CD14+', 'CD15+', 'PLT', 'CD4+', 'CD8+')
-#labels <- names(pi1_all)
-labels <- c("B cell \n(CD19+)","Monocyte \n(CD14+)","Leukocyte \n(CD15+)","Platelet","T cell \n(CD4+)","T cell \n(CD8+)")
-data <- data.frame(labels, values)
-
-# Create the bar plot
-p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
-  geom_bar(stat="identity", color="steelblue", fill="steelblue") +
-  labs(x="Cell Types", y="Storey's Pi1 for corrected acat p-values") +
-  theme_minimal()  +
-  
-  theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = "black", angle = 45, hjust = 1,vjust = 1.1),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = "black"),
-        text= element_text(family="Times")) 
-
-p
-```
-
-If we corrected the ACAT p-values within each cell type (pool all ACAT p-values in each cell type)
-
 
 ```{r} 
 
@@ -543,35 +513,6 @@ p
 
 ## Corrected p-values -- Global null - MHC removed 
 
-If we corrected the ACAT p-values within each pair
-
-```{r} 
-
-load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/story_corrected_acat_mhcexcluded.rdata")
-
-values <- pi1_all
-#labels <- c('CD19+', 'CD14+', 'CD15+', 'PLT', 'CD4+', 'CD8+')
-#labels <- names(pi1_all)
-labels <- c("B cell \n(CD19+)","Monocyte \n(CD14+)","Leukocyte \n(CD15+)","Platelet","T cell \n(CD4+)","T cell \n(CD8+)")
-data <- data.frame(labels, values)
-
-# Create the bar plot
-p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
-  geom_bar(stat="identity", color="steelblue", fill="steelblue") +
-  labs(x="Cell Types", y="Storey's Pi1 for corrected acat p-values") +
-  theme_minimal()  +
-  
-  theme(axis.title.x = element_text(size = 14),
-        axis.text.x = element_text(size = 12, color = "black", angle = 45, hjust = 1,vjust = 1.1),
-        axis.title.y = element_text(size = 14),
-        axis.text.y = element_text(size = 12, color = "black"),
-        text= element_text(family="Times")) 
-
-p
-```
-
-If we corrected the ACAT p-values within each cell type (pool all ACAT p-values in each cell type)
-
 
 ```{r} 
 
@@ -597,3 +538,123 @@ p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
 
 p
 ```
+
+## Corrected p-values -- trait null -- MHC included
+
+
+```{r} 
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/story_corrected_trait_acat.rdata")
+
+values <- pi1_all
+#labels <- c('CD19+', 'CD14+', 'CD15+', 'PLT', 'CD4+', 'CD8+')
+#labels <- names(pi1_all)
+labels <- c("B cell \n(CD19+)","Monocyte \n(CD14+)","Leukocyte \n(CD15+)","Platelet","T cell \n(CD4+)","T cell \n(CD8+)")
+data <- data.frame(labels, values)
+
+# Create the bar plot
+p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
+  geom_bar(stat="identity", color="steelblue", fill="steelblue") +
+  labs(x="Cell Types", y="Storey's Pi1 for corrected acat p-values") +
+  theme_minimal()  +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black", angle = 45, hjust = 1,vjust = 1.1),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+p
+```
+
+
+
+## Corrected p-values -- trait null - MHC removed 
+
+
+```{r} 
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/story_corrected_trait_acat_mhcexcluded.rdata")
+
+values <- pi1_all
+#labels <- c('CD19+', 'CD14+', 'CD15+', 'PLT', 'CD4+', 'CD8+')
+#labels <- names(pi1_all)
+labels <- c("B cell \n(CD19+)","Monocyte \n(CD14+)","Leukocyte \n(CD15+)","Platelet","T cell \n(CD4+)","T cell \n(CD8+)")
+data <- data.frame(labels, values)
+
+# Create the bar plot
+p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
+  geom_bar(stat="identity", color="steelblue", fill="steelblue") +
+  labs(x="Cell Types", y="Storey's Pi1 for corrected acat p-values") +
+  theme_minimal()  +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black", angle = 45, hjust = 1,vjust = 1.1),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+p
+```
+
+
+
+
+## Corrected p-values -- pair null -- MHC included
+
+
+```{r} 
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/story_corrected_pair_acat.rdata")
+
+values <- pi1_all
+#labels <- c('CD19+', 'CD14+', 'CD15+', 'PLT', 'CD4+', 'CD8+')
+#labels <- names(pi1_all)
+labels <- c("B cell \n(CD19+)","Monocyte \n(CD14+)","Leukocyte \n(CD15+)","Platelet","T cell \n(CD4+)","T cell \n(CD8+)")
+data <- data.frame(labels, values)
+
+# Create the bar plot
+p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
+  geom_bar(stat="identity", color="steelblue", fill="steelblue") +
+  labs(x="Cell Types", y="Storey's Pi1 for corrected acat p-values") +
+  theme_minimal()  +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black", angle = 45, hjust = 1,vjust = 1.1),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+p
+```
+
+
+
+## Corrected p-values -- pair null - MHC removed 
+
+
+```{r} 
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/story_corrected_pair_acat_mhcexcluded.rdata")
+
+values <- pi1_all
+#labels <- c('CD19+', 'CD14+', 'CD15+', 'PLT', 'CD4+', 'CD8+')
+#labels <- names(pi1_all)
+labels <- c("B cell \n(CD19+)","Monocyte \n(CD14+)","Leukocyte \n(CD15+)","Platelet","T cell \n(CD4+)","T cell \n(CD8+)")
+data <- data.frame(labels, values)
+
+# Create the bar plot
+p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
+  geom_bar(stat="identity", color="steelblue", fill="steelblue") +
+  labs(x="Cell Types", y="Storey's Pi1 for corrected acat p-values") +
+  theme_minimal()  +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black", angle = 45, hjust = 1,vjust = 1.1),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+p
+```
+
