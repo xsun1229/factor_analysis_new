@@ -1,5 +1,5 @@
 ---
-title: "ACAT resultst"
+title: "ACAT results"
 author: "XSun"
 date: "2025-09-17"
 output:
@@ -340,6 +340,230 @@ grid.arrange(grobs=p1, nrow = 2)
 grid.arrange(grobs=p2, nrow = 2)
 
 ```
+
+
+
+
+# Corrected ACAT p-values for each trait (global null, MHC removed)
+
+
+
+## B cell
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/B_cell_corrected_acat_pool_celltype_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+
+## CD14_positive_monocyte
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD14_positive_monocyte_corrected_acat_pool_celltype_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+## CD15_positive_leukocyte
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD15_positive_leukocyte_corrected_acat_pool_celltype_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+## platelet
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/platelet_corrected_acat_pool_celltype_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+## T cell (Cd4+)
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/T_cell_corrected_acat_pool_celltype_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+## T cell (CD8+)
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/thymocyte_corrected_acat_pool_celltype_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+
+
+
+
+# Corrected ACAT p-values for each trait (trait null, MHC removed)
+
+## B cell
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/B_cell_corrected_trait_acat_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+
+## CD14_positive_monocyte
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD14_positive_monocyte_corrected_trait_acat_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+## CD15_positive_leukocyte
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD15_positive_leukocyte_corrected_trait_acat_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+## platelet
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/platelet_corrected_trait_acat_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+## T cell (Cd4+)
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/T_cell_corrected_trait_acat_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+## T cell (CD8+)
+
+```{r fig.height=25,fig.width=25}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/thymocyte_corrected_trait_acat_mhcexcluded.rdata")
+
+p <- list()
+for (i in 1:length(acat_p_corrected)) {
+  
+  p[[i]] <- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
+  
+}
+
+grid.arrange(grobs = p, ncol =5, nrow = 6)
+
+```
+
+
+
+
+
 
 
 # All celltypes pooled
