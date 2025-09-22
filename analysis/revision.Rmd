@@ -9,8 +9,14 @@ editor_options:
 
 Checking how the number of supporting SNPs impacts the ECT results
 
-[Link](revision_numsnp.html)
+* [pathways with >= 40 genes](revision_numsnp.html)
+* [pathways with >= 20 genes](revision_numsnp_20genes.html)
+
 
 ACAT results
 
 [Link](revision_acat.html)
+
+Analysis for the pathways with >= 20 genes
+
+[ECT](https://xsun1229.github.io/factor_analysis_new/revision_ECT_20genes.html)

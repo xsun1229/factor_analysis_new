@@ -1,0 +1,467 @@
+---
+title: "ECT -- pathways with gene >=20"
+author: "XSun"
+date: "2025-09-21"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+  
+---
+
+```{r }
+suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
+suppressMessages(library(tidyr))
+suppressMessages(library(forcats))
+
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+
+```
+
+
+# Number of supporting SNPs for each pair
+```{r }
+folder_assoc <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc_20genes/assoc_all/"
+
+fdr_cutoff <- 0.2
+
+p <- list()
+for (t in 1:length(type)) {
+  
+  file_assoc <- paste0(folder_assoc,celltypes[t],"_all.rdata")
+  load(file_assoc)
+  
+  num_celltype <- c()
+  for (i in 1:length(assoc_all)) {
+    
+    assoc_trait <- assoc_all[[i]]
+    
+    num_trait <- c()
+    for (j in 1:length(assoc_trait)) {
+      
+      assoc_pair <- assoc_trait[[j]]
+      assoc_pair$fdr <- p.adjust(assoc_pair$P,method = "fdr")
+      
+      num <- sum(assoc_pair$fdr <fdr_cutoff )
+      num_trait <- c(num_trait,num)
+    }
+    
+    num_celltype <- c(num_celltype,num_trait)
+  }
+  
+  summary <- as.data.frame(table(num_celltype))
+  summary$num_celltype <- as.numeric(as.character(summary$num_celltype))
+  
+  p[[t]] <- ggplot(summary, aes(x = num_celltype, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(type[t]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(aes(label = ifelse(num_celltype %% 5 == 0, as.character(Freq), "")),
+              colour = "black", size = 2, vjust = -0.1, family = "Times",) +
+    annotate(geom = "text", x = Inf, y = Inf, label = paste0("# of candidate pairs = ", sum(num_celltype >= 3)),
+             hjust = 1, vjust = 1, size = 3, family = "Times", color = "black") +
+    theme(axis.title.x = element_text(size = 10),
+          axis.text.x = element_text(size = 8, color = "black"),
+          axis.title.y = element_text(size = 10),
+          axis.text.y = element_text(size = 8, color = "black"),
+          text = element_text(family = "Times")) +
+    scale_x_continuous(breaks = seq(0, max(num_celltype), 5))
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+```
+
+# ECT p-values
+
+
+```{r }
+folder_ect <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/ECT/"
+
+p1 <- list()
+for (i in 1:length(celltypes)) {
+  
+  file_ect <- paste0(folder_ect,celltypes[i],"_ECT_summary_table_numsnp3.rdata")
+  df_sum <- get(load(file_ect))
+  
+  p <- as.data.frame(df_sum$pval_ECT)
+  colnames(p) <- "p"
+  p1[[i]] <-  ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
+    theme_bw(base_line_size =0.3) +
+    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "ECT p-values",
+         y = "Count") +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) 
+  
+  
+}
+
+
+all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+
+p1 <- list()
+for (i in 1:length(celltypes)) {
+  
+  file_ect <- paste0(folder_ect,celltypes[i],"_ECT_summary_table_numsnp3.rdata")
+  df_sum <- get(load(file_ect))
+  
+  p <- as.data.frame(df_sum$pval_ECT)
+  colnames(p) <- "p"
+  
+  plotdata <- data.frame(observed = -log10(sort(as.numeric(as.character(p$p)))),
+                       expected = -log10(ppoints(nrow(p))))
+ 
+
+  p1[[i]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
+    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
+    ggtitle(type[i]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
+       y = expression(paste("Observed -log"[10],"(p-value)"))) +
+  
+    theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black"),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+}
+
+all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+
+```
+
+# Histogram for Storey's pi1 computed from ECT p-values
+
+```{r} 
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/ECT_story.rdata")
+
+values <- pi1_all
+#labels <- c('CD19+', 'CD14+', 'CD15+', 'PLT', 'CD4+', 'CD8+')
+#labels <- names(pi1_all)
+labels <- c("B cell \n(CD19+)","Monocyte \n(CD14+)","Leukocyte \n(CD15+)","Platelet","T cell \n(CD4+)","T cell \n(CD8+)")
+data <- data.frame(labels, values)
+
+# Create the bar plot
+p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
+  geom_bar(stat="identity", color="steelblue", fill="steelblue") +
+  labs(x="Cell Types", y="Storey's Pi1") +
+  theme_minimal()  +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black", angle = 45, hjust = 1,vjust = 1.1),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+p
+```
+
+# ECT summary plot
+
+```{r }
+
+folder_ect <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/ECT/"
+
+x <- c()
+y <- c()
+for (i in 1:length(celltypes)){
+  
+  file_ect <- paste0(folder_ect,celltypes[i],"_ECT_summary_table_numsnp3.rdata")
+  df_sum <- get(load(file_ect))
+  x[i] <- sum(df_sum$fdr_ECT <= 0.1)
+  y[i] <- sum(df_sum$fdr_ECT < 0.2 & df_sum$fdr_ECT > 0.1)
+
+}
+
+
+data <- data.frame(x, y,type)
+df <- gather(data, event, total, x:y)
+
+
+bar <- ggplot(df, aes(type, total, fill=event)) +
+#ggplot(df, aes(type, total, fill=event)) +
+  theme_bw(base_line_size =0.3) +
+  
+  geom_bar(stat = "identity", position = 'dodge',alpha=0.9) +
+  scale_fill_manual(name="group", values=c("#F8766D", "darkturquoise"),labels=c("FDR < 0.1","0.1 < FDR < 0.2")) +
+  
+  aes(x = fct_inorder(type)) + 
+  
+  labs(x = "Cell types", y = "Count") +
+  
+  geom_text(aes(label = total),position = position_dodge(0.9),
+            color="black",size = 3,vjust = -0.3) +
+  
+  ylim(0,80) +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 8, color = "black", angle = 45, hjust = 1, vjust = 1.1),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+bar
+```
+
+# Tables for pairs with ECT FDR < 0.2
+```{r }
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/summary_mbe_steiger.rdata")
+df_all <- df_all[order(df_all$fdr_ECT, decreasing = F),]
+DT::datatable(df_all)
+
+```
+
+# MBE
+
+## Steiger filtered
+
+```{r }
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/summary_mbe_steiger.rdata")
+
+p <- as.data.frame(as.numeric(df_all$mbe_pval_reverse_steiger))
+colnames(p) <- "p"
+
+hist <- ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
+  theme_bw(base_line_size =0.3) +
+  labs(x = "MBE p-values",
+       y = "Count") +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black"),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+hist
+```
+
+
+
+## Without filtering
+
+```{r }
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/summary_mbe_steiger.rdata")
+
+p <- as.data.frame(as.numeric(df_all$mbe_pval_reverse))
+colnames(p) <- "p"
+
+hist <- ggplot(p, aes(x=p)) + geom_histogram(breaks = seq(0, 1, by = 0.05),color="white",fill = "steelblue")+ 
+  theme_bw(base_line_size =0.3) +
+  labs(x = "MBE p-values",
+       y = "Count") +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black"),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+hist
+```
+
+
+
+
+# Effect size plots for top pairs (ECT FDR < 0.1)
+
+```{r message=FALSE,warning=F, fig.height=35, fig.width=25}
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/summary_mbe_steiger.rdata")
+
+df_sorted <- df_all[order(as.numeric(df_all$fdr_ECT), decreasing = F),]
+df_sorted <- df_sorted[df_sorted$fdr_ECT < 0.1,]
+
+B_cell <- get(load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc_20genes/harmo_addinfo/B_cell_harmo.rdata"))
+CD14_positive_monocyte <- get(load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc_20genes/harmo_addinfo/CD14_positive_monocyte_harmo.rdata"))
+platelet <- get(load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc_20genes/harmo_addinfo/platelet_harmo.rdata"))
+T_cell <- get(load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc_20genes/harmo_addinfo/T_cell_harmo.rdata"))
+
+harmo <- list(B_cell,CD14_positive_monocyte,platelet,T_cell)
+names(harmo) <- c("B_cell","CD14_positive_monocyte","platelet","T_cell")
+
+eff<- list()
+for (i in 1:nrow(df_sorted)){
+  
+  celltype_pair <- celltypes[which(type == df_sorted$celltypes[i])]
+  trait <- df_sorted$trait[i]
+  factor <- df_sorted$factor[i]
+  pathway <- df_sorted$pwy_name[i]
+
+  assoc_harmo <- harmo[[celltype_pair]]
+  
+  dat <- assoc_harmo[[trait]][[factor]]
+  snp_select <- dat[dat$fdr < fdr_cutoff,]
+  fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  ect_p <- df_sorted$pval_ECT[df_sorted$factor == factor &df_sorted$trait ==trait]
+  
+  eff[[i]] <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+  
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01 ,alpha=0.6) +
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+  
+  geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste("R^2 = ",signif(summary(fit)$r.squared, 3),
+                           
+                           " \nECT p-value =",ect_p),
+             #" \np-value =",signif(summary(fit)$coef[1,4], 3)),
+             color = "black",
+             family = "Times",
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  ggtitle(paste0(pathway,"-\n",factor,"-\n",trait))  +
+  
+  xlab("effectsize.factor") + ylab("effectsize.gwas") +
+  geom_vline(xintercept = 0,color = "grey",linetype = "dashed") +
+  geom_hline(yintercept = 0,color = "grey",linetype = "dashed") 
+  
+}
+do.call("grid.arrange", c(eff, ncol = 5))
+```
+
+```{r message=FALSE,warning=F, fig.height=8, fig.width=20}
+index <- which(df_all$trait %in%c("EUR.IBD","EUR.CD","EUR.UC","ukb.allasthma"))
+df_sorted <- df_all[index,]
+eff<- list()
+for (i in 1:nrow(df_sorted)){
+  
+  celltype_pair <- celltypes[which(type == df_sorted$celltypes[i])]
+  trait <- df_sorted$trait[i]
+  factor <- df_sorted$factor[i]
+  pathway <- df_sorted$pwy_name[i]
+
+  assoc_harmo <- harmo[[celltype_pair]]
+  
+  dat <- assoc_harmo[[trait]][[factor]]
+  snp_select <- dat[dat$fdr < fdr_cutoff,]
+  fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  ect_p <- df_sorted$pval_ECT[df_sorted$factor == factor &df_sorted$trait ==trait]
+  
+  eff[[i]] <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+  
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01 ,alpha=0.6) +
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+  
+  geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste("R^2 = ",signif(summary(fit)$r.squared, 3),
+                           
+                           " \nECT p-value =",ect_p),
+             #" \np-value =",signif(summary(fit)$coef[1,4], 3)),
+             color = "black",
+             family = "Times",
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  ggtitle(paste0(pathway,"-\n",factor,"-\n",trait))  +
+  
+  xlab("effectsize.factor") + ylab("effectsize.gwas") +
+  geom_vline(xintercept = 0,color = "grey",linetype = "dashed") +
+  geom_hline(yintercept = 0,color = "grey",linetype = "dashed") 
+  
+}
+do.call("grid.arrange", c(eff, ncol = 5))
+
+```
+
+# Checking if the ECT IVs pass the Steiger filtering
+
+```{r message=FALSE,warning=F, fig.height=8, fig.width=25}
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/compare_snp_filtered.rdata")
+
+df_all <- df_all[df_all$snp_pass_steiger_filter!=df_all$num_snp_pass_cutoff,]
+print("The pairs containing the IVs not passing the Steiger filtering")
+DT::datatable(df_all)
+
+df_sorted <- df_all[order(as.numeric(df_all$fdr_ECT), decreasing = F),]
+df_sorted <- df_sorted[df_sorted$fdr_ECT < 0.1,]
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/harmo_reverse.rdata")
+
+fdr_cutoff <- 0.2
+
+
+eff<- list()
+for (i in 1:nrow(df_sorted)){
+  
+  celltype_pair <- celltypes[which(type == df_sorted$celltypes[i])]
+  trait <- df_sorted$trait[i]
+  factor <- df_sorted$factor[i]
+  pathway <- df_sorted$pwy_name[i]
+  
+  name <- paste0(celltype_pair,"-",factor,"-",trait)
+  
+  dat <- harmo_list_all[[name]]
+
+  snp_select <- dat[dat$fdr < fdr_cutoff,]
+  
+  fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  #ect_p <- df_sorted$pval_ECT[df_sorted$factor == factor &df_sorted$trait ==trait]
+  
+  eff[[i]] <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=steiger_dir)) +
+  
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=steiger_dir), width=0.01 ,alpha=0.6) +
+  theme_bw(base_line_size =0.3) +
+  
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+  
+   geom_label(aes(x = min(beta.exposure), y =max(beta.outcome)), hjust = 0, 
+             label = paste("R^2 = ",signif(summary(fit)$r.squared, 3),
+                           
+                           " \nECT p-value =",ect_p),
+             #" \np-value =",signif(summary(fit)$coef[1,4], 3)),
+             color = "black",
+             family = "Times",
+             size = 4,
+             label.size = NA,
+             alpha = 0) + 
+  ggtitle(paste0(pathway,"-",factor,"-",trait))  +
+  
+  xlab("effectsize.factor") + ylab("effectsize.gwas") +
+  geom_vline(xintercept = 0,color = "grey",linetype = "dashed") +
+  geom_hline(yintercept = 0,color = "grey",linetype = "dashed") 
+  
+}
+do.call("grid.arrange", c(eff, ncol = 5))
+```
+

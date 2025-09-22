@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="XSun" />
+
+<meta name="date" content="2025-09-21" />
+
+<title>Checking how the number of supporting SNPs impact the results</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">factor_analysis_new</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/xsun1229/factor_analysis_new">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Checking how the number of supporting SNPs
+impact the results</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2025-09-21</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-09-21
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221201)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221201code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221201)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree40b2cde7e0540b08659eb49a3c6021bc93d28ae1targetblank40b2cdea">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/40b2cde7e0540b08659eb49a3c6021bc93d28ae1" target="_blank">40b2cde</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree40b2cde7e0540b08659eb49a3c6021bc93d28ae1targetblank40b2cdea"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/40b2cde7e0540b08659eb49a3c6021bc93d28ae1" target="_blank">40b2cde</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Untracked files:
+    Untracked:  analysis/revision_numsnp_20genes.Rmd
+
+Unstaged changes:
+    Modified:   analysis/revision.Rmd
+    Modified:   analysis/revision_acat.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
+suppressMessages(library(tidyr))
+suppressMessages(library(forcats))
+
+celltypes &lt;- c(&quot;B_cell&quot;,&quot;CD14_positive_monocyte&quot;,&quot;CD15_positive_leukocyte&quot;,&quot;platelet&quot;,&quot;T_cell&quot;,&quot;thymocyte&quot;)
+type &lt;- c(&quot;B cell (CD19+)&quot;,&quot;Monocyte (CD14+)&quot;,&quot;Leukocyte (CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell (CD4+)&quot;,&quot;T cell (CD8+)&quot;)
+
+
+DT::datatable(matrix())</code></pre>
+<div id="htmlwidget-0c923cdc0df2ab45b6f5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0c923cdc0df2ab45b6f5">{"x":{"filter":"none","vertical":false,"data":[[null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>V1<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="number-of-supporting-snps-for-each-pair"
+class="section level1">
+<h1>Number of supporting SNPs for each pair</h1>
+<pre class="r"><code>folder_assoc &lt;- &quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc_20genes/assoc_all/&quot;
+
+fdr_cutoff &lt;- 0.2
+
+p &lt;- list()
+for (t in 1:length(type)) {
+  
+  file_assoc &lt;- paste0(folder_assoc,celltypes[t],&quot;_all.rdata&quot;)
+  load(file_assoc)
+  
+  num_celltype &lt;- c()
+  for (i in 1:length(assoc_all)) {
+    
+    assoc_trait &lt;- assoc_all[[i]]
+    
+    num_trait &lt;- c()
+    for (j in 1:length(assoc_trait)) {
+      
+      assoc_pair &lt;- assoc_trait[[j]]
+      assoc_pair$fdr &lt;- p.adjust(assoc_pair$P,method = &quot;fdr&quot;)
+      
+      num &lt;- sum(assoc_pair$fdr &lt;fdr_cutoff )
+      num_trait &lt;- c(num_trait,num)
+    }
+    
+    num_celltype &lt;- c(num_celltype,num_trait)
+  }
+  
+  summary &lt;- as.data.frame(table(num_celltype))
+  summary$num_celltype &lt;- as.numeric(as.character(summary$num_celltype))
+  
+  p[[t]] &lt;- ggplot(summary, aes(x = num_celltype, y = Freq)) +
+    geom_bar(stat = &quot;identity&quot;, fill = &quot;steelblue&quot;) +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(type[t]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = &quot;# of supporting SNPs in each pair&quot;, y = &quot;Count&quot;) +
+    geom_text(aes(label = ifelse(num_celltype %% 5 == 0, as.character(Freq), &quot;&quot;)),
+              colour = &quot;black&quot;, size = 2, vjust = -0.1, family = &quot;Times&quot;,) +
+    annotate(geom = &quot;text&quot;, x = Inf, y = Inf, label = paste0(&quot;# of candidate pairs = &quot;, sum(num_celltype &gt;= 3)),
+             hjust = 1, vjust = 1, size = 3, family = &quot;Times&quot;, color = &quot;black&quot;) +
+    theme(axis.title.x = element_text(size = 10),
+          axis.text.x = element_text(size = 8, color = &quot;black&quot;),
+          axis.title.y = element_text(size = 10),
+          axis.text.y = element_text(size = 8, color = &quot;black&quot;),
+          text = element_text(family = &quot;Times&quot;)) +
+    scale_x_continuous(breaks = seq(0, max(num_celltype), 5))
+  
+}
+
+all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)</code></pre>
+<p><img src="figure/revision_numsnp_20genes.Rmd/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="number-of-pairs-with-ect-fdr-0.2" class="section level1">
+<h1>Number of pairs with ECT FDR &lt; 0.2</h1>
+<pre class="r"><code>folder_ect &lt;- &quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/ECT/&quot;
+
+p &lt;- list()
+pairs_ect01 &lt;- list()
+for (num_snp in 3:10){
+  
+  x &lt;- c()
+  y &lt;- c()
+  df_all &lt;- c()
+  for (i in 1:length(celltypes)){
+    
+    file_ect &lt;- paste0(folder_ect,celltypes[i],&quot;_ECT_summary_table_numsnp&quot;,num_snp,&quot;.rdata&quot;)
+    
+    df_sum &lt;- get(load(file_ect))
+    x[i] &lt;- sum(df_sum$fdr_ECT &lt;= 0.1)
+    y[i] &lt;- sum(df_sum$fdr_ECT &lt; 0.2 &amp; df_sum$fdr_ECT &gt;0.1)
+   
+    df_all &lt;- rbind(df_all,df_sum[df_sum$fdr_ECT &lt;= 0.1,])
+  }
+  
+  df_all &lt;- df_all[order(df_all$fdr_ECT, decreasing = F),]
+  pairs_ect01[[paste0(&quot;num_snp&quot;,num_snp)]] &lt;- df_all
+  
+  data &lt;- data.frame(x, y, type)
+  df &lt;- gather(data, event, total, x:y)
+  
+  
+  p[[length(p)+1]] &lt;- ggplot(df, aes(type, total, fill=event)) +
+    #ggplot(df, aes(type, total, fill=event)) +
+    theme_bw(base_line_size =0.3) +
+    
+    geom_bar(stat = &quot;identity&quot;, position = &#39;dodge&#39;,alpha=0.9) +
+    scale_fill_manual(name=&quot;group&quot;, values=c(&quot;#F8766D&quot;, &quot;darkturquoise&quot;),labels=c(&quot;FDR &lt; 0.1&quot;,&quot;0.1 &lt; FDR &lt; 0.2&quot;)) +
+    
+    aes(x = fct_inorder(type)) + 
+    
+    labs(x = &quot;Cell types&quot;, y = &quot;Count&quot;) +
+    
+    geom_text(aes(label = total),position = position_dodge(0.9),
+              color=&quot;black&quot;,size = 3,vjust = -0.3) +
+    
+    ylim(0,80) +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 8, color = &quot;black&quot;, angle = 45, hjust = 1, vjust = 1.1),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = &quot;black&quot;),
+          text= element_text(family=&quot;Times&quot;)) +
+    
+    ggtitle(paste0(&quot;#of supporting SNP \n cutoff = &quot;,num_snp))
+  
+  
+  
+}
+
+
+all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]],p[[8]], nrow = 2)</code></pre>
+<pre><code>Warning: Removed 1 row containing missing values or values outside the scale range
+(`geom_bar()`).</code></pre>
+<pre><code>Warning: Removed 1 row containing missing values or values outside the scale range
+(`geom_text()`).</code></pre>
+<p><img src="figure/revision_numsnp_20genes.Rmd/unnamed-chunk-3-1.png" width="1344" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>for (num_snp in c(3:10)){
+
+  
+  cat(&quot;&lt;br&gt;&quot;)
+  cat(knitr::knit_print(DT::datatable(pairs_ect01[[paste0(&quot;num_snp&quot;,num_snp)]],caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,paste0(&#39;Pairs with ECT FDR &lt; 0.1 -- snp cutoff = &#39;,num_snp)),options = list(pageLength = 10) )))
+  cat(&quot;&lt;br&gt;&quot;)
+  cat(&quot;&lt;br&gt;&quot;)
+  cat(&quot;&lt;br&gt;&quot;)
+  cat(&quot;&lt;br&gt;&quot;)
+  cat(&quot;&lt;br&gt;&quot;)
+  
+  
+  
+}</code></pre>
+<p><br></p>
+<div id="htmlwidget-ad41175326dc68f35292" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 3<\/caption>","data":[["4441","4808","8876","10928","5297","7349","1407","10109","2170","5672","5941","6069","1595","3444","1632","1919","2951","3680","5849","3129","6974","1928","7492","526","4862","4987","4993","5017","5133","5708","5952"],["pdw","ret","ret","ukb.allasthma","myeloid_wbc","pct","gran","baso","mch","pct","pct","rbc","lymph","mpv","lymph","lymph","mcv","mpv","pct","mcv","ret","lymph","wbc","hct","ret","ret","ret","ret","ret","baso","pct"],["pwy148_pc4","pwy120_pc4","pwy97_pc5","pwy83_pc1","pwy321_pc5","pwy204_pc2","pwy321_pc5","pwy325_pc5","pwy197_pc4","pwy112_pc5","pwy304_pc4","pwy140_pc3","pwy18_pc3","pwy176_pc4","pwy193_pc1","pwy310_pc1","pwy179_pc4","pwy308_pc3","pwy237_pc5","pwy274_pc4","pwy161_pc4","pwy312_pc1","pwy235_pc5","pwy151_pc5","pwy142_pc3","pwy192_pc5","pwy197_pc1","pwy204_pc3","pwy265_pc2","pwy268_pc2","pwy312_pc5"],["04215","04062","03018","00970","05320","04727","05320","05330","04720","04012","05214","04145","00230","04620","04672","05220","04623","05218","04935","05135","04371","05222","04933","04218","04150","04670","04720","04727","05034","05120","05222"],["Apoptosis - multiple species","Chemokine signaling pathway","RNA degradation","Aminoacyl-tRNA biosynthesis","Autoimmune thyroid disease","GABAergic synapse","Autoimmune thyroid disease","Allograft rejection","Long-term potentiation","ErbB signaling pathway","Glioma","Phagosome","Purine metabolism","Toll-like receptor signaling pathway","Intestinal immune network for IgA production","Chronic myeloid leukemia","Cytosolic DNA-sensing pathway","Melanoma","Growth hormone synthesis, secretion and action","Yersinia infection","Apelin signaling pathway","Small cell lung cancer","AGE-RAGE signaling pathway in diabetic complications","Cellular senescence","mTOR signaling pathway","Leukocyte transendothelial migration","Long-term potentiation","GABAergic synapse","Alcoholism","Epithelial cell signaling in Helicobacter pylori infection","Small cell lung cancer"],[25,88,65,22,23,37,23,24,40,55,50,99,65,63,33,62,38,37,67,89,72,60,51,78,55,58,32,28,46,38,60],[1.95972790457983e-08,8.78822307379105e-07,1.56522490864287e-06,2.69639385344979e-06,2.05970661797321e-06,2.43804637237599e-06,7.66134067688885e-06,1.05624473668394e-06,1.89579310080546e-06,1.31699419209861e-06,7.77003738085457e-05,7.27586838620559e-07,1.45289281421423e-05,1.96089742994342e-06,6.79483436147655e-05,8.26806947324343e-05,5.65018655407529e-05,2.75716476188534e-05,5.41600710359324e-05,6.43516316225823e-05,0.000112510130672609,4.5512031195138e-05,4.29862767083396e-06,4.86751784205372e-05,3.61426132715243e-05,0.000344410255275228,4.1897986441528e-05,4.50815839073609e-06,0.000220915471523243,0.000552933686127316,2.09955494147263e-05],[0.991077217582404,0.985909892900993,0.999996869552633,0.997319709800552,0.991821728557405,0.999679269050383,0.986179997762869,0.955866030159657,0.948953414144801,0.983880051932852,0.996777873322391,0.98676808604026,0.887599937768342,0.981598143385434,0.639548136695992,0.869938253149725,0.943858559277387,0.991437632771989,0.969854213483294,0.967711907433018,0.789334434698498,0.997743880487893,0.976111796120926,0.971109322338952,0.666176372613751,0.969848186378673,0.920857743409019,0.913118387189816,0.634655483999886,0.998894438363407,0.959555516394942],[2e-06,4e-06,4e-06,6e-06,1.3e-05,1.5e-05,2.3e-05,2e-05,2.8e-05,3.1e-05,2.8e-05,2.5e-05,5.7e-05,4.8e-05,9.9e-05,7.7e-05,0.000105,9.9e-05,9.7e-05,0.000128,0.000121,0.000148,0.00015,0.000113,0.000104,0.000105,8.6e-05,3.7e-05,0.000102,7e-05,0.000173],[0.017282,0.026364,0.036987,0.036987,0.04623375,0.04623375,0.0472611666666667,0.0472611666666667,0.0713775,0.0713775,0.0713775,0.0713775,0.087495,0.087495,0.0879136363636364,0.0879136363636364,0.0879136363636364,0.0879136363636364,0.0879136363636364,0.0906830769230769,0.0906830769230769,0.0921,0.0921,0.093097875,0.093097875,0.093097875,0.093097875,0.093097875,0.093097875,0.093097875,0.099583125],[8,7,3,5,6,4,6,9,9,7,4,7,10,7,17,9,7,5,6,6,11,4,7,6,17,5,8,10,15,3,7]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-66aaeb19fe992dfb51c2" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-66aaeb19fe992dfb51c2">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 4<\/caption>","data":[["3148","3387","1216","4165","5862","8056","8607","1594","4208","4411","4501","1152","2538","1175","1410","2143","2731","4333","2277","5138","1416","5505","4418","366","3430","3524","3530","3553","3647","1515","2676","917","1060","4334","4377","5246","4531","1328","4414","6582","3377","3456","4189"],["pdw","ret","gran","myeloid_wbc","pct","baso","ukb.allasthma","mch","pct","pct","rbc","lymph","mpv","lymph","lymph","mcv","mpv","pct","mcv","ret","lymph","wbc","pct","hct","ret","ret","ret","ret","ret","mch","mpv","hgb","lymph","pct","pct","ret","rbc","lymph","pct","allergy","ret","neut","pdw"],["pwy148_pc4","pwy120_pc4","pwy321_pc5","pwy321_pc5","pwy204_pc2","pwy325_pc5","pwy83_pc1","pwy197_pc4","pwy112_pc5","pwy304_pc4","pwy140_pc3","pwy18_pc3","pwy176_pc4","pwy193_pc1","pwy310_pc1","pwy179_pc4","pwy308_pc3","pwy237_pc5","pwy274_pc4","pwy161_pc4","pwy312_pc1","pwy235_pc5","pwy312_pc5","pwy151_pc5","pwy142_pc3","pwy192_pc5","pwy197_pc1","pwy204_pc3","pwy265_pc2","pwy125_pc4","pwy279_pc4","pwy295_pc1","pwy140_pc1","pwy238_pc3","pwy284_pc5","pwy270_pc4","pwy166_pc1","pwy281_pc2","pwy308_pc4","pwy330_pc4","pwy117_pc3","pwy228_pc1","pwy86_pc2"],["04215","04062","05320","05320","04727","05330","00970","04720","04012","05214","04145","00230","04620","04672","05220","04623","05218","04935","05135","04371","05222","04933","05222","04218","04150","04670","04720","04727","05034","04071","05145","05202","04145","04940","05161","05131","04512","05150","05218","05414","04024","04926","00983"],["Apoptosis - multiple species","Chemokine signaling pathway","Autoimmune thyroid disease","Autoimmune thyroid disease","GABAergic synapse","Allograft rejection","Aminoacyl-tRNA biosynthesis","Long-term potentiation","ErbB signaling pathway","Glioma","Phagosome","Purine metabolism","Toll-like receptor signaling pathway","Intestinal immune network for IgA production","Chronic myeloid leukemia","Cytosolic DNA-sensing pathway","Melanoma","Growth hormone synthesis, secretion and action","Yersinia infection","Apelin signaling pathway","Small cell lung cancer","AGE-RAGE signaling pathway in diabetic complications","Small cell lung cancer","Cellular senescence","mTOR signaling pathway","Leukocyte transendothelial migration","Long-term potentiation","GABAergic synapse","Alcoholism","Sphingolipid signaling pathway","Toxoplasmosis","Transcriptional misregulation in cancer","Phagosome","Type I diabetes mellitus","Hepatitis B","Shigellosis","ECM-receptor interaction","Staphylococcus aureus infection","Melanoma","Dilated cardiomyopathy","cAMP signaling pathway","Relaxin signaling pathway","Drug metabolism - other enzymes"],[25,88,23,23,37,24,22,40,55,50,99,65,63,33,62,38,37,67,89,72,60,51,60,78,55,58,32,28,46,77,74,99,99,30,110,165,31,39,37,31,71,65,39],[1.95972790457983e-08,8.78822307379105e-07,7.66134067688885e-06,2.05970661797321e-06,2.43804637237599e-06,1.05624473668394e-06,2.69639385344979e-06,1.89579310080546e-06,1.31699419209861e-06,7.77003738085457e-05,7.27586838620559e-07,1.45289281421423e-05,1.96089742994342e-06,6.79483436147655e-05,8.26806947324343e-05,5.65018655407529e-05,2.75716476188534e-05,5.41600710359324e-05,6.43516316225823e-05,0.000112510130672609,4.5512031195138e-05,4.29862767083396e-06,2.09955494147263e-05,4.86751784205372e-05,3.61426132715243e-05,0.000344410255275228,4.1897986441528e-05,4.50815839073609e-06,0.000220915471523243,3.56530266744445e-05,6.86591302291877e-05,0.00011082428485813,0.000276072375990014,7.2488546172115e-05,0.000174750289043928,9.48896599399592e-05,2.59377538991394e-05,0.000273911887226516,0.000856233037947348,2.78565589060934e-05,0.000254327213505423,9.58783673435709e-05,0.00015494245987713],[0.991077217582404,0.985909892900993,0.986179997762869,0.991821728557405,0.999679269050383,0.955866030159657,0.997319709800552,0.948953414144801,0.983880051932852,0.996777873322391,0.98676808604026,0.887599937768342,0.981598143385434,0.639548136695992,0.869938253149725,0.943858559277387,0.991437632771989,0.969854213483294,0.967711907433018,0.789334434698498,0.997743880487893,0.976111796120926,0.959555516394942,0.971109322338952,0.666176372613751,0.969848186378673,0.920857743409019,0.913118387189816,0.634655483999886,0.998082633964897,0.87576132385121,0.98285835173606,0.748968095749579,0.996923529082453,0.770390565723145,0.962315605138039,0.9309088221062,0.573386716447031,0.984084835131898,0.99139357054941,0.718221700248599,0.996293487754115,0.994897179539684],[2e-06,4e-06,2.3e-05,1.3e-05,1.5e-05,2e-05,6e-06,2.8e-05,3.1e-05,2.8e-05,2.5e-05,5.7e-05,4.8e-05,9.9e-05,7.7e-05,0.000105,9.9e-05,9.7e-05,0.000128,0.000121,0.000148,0.00015,0.000173,0.000113,0.000104,0.000105,8.6e-05,3.7e-05,0.000102,0.000214,0.000209,0.000236,0.000263,0.000263,0.000287,0.000329,0.000347,0.000394,0.000394,0.000388,0.000169,0.000431,0.000431],[0.012014,0.018348,0.0439162,0.0439162,0.0439162,0.0439162,0.0439162,0.05109575,0.05109575,0.05109575,0.05109575,0.0626335,0.0626335,0.0629331818181818,0.0629331818181818,0.0629331818181818,0.0629331818181818,0.0629331818181818,0.0649156923076923,0.0649156923076923,0.06593,0.06593,0.0712868125,0.0740472857142857,0.0740472857142857,0.0740472857142857,0.0740472857142857,0.0740472857142857,0.0740472857142857,0.0783834444444444,0.0783834444444444,0.081892,0.0825694761904762,0.0825694761904762,0.0860086818181818,0.0943085652173913,0.0953237916666667,0.096208962962963,0.096208962962963,0.096208962962963,0.096900375,0.0979856206896552,0.0979856206896552],[8,7,6,6,4,9,5,9,7,4,7,10,7,17,9,7,5,6,6,11,4,7,7,6,17,5,8,10,15,4,9,5,11,4,11,6,8,17,4,5,12,4,4]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-1814506231684700bf53" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1814506231684700bf53">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 5<\/caption>","data":[["2215","2345","1043","3284","6427","6795","1180","3153","3364","235","2380","2458","2464","2482","2553","821","838","1035","1582","1875","2042","3246","1673","3829","4094","3302","2335","1994","638","753","2521","3274","8381","2366","2477","2495","2604","3904","3389","962","4839","2398","1535","2150","2428","2466","2550","2647","2666","813","1008","2325","2321","2322"],["pdw","ret","gran","myeloid_wbc","baso","ukb.allasthma","mch","pct","rbc","hct","ret","ret","ret","ret","ret","lymph","lymph","lymph","mcv","mpv","mpv","pct","mcv","ret","wbc","pct","ret","mpv","hgb","lymph","ret","pct","mcv","ret","ret","ret","ret","ret","rbc","lymph","allergy","ret","plt","rbc","ret","ret","ret","ret","ret","lymph","lymph","ret","ret","ret"],["pwy148_pc4","pwy120_pc4","pwy321_pc5","pwy321_pc5","pwy325_pc5","pwy83_pc1","pwy197_pc4","pwy112_pc5","pwy140_pc3","pwy151_pc5","pwy142_pc3","pwy192_pc5","pwy197_pc1","pwy204_pc3","pwy265_pc2","pwy18_pc3","pwy193_pc1","pwy310_pc1","pwy179_pc4","pwy176_pc4","pwy308_pc3","pwy237_pc5","pwy274_pc4","pwy161_pc4","pwy235_pc5","pwy312_pc5","pwy117_pc3","pwy279_pc4","pwy295_pc1","pwy140_pc1","pwy233_pc5","pwy284_pc5","pwy238_pc4","pwy135_pc3","pwy202_pc4","pwy212_pc2","pwy291_pc2","pwy270_pc4","pwy166_pc1","pwy281_pc2","pwy330_pc4","pwy151_pc4","pwy115_pc1","pwy151_pc1","pwy176_pc2","pwy198_pc4","pwy263_pc2","pwy317_pc2","pwy54_pc3","pwy174_pc1","pwy296_pc1","pwy113_pc4","pwy104_pc1","pwy111_pc4"],["04215","04062","05320","05320","05330","00970","04720","04012","04145","04218","04150","04670","04720","04727","05034","00230","04672","05220","04623","04620","05218","04935","05135","04371","04933","05222","04024","05145","05202","04145","04931","05161","04940","04137","04725","04910","05168","05131","04512","05150","05414","04218","04020","04218","04620","04721","05032","05230","00562","04612","05203","04014","03320","04010"],["Apoptosis - multiple species","Chemokine signaling pathway","Autoimmune thyroid disease","Autoimmune thyroid disease","Allograft rejection","Aminoacyl-tRNA biosynthesis","Long-term potentiation","ErbB signaling pathway","Phagosome","Cellular senescence","mTOR signaling pathway","Leukocyte transendothelial migration","Long-term potentiation","GABAergic synapse","Alcoholism","Purine metabolism","Intestinal immune network for IgA production","Chronic myeloid leukemia","Cytosolic DNA-sensing pathway","Toll-like receptor signaling pathway","Melanoma","Growth hormone synthesis, secretion and action","Yersinia infection","Apelin signaling pathway","AGE-RAGE signaling pathway in diabetic complications","Small cell lung cancer","cAMP signaling pathway","Toxoplasmosis","Transcriptional misregulation in cancer","Phagosome","Insulin resistance","Hepatitis B","Type I diabetes mellitus","Mitophagy - animal","Cholinergic synapse","Insulin signaling pathway","Herpes simplex virus 1 infection","Shigellosis","ECM-receptor interaction","Staphylococcus aureus infection","Dilated cardiomyopathy","Cellular senescence","Calcium signaling pathway","Cellular senescence","Toll-like receptor signaling pathway","Synaptic vesicle cycle","Morphine addiction","Central carbon metabolism in cancer","Inositol phosphate metabolism","Antigen processing and presentation","Viral carcinogenesis","Ras signaling pathway","PPAR signaling pathway","MAPK signaling pathway"],[25,88,23,23,24,22,40,55,99,78,55,58,32,28,46,65,33,62,38,63,37,67,89,72,51,60,71,74,99,99,45,110,22,35,41,62,119,165,31,39,31,78,57,78,44,24,27,35,29,57,142,84,21,107],[1.95972790457983e-08,8.78822307379105e-07,7.66134067688885e-06,2.05970661797321e-06,1.05624473668394e-06,2.69639385344979e-06,1.89579310080546e-06,1.31699419209861e-06,7.27586838620559e-07,4.86751784205372e-05,3.61426132715243e-05,0.000344410255275228,4.1897986441528e-05,4.50815839073609e-06,0.000220915471523243,1.45289281421423e-05,6.79483436147655e-05,8.26806947324343e-05,5.65018655407529e-05,1.96089742994342e-06,2.75716476188534e-05,5.41600710359324e-05,6.43516316225823e-05,0.000112510130672609,4.29862767083396e-06,2.09955494147263e-05,0.000254327213505423,6.86591302291877e-05,0.00011082428485813,0.000276072375990014,6.05413482015546e-05,0.000174750289043928,0.000317848832091561,0.00060188722522778,0.000236409296172742,0.00034501803179733,0.000474241545450774,9.48896599399592e-05,2.59377538991394e-05,0.000273911887226516,2.78565589060934e-05,0.000422114587925949,0.000203844563926325,0.00402145916538339,0.00054415579343788,0.00134308119972566,0.00107858032210866,0.000348605794418822,0.000136530739454849,0.000516082503148636,0.000230255338021736,0.00113373433306601,0.000844725504221468,0.00090390045782049],[0.991077217582404,0.985909892900993,0.986179997762869,0.991821728557405,0.955866030159657,0.997319709800552,0.948953414144801,0.983880051932852,0.98676808604026,0.971109322338952,0.666176372613751,0.969848186378673,0.920857743409019,0.913118387189816,0.634655483999886,0.887599937768342,0.639548136695992,0.869938253149725,0.943858559277387,0.981598143385434,0.991437632771989,0.969854213483294,0.967711907433018,0.789334434698498,0.976111796120926,0.959555516394942,0.718221700248599,0.87576132385121,0.98285835173606,0.748968095749579,0.987320911659144,0.770390565723145,0.971028352885241,0.746752730919883,0.945840075240735,0.969821730167854,0.68549748739748,0.962315605138039,0.9309088221062,0.573386716447031,0.99139357054941,0.727356289767604,0.914232985939921,0.898258770937994,0.962150131100109,0.892377750889234,0.756150519482082,0.897665200269259,0.956449831308944,0.926207025567337,0.946403960327783,0.709768953593585,0.863204000254238,0.647816328707936],[2e-06,4e-06,2.3e-05,1.3e-05,2e-05,6e-06,2.8e-05,3.1e-05,2.5e-05,0.000113,0.000104,0.000105,8.6e-05,3.7e-05,0.000102,5.7e-05,9.9e-05,7.7e-05,0.000105,4.8e-05,9.9e-05,9.7e-05,0.000128,0.000121,0.00015,0.000173,0.000169,0.000209,0.000236,0.000263,0.000219,0.000287,0.000331,0.000262,0.000343,0.000345,0.000288,0.000329,0.000347,0.000394,0.000388,0.000421,0.000627,0.000596,0.000535,0.000643,0.000513,0.00056,0.000581,0.000479,0.000473,0.000715,0.000769,0.000792],[0.008396,0.012576,0.04265925,0.04265925,0.04265925,0.04265925,0.0500546666666667,0.0500546666666667,0.0500546666666667,0.0507531428571429,0.0507531428571429,0.0507531428571429,0.0507531428571429,0.0507531428571429,0.0507531428571429,0.050862,0.050862,0.050862,0.050862,0.050862,0.050862,0.050862,0.0516693333333333,0.0516693333333333,0.0558923076923077,0.059858,0.066417,0.0674930666666667,0.071449,0.0749395294117647,0.076504,0.0772348888888889,0.0774771428571429,0.0774771428571429,0.0774771428571429,0.0774771428571429,0.0774771428571429,0.0838776842105263,0.0840434,0.0867516363636364,0.0867516363636364,0.0882416,0.0918905454545455,0.0918905454545455,0.0918905454545455,0.0918905454545455,0.0918905454545455,0.0918905454545455,0.0918905454545455,0.0966781666666667,0.0966781666666667,0.0977373913043478,0.09960192,0.09960192],[8,7,6,6,9,5,9,7,7,6,17,5,8,10,15,10,17,9,7,7,5,6,6,11,7,7,12,9,5,11,5,11,5,10,6,5,12,6,8,17,5,11,7,5,5,6,9,7,6,6,6,10,7,12]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-43c5071fe8a890b96ecd" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-43c5071fe8a890b96ecd">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 6<\/caption>","data":[["1596","1665","879","2350","2512","590","1389","606","764","1168","1235","2418","2833","1772","173","1695","1760","1825","3030","880","2594","5103","2462","1484","1659","535","2442","2529","2891","1683","1865","703","1768","583","744","1710","1077","1762","1822","1902","1918","1646","1647","1650"],["pdw","ret","mch","pct","rbc","lymph","mpv","lymph","lymph","mcv","mcv","pct","ret","ret","hct","ret","ret","ret","wbc","gran","myeloid_wbc","baso","pct","mpv","ret","lymph","pct","rbc","ret","ret","ret","lymph","ret","lymph","lymph","ret","plt","ret","ret","ret","ret","ret","ret","ret"],["pwy148_pc4","pwy120_pc4","pwy197_pc4","pwy112_pc5","pwy140_pc3","pwy18_pc3","pwy176_pc4","pwy193_pc1","pwy310_pc1","pwy179_pc4","pwy274_pc4","pwy237_pc5","pwy161_pc4","pwy204_pc3","pwy151_pc5","pwy142_pc3","pwy197_pc1","pwy265_pc2","pwy235_pc5","pwy321_pc5","pwy321_pc5","pwy325_pc5","pwy312_pc5","pwy279_pc4","pwy117_pc3","pwy140_pc1","pwy284_pc5","pwy166_pc1","pwy270_pc4","pwy135_pc3","pwy291_pc2","pwy281_pc2","pwy202_pc4","pwy174_pc1","pwy296_pc1","pwy151_pc4","pwy115_pc1","pwy198_pc4","pwy263_pc2","pwy317_pc2","pwy54_pc3","pwy104_pc1","pwy111_pc4","pwy113_pc4"],["04215","04062","04720","04012","04145","00230","04620","04672","05220","04623","05135","04935","04371","04727","04218","04150","04720","05034","04933","05320","05320","05330","05222","05145","04024","04145","05161","04512","05131","04137","05168","05150","04725","04612","05203","04218","04020","04721","05032","05230","00562","03320","04010","04014"],["Apoptosis - multiple species","Chemokine signaling pathway","Long-term potentiation","ErbB signaling pathway","Phagosome","Purine metabolism","Toll-like receptor signaling pathway","Intestinal immune network for IgA production","Chronic myeloid leukemia","Cytosolic DNA-sensing pathway","Yersinia infection","Growth hormone synthesis, secretion and action","Apelin signaling pathway","GABAergic synapse","Cellular senescence","mTOR signaling pathway","Long-term potentiation","Alcoholism","AGE-RAGE signaling pathway in diabetic complications","Autoimmune thyroid disease","Autoimmune thyroid disease","Allograft rejection","Small cell lung cancer","Toxoplasmosis","cAMP signaling pathway","Phagosome","Hepatitis B","ECM-receptor interaction","Shigellosis","Mitophagy - animal","Herpes simplex virus 1 infection","Staphylococcus aureus infection","Cholinergic synapse","Antigen processing and presentation","Viral carcinogenesis","Cellular senescence","Calcium signaling pathway","Synaptic vesicle cycle","Morphine addiction","Central carbon metabolism in cancer","Inositol phosphate metabolism","PPAR signaling pathway","MAPK signaling pathway","Ras signaling pathway"],[25,88,40,55,99,65,63,33,62,38,89,67,72,28,78,55,32,46,51,23,23,24,60,74,71,99,110,31,165,35,119,39,41,57,142,78,57,24,27,35,29,21,107,84],[1.95972790457983e-08,8.78822307379105e-07,1.89579310080546e-06,1.31699419209861e-06,7.27586838620559e-07,1.45289281421423e-05,1.96089742994342e-06,6.79483436147655e-05,8.26806947324343e-05,5.65018655407529e-05,6.43516316225823e-05,5.41600710359324e-05,0.000112510130672609,4.50815839073609e-06,4.86751784205372e-05,3.61426132715243e-05,4.1897986441528e-05,0.000220915471523243,4.29862767083396e-06,7.66134067688885e-06,2.05970661797321e-06,1.05624473668394e-06,2.09955494147263e-05,6.86591302291877e-05,0.000254327213505423,0.000276072375990014,0.000174750289043928,2.59377538991394e-05,9.48896599399592e-05,0.00060188722522778,0.000474241545450774,0.000273911887226516,0.000236409296172742,0.000516082503148636,0.000230255338021736,0.000422114587925949,0.000203844563926325,0.00134308119972566,0.00107858032210866,0.000348605794418822,0.000136530739454849,0.000844725504221468,0.00090390045782049,0.00113373433306601],[0.991077217582404,0.985909892900993,0.948953414144801,0.983880051932852,0.98676808604026,0.887599937768342,0.981598143385434,0.639548136695992,0.869938253149725,0.943858559277387,0.967711907433018,0.969854213483294,0.789334434698498,0.913118387189816,0.971109322338952,0.666176372613751,0.920857743409019,0.634655483999886,0.976111796120926,0.986179997762869,0.991821728557405,0.955866030159657,0.959555516394942,0.87576132385121,0.718221700248599,0.748968095749579,0.770390565723145,0.9309088221062,0.962315605138039,0.746752730919883,0.68549748739748,0.573386716447031,0.945840075240735,0.926207025567337,0.946403960327783,0.727356289767604,0.914232985939921,0.892377750889234,0.756150519482082,0.897665200269259,0.956449831308944,0.863204000254238,0.647816328707936,0.709768953593585],[2e-06,4e-06,2.8e-05,3.1e-05,2.5e-05,5.7e-05,4.8e-05,9.9e-05,7.7e-05,0.000105,0.000128,9.7e-05,0.000121,3.7e-05,0.000113,0.000104,8.6e-05,0.000102,0.00015,2.3e-05,1.3e-05,2e-05,0.000173,0.000209,0.000169,0.000263,0.000287,0.000347,0.000329,0.000262,0.000288,0.000394,0.000343,0.000479,0.000473,0.000421,0.000627,0.000643,0.000513,0.00056,0.000581,0.000769,0.000792,0.000715],[0.00588,0.00888,0.0363836666666667,0.0363836666666667,0.0363836666666667,0.0401394,0.0401394,0.0409716363636364,0.0409716363636364,0.0409716363636364,0.0409716363636364,0.0409716363636364,0.0409716363636364,0.04107,0.04181,0.04181,0.04181,0.04181,0.0440125,0.044114,0.044114,0.044114,0.0468563846153846,0.0525635,0.0535971428571429,0.0617348666666667,0.0631579375,0.0678770555555556,0.0678770555555556,0.07104,0.07104,0.0730144210526316,0.076146,0.0803123333333333,0.0803123333333333,0.0849654545454545,0.08921625,0.08921625,0.08921625,0.08921625,0.08921625,0.092538947368421,0.092538947368421,0.092538947368421],[8,7,9,7,7,10,7,17,9,7,6,6,11,10,6,17,8,15,7,6,6,9,7,9,12,11,11,8,6,10,12,17,6,6,6,11,7,6,9,7,6,7,12,10]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-3f22443f93eeeda03f7b" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3f22443f93eeeda03f7b">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 7<\/caption>","data":[["1198","1137","673","1798","1918","1218","436","1060","1160","1210","1257","579","450","881","2142","2284","1882","1131","1136","391","1871","1149","1290","1931","533","1171","1254","1318","726","1120","1121","1124","4111","1338","1101"],["pdw","ret","mch","pct","rbc","ret","lymph","mpv","ret","ret","ret","lymph","lymph","mcv","ret","wbc","pct","ret","mpv","lymph","pct","ret","ret","rbc","lymph","ret","ret","ret","plt","ret","ret","ret","baso","ret","plt"],["pwy148_pc4","pwy120_pc4","pwy197_pc4","pwy112_pc5","pwy140_pc3","pwy204_pc3","pwy18_pc3","pwy176_pc4","pwy142_pc3","pwy197_pc1","pwy265_pc2","pwy310_pc1","pwy193_pc1","pwy179_pc4","pwy161_pc4","pwy235_pc5","pwy312_pc5","pwy117_pc3","pwy279_pc4","pwy140_pc1","pwy284_pc5","pwy135_pc3","pwy291_pc2","pwy166_pc1","pwy281_pc2","pwy151_pc4","pwy263_pc2","pwy317_pc2","pwy115_pc1","pwy104_pc1","pwy111_pc4","pwy113_pc4","pwy325_pc5","pwy96_pc5","pwy181_pc2"],["04215","04062","04720","04012","04145","04727","00230","04620","04150","04720","05034","05220","04672","04623","04371","04933","05222","04024","05145","04145","05161","04137","05168","04512","05150","04218","05032","05230","04020","03320","04010","04014","05330","03015","04630"],["Apoptosis - multiple species","Chemokine signaling pathway","Long-term potentiation","ErbB signaling pathway","Phagosome","GABAergic synapse","Purine metabolism","Toll-like receptor signaling pathway","mTOR signaling pathway","Long-term potentiation","Alcoholism","Chronic myeloid leukemia","Intestinal immune network for IgA production","Cytosolic DNA-sensing pathway","Apelin signaling pathway","AGE-RAGE signaling pathway in diabetic complications","Small cell lung cancer","cAMP signaling pathway","Toxoplasmosis","Phagosome","Hepatitis B","Mitophagy - animal","Herpes simplex virus 1 infection","ECM-receptor interaction","Staphylococcus aureus infection","Cellular senescence","Morphine addiction","Central carbon metabolism in cancer","Calcium signaling pathway","PPAR signaling pathway","MAPK signaling pathway","Ras signaling pathway","Allograft rejection","mRNA surveillance pathway","JAK-STAT signaling pathway"],[25,88,40,55,99,28,65,63,55,32,46,62,33,38,72,51,60,71,74,99,110,35,119,31,39,78,27,35,57,21,107,84,24,46,86],[1.95972790457983e-08,8.78822307379105e-07,1.89579310080546e-06,1.31699419209861e-06,7.27586838620559e-07,4.50815839073609e-06,1.45289281421423e-05,1.96089742994342e-06,3.61426132715243e-05,4.1897986441528e-05,0.000220915471523243,8.26806947324343e-05,6.79483436147655e-05,5.65018655407529e-05,0.000112510130672609,4.29862767083396e-06,2.09955494147263e-05,0.000254327213505423,6.86591302291877e-05,0.000276072375990014,0.000174750289043928,0.00060188722522778,0.000474241545450774,2.59377538991394e-05,0.000273911887226516,0.000422114587925949,0.00107858032210866,0.000348605794418822,0.000203844563926325,0.000844725504221468,0.00090390045782049,0.00113373433306601,1.05624473668394e-06,0.000782369339885543,1.07368980887494e-05],[0.991077217582404,0.985909892900993,0.948953414144801,0.983880051932852,0.98676808604026,0.913118387189816,0.887599937768342,0.981598143385434,0.666176372613751,0.920857743409019,0.634655483999886,0.869938253149725,0.639548136695992,0.943858559277387,0.789334434698498,0.976111796120926,0.959555516394942,0.718221700248599,0.87576132385121,0.748968095749579,0.770390565723145,0.746752730919883,0.68549748739748,0.9309088221062,0.573386716447031,0.727356289767604,0.756150519482082,0.897665200269259,0.914232985939921,0.863204000254238,0.647816328707936,0.709768953593585,0.955866030159657,0.866592777879224,0.946203137215774],[2e-06,4e-06,2.8e-05,3.1e-05,2.5e-05,3.7e-05,5.7e-05,4.8e-05,0.000104,8.6e-05,0.000102,7.7e-05,9.9e-05,0.000105,0.000121,0.00015,0.000173,0.000169,0.000209,0.000263,0.000287,0.000262,0.000288,0.000347,0.000394,0.000421,0.000513,0.00056,0.000627,0.000769,0.000792,0.000715,2e-05,0.000985,8.9e-05],[0.004198,0.006024,0.0269803333333333,0.0269803333333333,0.0269803333333333,0.027861,0.0297654,0.0297654,0.0313248,0.0313248,0.0313248,0.0335078333333333,0.034269375,0.034269375,0.0351034444444444,0.039165,0.0410639090909091,0.042419,0.0454749166666667,0.0528225384615385,0.0535255,0.054216,0.054216,0.0604011333333333,0.064295875,0.0704473333333333,0.0766690909090909,0.0766690909090909,0.0786885,0.0795168,0.0795168,0.0795168,0.09084,0.092713125,0.0934055],[8,7,9,7,7,10,10,7,17,8,15,9,17,7,11,7,7,12,9,11,11,10,12,8,17,11,9,7,7,7,12,10,9,7,8]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-198b30f56771bc600b2c" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-198b30f56771bc600b2c">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 8<\/caption>","data":[["867","798","836","839","872","775","788","899","317","329","433","501","1606","806","869","789","862","279","1414","3313","769","1457","767","395"],["pdw","ret","ret","ret","ret","ret","ret","ret","lymph","lymph","lymph","mch","ret","ret","ret","plt","mpv","lymph","pct","baso","ret","rbc","ret","lymph"],["pwy148_pc4","pwy142_pc3","pwy197_pc1","pwy204_pc3","pwy265_pc2","pwy117_pc3","pwy135_pc3","pwy291_pc2","pwy18_pc3","pwy193_pc1","pwy310_pc1","pwy197_pc4","pwy161_pc4","pwy151_pc4","pwy263_pc2","pwy181_pc2","pwy279_pc4","pwy140_pc1","pwy284_pc5","pwy325_pc5","pwy113_pc4","pwy166_pc1","pwy111_pc4","pwy281_pc2"],["04215","04150","04720","04727","05034","04024","04137","05168","00230","04672","05220","04720","04371","04218","05032","04630","05145","04145","05161","05330","04014","04512","04010","05150"],["Apoptosis - multiple species","mTOR signaling pathway","Long-term potentiation","GABAergic synapse","Alcoholism","cAMP signaling pathway","Mitophagy - animal","Herpes simplex virus 1 infection","Purine metabolism","Intestinal immune network for IgA production","Chronic myeloid leukemia","Long-term potentiation","Apelin signaling pathway","Cellular senescence","Morphine addiction","JAK-STAT signaling pathway","Toxoplasmosis","Phagosome","Hepatitis B","Allograft rejection","Ras signaling pathway","ECM-receptor interaction","MAPK signaling pathway","Staphylococcus aureus infection"],[25,55,32,28,46,71,35,119,65,33,62,40,72,78,27,86,74,99,110,24,84,31,107,39],[1.95972790457983e-08,3.61426132715243e-05,4.1897986441528e-05,4.50815839073609e-06,0.000220915471523243,0.000254327213505423,0.00060188722522778,0.000474241545450774,1.45289281421423e-05,6.79483436147655e-05,8.26806947324343e-05,1.89579310080546e-06,0.000112510130672609,0.000422114587925949,0.00107858032210866,1.07368980887494e-05,6.86591302291877e-05,0.000276072375990014,0.000174750289043928,1.05624473668394e-06,0.00113373433306601,2.59377538991394e-05,0.00090390045782049,0.000273911887226516],[0.991077217582404,0.666176372613751,0.920857743409019,0.913118387189816,0.634655483999886,0.718221700248599,0.746752730919883,0.68549748739748,0.887599937768342,0.639548136695992,0.869938253149725,0.948953414144801,0.789334434698498,0.727356289767604,0.756150519482082,0.946203137215774,0.87576132385121,0.748968095749579,0.770390565723145,0.955866030159657,0.709768953593585,0.9309088221062,0.647816328707936,0.573386716447031],[2e-06,0.000104,8.6e-05,3.7e-05,0.000102,0.000169,0.000262,0.000288,5.7e-05,9.9e-05,7.7e-05,2.8e-05,0.000121,0.000421,0.000513,8.9e-05,0.000209,0.000263,0.000287,2e-05,0.000715,0.000347,0.000792,0.000394],[0.003002,0.027248,0.027248,0.027248,0.027248,0.0354224,0.0431177142857143,0.0431177142857143,0.0472142,0.0472142,0.0472142,0.0472142,0.0472142,0.055151,0.059736,0.0667945,0.0679598333333333,0.069992125,0.069992125,0.07138,0.074932,0.0752218888888889,0.075456,0.0768694],[8,17,8,10,15,12,10,12,10,17,9,9,11,11,9,8,9,11,11,9,10,8,12,17]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-b544a055166914a18edc" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b544a055166914a18edc">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 9<\/caption>","data":[["557","585","609","541","225","237","319","371","1195","549","632","562","606","638","195","1056","2644","534","535","291","92","413","514","520","1018","88","604","900","543"],["ret","ret","ret","ret","lymph","lymph","lymph","mch","ret","ret","ret","ret","ret","mpv","lymph","pct","baso","ret","ret","lymph","lymph","mchc","mcv","mcv","rbc","lymph","ret","pct","ret"],["pwy142_pc3","pwy204_pc3","pwy265_pc2","pwy117_pc3","pwy18_pc3","pwy193_pc1","pwy310_pc1","pwy197_pc4","pwy161_pc4","pwy135_pc3","pwy291_pc2","pwy151_pc4","pwy263_pc2","pwy279_pc4","pwy140_pc1","pwy284_pc5","pwy325_pc5","pwy111_pc4","pwy113_pc4","pwy281_pc2","pwy121_pc3","pwy176_pc4","pwy196_pc4","pwy206_pc2","pwy196_pc4","pwy112_pc3","pwy262_pc1","pwy181_pc2","pwy120_pc3"],["04150","04727","05034","04024","00230","04672","05220","04720","04371","04137","05168","04218","05032","05145","04145","05161","05330","04010","04014","05150","04064","04620","04714","04730","04714","04012","05031","04630","04062"],["mTOR signaling pathway","GABAergic synapse","Alcoholism","cAMP signaling pathway","Purine metabolism","Intestinal immune network for IgA production","Chronic myeloid leukemia","Long-term potentiation","Apelin signaling pathway","Mitophagy - animal","Herpes simplex virus 1 infection","Cellular senescence","Morphine addiction","Toxoplasmosis","Phagosome","Hepatitis B","Allograft rejection","MAPK signaling pathway","Ras signaling pathway","Staphylococcus aureus infection","NF-kappa B signaling pathway","Toll-like receptor signaling pathway","Thermogenesis","Long-term depression","Thermogenesis","ErbB signaling pathway","Amphetamine addiction","JAK-STAT signaling pathway","Chemokine signaling pathway"],[55,28,46,71,65,33,62,40,72,35,119,78,27,74,99,110,24,107,84,39,75,66,130,30,130,56,27,83,88],[3.61426132715243e-05,4.50815839073609e-06,0.000220915471523243,0.000254327213505423,1.45289281421423e-05,6.79483436147655e-05,8.26806947324343e-05,1.89579310080546e-06,0.000112510130672609,0.00060188722522778,0.000474241545450774,0.000422114587925949,0.00107858032210866,6.86591302291877e-05,0.000276072375990014,0.000174750289043928,1.05624473668394e-06,0.00090390045782049,0.00113373433306601,0.000273911887226516,0.000288462660294351,2.16204433036626e-05,0.000225600479941531,1.07742300823487e-05,0.00015402894624796,0.000753595862556499,0.00107041921500324,0.000304398401917599,0.00400331441237761],[0.666176372613751,0.913118387189816,0.634655483999886,0.718221700248599,0.887599937768342,0.639548136695992,0.869938253149725,0.948953414144801,0.789334434698498,0.746752730919883,0.68549748739748,0.727356289767604,0.756150519482082,0.87576132385121,0.748968095749579,0.770390565723145,0.955866030159657,0.647816328707936,0.709768953593585,0.573386716447031,0.823199144810117,0.90661532977888,0.724129499712496,0.92141321739473,0.384364982650336,0.776489464565646,0.713328005734148,0.676512769331871,0.512117041042938],[0.000104,3.7e-05,0.000102,0.000169,5.7e-05,9.9e-05,7.7e-05,2.8e-05,0.000121,0.000262,0.000288,0.000421,0.000513,0.000209,0.000263,0.000287,2e-05,0.000792,0.000715,0.000394,0.000301,0.000185,0.000232,0.000187,0.000283,0.000368,0.0011999,0.000467,0.0015998],[0.0256533333333333,0.0256533333333333,0.0256533333333333,0.031265,0.0347028,0.0347028,0.0347028,0.0347028,0.0347028,0.03552,0.03552,0.0445057142857143,0.0474525,0.049951,0.05144475,0.05144475,0.05582,0.058608,0.058608,0.0627773333333333,0.0772968,0.0772968,0.0772968,0.0772968,0.0772968,0.078752,0.0807205454545454,0.0856611428571429,0.0986543333333333],[17,10,15,12,10,17,9,9,11,10,12,11,9,9,11,11,9,12,10,17,9,9,12,9,31,9,10,13,13]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br><br></p>
+<div id="htmlwidget-0d0e9bf024e70c3c54e0" style="width:960px;height:500px;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0d0e9bf024e70c3c54e0">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt; 0.1 -- snp cutoff = 10<\/caption>","data":[["365","384","403","354","362","418","370","158","168","882","349","350","401","134","793","205","356","50","178","280","426","393","60","415"],["ret","ret","ret","ret","ret","ret","ret","lymph","lymph","ret","ret","ret","ret","lymph","pct","lymph","ret","hgb","mono","pdw","ret","ret","mch","ret"],["pwy142_pc3","pwy204_pc3","pwy265_pc2","pwy117_pc3","pwy135_pc3","pwy291_pc2","pwy151_pc4","pwy18_pc3","pwy193_pc1","pwy161_pc4","pwy111_pc4","pwy113_pc4","pwy262_pc1","pwy140_pc1","pwy284_pc5","pwy281_pc2","pwy120_pc3","pwy267_pc3","pwy139_pc3","pwy173_pc2","pwy300_pc1","pwy23_pc2","pwy102_pc2","pwy289_pc2"],["04150","04727","05034","04024","04137","05168","04218","00230","04672","04371","04010","04014","05031","04145","05161","05150","04062","05110","04144","04611","05210","00270","03050","05166"],["mTOR signaling pathway","GABAergic synapse","Alcoholism","cAMP signaling pathway","Mitophagy - animal","Herpes simplex virus 1 infection","Cellular senescence","Purine metabolism","Intestinal immune network for IgA production","Apelin signaling pathway","MAPK signaling pathway","Ras signaling pathway","Amphetamine addiction","Phagosome","Hepatitis B","Staphylococcus aureus infection","Chemokine signaling pathway","Vibrio cholerae infection","Endocytosis","Platelet activation","Colorectal cancer","Cysteine and methionine metabolism","Proteasome","Human T-cell leukemia virus 1 infection"],[55,28,46,71,35,119,78,65,33,72,107,84,27,99,110,39,88,28,111,70,39,23,32,105],[3.61426132715243e-05,4.50815839073609e-06,0.000220915471523243,0.000254327213505423,0.00060188722522778,0.000474241545450774,0.000422114587925949,1.45289281421423e-05,6.79483436147655e-05,0.000112510130672609,0.00090390045782049,0.00113373433306601,0.00107041921500324,0.000276072375990014,0.000174750289043928,0.000273911887226516,0.00400331441237761,0.00717577331694967,0.00194523209762694,0.00300619913891289,0.0032286428093585,0.00251808728916645,0.00241728671523017,0.00726273981154119],[0.666176372613751,0.913118387189816,0.634655483999886,0.718221700248599,0.746752730919883,0.68549748739748,0.727356289767604,0.887599937768342,0.639548136695992,0.789334434698498,0.647816328707936,0.709768953593585,0.713328005734148,0.748968095749579,0.770390565723145,0.573386716447031,0.512117041042938,0.496314682787584,0.534898139097059,0.642593842439297,0.449432084026856,0.615391763211793,0.658777057219754,0.530039145248319],[0.000104,3.7e-05,0.000102,0.000169,0.000262,0.000288,0.000421,5.7e-05,9.9e-05,0.000121,0.000792,0.000715,0.0011999,0.000263,0.000287,0.000394,0.0015998,0.0018998,0.0018998,0.0022998,0.0022998,0.0026997,0.0028997,0.0035996],[0.0170906666666667,0.0170906666666667,0.0170906666666667,0.02082925,0.023664,0.023664,0.0296504285714286,0.042471,0.042471,0.042471,0.043384,0.043384,0.05915507,0.0604422,0.0604422,0.069147,0.0717001272727273,0.0720462615384615,0.0720462615384615,0.07558676,0.07558676,0.08318450625,0.0840913,0.0985890444444445],[17,10,15,12,10,12,11,10,17,11,12,10,10,11,11,17,13,12,14,10,16,11,10,11]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pwy_code<\/th>\n      <th>pwy_name<\/th>\n      <th>pwy_gene_num<\/th>\n      <th>pval_fitting<\/th>\n      <th>rsq_fitting<\/th>\n      <th>pval_ECT<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[5,6,7,8,9,10]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p><br><br><br><br><br></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+[1] C
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] forcats_0.5.1 tidyr_1.3.0   gridExtra_2.3 ggplot2_3.5.1
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.12       highr_0.9         pillar_1.9.0      compiler_4.2.0   
+ [5] bslib_0.3.1       later_1.3.0       jquerylib_0.1.4   git2r_0.30.1     
+ [9] workflowr_1.7.0   tools_4.2.0       digest_0.6.29     jsonlite_1.8.0   
+[13] evaluate_0.15     lifecycle_1.0.4   tibble_3.2.1      gtable_0.3.0     
+[17] pkgconfig_2.0.3   rlang_1.1.2       cli_3.6.1         rstudioapi_0.13  
+[21] crosstalk_1.2.0   yaml_2.3.5        xfun_0.41         fastmap_1.1.0    
+[25] withr_2.5.0       dplyr_1.1.4       stringr_1.5.1     knitr_1.39       
+[29] htmlwidgets_1.5.4 generics_0.1.2    fs_1.5.2          vctrs_0.6.5      
+[33] sass_0.4.1        DT_0.22           tidyselect_1.2.0  rprojroot_2.0.3  
+[37] grid_4.2.0        glue_1.6.2        R6_2.5.1          fansi_1.0.3      
+[41] rmarkdown_2.25    farver_2.1.0      purrr_1.0.2       magrittr_2.0.3   
+[45] scales_1.3.0      promises_1.2.0.1  htmltools_0.5.2   colorspace_2.0-3 
+[49] httpuv_1.6.5      labeling_0.4.2    utf8_1.2.2        stringi_1.7.6    
+[53] munsell_0.5.0    </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

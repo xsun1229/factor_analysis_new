@@ -1,0 +1,169 @@
+---
+title: "Checking how the number of supporting SNPs impact the results"
+author: "XSun"
+date: "2025-09-21"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+
+```{r}
+
+suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
+suppressMessages(library(tidyr))
+suppressMessages(library(forcats))
+
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+
+
+DT::datatable(matrix())
+
+```
+
+
+# Number of supporting SNPs for each pair
+
+```{r fig.height=6, fig.width=8}
+
+folder_assoc <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT/assoc_20genes/assoc_all/"
+
+fdr_cutoff <- 0.2
+
+p <- list()
+for (t in 1:length(type)) {
+  
+  file_assoc <- paste0(folder_assoc,celltypes[t],"_all.rdata")
+  load(file_assoc)
+  
+  num_celltype <- c()
+  for (i in 1:length(assoc_all)) {
+    
+    assoc_trait <- assoc_all[[i]]
+    
+    num_trait <- c()
+    for (j in 1:length(assoc_trait)) {
+      
+      assoc_pair <- assoc_trait[[j]]
+      assoc_pair$fdr <- p.adjust(assoc_pair$P,method = "fdr")
+      
+      num <- sum(assoc_pair$fdr <fdr_cutoff )
+      num_trait <- c(num_trait,num)
+    }
+    
+    num_celltype <- c(num_celltype,num_trait)
+  }
+  
+  summary <- as.data.frame(table(num_celltype))
+  summary$num_celltype <- as.numeric(as.character(summary$num_celltype))
+  
+  p[[t]] <- ggplot(summary, aes(x = num_celltype, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(type[t]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(aes(label = ifelse(num_celltype %% 5 == 0, as.character(Freq), "")),
+              colour = "black", size = 2, vjust = -0.1, family = "Times",) +
+    annotate(geom = "text", x = Inf, y = Inf, label = paste0("# of candidate pairs = ", sum(num_celltype >= 3)),
+             hjust = 1, vjust = 1, size = 3, family = "Times", color = "black") +
+    theme(axis.title.x = element_text(size = 10),
+          axis.text.x = element_text(size = 8, color = "black"),
+          axis.title.y = element_text(size = 10),
+          axis.text.y = element_text(size = 8, color = "black"),
+          text = element_text(family = "Times")) +
+    scale_x_continuous(breaks = seq(0, max(num_celltype), 5))
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+# Number of pairs with ECT FDR < 0.2
+
+```{r fig.height=6, fig.width=14}
+
+folder_ect <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results_20genes/ECT/"
+
+p <- list()
+pairs_ect01 <- list()
+for (num_snp in 3:10){
+  
+  x <- c()
+  y <- c()
+  df_all <- c()
+  for (i in 1:length(celltypes)){
+    
+    file_ect <- paste0(folder_ect,celltypes[i],"_ECT_summary_table_numsnp",num_snp,".rdata")
+    
+    df_sum <- get(load(file_ect))
+    x[i] <- sum(df_sum$fdr_ECT <= 0.1)
+    y[i] <- sum(df_sum$fdr_ECT < 0.2 & df_sum$fdr_ECT >0.1)
+   
+    df_all <- rbind(df_all,df_sum[df_sum$fdr_ECT <= 0.1,])
+  }
+  
+  df_all <- df_all[order(df_all$fdr_ECT, decreasing = F),]
+  pairs_ect01[[paste0("num_snp",num_snp)]] <- df_all
+  
+  data <- data.frame(x, y, type)
+  df <- gather(data, event, total, x:y)
+  
+  
+  p[[length(p)+1]] <- ggplot(df, aes(type, total, fill=event)) +
+    #ggplot(df, aes(type, total, fill=event)) +
+    theme_bw(base_line_size =0.3) +
+    
+    geom_bar(stat = "identity", position = 'dodge',alpha=0.9) +
+    scale_fill_manual(name="group", values=c("#F8766D", "darkturquoise"),labels=c("FDR < 0.1","0.1 < FDR < 0.2")) +
+    
+    aes(x = fct_inorder(type)) + 
+    
+    labs(x = "Cell types", y = "Count") +
+    
+    geom_text(aes(label = total),position = position_dodge(0.9),
+              color="black",size = 3,vjust = -0.3) +
+    
+    ylim(0,80) +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 8, color = "black", angle = 45, hjust = 1, vjust = 1.1),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) +
+    
+    ggtitle(paste0("#of supporting SNP \n cutoff = ",num_snp))
+  
+  
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]],p[[8]], nrow = 2)
+
+
+```
+
+
+```{r results='asis', fig.height=6, fig.width=14}
+
+for (num_snp in c(3:10)){
+
+  
+  cat("<br>")
+  cat(knitr::knit_print(DT::datatable(pairs_ect01[[paste0("num_snp",num_snp)]],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('Pairs with ECT FDR < 0.1 -- snp cutoff = ',num_snp)),options = list(pageLength = 10) )))
+  cat("<br>")
+  cat("<br>")
+  cat("<br>")
+  cat("<br>")
+  cat("<br>")
+  
+  
+  
+}
+
+```

@@ -402,7 +402,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-09-19
+<strong>Last updated:</strong> 2025-09-20
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -536,15 +536,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreec21a0cb49bd61fd77d64112cf5262929bd3b1178targetblankc21a0cba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree40b2cde7e0540b08659eb49a3c6021bc93d28ae1targetblank40b2cdea">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/c21a0cb49bd61fd77d64112cf5262929bd3b1178" target="_blank">c21a0cb</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/40b2cde7e0540b08659eb49a3c6021bc93d28ae1" target="_blank">40b2cde</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreec21a0cb49bd61fd77d64112cf5262929bd3b1178targetblankc21a0cba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree40b2cde7e0540b08659eb49a3c6021bc93d28ae1targetblank40b2cdea"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -554,7 +554,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/c21a0cb49bd61fd77d64112cf5262929bd3b1178" target="_blank">c21a0cb</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/40b2cde7e0540b08659eb49a3c6021bc93d28ae1" target="_blank">40b2cde</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -568,9 +568,6 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Ignored files:
-    Ignored:    analysis/figure/
-
 Unstaged changes:
     Modified:   analysis/revision_acat.Rmd
 
@@ -618,6 +615,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/analysis/revision_acat.Rmd" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/revision_acat.html" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1588,19 +1619,31 @@ XSun
 class="section level1">
 <h1>Corrected ACAT p-values for each trait (global null, MHC
 removed)</h1>
-<div id="b-cell" class="section level2">
-<h2>B cell</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/B_cell_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
+<pre class="r"><code>traits &lt;- c(&quot;eo&quot;, &quot;gran&quot;, &quot;hct&quot;, &quot;hgb&quot;, &quot;lymph&quot;, &quot;mch&quot;, &quot;mchc&quot;, &quot;mcv&quot;, 
+            &quot;mpv&quot;, &quot;mono&quot;, &quot;myeloid_wbc&quot;, &quot;neut&quot;, &quot;plt&quot;, &quot;pdw&quot;, &quot;pct&quot;, 
+            &quot;rbc&quot;, &quot;rdw&quot;, &quot;ret&quot;, &quot;wbc&quot;, &quot;baso&quot;, &quot;T1D&quot;, &quot;ukb.allasthma&quot;, 
+            &quot;EUR.IBD&quot;, &quot;EUR.CD&quot;, &quot;EUR.UC&quot;, &quot;allergy&quot;)
+celltypes &lt;- c(&quot;B_cell&quot;,&quot;CD14_positive_monocyte&quot;,&quot;CD15_positive_leukocyte&quot;,&quot;platelet&quot;,&quot;T_cell&quot;,&quot;thymocyte&quot;)
+type &lt;- c(&quot;B cell (CD19+)&quot;,&quot;Monocyte (CD14+)&quot;,&quot;Leukocyte (CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell (CD4+)&quot;,&quot;T cell (CD8+)&quot;)
+names(type) &lt;- celltypes
 
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
+acat_p_all &lt;- list()
+for (celltype in celltypes) {
+  acat_p_all[[celltype]] &lt;- get(load(paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/&quot;,celltype,&quot;_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)))
 }
 
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-10-1.png" width="2400" style="display: block; margin: auto;" /></p>
+for (trait in traits) {
+  
+  p&lt;- list()
+  for (celltype in celltypes) {
+    
+    p_trait &lt;- acat_p_all[[celltype]][[trait]]
+    p[[celltype]] &lt;- qqplot(p_trait,title = type[celltype])
+  }
+   
+  grid.arrange(grobs = p, ncol = 6, nrow = 1,top = trait)
+}</code></pre>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-10-1.png" width="2880" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
 Past versions of unnamed-chunk-10-1.png
@@ -1625,6 +1668,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-10-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-10-1.png" target="_blank">08af7bc</a>
 </td>
 <td>
@@ -1638,20 +1692,37 @@ XSun
 </table>
 </div>
 </div>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-10-2.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-3.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-4.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-5.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-6.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-7.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-8.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-9.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-10.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-11.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-12.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-13.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-14.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-15.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-16.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-17.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-18.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-19.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-20.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-21.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-22.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-23.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-24.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-25.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-10-26.png" width="2880" style="display: block; margin: auto;" /></p>
 </div>
-<div id="cd14_positive_monocyte" class="section level2">
-<h2>CD14_positive_monocyte</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD14_positive_monocyte_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
+<div id="corrected-acat-p-values-for-each-trait-trait-null-mhc-removed"
+class="section level1">
+<h1>Corrected ACAT p-values for each trait (trait null, MHC
+removed)</h1>
+<pre class="r"><code>traits &lt;- c(&quot;eo&quot;, &quot;gran&quot;, &quot;hct&quot;, &quot;hgb&quot;, &quot;lymph&quot;, &quot;mch&quot;, &quot;mchc&quot;, &quot;mcv&quot;, 
+            &quot;mpv&quot;, &quot;mono&quot;, &quot;myeloid_wbc&quot;, &quot;neut&quot;, &quot;plt&quot;, &quot;pdw&quot;, &quot;pct&quot;, 
+            &quot;rbc&quot;, &quot;rdw&quot;, &quot;ret&quot;, &quot;wbc&quot;, &quot;baso&quot;, &quot;T1D&quot;, &quot;ukb.allasthma&quot;, 
+            &quot;EUR.IBD&quot;, &quot;EUR.CD&quot;, &quot;EUR.UC&quot;, &quot;allergy&quot;)
+celltypes &lt;- c(&quot;B_cell&quot;,&quot;CD14_positive_monocyte&quot;,&quot;CD15_positive_leukocyte&quot;,&quot;platelet&quot;,&quot;T_cell&quot;,&quot;thymocyte&quot;)
+type &lt;- c(&quot;B cell (CD19+)&quot;,&quot;Monocyte (CD14+)&quot;,&quot;Leukocyte (CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell (CD4+)&quot;,&quot;T cell (CD8+)&quot;)
+names(type) &lt;- celltypes
 
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
+acat_p_all &lt;- list()
+for (celltype in celltypes) {
+  acat_p_all[[celltype]] &lt;- get(load(paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/&quot;,celltype,&quot;_corrected_trait_acat_mhcexcluded.rdata&quot;)))
 }
 
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-11-1.png" width="2400" style="display: block; margin: auto;" /></p>
+for (trait in traits) {
+  
+  p&lt;- list()
+  for (celltype in celltypes) {
+    
+    p_trait &lt;- acat_p_all[[celltype]][[trait]]
+    p[[celltype]] &lt;- qqplot(p_trait,title = type[celltype])
+  }
+   
+  grid.arrange(grobs = p, ncol = 6, nrow = 1,top = trait)
+}</code></pre>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-11-1.png" width="2880" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
 Past versions of unnamed-chunk-11-1.png
@@ -1676,6 +1747,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-11-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-11-1.png" target="_blank">08af7bc</a>
 </td>
 <td>
@@ -1689,492 +1771,7 @@ XSun
 </table>
 </div>
 </div>
-</div>
-<div id="cd15_positive_leukocyte" class="section level2">
-<h2>CD15_positive_leukocyte</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD15_positive_leukocyte_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
-
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
-}
-
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-12-1.png" width="2400" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
-Past versions of unnamed-chunk-12-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-12-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-12-1.png" target="_blank">08af7bc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="platelet" class="section level2">
-<h2>platelet</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/platelet_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
-
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
-}
-
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-13-1.png" width="2400" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
-Past versions of unnamed-chunk-13-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-13-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-13-1.png" target="_blank">08af7bc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="t-cell-cd4" class="section level2">
-<h2>T cell (Cd4+)</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/T_cell_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
-
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
-}
-
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-14-1.png" width="2400" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
-Past versions of unnamed-chunk-14-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-14-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-14-1.png" target="_blank">8a3aca8</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-14-1.png" target="_blank">08af7bc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="t-cell-cd8" class="section level2">
-<h2>T cell (CD8+)</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/thymocyte_corrected_acat_pool_celltype_mhcexcluded.rdata&quot;)
-
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
-}
-
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-15-1.png" width="2400" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
-Past versions of unnamed-chunk-15-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-15-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-15-1.png" target="_blank">8a3aca8</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-15-1.png" target="_blank">08af7bc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div id="corrected-acat-p-values-for-each-trait-trait-null-mhc-removed"
-class="section level1">
-<h1>Corrected ACAT p-values for each trait (trait null, MHC
-removed)</h1>
-<div id="b-cell-1" class="section level2">
-<h2>B cell</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/B_cell_corrected_trait_acat_mhcexcluded.rdata&quot;)
-
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
-}
-
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-16-1.png" width="2400" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
-Past versions of unnamed-chunk-16-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-16-1.png" target="_blank">8a3aca8</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-16-1.png" target="_blank">08af7bc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="cd14_positive_monocyte-1" class="section level2">
-<h2>CD14_positive_monocyte</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD14_positive_monocyte_corrected_trait_acat_mhcexcluded.rdata&quot;)
-
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
-}
-
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-17-1.png" width="2400" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
-Past versions of unnamed-chunk-17-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-17-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-17-1.png" target="_blank">8a3aca8</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-17-1.png" target="_blank">08af7bc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="cd15_positive_leukocyte-1" class="section level2">
-<h2>CD15_positive_leukocyte</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/CD15_positive_leukocyte_corrected_trait_acat_mhcexcluded.rdata&quot;)
-
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
-}
-
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-18-1.png" width="2400" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
-Past versions of unnamed-chunk-18-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-18-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-18-1.png" target="_blank">8a3aca8</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="platelet-1" class="section level2">
-<h2>platelet</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/platelet_corrected_trait_acat_mhcexcluded.rdata&quot;)
-
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
-}
-
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-19-1.png" width="2400" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-19-1">
-Past versions of unnamed-chunk-19-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-19-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-19-1.png" target="_blank">8a3aca8</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="t-cell-cd4-1" class="section level2">
-<h2>T cell (Cd4+)</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/T_cell_corrected_trait_acat_mhcexcluded.rdata&quot;)
-
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
-}
-
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-20-1.png" width="2400" style="display: block; margin: auto;" /></p>
-</div>
-<div id="t-cell-cd8-1" class="section level2">
-<h2>T cell (CD8+)</h2>
-<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/thymocyte_corrected_trait_acat_mhcexcluded.rdata&quot;)
-
-p &lt;- list()
-for (i in 1:length(acat_p_corrected)) {
-  
-  p[[i]] &lt;- qqplot(acat_p_corrected[[i]],title = names(acat_p_corrected)[i])
-  
-}
-
-grid.arrange(grobs = p, ncol =5, nrow = 6)</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-21-1.png" width="2400" style="display: block; margin: auto;" /></p>
-</div>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-11-2.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-3.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-4.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-5.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-6.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-7.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-8.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-9.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-10.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-11.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-12.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-13.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-14.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-15.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-16.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-17.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-18.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-19.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-20.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-21.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-22.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-23.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-24.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-25.png" width="2880" style="display: block; margin: auto;" /><img src="figure/revision_acat.Rmd/unnamed-chunk-11-26.png" width="2880" style="display: block; margin: auto;" /></p>
 </div>
 <div id="all-celltypes-pooled" class="section level1">
 <h1>All celltypes pooled</h1>
@@ -2204,7 +1801,55 @@ p_random_sample &lt;- sample(p_random,size = length(p_random)/100,replace = F)
 p_list &lt;- list(p_real,p_random_sample)
 
 qqplot_multi(pvalues_list = p_list,legend_names = c(&quot;p_real&quot;,&quot;p_random&quot;))</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-12-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-12-1.png" target="_blank">08af7bc</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="mhc-removed-4" class="section level2">
 <h2>MHC removed</h2>
@@ -2232,7 +1877,55 @@ p_random_sample &lt;- sample(p_random,size = length(p_random)/100,replace = F)
 p_list &lt;- list(p_real,p_random_sample)
 
 qqplot_multi(pvalues_list = p_list,legend_names = c(&quot;p_real&quot;,&quot;p_random&quot;))</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-13-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-13-1.png" target="_blank">08af7bc</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <!-- ## corrected  -->
 <!-- ```{r} -->
 <!-- load("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT/results/corrected_acat_poolall.rdata") -->
@@ -2267,7 +1960,66 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
         text= element_text(family=&quot;Times&quot;)) 
 
 p</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
+Past versions of unnamed-chunk-14-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-14-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-14-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-14-1.png" target="_blank">8a3aca8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-14-1.png" target="_blank">08af7bc</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="origin-p-values-mhc-removed" class="section level2">
 <h2>Origin p-values – MHC removed</h2>
@@ -2292,7 +2044,66 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
         text= element_text(family=&quot;Times&quot;)) 
 
 p</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
+Past versions of unnamed-chunk-15-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-15-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-15-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-15-1.png" target="_blank">8a3aca8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-15-1.png" target="_blank">08af7bc</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="corrected-p-values-global-null-mhc-included"
 class="section level2">
@@ -2318,7 +2129,66 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
         text= element_text(family=&quot;Times&quot;)) 
 
 p</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-26-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
+Past versions of unnamed-chunk-16-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-16-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-16-1.png" target="_blank">8a3aca8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-16-1.png" target="_blank">08af7bc</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="corrected-p-values-global-null---mhc-removed"
 class="section level2">
@@ -2344,7 +2214,66 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
         text= element_text(family=&quot;Times&quot;)) 
 
 p</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
+Past versions of unnamed-chunk-17-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-17-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-17-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-17-1.png" target="_blank">8a3aca8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/docs/figure/revision_acat.Rmd/unnamed-chunk-17-1.png" target="_blank">08af7bc</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="corrected-p-values-trait-null-mhc-included"
 class="section level2">
@@ -2370,7 +2299,55 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
         text= element_text(family=&quot;Times&quot;)) 
 
 p</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
+Past versions of unnamed-chunk-18-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-18-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-18-1.png" target="_blank">8a3aca8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="corrected-p-values-trait-null---mhc-removed"
 class="section level2">
@@ -2396,7 +2373,55 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
         text= element_text(family=&quot;Times&quot;)) 
 
 p</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-19-1">
+Past versions of unnamed-chunk-19-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-19-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-19-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/8a3aca8990a8869a3ba927d2e1aa79037a73eef8/docs/figure/revision_acat.Rmd/unnamed-chunk-19-1.png" target="_blank">8a3aca8</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="corrected-p-values-pair-null-mhc-included"
 class="section level2">
@@ -2422,7 +2447,44 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
         text= element_text(family=&quot;Times&quot;)) 
 
 p</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-20-1">
+Past versions of unnamed-chunk-20-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-20-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-20-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="corrected-p-values-pair-null---mhc-removed"
 class="section level2">
@@ -2448,7 +2510,44 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
         text= element_text(family=&quot;Times&quot;)) 
 
 p</code></pre>
-<p><img src="figure/revision_acat.Rmd/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_acat.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-21-1">
+Past versions of unnamed-chunk-21-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-21-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/40b2cde7e0540b08659eb49a3c6021bc93d28ae1/docs/figure/revision_acat.Rmd/unnamed-chunk-21-1.png" target="_blank">40b2cde</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-09-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
