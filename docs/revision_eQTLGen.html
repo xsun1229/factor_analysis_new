@@ -11,9 +11,9 @@
 
 <meta name="author" content="XSun" />
 
-<meta name="date" content="2025-09-16" />
+<meta name="date" content="2025-09-26" />
 
-<title>Revision R1</title>
+<title>Comparing with eQTLGen</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -38,6 +38,14 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
@@ -371,9 +379,9 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Revision R1</h1>
+<h1 class="title toc-ignore">Comparing with eQTLGen</h1>
 <h4 class="author">XSun</h4>
-<h4 class="date">2025-09-16</h4>
+<h4 class="date">2025-09-26</h4>
 
 </div>
 
@@ -406,7 +414,7 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span> 1
 </p>
@@ -440,12 +448,96 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221201)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221201code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221201)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
@@ -503,196 +595,122 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/revision.Rmd</code>) and HTML
-(<code>docs/revision.html</code>) files. If you’ve configured a remote
-Git repository (see <code>?wflow_git_remote</code>), click on the
-hyperlinks in the table below to view the files as they were in that
-past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/2c849fdefd0be16dd4229421de41556b6bcfda46/analysis/revision.Rmd" target="_blank">2c849fd</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-26
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/2c849fdefd0be16dd4229421de41556b6bcfda46/docs/revision.html" target="_blank">2c849fd</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-26
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/5f58507c31ee8753a6e22668c7564f078251479d/analysis/revision.Rmd" target="_blank">5f58507</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-21
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/c21a0cb49bd61fd77d64112cf5262929bd3b1178/docs/revision.html" target="_blank">c21a0cb</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/analysis/revision.Rmd" target="_blank">08af7bc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/d822c1a198cce43369542a094761b9fe83d3ee92/analysis/revision.Rmd" target="_blank">d822c1a</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/d822c1a198cce43369542a094761b9fe83d3ee92/docs/revision.html" target="_blank">d822c1a</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/ff6ebdbfb7cee14b65c3da2bbfd2601b06bdf247/analysis/revision.Rmd" target="_blank">ff6ebdb</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<p>Checking how the number of supporting SNPs impacts the ECT
-results</p>
-<ul>
-<li><a href="revision_numsnp.html">pathways with &gt;= 40 genes</a></li>
-<li><a href="revision_numsnp_20genes.html">pathways with &gt;= 20
-genes</a></li>
-</ul>
-<p>ACAT results</p>
-<p><a href="revision_acat.html">Link</a></p>
-<p>Colocalization analysis</p>
-<p><a href="revision_coloc.html">Link</a></p>
-<p>Comparing with eQTLGen</p>
-<p><a href="revision_eQTLGen.html">Link</a></p>
-<p>Analysis for the pathways with &gt;= 20 genes</p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/revision_ECT_20genes.html">ECT</a></p>
+<p>We checked if the supporting SNPs are trans-eQTLs. The trans-eQTLs
+are downloaded from <a href="https://eqtlgen.org/trans-eqtls.html"
+class="uri">https://eqtlgen.org/trans-eqtls.html</a></p>
+<div id="if-supporting-snps-are-trans-eqtls" class="section level1">
+<h1>If supporting SNPs are trans-eqtls</h1>
+<p>We have 796 supporting SNPs for all pairs with ECT FDR &lt; 0.2.
+There are 405 unique SNPs.</p>
+<p>We use vSampler to match some random SNPs for these supporting
+variants.</p>
+<p>We test whether supporting genes are more enriched in trans-eQTLs
+than the random genes.</p>
+<pre class="r"><code>supp_snps &lt;- readRDS(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/supp_snps_ectfdr02.RDS&quot;)
+snps &lt;- supp_snps$SNP
+snps &lt;- snps[duplicated(snps)]
+
+trans_eqtlgen &lt;- read.table(gzfile(&quot;/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/data/data_eqtlgen/2018-09-04-trans-eQTLsFDR0.05-CohortInfoRemoved-BonferroniAdded.txt.gz&quot;),header = T)
+
+print(paste0(&quot;Total trans-eQTLs = &quot;, length(unique(trans_eqtlgen$SNP))))</code></pre>
+<pre><code>[1] &quot;Total trans-eQTLs = 3853&quot;</code></pre>
+<pre class="r"><code>num_supp_trans &lt;- sum(snps %in% trans_eqtlgen$SNP)
+num_supp_nottrans &lt;- sum(!snps %in% trans_eqtlgen$SNP)
+
+ramdon_snp &lt;- read.table(&quot;/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/random_snps.txt&quot;, header = T, fill = T)
+ramdon_snp &lt;- ramdon_snp[ramdon_snp$LABEL == &quot;control1&quot;,]
+ramdon_snp$id &lt;- paste0(ramdon_snp$CHR,&quot;-&quot;,ramdon_snp$POS)
+
+trans_eqtlgen$id &lt;- paste0(trans_eqtlgen$SNPChr,&quot;-&quot;,trans_eqtlgen$SNPPos)
+
+num_random_trans &lt;- sum(ramdon_snp$id %in% trans_eqtlgen$id)
+num_random_notrans &lt;- sum(!ramdon_snp$id %in% trans_eqtlgen$id)
+
+
+mat &lt;- matrix(c(num_supp_trans, num_supp_nottrans, num_random_trans, num_random_notrans), nrow = 2, byrow = TRUE,
+              dimnames = list(
+                c(&quot;Supp_SNP&quot;, &quot;Random&quot;),
+                c(&quot;Trans&quot;, &quot;NotTrans&quot;)
+              ))
+
+cat(&quot;The number of supporting SNPs/ random SNPs are trans eQTL&quot;)</code></pre>
+<pre><code>The number of supporting SNPs/ random SNPs are trans eQTL</code></pre>
+<pre class="r"><code>print(mat)</code></pre>
+<pre><code>         Trans NotTrans
+Supp_SNP   151      254
+Random       0      376</code></pre>
+<pre class="r"><code>mat &lt;- mat+1
+
+# Fisher&#39;s exact test
+fisher.test(mat)</code></pre>
+<pre><code>
+    Fisher&#39;s Exact Test for Count Data
+
+data:  mat
+p-value &lt; 2.2e-16
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+   38.99379 8448.60263
+sample estimates:
+odds ratio 
+  223.7837 </code></pre>
+</div>
+<div id="if-snp-gene-pairs-were-reported-by-eqtlgen"
+class="section level1">
+<h1>If SNP-gene pairs were reported by eQTLGen</h1>
+<p>We use top 10 genes with largest gene loading for a factor. Creat
+gene-snp pairs for the top genes and supporting SNPs.</p>
+<pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/trans_pairs.rdata&quot;)
+
+
+print(paste0(&quot;Total gene-transqtl pairs in eQTLGen = &quot;, nrow(pairs_all)))</code></pre>
+<pre><code>[1] &quot;Total gene-transqtl pairs in eQTLGen = 7960&quot;</code></pre>
+<pre class="r"><code>DT::datatable(pairs_all[pairs_all$trans == T,],caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;gene-suppoting SNP pair reported by eQTLGen&#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-0c923cdc0df2ab45b6f5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0c923cdc0df2ab45b6f5">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">gene-suppoting SNP pair reported by eQTLGen<\/caption>","data":[["1304","3642","5432","5925","6592","6597","6599","6728","6974","6977","6979","7492","7493","7497","7498","7743","7887"],["NUP210","LEF1","PIK3R1","HLA-F","SLC8A3","PHKB","P2RX1","PDGFA","GNAI2","PPP1CA","ADCY3","ROCK2","ACTN1","PTK2B","MYL12A","GNG11","SRC"],["rs1354034","rs12453507","rs11065979","rs11065979","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034"],["B_cell","B_cell","CD14_positive_monocyte","CD14_positive_monocyte","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet"],["pwy95_pc3","pwy168_pc5","pwy217_pc2","pwy293_pc1","pwy115_pc1","pwy115_pc1","pwy115_pc1","pwy111_pc4","pwy117_pc3","pwy117_pc3","pwy117_pc3","pwy192_pc5","pwy192_pc5","pwy192_pc5","pwy192_pc5","pwy265_pc2","pwy291_pc2"],["lymph","T1D","baso","baso","plt","plt","plt","ret","ret","ret","ret","ret","ret","ret","ret","ret","ret"],["RNA transport","Adherens junction","Estrogen signaling pathway","Human immunodeficiency virus 1 infection","Calcium signaling pathway","Calcium signaling pathway","Calcium signaling pathway","MAPK signaling pathway","cAMP signaling pathway","cAMP signaling pathway","cAMP signaling pathway","Leukocyte transendothelial migration","Leukocyte transendothelial migration","Leukocyte transendothelial migration","Leukocyte transendothelial migration","Alcoholism","Herpes simplex virus 1 infection"],[0.196999933333333,0.175268558823529,0.193174137931034,0.193174137931034,0.179354133333333,0.179354133333333,0.179354133333333,0.194925176470588,0.117849333333333,0.117849333333333,0.117849333333333,0.0945584,0.0945584,0.0945584,0.0945584,0.0945584,0.144348],[9,3,15,12,7,7,7,12,12,12,12,5,5,5,5,15,12],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genes<\/th>\n      <th>snps<\/th>\n      <th>celltype<\/th>\n      <th>factor<\/th>\n      <th>trait<\/th>\n      <th>pwy_name<\/th>\n      <th>fdr_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n      <th>trans<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+[1] C
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.12       rstudioapi_0.13   knitr_1.39        magrittr_2.0.3   
+ [5] workflowr_1.7.0   R6_2.5.1          rlang_1.1.2       fastmap_1.1.0    
+ [9] fansi_1.0.3       stringr_1.5.1     tools_4.2.0       DT_0.22          
+[13] xfun_0.41         utf8_1.2.2        cli_3.6.1         git2r_0.30.1     
+[17] jquerylib_0.1.4   crosstalk_1.2.0   htmltools_0.5.2   rprojroot_2.0.3  
+[21] yaml_2.3.5        digest_0.6.29     tibble_3.2.1      lifecycle_1.0.4  
+[25] later_1.3.0       htmlwidgets_1.5.4 sass_0.4.1        vctrs_0.6.5      
+[29] promises_1.2.0.1  fs_1.5.2          glue_1.6.2        evaluate_0.15    
+[33] rmarkdown_2.25    stringi_1.7.6     bslib_0.3.1       compiler_4.2.0   
+[37] pillar_1.9.0      jsonlite_1.8.0    httpuv_1.6.5      pkgconfig_2.0.3  </code></pre>
+</div>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using

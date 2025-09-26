@@ -21,7 +21,12 @@ Colocalization analysis
 
 [Link](revision_coloc.html)
 
+Comparing with eQTLGen
+
+[Link](revision_eQTLGen.html)
+
 Analysis for the pathways with >= 20 genes
 
 [ECT](https://xsun1229.github.io/factor_analysis_new/revision_ECT_20genes.html)
+
 

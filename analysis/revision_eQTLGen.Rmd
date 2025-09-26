@@ -1,0 +1,80 @@
+---
+title: "Comparing with eQTLGen"
+author: "XSun"
+date: "2025-09-26"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+We checked if the supporting SNPs are trans-eQTLs. The trans-eQTLs are downloaded from https://eqtlgen.org/trans-eqtls.html
+
+# If supporting SNPs are trans-eqtls
+
+We have 796 supporting SNPs for all pairs with ECT FDR < 0.2. There are 405 unique SNPs. 
+
+We use vSampler to match some random SNPs for these supporting variants. 
+
+We test whether supporting genes are more enriched in trans-eQTLs than the random genes.
+
+
+```{r}
+
+supp_snps <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT/results/supp_snps_ectfdr02.RDS")
+snps <- supp_snps$SNP
+snps <- snps[duplicated(snps)]
+
+trans_eqtlgen <- read.table(gzfile("/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/data/data_eqtlgen/2018-09-04-trans-eQTLsFDR0.05-CohortInfoRemoved-BonferroniAdded.txt.gz"),header = T)
+
+print(paste0("Total trans-eQTLs = ", length(unique(trans_eqtlgen$SNP))))
+
+num_supp_trans <- sum(snps %in% trans_eqtlgen$SNP)
+num_supp_nottrans <- sum(!snps %in% trans_eqtlgen$SNP)
+
+ramdon_snp <- read.table("/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/random_snps.txt", header = T, fill = T)
+ramdon_snp <- ramdon_snp[ramdon_snp$LABEL == "control1",]
+ramdon_snp$id <- paste0(ramdon_snp$CHR,"-",ramdon_snp$POS)
+
+trans_eqtlgen$id <- paste0(trans_eqtlgen$SNPChr,"-",trans_eqtlgen$SNPPos)
+
+num_random_trans <- sum(ramdon_snp$id %in% trans_eqtlgen$id)
+num_random_notrans <- sum(!ramdon_snp$id %in% trans_eqtlgen$id)
+
+
+mat <- matrix(c(num_supp_trans, num_supp_nottrans, num_random_trans, num_random_notrans), nrow = 2, byrow = TRUE,
+              dimnames = list(
+                c("Supp_SNP", "Random"),
+                c("Trans", "NotTrans")
+              ))
+
+cat("The number of supporting SNPs/ random SNPs are trans eQTL")
+print(mat)
+
+mat <- mat+1
+
+# Fisher's exact test
+fisher.test(mat)
+ 
+```
+
+# If SNP-gene pairs were reported by eQTLGen
+
+We use top 10 genes with largest gene loading for a factor. Creat gene-snp pairs for the top genes and supporting SNPs.
+
+
+```{r}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/results/trans_pairs.rdata")
+
+
+print(paste0("Total gene-transqtl pairs in eQTLGen = ", nrow(pairs_all)))
+
+DT::datatable(pairs_all[pairs_all$trans == T,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','gene-suppoting SNP pair reported by eQTLGen'),options = list(pageLength = 10) )
+
+
+```
+
+
+
+
