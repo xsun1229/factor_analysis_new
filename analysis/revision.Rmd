@@ -2,9 +2,10 @@
 title: "Revision R1"
 author: "XSun"
 date: "2025-09-16"
-output: workflowr::wflow_html
-editor_options:
-  chunk_output_type: console
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
 ---
 
 Checking how the number of supporting SNPs impacts the ECT results
@@ -12,11 +13,15 @@ Checking how the number of supporting SNPs impacts the ECT results
 * [pathways with >= 40 genes](revision_numsnp.html)
 * [pathways with >= 20 genes](revision_numsnp_20genes.html)
 
-
 ACAT results
 
 [Link](revision_acat.html)
 
+Colocalization analysis
+
+[Link](revision_coloc.html)
+
 Analysis for the pathways with >= 20 genes
 
 [ECT](https://xsun1229.github.io/factor_analysis_new/revision_ECT_20genes.html)
+
