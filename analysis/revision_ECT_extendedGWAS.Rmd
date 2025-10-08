@@ -9,6 +9,50 @@ output:
 ---
 
 
+| Full Trait Name                                         | Abbr.   | Category                         |
+|---------------------------------------------------------|---------|----------------------------------|
+| Crohn’s disease                                         | CD      | Immune / Inflammatory disease    |
+| Inflammatory bowel disease                              | IBD     | Immune / Inflammatory disease    |
+| Rheumatoid arthritis                                    | RA      | Immune / Inflammatory disease    |
+| Ulcerative colitis                                      | UC      | Immune / Inflammatory disease    |
+| Atopic dermatitis                                       | ATD     | Immune / Inflammatory disease    |
+| Graves’ disease                                         | graves  | Immune / Inflammatory disease    |
+| Type 1 diabetes                                         | T1D     | Immune / Metabolic disease       |
+| Asthma                                                  | asthma  | Immune / Respiratory disease     |
+| Hemoglobin                                              | HB      | Red blood cell trait             |
+| Hemoglobin concentration                                | hgb     | Red blood cell trait             |
+| Hematocrit                                              | HCT     | Red blood cell trait             |
+| High light scatter reticulocyte count                   | HLSRetc | Red blood cell trait             |
+| High light scatter reticulocyte percentage of red cells | HLSRetp | Red blood cell trait             |
+| Immature fraction of reticulocytes                      | IRF     | Red blood cell trait             |
+| Mean corpuscular hemoglobin                             | MCH     | Red blood cell trait             |
+| Mean corpuscular hemoglobin concentration               | MCHC    | Red blood cell trait             |
+| Mean corpuscular volume                                 | MCV     | Red blood cell trait             |
+| Mean reticulocyte volume                                | MRV     | Red blood cell trait             |
+| Mean spheric corpuscular volume                         | MSCV    | Red blood cell trait             |
+| Red blood cell count                                    | RBC     | Red blood cell trait             |
+| Red cell distribution width                             | RDW     | Red blood cell trait             |
+| Reticulocyte count                                      | RET     | Red blood cell trait             |
+| Reticulocyte fraction of red cells                      | RETP    | Red blood cell trait             |
+| Plateletcrit                                            | PCT     | Platelet trait                   |
+| Platelet distribution width                             | PDW     | Platelet trait                   |
+| Platelet count                                          | PLT     | Platelet trait                   |
+| Mean platelet volume                                    | MPV     | Platelet trait                   |
+| White blood cell count                                  | WBC     | White blood cell trait           |
+| Basophil count                                          | basoc   | White blood cell trait           |
+| Basophil percentage of white cells                      | basop   | White blood cell trait           |
+| Eosinophil count                                        | eosc    | White blood cell trait           |
+| Eosinophil percentage of white cells                    | epsp    | White blood cell trait           |
+| Lymphocyte count                                        | lymphc  | White blood cell trait           |
+| Lymphocyte percentage of white cells                    | lymphp  | White blood cell trait           |
+| Monocyte count                                          | mono    | White blood cell trait           |
+| Monocyte percentage of white cells                      | monop   | White blood cell trait           |
+| Neutrophil count                                        | neutc   | White blood cell trait           |
+| Neutrophil percentage of white cells                    | neutp   | White blood cell trait           |
+| Granulocyte count                                       | gran    | White blood cell trait           |
+| Low-density lipoprotein cholesterol                     | LDL     | Lipid / Metabolic trait          |
+| Body mass index                                         | BMI     | Metabolic / Anthropometric trait |
+
 ```{r}
 
 library(tidyverse)
