@@ -152,7 +152,7 @@ In R, this can be computed as:
 ```df$PVE <- (df$STAT)^2 / df$NMISS```
 
 
-```{r fig.height=4, fig.width=4}
+```{r fig.height=4, fig.width=10}
 
 # Set z-threshold (two-sided, alpha = 5e-8)
 #z_thr <- qnorm(1 - 5e-8 / 2)
