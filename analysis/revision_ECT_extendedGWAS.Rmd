@@ -1,0 +1,626 @@
+---
+title: "ECT results"
+author: "XSun"
+date: "2025-10-08"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true  
+---
+
+
+```{r}
+
+library(tidyverse)
+library(ggplot2)
+
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+names(type) <- celltypes
+
+source("/project/xinhe/xsun/pathway_factor/data_v2/traits.R")
+
+folder_ect <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary/"
+
+
+
+```
+
+# 40 genes
+
+## Old GWAS traits
+
+```{r fig.width=8, fig.height=5}
+
+df_all_FDR01 <- c()
+df_all_FDR02 <- c()
+df_p0001 <- c()
+for (celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect,celltype,"_ECT_summary_40genes.RDS"))
+  
+  tmp_FDR01 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.1,na.rm = T),sum(df$FDR_4suppSNP < 0.1,na.rm = T),sum(df$FDR_5suppSNP < 0.1,na.rm = T),sum(df$FDR_6suppSNP < 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.1,na.rm = T),sum(df$FDR_8suppSNP < 0.1,na.rm = T),sum(df$FDR_9suppSNP < 0.1,na.rm = T),sum(df$FDR_10suppSNP < 0.1,na.rm = T))
+  tmp_FDR02 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.2,na.rm = T),sum(df$FDR_4suppSNP < 0.2,na.rm = T),sum(df$FDR_5suppSNP < 0.2,na.rm = T),sum(df$FDR_6suppSNP < 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.2,na.rm = T),sum(df$FDR_8suppSNP < 0.2,na.rm = T),sum(df$FDR_9suppSNP < 0.2,na.rm = T),sum(df$FDR_10suppSNP < 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] <- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 <- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 <- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 <- rbind(df_p0001, df[df$p_ECT < 0.001,])
+  
+}
+
+df_p0001 <- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) <- NULL
+colnames(df_all_FDR01) <- c("celltype","num_pairs_FDR01_3suppSNP","num_pairs_FDR01_4suppSNP","num_pairs_FDR01_5suppSNP",
+                            "num_pairs_FDR01_6suppSNP","num_pairs_FDR01_7suppSNP","num_pairs_FDR01_8suppSNP",
+                            "num_pairs_FDR01_9suppSNP","num_pairs_FDR01_10suppSNP")
+df_all_FDR01 <- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 <- df_all_FDR01 %>% mutate(across(-celltype, as.numeric))
+
+df_long <- df_all_FDR01 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR01_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR01_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.1)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+
+rownames(df_all_FDR02) <- NULL
+colnames(df_all_FDR02) <- c("celltype","num_pairs_FDR02_3suppSNP","num_pairs_FDR02_4suppSNP","num_pairs_FDR02_5suppSNP",
+                            "num_pairs_FDR02_6suppSNP","num_pairs_FDR02_7suppSNP","num_pairs_FDR02_8suppSNP",
+                            "num_pairs_FDR02_9suppSNP","num_pairs_FDR02_10suppSNP")
+df_all_FDR02 <- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 <- df_all_FDR02 %>% mutate(across(-celltype, as.numeric))
+
+
+df_long <- df_all_FDR02 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR02_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR02_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.2)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+DT::datatable(df_p0001,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','significant pairs '),options = list(pageLength = 10) )
+
+
+
+```
+
+
+## New EUR traits
+
+```{r fig.width=8, fig.height=5}
+
+df_all_FDR01 <- c()
+df_all_FDR02 <- c()
+df_p0001 <- c()
+for (celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect,celltype,"_ECT_summary_40genes_newbatch.RDS"))
+  
+  tmp_FDR01 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.1,na.rm = T),sum(df$FDR_4suppSNP < 0.1,na.rm = T),sum(df$FDR_5suppSNP < 0.1,na.rm = T),sum(df$FDR_6suppSNP < 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.1,na.rm = T),sum(df$FDR_8suppSNP < 0.1,na.rm = T),sum(df$FDR_9suppSNP < 0.1,na.rm = T),sum(df$FDR_10suppSNP < 0.1,na.rm = T))
+  tmp_FDR02 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.2,na.rm = T),sum(df$FDR_4suppSNP < 0.2,na.rm = T),sum(df$FDR_5suppSNP < 0.2,na.rm = T),sum(df$FDR_6suppSNP < 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.2,na.rm = T),sum(df$FDR_8suppSNP < 0.2,na.rm = T),sum(df$FDR_9suppSNP < 0.2,na.rm = T),sum(df$FDR_10suppSNP < 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] <- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 <- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 <- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 <- rbind(df_p0001, df[df$p_ECT < 0.001,])
+  
+}
+
+df_p0001 <- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) <- NULL
+colnames(df_all_FDR01) <- c("celltype","num_pairs_FDR01_3suppSNP","num_pairs_FDR01_4suppSNP","num_pairs_FDR01_5suppSNP",
+                            "num_pairs_FDR01_6suppSNP","num_pairs_FDR01_7suppSNP","num_pairs_FDR01_8suppSNP",
+                            "num_pairs_FDR01_9suppSNP","num_pairs_FDR01_10suppSNP")
+df_all_FDR01 <- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 <- df_all_FDR01 %>% mutate(across(-celltype, as.numeric))
+
+df_long <- df_all_FDR01 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR01_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR01_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.1)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+
+rownames(df_all_FDR02) <- NULL
+colnames(df_all_FDR02) <- c("celltype","num_pairs_FDR02_3suppSNP","num_pairs_FDR02_4suppSNP","num_pairs_FDR02_5suppSNP",
+                            "num_pairs_FDR02_6suppSNP","num_pairs_FDR02_7suppSNP","num_pairs_FDR02_8suppSNP",
+                            "num_pairs_FDR02_9suppSNP","num_pairs_FDR02_10suppSNP")
+df_all_FDR02 <- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 <- df_all_FDR02 %>% mutate(across(-celltype, as.numeric))
+
+
+df_long <- df_all_FDR02 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR02_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR02_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.2)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+DT::datatable(df_p0001,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','significant pairs '),options = list(pageLength = 10) )
+
+
+
+```
+
+
+## New EAS traits
+
+```{r fig.width=8, fig.height=5}
+
+df_all_FDR01 <- c()
+df_all_FDR02 <- c()
+df_p0001 <- c()
+for (celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect,celltype,"_ECT_summary_40genes_EAS.RDS"))
+  
+  tmp_FDR01 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.1,na.rm = T),sum(df$FDR_4suppSNP < 0.1,na.rm = T),sum(df$FDR_5suppSNP < 0.1,na.rm = T),sum(df$FDR_6suppSNP < 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.1,na.rm = T),sum(df$FDR_8suppSNP < 0.1,na.rm = T),sum(df$FDR_9suppSNP < 0.1,na.rm = T),sum(df$FDR_10suppSNP < 0.1,na.rm = T))
+  tmp_FDR02 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.2,na.rm = T),sum(df$FDR_4suppSNP < 0.2,na.rm = T),sum(df$FDR_5suppSNP < 0.2,na.rm = T),sum(df$FDR_6suppSNP < 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.2,na.rm = T),sum(df$FDR_8suppSNP < 0.2,na.rm = T),sum(df$FDR_9suppSNP < 0.2,na.rm = T),sum(df$FDR_10suppSNP < 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] <- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 <- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 <- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 <- rbind(df_p0001, df[df$p_ECT < 0.001,])
+  
+}
+
+df_p0001 <- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) <- NULL
+colnames(df_all_FDR01) <- c("celltype","num_pairs_FDR01_3suppSNP","num_pairs_FDR01_4suppSNP","num_pairs_FDR01_5suppSNP",
+                            "num_pairs_FDR01_6suppSNP","num_pairs_FDR01_7suppSNP","num_pairs_FDR01_8suppSNP",
+                            "num_pairs_FDR01_9suppSNP","num_pairs_FDR01_10suppSNP")
+df_all_FDR01 <- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 <- df_all_FDR01 %>% mutate(across(-celltype, as.numeric))
+
+df_long <- df_all_FDR01 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR01_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR01_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.1)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+
+rownames(df_all_FDR02) <- NULL
+colnames(df_all_FDR02) <- c("celltype","num_pairs_FDR02_3suppSNP","num_pairs_FDR02_4suppSNP","num_pairs_FDR02_5suppSNP",
+                            "num_pairs_FDR02_6suppSNP","num_pairs_FDR02_7suppSNP","num_pairs_FDR02_8suppSNP",
+                            "num_pairs_FDR02_9suppSNP","num_pairs_FDR02_10suppSNP")
+df_all_FDR02 <- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 <- df_all_FDR02 %>% mutate(across(-celltype, as.numeric))
+
+
+df_long <- df_all_FDR02 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR02_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR02_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.2)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+DT::datatable(df_p0001,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','significant pairs '),options = list(pageLength = 10) )
+
+
+
+```
+
+
+
+# 20 genes
+## Old GWAS traits
+
+```{r fig.width=8, fig.height=5}
+
+df_all_FDR01 <- c()
+df_all_FDR02 <- c()
+df_p0001 <- c()
+for (celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect,celltype,"_ECT_summary_20genes.RDS"))
+  
+  tmp_FDR01 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.1,na.rm = T),sum(df$FDR_4suppSNP < 0.1,na.rm = T),sum(df$FDR_5suppSNP < 0.1,na.rm = T),sum(df$FDR_6suppSNP < 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.1,na.rm = T),sum(df$FDR_8suppSNP < 0.1,na.rm = T),sum(df$FDR_9suppSNP < 0.1,na.rm = T),sum(df$FDR_10suppSNP < 0.1,na.rm = T))
+  tmp_FDR02 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.2,na.rm = T),sum(df$FDR_4suppSNP < 0.2,na.rm = T),sum(df$FDR_5suppSNP < 0.2,na.rm = T),sum(df$FDR_6suppSNP < 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.2,na.rm = T),sum(df$FDR_8suppSNP < 0.2,na.rm = T),sum(df$FDR_9suppSNP < 0.2,na.rm = T),sum(df$FDR_10suppSNP < 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] <- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 <- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 <- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 <- rbind(df_p0001, df[df$p_ECT < 0.001,])
+  
+}
+
+df_p0001 <- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) <- NULL
+colnames(df_all_FDR01) <- c("celltype","num_pairs_FDR01_3suppSNP","num_pairs_FDR01_4suppSNP","num_pairs_FDR01_5suppSNP",
+                            "num_pairs_FDR01_6suppSNP","num_pairs_FDR01_7suppSNP","num_pairs_FDR01_8suppSNP",
+                            "num_pairs_FDR01_9suppSNP","num_pairs_FDR01_10suppSNP")
+df_all_FDR01 <- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 <- df_all_FDR01 %>% mutate(across(-celltype, as.numeric))
+
+df_long <- df_all_FDR01 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR01_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR01_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.1)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+
+rownames(df_all_FDR02) <- NULL
+colnames(df_all_FDR02) <- c("celltype","num_pairs_FDR02_3suppSNP","num_pairs_FDR02_4suppSNP","num_pairs_FDR02_5suppSNP",
+                            "num_pairs_FDR02_6suppSNP","num_pairs_FDR02_7suppSNP","num_pairs_FDR02_8suppSNP",
+                            "num_pairs_FDR02_9suppSNP","num_pairs_FDR02_10suppSNP")
+df_all_FDR02 <- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 <- df_all_FDR02 %>% mutate(across(-celltype, as.numeric))
+
+
+df_long <- df_all_FDR02 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR02_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR02_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.2)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+DT::datatable(df_p0001,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','significant pairs '),options = list(pageLength = 10) )
+
+
+
+```
+
+
+## New EUR traits
+
+```{r fig.width=8, fig.height=5}
+
+df_all_FDR01 <- c()
+df_all_FDR02 <- c()
+df_p0001 <- c()
+for (celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect,celltype,"_ECT_summary_20genes_newbatch.RDS"))
+  
+  tmp_FDR01 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.1,na.rm = T),sum(df$FDR_4suppSNP < 0.1,na.rm = T),sum(df$FDR_5suppSNP < 0.1,na.rm = T),sum(df$FDR_6suppSNP < 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.1,na.rm = T),sum(df$FDR_8suppSNP < 0.1,na.rm = T),sum(df$FDR_9suppSNP < 0.1,na.rm = T),sum(df$FDR_10suppSNP < 0.1,na.rm = T))
+  tmp_FDR02 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.2,na.rm = T),sum(df$FDR_4suppSNP < 0.2,na.rm = T),sum(df$FDR_5suppSNP < 0.2,na.rm = T),sum(df$FDR_6suppSNP < 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.2,na.rm = T),sum(df$FDR_8suppSNP < 0.2,na.rm = T),sum(df$FDR_9suppSNP < 0.2,na.rm = T),sum(df$FDR_10suppSNP < 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] <- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 <- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 <- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 <- rbind(df_p0001, df[df$p_ECT < 0.001,])
+  
+}
+
+df_p0001 <- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) <- NULL
+colnames(df_all_FDR01) <- c("celltype","num_pairs_FDR01_3suppSNP","num_pairs_FDR01_4suppSNP","num_pairs_FDR01_5suppSNP",
+                            "num_pairs_FDR01_6suppSNP","num_pairs_FDR01_7suppSNP","num_pairs_FDR01_8suppSNP",
+                            "num_pairs_FDR01_9suppSNP","num_pairs_FDR01_10suppSNP")
+df_all_FDR01 <- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 <- df_all_FDR01 %>% mutate(across(-celltype, as.numeric))
+
+df_long <- df_all_FDR01 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR01_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR01_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.1)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+
+rownames(df_all_FDR02) <- NULL
+colnames(df_all_FDR02) <- c("celltype","num_pairs_FDR02_3suppSNP","num_pairs_FDR02_4suppSNP","num_pairs_FDR02_5suppSNP",
+                            "num_pairs_FDR02_6suppSNP","num_pairs_FDR02_7suppSNP","num_pairs_FDR02_8suppSNP",
+                            "num_pairs_FDR02_9suppSNP","num_pairs_FDR02_10suppSNP")
+df_all_FDR02 <- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 <- df_all_FDR02 %>% mutate(across(-celltype, as.numeric))
+
+
+df_long <- df_all_FDR02 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR02_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR02_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.2)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+DT::datatable(df_p0001,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','significant pairs '),options = list(pageLength = 10) )
+
+
+
+```
+
+
+## New EAS traits
+
+```{r fig.width=8, fig.height=5}
+
+df_all_FDR01 <- c()
+df_all_FDR02 <- c()
+df_p0001 <- c()
+for (celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect,celltype,"_ECT_summary_20genes_EAS.RDS"))
+  
+  tmp_FDR01 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.1,na.rm = T),sum(df$FDR_4suppSNP < 0.1,na.rm = T),sum(df$FDR_5suppSNP < 0.1,na.rm = T),sum(df$FDR_6suppSNP < 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.1,na.rm = T),sum(df$FDR_8suppSNP < 0.1,na.rm = T),sum(df$FDR_9suppSNP < 0.1,na.rm = T),sum(df$FDR_10suppSNP < 0.1,na.rm = T))
+  tmp_FDR02 <- c(unique(df$celltype),sum(df$FDR_3suppSNP < 0.2,na.rm = T),sum(df$FDR_4suppSNP < 0.2,na.rm = T),sum(df$FDR_5suppSNP < 0.2,na.rm = T),sum(df$FDR_6suppSNP < 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP < 0.2,na.rm = T),sum(df$FDR_8suppSNP < 0.2,na.rm = T),sum(df$FDR_9suppSNP < 0.2,na.rm = T),sum(df$FDR_10suppSNP < 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] <- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 <- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 <- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 <- rbind(df_p0001, df[df$p_ECT < 0.001,])
+  
+}
+
+df_p0001 <- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) <- NULL
+colnames(df_all_FDR01) <- c("celltype","num_pairs_FDR01_3suppSNP","num_pairs_FDR01_4suppSNP","num_pairs_FDR01_5suppSNP",
+                            "num_pairs_FDR01_6suppSNP","num_pairs_FDR01_7suppSNP","num_pairs_FDR01_8suppSNP",
+                            "num_pairs_FDR01_9suppSNP","num_pairs_FDR01_10suppSNP")
+df_all_FDR01 <- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 <- df_all_FDR01 %>% mutate(across(-celltype, as.numeric))
+
+df_long <- df_all_FDR01 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR01_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR01_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.1)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+
+rownames(df_all_FDR02) <- NULL
+colnames(df_all_FDR02) <- c("celltype","num_pairs_FDR02_3suppSNP","num_pairs_FDR02_4suppSNP","num_pairs_FDR02_5suppSNP",
+                            "num_pairs_FDR02_6suppSNP","num_pairs_FDR02_7suppSNP","num_pairs_FDR02_8suppSNP",
+                            "num_pairs_FDR02_9suppSNP","num_pairs_FDR02_10suppSNP")
+df_all_FDR02 <- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 <- df_all_FDR02 %>% mutate(across(-celltype, as.numeric))
+
+
+df_long <- df_all_FDR02 %>%
+  pivot_longer(
+    cols = starts_with("num_pairs_FDR02_"),
+    names_to = "num_suppSNP",
+    values_to = "num_pairs"
+  ) %>%
+  mutate(
+    num_suppSNP = as.numeric(gsub("num_pairs_FDR02_|suppSNP", "", num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Cell type",
+    y = "Number of pairs (FDR < 0.2)",
+    fill = "Supporting SNPs"
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )
+
+
+DT::datatable(df_p0001,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','significant pairs '),options = list(pageLength = 10) )
+
+
+
+```
+
+

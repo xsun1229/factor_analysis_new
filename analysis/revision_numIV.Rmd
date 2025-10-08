@@ -1,0 +1,87 @@
+---
+title: "Number of Instrument Variables"
+author: "XSun"
+date: "2025-10-08"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+
+```{r}
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+names(type) <- celltypes
+
+source("/project/xinhe/xsun/pathway_factor/data_v2/traits.R")
+
+
+folder_IV <- "/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/"
+
+
+df <- c()
+for (trait in traits_old){
+  
+  file_IV <- paste0(folder_IV,trait,"_prunedsnps.txt")
+  
+  if(!file.exists(file_IV)) next
+  
+  snps <- read.table(file_IV, header = T)
+  
+  tmp <- c(trait, nrow(snps))
+  df <- rbind(df,tmp)
+}
+
+df <- as.data.frame(df)
+rownames(df) <- NULL
+
+colnames(df) <- c("Trait","#of SNPs")
+
+ DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Old GWAS traits'),options = list(pageLength = 10) )
+ 
+ 
+df <- c()
+for (trait in traits_newbatch){
+  
+  file_IV <- paste0(folder_IV,trait,"_prunedsnps.txt")
+  
+  if(!file.exists(file_IV)) next
+  
+  snps <- read.table(file_IV, header = T)
+  
+  tmp <- c(trait, nrow(snps))
+  df <- rbind(df,tmp)
+}
+
+df <- as.data.frame(df)
+rownames(df) <- NULL
+
+colnames(df) <- c("Trait","#of SNPs")
+
+DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','New GWAS traits -- EUR'),options = list(pageLength = 10) )
+
+
+
+df <- c()
+for (trait in traits_EAS){
+  
+  file_IV <- paste0(folder_IV,trait,"_prunedsnps.txt")
+  
+  if(!file.exists(file_IV)) next
+  
+  snps <- read.table(file_IV, header = T)
+  
+  tmp <- c(trait, nrow(snps))
+  df <- rbind(df,tmp)
+}
+
+df <- as.data.frame(df)
+rownames(df) <- NULL
+
+colnames(df) <- c("Trait","#of SNPs")
+
+DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','New GWAS traits -- EAS'),options = list(pageLength = 10) )
+
+```
+

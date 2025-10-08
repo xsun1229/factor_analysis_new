@@ -8,6 +8,18 @@ output:
     toc: true
 ---
 
+**Results using updated functions**
+
+[Number of Instrument Variables](revision_numIV.html)
+
+[ECT results](revision_ECT_extendedGWAS.html)
+
+
+
+
+
+**Old codes**
+
 Checking how the number of supporting SNPs impacts the ECT results
 
 * [pathways with >= 40 genes](revision_numsnp.html)

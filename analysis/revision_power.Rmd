@@ -1,0 +1,81 @@
+---
+title: "Computing the power"
+author: "XSun"
+date: "2025-10-03"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Introduction
+
+Power analysis: difficult to do with ECT. Instead, the main bottleneck is the power of detecting variant-factor association. Do the power analysis on eQTLs: same as standard eQTL analysis, power vs. sample size, at different effect sizes.
+See the notes: https://www.overleaf.com/read/pqwqvhthnvng#3d443f
+
+
+From the notes, we have 
+
+\[
+\hat{z} | \text{PVE} \sim N(\sqrt{N \cdot \text{PVE}}, 1)
+\]
+
+where the PVE of a SNP is simply ${z}^2 / N$. The estimated PVE is given by $\hat{z}^2 / N$.
+
+## Relationship between power and $\hat z$
+
+Let the true standardized effect of a SNP be $z = \frac{\beta}{s}$
+
+where $\beta$ is the effect size and $s$ is its standard error.  
+
+The observed statistic is $\hat z = \frac{\hat \beta}{s}.$
+
+## Distribution of $\hat z$
+
+Under the model, the observed statistic $\hat z$ follows a shifted normal distribution:
+
+\[
+\hat z \mid z \sim N(z, 1).
+\]
+
+Here, the mean is the true standardized effect $z$ and the variance is 1.
+
+## Defining power
+
+For a two-sided test with threshold $z_{\text{thresh}}$, the null hypothesis $H_0: z=0$ is rejected if
+\[
+|\hat z| > z_{\text{thresh}}.
+\]
+
+The \emph{power} of detecting the effect is the probability that this condition is satisfied when the true effect is $z \neq 0$
+
+\[
+\text{Power}(z) = \Pr(|\hat z| > z_{\text{thresh}} \mid z).
+\]
+
+## Computing power from the distribution of $\hat z$
+
+Since $\hat z \sim N(z,1)$, the power can be computed as the sum of the two tail probabilities:
+
+\[
+\text{Power}(z) = \Pr(\hat z > z_{\text{thresh}} \mid z) + \Pr(\hat z < -z_{\text{thresh}} \mid z),
+\]
+\[
+\text{Power}(z) = 1 - \Phi(z_{\text{thresh}} - z) + \Phi(-z_{\text{thresh}} - z),
+\]
+
+where $\Phi(\cdot)$ is the cumulative distribution function of the standard normal distribution.
+
+## Relationship intuition
+
+- If $z = 0$ (null), $\hat z \sim N(0,1)$, so power = probability of type I error (roughly $\alpha$ if $z_{\text{thresh}}$ is set according to significance level).  
+- As $z$ increases, the distribution of $\hat z$ shifts to the right, and more of its probability mass falls beyond the threshold $z_{\text{thresh}}$.  
+- Therefore, power is a monotone increasing function of the true effect $z$.  
+
+
+
+
+
+```{r}
+
+```
+
