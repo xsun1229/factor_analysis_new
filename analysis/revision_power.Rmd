@@ -2,18 +2,53 @@
 title: "Computing the power"
 author: "XSun"
 date: "2025-10-03"
-output: workflowr::wflow_html
-editor_options:
-  chunk_output_type: console
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true  
 ---
 
-# Introduction
+```{r}
+library(ggplot2)
+library(scales)
+library(gridExtra)
+
+# Function to compute power for a given N and PVE (two-sided test)
+power_snp_pthres <- function(N, PVE, alpha = 5e-8) {
+  z_thr <- qnorm(1 - alpha/2)
+  mu <- sqrt(N * PVE)
+  power <- 1 - pnorm(z_thr - mu) + pnorm(-z_thr - mu)
+  return(power)
+}
+
+# Function to compute power using a z-score threshold directly
+power_snp_zthres <- function(N, PVE, z_threshold = 3) {
+  mu <- sqrt(N * PVE)
+  power <- 1 - pnorm(z_threshold - mu) + pnorm(-z_threshold - mu)
+  return(power)
+}
+
+min_sample_size <- function(PVE, z_threshold, target_power = 0.8) {
+  z_power <- qnorm(target_power)
+  N <- ((z_threshold + z_power)^2) / PVE
+  return(ceiling(N))  # round up to nearest integer
+}
+
+
+```
+
+
+# Power calculation under a given PVE
 
 Power analysis: difficult to do with ECT. Instead, the main bottleneck is the power of detecting variant-factor association. Do the power analysis on eQTLs: same as standard eQTL analysis, power vs. sample size, at different effect sizes.
 See the notes: https://www.overleaf.com/read/pqwqvhthnvng#3d443f
 
-
 From the notes, we have 
+
+\[
+z = \sqrt{N \cdot \text{PVE}},
+\]
+where $N$ is the sample size.
 
 \[
 \hat{z} | \text{PVE} \sim N(\sqrt{N \cdot \text{PVE}}, 1)
@@ -21,61 +56,225 @@ From the notes, we have
 
 where the PVE of a SNP is simply ${z}^2 / N$. The estimated PVE is given by $\hat{z}^2 / N$.
 
-## Relationship between power and $\hat z$
 
-Let the true standardized effect of a SNP be $z = \frac{\beta}{s}$
+For a two-sided test at significance level $\alpha$, we reject the null hypothesis if $|\hat{z}| > z_{1-\alpha/2}$, where $z_{1-\alpha/2}$ is the $(1-\alpha/2)$-quantile of the standard normal distribution.
 
-where $\beta$ is the effect size and $s$ is its standard error.  
+Hence, the statistical power is:
+\[
+\text{Power} = P(|\hat{z}| > z_{1-\alpha/2} \mid \text{PVE}) 
+= 1 - \Phi\big(z_{1-\alpha/2} - \sqrt{N \cdot \text{PVE}}\big) 
+  + \Phi\big(-z_{1-\alpha/2} - \sqrt{N \cdot \text{PVE}}\big),
+\]
+where $\Phi(\cdot)$ denotes the cumulative distribution function of the standard normal distribution.
 
-The observed statistic is $\hat z = \frac{\hat \beta}{s}.$
 
-## Distribution of $\hat z$
+```{r fig.height=4, fig.width=10}
 
-Under the model, the observed statistic $\hat z$ follows a shifted normal distribution:
+# Set range of sample sizes and PVEs
+N_seq <- seq(100, 1e4, by = 1e2)                 # sample sizes
+PVE_list <- c(1e-4, 1e-3, 1e-2, 0.1, 0.5)     # 0.01% to 1%
+
+# Compute power for each combination
+power_df <- expand.grid(N = N_seq, PVE = PVE_list)
+
+# power_df$Power <- mapply(power_snp_pthres, N = power_df$N, PVE = power_df$PVE)
+# 
+# ggplot(power_df, aes(x = N, y = Power, color = as.factor(PVE))) +
+#   geom_line(size = 1) +
+#   scale_y_continuous(limits = c(0, 1), name = "Power") +
+#   scale_x_continuous(name = "Sample size (N)", labels = scales::comma) +
+#   scale_color_brewer(palette = "Set1", name = "PVE") +
+#   ggtitle("Power vs Sample Size for Different SNP PVEs",
+#           subtitle = expression(alpha == 5 %*% 10^{-8})) +
+#   theme_minimal(base_size = 14) +
+#   theme(legend.position = "right")
+
+z_thr <- 3  
+power_df$Power <- mapply(power_snp_zthres, 
+                         N = power_df$N, 
+                         PVE = power_df$PVE, 
+                         MoreArgs = list(z_threshold = z_thr))
+
+# Plot
+p1 <- ggplot(power_df, aes(x = N, y = Power, color = as.factor(PVE))) +
+  geom_line(size = 1) +
+  scale_y_continuous(limits = c(0, 1), name = "Power") +
+  scale_x_continuous(name = "Sample size", labels = comma) +
+  scale_color_brewer(palette = "Set1", name = "PVE") +
+  ggtitle("",
+          subtitle = paste0("z-threshold = ", z_thr)) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "right")
+
+z_thr <- 5  
+power_df$Power <- mapply(power_snp_zthres, 
+                         N = power_df$N, 
+                         PVE = power_df$PVE, 
+                         MoreArgs = list(z_threshold = z_thr))
+
+# Plot
+p2 <- ggplot(power_df, aes(x = N, y = Power, color = as.factor(PVE))) +
+  geom_line(size = 1) +
+  scale_y_continuous(limits = c(0, 1), name = "Power") +
+  scale_x_continuous(name = "Sample size", labels = comma) +
+  scale_color_brewer(palette = "Set1", name = "PVE") +
+  ggtitle("",
+          subtitle = paste0("z-threshold = ", z_thr)) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "right")
+
+grid.arrange(p1, p2, ncol = 2, top ="Power vs Sample Size for Different SNP PVEs")
+```
+
+
+# Per SNP power given QTL summary stats
+
+```{r fig.height=4, fig.width=4}
+
+dat_all <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/factor_assoc_res/B_cell-graves-ebi-a-GCST90018627_facassoc.RDS")
+df <- dat_all[[1]]
+  
+cat("One example for QTL summary stats")
+
+DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','An example of factor-QTL summary stats'),options = list(pageLength = 10) )
+  
+```
+
+
+From the derivation, PVE by a single SNP is:
 
 \[
-\hat z \mid z \sim N(z, 1).
+\text{PVE}  \approx \frac{\hat{z}^2}{N}
 \]
 
-Here, the mean is the true standardized effect $z$ and the variance is 1.
+In R, this can be computed as:
 
-## Defining power
-
-For a two-sided test with threshold $z_{\text{thresh}}$, the null hypothesis $H_0: z=0$ is rejected if
-\[
-|\hat z| > z_{\text{thresh}}.
-\]
-
-The \emph{power} of detecting the effect is the probability that this condition is satisfied when the true effect is $z \neq 0$
-
-\[
-\text{Power}(z) = \Pr(|\hat z| > z_{\text{thresh}} \mid z).
-\]
-
-## Computing power from the distribution of $\hat z$
-
-Since $\hat z \sim N(z,1)$, the power can be computed as the sum of the two tail probabilities:
-
-\[
-\text{Power}(z) = \Pr(\hat z > z_{\text{thresh}} \mid z) + \Pr(\hat z < -z_{\text{thresh}} \mid z),
-\]
-\[
-\text{Power}(z) = 1 - \Phi(z_{\text{thresh}} - z) + \Phi(-z_{\text{thresh}} - z),
-\]
-
-where $\Phi(\cdot)$ is the cumulative distribution function of the standard normal distribution.
-
-## Relationship intuition
-
-- If $z = 0$ (null), $\hat z \sim N(0,1)$, so power = probability of type I error (roughly $\alpha$ if $z_{\text{thresh}}$ is set according to significance level).  
-- As $z$ increases, the distribution of $\hat z$ shifts to the right, and more of its probability mass falls beyond the threshold $z_{\text{thresh}}$.  
-- Therefore, power is a monotone increasing function of the true effect $z$.  
+```df$PVE <- (df$STAT)^2 / df$NMISS```
 
 
+```{r fig.height=4, fig.width=4}
+
+# Set z-threshold (two-sided, alpha = 5e-8)
+#z_thr <- qnorm(1 - 5e-8 / 2)
+z_thr <- 3
+
+df$PVE <- (df$STAT)^2 / df$NMISS
 
 
+# Compute power for each SNP
+df$Power <- mapply(power_snp_zthres, N = df$NMISS, PVE = df$PVE, z_threshold = z_thr)
 
-```{r}
+DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','An example of factor-QTL summary stats, PVE and power added'),options = list(pageLength = 10) )
+
+p1 <- ggplot(df, aes(x = PVE)) +
+  geom_histogram(binwidth = 0.05,        # adjust bin width as needed
+                 color = "black",       # border color
+                 fill = "skyblue") +    # fill color
+  labs(title = "SNP PVE in this factor",
+       x = "PVE",
+       y = "Count") +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 12),
+    plot.title = element_text(hjust = 0.5)
+  )
+
+p2 <- ggplot(df, aes(x = Power)) +
+  geom_histogram(binwidth = 0.05,        # adjust bin width as needed
+                 color = "black",       # border color
+                 fill = "skyblue") +    # fill color
+  labs(title = "SNP Power in this factor",
+       x = "Power",
+       y = "Count") +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 12),
+    plot.title = element_text(hjust = 0.5)
+  )
+
+grid.arrange(p1, p2, ncol = 2)
 
 ```
+
+
+
+# Per factor power given QTL summary stats
+
+Since the QTLs of the factor are independent, we can simply sum the PVE of each SNP to obtain the factor-level PVE:
+
+\[
+\text{PVE}_{\text{factor}} = \sum_i \text{PVE}_i
+\]
+
+The power for the factor can then be computed using the same formula as for a single SNP:
+
+\[
+\text{Power}_{\text{factor}} = 1 - \Phi\Big(z_{\text{thr}} - \sqrt{N \cdot \text{PVE}_{\text{factor}}}\Big) 
++ \Phi\Big(-z_{\text{thr}} - \sqrt{N \cdot \text{PVE}_{\text{factor}}}\Big)
+\]
+
+Here, $N$ is the sample size and $z_{\text{thr}}$ is the chosen z-score threshold.
+
+
+```{r fig.height=4, fig.width=4}
+
+PVE_factor <- sum(df$PVE)
+
+power_factor <- power_snp_zthres(N = df$NMISS[1],  # or your desired sample size
+                            PVE = PVE_factor,
+                            z_threshold = z_thr)
+
+print(paste0("the power of the factor is ", round(power_factor,digits = 4)))
+```
+
+
+# Minimal sample size for a target power
+
+To compute the minimal sample size $N$ required to achieve a target power, we can approximate the power formula by ignoring the small second term:
+
+\[
+\text{Power} \approx 1 - \Phi\left(z_{\text{thr}} - \sqrt{N \cdot \text{PVE}}\right)
+\]
+
+Solving for $N$, we obtain:
+
+\[
+\sqrt{N \cdot \text{PVE}} = z_{\text{thr}} + z_{\text{power}}
+\]
+
+\[
+\boxed{N = \frac{(z_{\text{thr}} + z_{\text{power}})^2}{\text{PVE}}}
+\]
+
+where $z_{\text{power}} = \Phi^{-1}(\text{target power})$.
+
+
+```{r fig.height=4, fig.width=4}
+
+tgt_power <- 0.8
+N_min_factor <- min_sample_size(PVE = PVE_factor, 
+                                z_threshold = z_thr, 
+                                target_power = tgt_power)
+
+print(paste0("Minimal sample size for target power ", tgt_power, " is ", N_min_factor))
+
+
+tgt_power <- 0.9
+N_min_factor <- min_sample_size(PVE = PVE_factor, 
+                                z_threshold = z_thr, 
+                                target_power = tgt_power)
+
+print(paste0("Minimal sample size for target power ", tgt_power, " is ", N_min_factor))
+
+
+tgt_power <- 0.7
+N_min_factor <- min_sample_size(PVE = PVE_factor, 
+                                z_threshold = z_thr, 
+                                target_power = tgt_power)
+
+print(paste0("Minimal sample size for target power ", tgt_power, " is ", N_min_factor))
+
+```
+
+
 

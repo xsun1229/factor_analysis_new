@@ -15,7 +15,7 @@
 
 <title>Computing the power</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -31,14 +31,23 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/font-awesome-6.2.1/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -233,6 +242,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -357,6 +369,14 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Computing the power</h1>
@@ -368,9 +388,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -379,9 +397,7 @@ aria-hidden="true"></span>
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -390,27 +406,17 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-10-03
+<strong>Last updated:</strong> 2025-10-08
 </p>
 <p>
-<strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span
-class="glyphicon glyphicon-question-sign" aria-hidden="true"
-title="This is the local directory in which the code in this file was executed.">
-</span>
+<strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
 </p>
 <p>
-This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
-analysis was created with <a
-  href="https://github.com/workflowr/workflowr">workflowr</a> (version
-1.7.0). The <em>Checks</em> tab describes the reproducibility checks
-that were applied when the results were created. The <em>Past
-versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.1). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -419,151 +425,100 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
-class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the
-global environment can affect the analysis in your R Markdown file in
-unknown ways. For reproduciblity it’s best to always run the code in an
-empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Seed:</strong>
-<code>set.seed(20221201)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20221201)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed20221201code"
-class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed20221201code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20221201)</code> was run prior to running
-the code in the R Markdown file. Setting a seed ensures that any results
-that rely on randomness, e.g. subsampling or permutations, are
-reproducible.</p>
+<p>The command <code>set.seed(20221201)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Session information:</strong>
-recorded </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
 </p>
 </div>
-<div id="strongSessioninformationstrongrecorded"
-class="panel-collapse collapse">
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package
-versions is critical for reproducibility.</p>
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
 <div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be
-confident that you successfully produced the results during this
-run.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
 <div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr
-project makes it easier to run your code on other machines.</p>
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree6614e17a7bcc6eb109c3388545b1e9466d02121atargetblank6614e17a">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/6614e17a7bcc6eb109c3388545b1e9466d02121a" target="_blank">6614e17</a>
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreeaf83f5aabfd241ef93e50ffaf8cdefdcd5bf54c0targetblankaf83f5aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/xsun1229/factor_analysis_new/tree/af83f5aabfd241ef93e50ffaf8cdefdcd5bf54c0" target="_blank">af83f5a</a> </a>
 </p>
 </div>
-<div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree6614e17a7bcc6eb109c3388545b1e9466d02121atargetblank6614e17a"
-class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreeaf83f5aabfd241ef93e50ffaf8cdefdcd5bf54c0targetblankaf83f5aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development
-and connecting the code version to the results is critical for
-reproducibility.
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/6614e17a7bcc6eb109c3388545b1e9466d02121a" target="_blank">6614e17</a>.
-See the <em>Past versions</em> tab to see a history of the changes made
-to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/xsun1229/factor_analysis_new/tree/af83f5aabfd241ef93e50ffaf8cdefdcd5bf54c0" target="_blank">af83f5a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for
-the analysis have been committed to Git prior to generating the results
-(you can use <code>wflow_publish</code> or
-<code>wflow_git_commit</code>). workflowr only checks the R Markdown
-file, but you know if there are other scripts or data files that it
-depends on. Below is the status of the Git repository when the results
-were generated:
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  analysis/revision_power.Rmd
+Unstaged changes:
+    Modified:   analysis/revision.Rmd
+    Modified:   analysis/revision_power.Rmd
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not
-included in this status report because it is ok for generated content to
-have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
 </p>
 </div>
 </div>
@@ -572,134 +527,332 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/revision_power.Rmd</code>) and HTML (<code>docs/revision_power.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa6fd6307c4c522e46ee9e32c9e65a6ba5d802f1/analysis/revision_power.Rmd" target="_blank">aa6fd63</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-10-08
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/aa6fd6307c4c522e46ee9e32c9e65a6ba5d802f1/docs/revision_power.html" target="_blank">aa6fd63</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-10-08
+</td>
+<td>
+update
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<p>Power analysis: difficult to do with ECT. Instead, the main
-bottleneck is the power of detecting variant-factor association. Do the
-power analysis on eQTLs: same as standard eQTL analysis, power
-vs. sample size, at different effect sizes. See the notes: <a
-href="https://www.overleaf.com/read/pqwqvhthnvng#3d443f"
-class="uri">https://www.overleaf.com/read/pqwqvhthnvng#3d443f</a></p>
+<pre class="r"><code>library(ggplot2)
+library(scales)
+library(gridExtra)
+
+# Function to compute power for a given N and PVE (two-sided test)
+power_snp_pthres &lt;- function(N, PVE, alpha = 5e-8) {
+  z_thr &lt;- qnorm(1 - alpha/2)
+  mu &lt;- sqrt(N * PVE)
+  power &lt;- 1 - pnorm(z_thr - mu) + pnorm(-z_thr - mu)
+  return(power)
+}
+
+# Function to compute power using a z-score threshold directly
+power_snp_zthres &lt;- function(N, PVE, z_threshold = 3) {
+  mu &lt;- sqrt(N * PVE)
+  power &lt;- 1 - pnorm(z_threshold - mu) + pnorm(-z_threshold - mu)
+  return(power)
+}
+
+min_sample_size &lt;- function(PVE, z_threshold, target_power = 0.8) {
+  z_power &lt;- qnorm(target_power)
+  N &lt;- ((z_threshold + z_power)^2) / PVE
+  return(ceiling(N))  # round up to nearest integer
+}</code></pre>
+<div id="power-calculation-under-a-given-pve" class="section level1">
+<h1>Power calculation under a given PVE</h1>
+<p>Power analysis: difficult to do with ECT. Instead, the main bottleneck is the power of detecting variant-factor association. Do the power analysis on eQTLs: same as standard eQTL analysis, power vs. sample size, at different effect sizes. See the notes: <a href="https://www.overleaf.com/read/pqwqvhthnvng#3d443f" class="uri">https://www.overleaf.com/read/pqwqvhthnvng#3d443f</a></p>
 <p>From the notes, we have</p>
+<p><span class="math display">\[
+z = \sqrt{N \cdot \text{PVE}},
+\]</span> where <span class="math inline">\(N\)</span> is the sample size.</p>
 <p><span class="math display">\[
 \hat{z} | \text{PVE} \sim N(\sqrt{N \cdot \text{PVE}}, 1)
 \]</span></p>
-<p>where the PVE of a SNP is simply <span class="math inline">\({z}^2 /
-N\)</span>. The estimated PVE is given by <span
-class="math inline">\(\hat{z}^2 / N\)</span>.</p>
-<div id="relationship-between-power-and-hat-z" class="section level2">
-<h2>Relationship between power and <span class="math inline">\(\hat
-z\)</span></h2>
-<p>Let the true standardized effect of a SNP be <span
-class="math inline">\(z = \frac{\beta}{s}\)</span></p>
-<p>where <span class="math inline">\(\beta\)</span> is the effect size
-and <span class="math inline">\(s\)</span> is its standard error.</p>
-<p>The observed statistic is <span class="math inline">\(\hat z =
-\frac{\hat \beta}{s}.\)</span></p>
+<p>where the PVE of a SNP is simply <span class="math inline">\({z}^2 / N\)</span>. The estimated PVE is given by <span class="math inline">\(\hat{z}^2 / N\)</span>.</p>
+<p>For a two-sided test at significance level <span class="math inline">\(\alpha\)</span>, we reject the null hypothesis if <span class="math inline">\(|\hat{z}| &gt; z_{1-\alpha/2}\)</span>, where <span class="math inline">\(z_{1-\alpha/2}\)</span> is the <span class="math inline">\((1-\alpha/2)\)</span>-quantile of the standard normal distribution.</p>
+<p>Hence, the statistical power is: <span class="math display">\[
+\text{Power} = P(|\hat{z}| &gt; z_{1-\alpha/2} \mid \text{PVE}) 
+= 1 - \Phi\big(z_{1-\alpha/2} - \sqrt{N \cdot \text{PVE}}\big) 
+  + \Phi\big(-z_{1-\alpha/2} - \sqrt{N \cdot \text{PVE}}\big),
+\]</span> where <span class="math inline">\(\Phi(\cdot)\)</span> denotes the cumulative distribution function of the standard normal distribution.</p>
+<pre class="r"><code># Set range of sample sizes and PVEs
+N_seq &lt;- seq(100, 1e4, by = 1e2)                 # sample sizes
+PVE_list &lt;- c(1e-4, 1e-3, 1e-2, 0.1, 0.5)     # 0.01% to 1%
+
+# Compute power for each combination
+power_df &lt;- expand.grid(N = N_seq, PVE = PVE_list)
+
+# power_df$Power &lt;- mapply(power_snp_pthres, N = power_df$N, PVE = power_df$PVE)
+# 
+# ggplot(power_df, aes(x = N, y = Power, color = as.factor(PVE))) +
+#   geom_line(size = 1) +
+#   scale_y_continuous(limits = c(0, 1), name = &quot;Power&quot;) +
+#   scale_x_continuous(name = &quot;Sample size (N)&quot;, labels = scales::comma) +
+#   scale_color_brewer(palette = &quot;Set1&quot;, name = &quot;PVE&quot;) +
+#   ggtitle(&quot;Power vs Sample Size for Different SNP PVEs&quot;,
+#           subtitle = expression(alpha == 5 %*% 10^{-8})) +
+#   theme_minimal(base_size = 14) +
+#   theme(legend.position = &quot;right&quot;)
+
+z_thr &lt;- 3  
+power_df$Power &lt;- mapply(power_snp_zthres, 
+                         N = power_df$N, 
+                         PVE = power_df$PVE, 
+                         MoreArgs = list(z_threshold = z_thr))
+
+# Plot
+p1 &lt;- ggplot(power_df, aes(x = N, y = Power, color = as.factor(PVE))) +
+  geom_line(size = 1) +
+  scale_y_continuous(limits = c(0, 1), name = &quot;Power&quot;) +
+  scale_x_continuous(name = &quot;Sample size&quot;, labels = comma) +
+  scale_color_brewer(palette = &quot;Set1&quot;, name = &quot;PVE&quot;) +
+  ggtitle(&quot;&quot;,
+          subtitle = paste0(&quot;z-threshold = &quot;, z_thr)) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = &quot;right&quot;)</code></pre>
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+generated.</code></pre>
+<pre class="r"><code>z_thr &lt;- 5  
+power_df$Power &lt;- mapply(power_snp_zthres, 
+                         N = power_df$N, 
+                         PVE = power_df$PVE, 
+                         MoreArgs = list(z_threshold = z_thr))
+
+# Plot
+p2 &lt;- ggplot(power_df, aes(x = N, y = Power, color = as.factor(PVE))) +
+  geom_line(size = 1) +
+  scale_y_continuous(limits = c(0, 1), name = &quot;Power&quot;) +
+  scale_x_continuous(name = &quot;Sample size&quot;, labels = comma) +
+  scale_color_brewer(palette = &quot;Set1&quot;, name = &quot;PVE&quot;) +
+  ggtitle(&quot;&quot;,
+          subtitle = paste0(&quot;z-threshold = &quot;, z_thr)) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = &quot;right&quot;)
+
+grid.arrange(p1, p2, ncol = 2, top =&quot;Power vs Sample Size for Different SNP PVEs&quot;)</code></pre>
+<p><img src="figure/revision_power.Rmd/unnamed-chunk-2-1.png" width="960" style="display: block; margin: auto;" /></p>
 </div>
-<div id="distribution-of-hat-z" class="section level2">
-<h2>Distribution of <span class="math inline">\(\hat z\)</span></h2>
-<p>Under the model, the observed statistic <span
-class="math inline">\(\hat z\)</span> follows a shifted normal
-distribution:</p>
+<div id="per-snp-power-given-qtl-summary-stats" class="section level1">
+<h1>Per SNP power given QTL summary stats</h1>
+<pre class="r"><code>dat_all &lt;- readRDS(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/factor_assoc_res/B_cell-graves-ebi-a-GCST90018627_facassoc.RDS&quot;)
+df &lt;- dat_all[[1]]
+  
+cat(&quot;One example for QTL summary stats&quot;)</code></pre>
+<pre><code>One example for QTL summary stats</code></pre>
+<pre class="r"><code>DT::datatable(df,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;An example of factor-QTL summary stats&#39;),options = list(pageLength = 10) )</code></pre>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0c923cdc0df2ab45b6f5" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0c923cdc0df2ab45b6f5">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">An example of factor-QTL summary stats<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],["rs10821944","rs11065774","rs112250267","rs1265109","rs13136820","rs1378902","rs1474986","rs1569723","rs1977710","rs231770","rs28414437","rs4345439","rs6693828","rs8050588","rs9260809"],[10,12,6,6,4,8,6,20,1,2,14,6,1,16,6],[63785089,111355326,26175832,31119589,40307564,128210666,28575172,44742064,157693722,204729153,81457257,33040098,160423444,30937799,29941617],["G","A","T","T","C","A","T","C","G","T","C","T","C","A","G"],[-0.08620999999999999,-0.0502,-0.03318,0.0409,0.07574,-0.09858,0.2228,-0.09994,-0.03625,0.07519000000000001,-0.06859,0.06062,-0.2087,-0.0525,-0.03523],[-1.444,-0.4783,-0.357,0.588,1.165,-1.7,2.337,-1.699,-0.6555,1.322,-1.098,0.3468,-0.7433999999999999,-0.4062,-0.4221],[0.1501,0.6328,0.7214,0.5571,0.2453,0.09043,0.0202,0.09055000000000001,0.5127,0.1872,0.273,0.729,0.4579,0.6850000000000001,0.6733],[276,276,276,276,276,276,276,276,276,276,276,276,276,276,276],[0.059702216066482,0.104955049132344,0.09294117647058819,0.0695578231292517,0.0650128755364807,0.0579882352941177,0.0953359007274283,0.0588228369629194,0.055301296720061,0.0568759455370651,0.0624681238615665,0.17479815455594,0.28073715361851,0.129246676514033,0.0834636342099029],["T","G","C","G","T","T","A","A","A","C","A","C","G","G","A"],[0.2717,0.07246,0.08877,0.2681,0.3714,0.3134,0.0779,0.2699,0.4366,0.4058,0.3424,0.02536,0.009058,0.3623,0.4457]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>SNP<\/th>\n      <th>CHR<\/th>\n      <th>BP<\/th>\n      <th>A1<\/th>\n      <th>BETA<\/th>\n      <th>STAT<\/th>\n      <th>P<\/th>\n      <th>NMISS<\/th>\n      <th>SE<\/th>\n      <th>A2<\/th>\n      <th>MAF<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,5,6,7,8,9,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>From the derivation, PVE by a single SNP is:</p>
 <p><span class="math display">\[
-\hat z \mid z \sim N(z, 1).
+\text{PVE}  \approx \frac{\hat{z}^2}{N}
 \]</span></p>
-<p>Here, the mean is the true standardized effect <span
-class="math inline">\(z\)</span> and the variance is 1.</p>
+<p>In R, this can be computed as:</p>
+<p><code>df$PVE &lt;- (df$STAT)^2 / df$NMISS</code></p>
+<pre class="r"><code># Set z-threshold (two-sided, alpha = 5e-8)
+#z_thr &lt;- qnorm(1 - 5e-8 / 2)
+z_thr &lt;- 3
+
+df$PVE &lt;- (df$STAT)^2 / df$NMISS
+
+
+# Compute power for each SNP
+df$Power &lt;- mapply(power_snp_zthres, N = df$NMISS, PVE = df$PVE, z_threshold = z_thr)
+
+DT::datatable(df,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;An example of factor-QTL summary stats, PVE and power added&#39;),options = list(pageLength = 10) )</code></pre>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">An example of factor-QTL summary stats, PVE and power added<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"],["rs10821944","rs11065774","rs112250267","rs1265109","rs13136820","rs1378902","rs1474986","rs1569723","rs1977710","rs231770","rs28414437","rs4345439","rs6693828","rs8050588","rs9260809"],[10,12,6,6,4,8,6,20,1,2,14,6,1,16,6],[63785089,111355326,26175832,31119589,40307564,128210666,28575172,44742064,157693722,204729153,81457257,33040098,160423444,30937799,29941617],["G","A","T","T","C","A","T","C","G","T","C","T","C","A","G"],[-0.08620999999999999,-0.0502,-0.03318,0.0409,0.07574,-0.09858,0.2228,-0.09994,-0.03625,0.07519000000000001,-0.06859,0.06062,-0.2087,-0.0525,-0.03523],[-1.444,-0.4783,-0.357,0.588,1.165,-1.7,2.337,-1.699,-0.6555,1.322,-1.098,0.3468,-0.7433999999999999,-0.4062,-0.4221],[0.1501,0.6328,0.7214,0.5571,0.2453,0.09043,0.0202,0.09055000000000001,0.5127,0.1872,0.273,0.729,0.4579,0.6850000000000001,0.6733],[276,276,276,276,276,276,276,276,276,276,276,276,276,276,276],[0.059702216066482,0.104955049132344,0.09294117647058819,0.0695578231292517,0.0650128755364807,0.0579882352941177,0.0953359007274283,0.0588228369629194,0.055301296720061,0.0568759455370651,0.0624681238615665,0.17479815455594,0.28073715361851,0.129246676514033,0.0834636342099029],["T","G","C","G","T","T","A","A","A","C","A","C","G","G","A"],[0.2717,0.07246,0.08877,0.2681,0.3714,0.3134,0.0779,0.2699,0.4366,0.4058,0.3424,0.02536,0.009058,0.3623,0.4457],[0.007554840579710145,0.0008288800362318841,0.0004617717391304347,0.001252695652173913,0.004917481884057971,0.01047101449275362,0.01978829347826087,0.01045869927536232,0.0015568125,0.006332188405797102,0.004368130434782609,0.0004357617391304348,0.002002331739130434,0.0005978204347826087,0.0006455377173913042],[0.05985846126399066,0.006091765591524747,0.004502717327476916,0.008099252908827341,0.03326841235666119,0.09680178539306422,0.2536653242871366,0.09663053455569842,0.009654645866898778,0.04668128056661903,0.02860641406231389,0.004395381439489791,0.01210731362462553,0.005075453832232788,0.005280835266050079]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>SNP<\/th>\n      <th>CHR<\/th>\n      <th>BP<\/th>\n      <th>A1<\/th>\n      <th>BETA<\/th>\n      <th>STAT<\/th>\n      <th>P<\/th>\n      <th>NMISS<\/th>\n      <th>SE<\/th>\n      <th>A2<\/th>\n      <th>MAF<\/th>\n      <th>PVE<\/th>\n      <th>Power<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,5,6,7,8,9,11,12,13]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>p1 &lt;- ggplot(df, aes(x = PVE)) +
+  geom_histogram(binwidth = 0.05,        # adjust bin width as needed
+                 color = &quot;black&quot;,       # border color
+                 fill = &quot;skyblue&quot;) +    # fill color
+  labs(title = &quot;SNP PVE in this factor&quot;,
+       x = &quot;PVE&quot;,
+       y = &quot;Count&quot;) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 12),
+    plot.title = element_text(hjust = 0.5)
+  )
+
+p2 &lt;- ggplot(df, aes(x = Power)) +
+  geom_histogram(binwidth = 0.05,        # adjust bin width as needed
+                 color = &quot;black&quot;,       # border color
+                 fill = &quot;skyblue&quot;) +    # fill color
+  labs(title = &quot;SNP Power in this factor&quot;,
+       x = &quot;Power&quot;,
+       y = &quot;Count&quot;) +
+  theme_minimal() +
+  theme(
+    text = element_text(size = 12),
+    plot.title = element_text(hjust = 0.5)
+  )
+
+grid.arrange(p1, p2, ncol = 2)</code></pre>
+<p><img src="figure/revision_power.Rmd/unnamed-chunk-4-2.png" width="384" style="display: block; margin: auto;" /></p>
 </div>
-<div id="defining-power" class="section level2">
-<h2>Defining power</h2>
-<p>For a two-sided test with threshold <span
-class="math inline">\(z_{\text{thresh}}\)</span>, the null hypothesis
-<span class="math inline">\(H_0: z=0\)</span> is rejected if <span
-class="math display">\[
-|\hat z| &gt; z_{\text{thresh}}.
-\]</span></p>
-<p>The of detecting the effect is the probability that this condition is
-satisfied when the true effect is <span class="math inline">\(z \neq
-0\)</span></p>
+<div id="per-factor-power-given-qtl-summary-stats" class="section level1">
+<h1>Per factor power given QTL summary stats</h1>
+<p>Since the QTLs of the factor are independent, we can simply sum the PVE of each SNP to obtain the factor-level PVE:</p>
 <p><span class="math display">\[
-\text{Power}(z) = \Pr(|\hat z| &gt; z_{\text{thresh}} \mid z).
+\text{PVE}_{\text{factor}} = \sum_i \text{PVE}_i
 \]</span></p>
-</div>
-<div id="computing-power-from-the-distribution-of-hat-z"
-class="section level2">
-<h2>Computing power from the distribution of <span
-class="math inline">\(\hat z\)</span></h2>
-<p>Since <span class="math inline">\(\hat z \sim N(z,1)\)</span>, the
-power can be computed as the sum of the two tail probabilities:</p>
+<p>The power for the factor can then be computed using the same formula as for a single SNP:</p>
 <p><span class="math display">\[
-\text{Power}(z) = \Pr(\hat z &gt; z_{\text{thresh}} \mid z) + \Pr(\hat z
-&lt; -z_{\text{thresh}} \mid z),
-\]</span> <span class="math display">\[
-\text{Power}(z) = 1 - \Phi(z_{\text{thresh}} - z) +
-\Phi(-z_{\text{thresh}} - z),
+\text{Power}_{\text{factor}} = 1 - \Phi\Big(z_{\text{thr}} - \sqrt{N \cdot \text{PVE}_{\text{factor}}}\Big) 
++ \Phi\Big(-z_{\text{thr}} - \sqrt{N \cdot \text{PVE}_{\text{factor}}}\Big)
 \]</span></p>
-<p>where <span class="math inline">\(\Phi(\cdot)\)</span> is the
-cumulative distribution function of the standard normal
-distribution.</p>
+<p>Here, <span class="math inline">\(N\)</span> is the sample size and <span class="math inline">\(z_{\text{thr}}\)</span> is the chosen z-score threshold.</p>
+<pre class="r"><code>PVE_factor &lt;- sum(df$PVE)
+
+power_factor &lt;- power_snp_zthres(N = df$NMISS[1],  # or your desired sample size
+                            PVE = PVE_factor,
+                            z_threshold = z_thr)
+
+print(paste0(&quot;the power of the factor is &quot;, round(power_factor,digits = 4)))</code></pre>
+<pre><code>[1] &quot;the power of the factor is 0.9261&quot;</code></pre>
 </div>
-<div id="relationship-intuition" class="section level2">
-<h2>Relationship intuition</h2>
-<ul>
-<li>If <span class="math inline">\(z = 0\)</span> (null), <span
-class="math inline">\(\hat z \sim N(0,1)\)</span>, so power =
-probability of type I error (roughly <span
-class="math inline">\(\alpha\)</span> if <span
-class="math inline">\(z_{\text{thresh}}\)</span> is set according to
-significance level).<br />
-</li>
-<li>As <span class="math inline">\(z\)</span> increases, the
-distribution of <span class="math inline">\(\hat z\)</span> shifts to
-the right, and more of its probability mass falls beyond the threshold
-<span class="math inline">\(z_{\text{thresh}}\)</span>.<br />
-</li>
-<li>Therefore, power is a monotone increasing function of the true
-effect <span class="math inline">\(z\)</span>.</li>
-</ul>
+<div id="minimal-sample-size-for-a-target-power" class="section level1">
+<h1>Minimal sample size for a target power</h1>
+<p>To compute the minimal sample size <span class="math inline">\(N\)</span> required to achieve a target power, we can approximate the power formula by ignoring the small second term:</p>
+<p><span class="math display">\[
+\text{Power} \approx 1 - \Phi\left(z_{\text{thr}} - \sqrt{N \cdot \text{PVE}}\right)
+\]</span></p>
+<p>Solving for <span class="math inline">\(N\)</span>, we obtain:</p>
+<p><span class="math display">\[
+\sqrt{N \cdot \text{PVE}} = z_{\text{thr}} + z_{\text{power}}
+\]</span></p>
+<p><span class="math display">\[
+\boxed{N = \frac{(z_{\text{thr}} + z_{\text{power}})^2}{\text{PVE}}}
+\]</span></p>
+<p>where <span class="math inline">\(z_{\text{power}} = \Phi^{-1}(\text{target power})\)</span>.</p>
+<pre class="r"><code>tgt_power &lt;- 0.8
+N_min_factor &lt;- min_sample_size(PVE = PVE_factor, 
+                                z_threshold = z_thr, 
+                                target_power = tgt_power)
+
+print(paste0(&quot;Minimal sample size for target power &quot;, tgt_power, &quot; is &quot;, N_min_factor))</code></pre>
+<pre><code>[1] &quot;Minimal sample size for target power 0.8 is 206&quot;</code></pre>
+<pre class="r"><code>tgt_power &lt;- 0.9
+N_min_factor &lt;- min_sample_size(PVE = PVE_factor, 
+                                z_threshold = z_thr, 
+                                target_power = tgt_power)
+
+print(paste0(&quot;Minimal sample size for target power &quot;, tgt_power, &quot; is &quot;, N_min_factor))</code></pre>
+<pre><code>[1] &quot;Minimal sample size for target power 0.9 is 256&quot;</code></pre>
+<pre class="r"><code>tgt_power &lt;- 0.7
+N_min_factor &lt;- min_sample_size(PVE = PVE_factor, 
+                                z_threshold = z_thr, 
+                                target_power = tgt_power)
+
+print(paste0(&quot;Minimal sample size for target power &quot;, tgt_power, &quot; is &quot;, N_min_factor))</code></pre>
+<pre><code>[1] &quot;Minimal sample size for target power 0.7 is 174&quot;</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
-Session information
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.2.0 (2022-04-22)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: CentOS Linux 7 (Core)
+Running under: Red Hat Enterprise Linux 8.4 (Ootpa)
 
 Matrix products: default
-BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+BLAS/LAPACK: /software/openblas-0.3.13-el8-x86_64/lib/libopenblas_skylakexp-r0.3.13.so
 
 locale:
-[1] C
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+[1] gridExtra_2.3 scales_1.2.0  ggplot2_3.4.2
+
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.12      rstudioapi_0.13  knitr_1.39       magrittr_2.0.3  
- [5] workflowr_1.7.0  R6_2.5.1         rlang_1.1.2      fastmap_1.1.0   
- [9] fansi_1.0.3      stringr_1.5.1    tools_4.2.0      xfun_0.41       
-[13] utf8_1.2.2       cli_3.6.1        git2r_0.30.1     jquerylib_0.1.4 
-[17] htmltools_0.5.2  rprojroot_2.0.3  yaml_2.3.5       digest_0.6.29   
-[21] tibble_3.2.1     lifecycle_1.0.4  later_1.3.0      sass_0.4.1      
-[25] vctrs_0.6.5      promises_1.2.0.1 fs_1.5.2         glue_1.6.2      
-[29] evaluate_0.15    rmarkdown_2.25   stringi_1.7.6    bslib_0.3.1     
-[33] compiler_4.2.0   pillar_1.9.0     jsonlite_1.8.0   httpuv_1.6.5    
-[37] pkgconfig_2.0.3 </code></pre>
-</div>
+ [1] Rcpp_1.0.14        highr_0.9          RColorBrewer_1.1-3 pillar_1.9.0      
+ [5] compiler_4.2.0     bslib_0.3.1        later_1.3.0        jquerylib_0.1.4   
+ [9] git2r_0.30.1       workflowr_1.7.1    tools_4.2.0        digest_0.6.29     
+[13] jsonlite_1.8.9     evaluate_0.15      lifecycle_1.0.4    tibble_3.2.1      
+[17] gtable_0.3.0       pkgconfig_2.0.3    rlang_1.1.2        cli_3.6.2         
+[21] rstudioapi_0.14    crosstalk_1.2.0    yaml_2.3.5         xfun_0.38         
+[25] fastmap_1.1.0      withr_2.5.0        dplyr_1.1.2        stringr_1.5.0     
+[29] knitr_1.42         htmlwidgets_1.6.2  generics_0.1.3     fs_1.5.2          
+[33] vctrs_0.6.1        sass_0.4.1         DT_0.22            tidyselect_1.2.0  
+[37] rprojroot_2.0.3    grid_4.2.0         glue_1.6.2         R6_2.5.1          
+[41] fansi_1.0.3        rmarkdown_2.21     farver_2.1.0       magrittr_2.0.3    
+[45] whisker_0.4        ellipsis_0.3.2     promises_1.2.0.1   htmltools_0.5.7   
+[49] colorspace_2.0-3   httpuv_1.6.5       labeling_0.4.2     utf8_1.2.2        
+[53] stringi_1.7.6      munsell_0.5.0      crayon_1.5.1      </code></pre>
 </div>
 </div>
 
@@ -752,6 +905,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

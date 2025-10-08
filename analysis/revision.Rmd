@@ -14,7 +14,7 @@ output:
 
 [ECT results](revision_ECT_extendedGWAS.html)
 
-
+[Power analysis](revision_power.html)
 
 
 
