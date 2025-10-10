@@ -14,6 +14,8 @@ output:
 
 [ECT results](revision_ECT_extendedGWAS.html)
 
+[ECT results -- selected traits](revision_ECT_extendedGWAS_selectedtraits.html)
+
 [Power analysis](revision_power.html)
 
 

@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="XSun" />
+
+<meta name="date" content="2025-10-10" />
+
+<title>ECT results</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/font-awesome-6.2.1/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">factor_analysis_new</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/xsun1229/factor_analysis_new">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">ECT results</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2025-10-10</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-10-10
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.1). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20221201)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221201code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221201)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree68cf2cc24b1ef10bbf3398485e650ff25d0dcdc9targetblank68cf2cca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/xsun1229/factor_analysis_new/tree/68cf2cc24b1ef10bbf3398485e650ff25d0dcdc9" target="_blank">68cf2cc</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree68cf2cc24b1ef10bbf3398485e650ff25d0dcdc9targetblank68cf2cca" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/xsun1229/factor_analysis_new/tree/68cf2cc24b1ef10bbf3398485e650ff25d0dcdc9" target="_blank">68cf2cc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Untracked files:
+    Untracked:  analysis/revision_ECT_extendedGWAS_selectedtraits.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Full Trait Name</th>
+<th align="center">Abbr.</th>
+<th align="center">Category</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Crohn’s disease</td>
+<td align="center">CD</td>
+<td align="center">Immune / Inflammatory disease</td>
+</tr>
+<tr class="even">
+<td align="center">Inflammatory bowel disease</td>
+<td align="center">IBD</td>
+<td align="center">Immune / Inflammatory disease</td>
+</tr>
+<tr class="odd">
+<td align="center">Rheumatoid arthritis</td>
+<td align="center">RA</td>
+<td align="center">Immune / Inflammatory disease</td>
+</tr>
+<tr class="even">
+<td align="center">Systemic lupus erythematosus</td>
+<td align="center">SLE</td>
+<td align="center">Immune / Inflammatory disease</td>
+</tr>
+<tr class="odd">
+<td align="center">Psoriasis</td>
+<td align="center">Psoriasis</td>
+<td align="center">Immune / Inflammatory disease</td>
+</tr>
+<tr class="even">
+<td align="center">Asthma</td>
+<td align="center">asthma</td>
+<td align="center">Immune / Inflammatory disease</td>
+</tr>
+<tr class="odd">
+<td align="center">Multiple sclerosis</td>
+<td align="center">MS</td>
+<td align="center">Immune / Neurological disease</td>
+</tr>
+<tr class="even">
+<td align="center">Celiac disease</td>
+<td align="center">celiac</td>
+<td align="center">Immune / Inflammatory disease</td>
+</tr>
+<tr class="odd">
+<td align="center">Hashimoto thyroiditis</td>
+<td align="center">HT</td>
+<td align="center">Immune / Endocrine disease</td>
+</tr>
+<tr class="even">
+<td align="center">Type 1 diabetes</td>
+<td align="center">T1D</td>
+<td align="center">Immune / Metabolic disease</td>
+</tr>
+<tr class="odd">
+<td align="center">Ankylosing spondylitis</td>
+<td align="center">AS</td>
+<td align="center">Immune / Inflammatory disease</td>
+</tr>
+<tr class="even">
+<td align="center">Allergy</td>
+<td align="center">ALLERGY</td>
+<td align="center">Immune / Hypersensitivity</td>
+</tr>
+<tr class="odd">
+<td align="center">Hemoglobin concentration</td>
+<td align="center">HB</td>
+<td align="center">Hematological trait</td>
+</tr>
+<tr class="even">
+<td align="center">Hematocrit</td>
+<td align="center">HCT</td>
+<td align="center">Hematological trait</td>
+</tr>
+<tr class="odd">
+<td align="center">Mean corpuscular volume</td>
+<td align="center">MCV</td>
+<td align="center">Hematological trait</td>
+</tr>
+<tr class="even">
+<td align="center">Mean corpuscular hemoglobin</td>
+<td align="center">MCH</td>
+<td align="center">Hematological trait</td>
+</tr>
+<tr class="odd">
+<td align="center">Platelet count</td>
+<td align="center">PLT</td>
+<td align="center">Hematological trait</td>
+</tr>
+<tr class="even">
+<td align="center">Red blood cell count</td>
+<td align="center">RBC</td>
+<td align="center">Hematological trait</td>
+</tr>
+<tr class="odd">
+<td align="center">White blood cell count</td>
+<td align="center">WBC</td>
+<td align="center">Hematological trait</td>
+</tr>
+<tr class="even">
+<td align="center">Low-density lipoprotein cholesterol</td>
+<td align="center">LDL</td>
+<td align="center">Metabolic / Cardiovascular trait</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.2     ✔ readr     2.1.4
+✔ forcats   1.0.0     ✔ stringr   1.5.0
+✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+✔ purrr     1.0.1     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(ggplot2)
+
+celltypes &lt;- c(&quot;B_cell&quot;,&quot;CD14_positive_monocyte&quot;,&quot;CD15_positive_leukocyte&quot;,&quot;platelet&quot;,&quot;T_cell&quot;,&quot;thymocyte&quot;)
+type &lt;- c(&quot;B cell (CD19+)&quot;,&quot;Monocyte (CD14+)&quot;,&quot;Leukocyte (CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell (CD4+)&quot;,&quot;T cell (CD8+)&quot;)
+names(type) &lt;- celltypes
+
+source(&quot;/project/xinhe/xsun/pathway_factor/data_v2/traits_selected.R&quot;)
+
+folder_ect &lt;- &quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary/&quot;</code></pre>
+<div id="genes" class="section level1">
+<h1>40 genes</h1>
+<div id="old-gwas-traits" class="section level2">
+<h2>Old GWAS traits</h2>
+<pre class="r"><code>df_all_FDR01 &lt;- c()
+df_all_FDR02 &lt;- c()
+df_p0001 &lt;- c()
+for (celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect,celltype,&quot;_ECT_summary_40genes_selected_old.RDS&quot;))
+  
+  tmp_FDR01 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.1,na.rm = T))
+  tmp_FDR02 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] &lt;- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 &lt;- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 &lt;- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 &lt;- rbind(df_p0001, df[df$p_ECT &lt; 0.001,])
+  
+}
+
+df_p0001 &lt;- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) &lt;- NULL
+colnames(df_all_FDR01) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR01_3suppSNP&quot;,&quot;num_pairs_FDR01_4suppSNP&quot;,&quot;num_pairs_FDR01_5suppSNP&quot;,
+                            &quot;num_pairs_FDR01_6suppSNP&quot;,&quot;num_pairs_FDR01_7suppSNP&quot;,&quot;num_pairs_FDR01_8suppSNP&quot;,
+                            &quot;num_pairs_FDR01_9suppSNP&quot;,&quot;num_pairs_FDR01_10suppSNP&quot;)
+df_all_FDR01 &lt;- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 &lt;- df_all_FDR01 %&gt;% mutate(across(-celltype, as.numeric))
+
+df_long &lt;- df_all_FDR01 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR01_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR01_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.1)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rownames(df_all_FDR02) &lt;- NULL
+colnames(df_all_FDR02) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR02_3suppSNP&quot;,&quot;num_pairs_FDR02_4suppSNP&quot;,&quot;num_pairs_FDR02_5suppSNP&quot;,
+                            &quot;num_pairs_FDR02_6suppSNP&quot;,&quot;num_pairs_FDR02_7suppSNP&quot;,&quot;num_pairs_FDR02_8suppSNP&quot;,
+                            &quot;num_pairs_FDR02_9suppSNP&quot;,&quot;num_pairs_FDR02_10suppSNP&quot;)
+df_all_FDR02 &lt;- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 &lt;- df_all_FDR02 %&gt;% mutate(across(-celltype, as.numeric))
+
+
+df_long &lt;- df_all_FDR02 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR02_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR02_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.2)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-2-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>DT::datatable(df_p0001,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;significant pairs &#39;),options = list(pageLength = 10) )</code></pre>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0c923cdc0df2ab45b6f5" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0c923cdc0df2ab45b6f5">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">significant pairs <\/caption>","data":[["13303","8749","9709","12798","7556","13513","2373","2208","9364","13223","11505","13979","5479","13728","11403","2310","7129","8422","13209","13271","8512","9223","8654","7479","4015","7965","3344","244","6883","7508","2012","9778","6745","2458","5094","1489","9349","7498","9503","8268","1946","1961","1332","1592","5403","11034","1766"],["B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Platelet","Platelet","Platelet","Platelet","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)"],["RBC-ebi-a-GCST004601","MCV-ebi-a-GCST004602","MCH-ebi-a-GCST004630","WBC-ebi-a-GCST004610","hgb-ebi-a-GCST004615","RBC-ebi-a-GCST004601","CD-ebi-a-GCST003044","CD-ebi-a-GCST003044","MCH-ebi-a-GCST004630","RBC-ebi-a-GCST004601","PLT-ebi-a-GCST004603","RBC-ebi-a-GCST004601","HCT-ebi-a-GCST004604","RBC-ebi-a-GCST004601","PLT-ebi-a-GCST004603","CD-ebi-a-GCST003044","hgb-ebi-a-GCST004615","MCV-ebi-a-GCST004602","RBC-ebi-a-GCST004601","RBC-ebi-a-GCST004601","MCV-ebi-a-GCST004602","MCH-ebi-a-GCST004630","MCH-ebi-a-GCST004630","MCV-ebi-a-GCST004602","UC-ebi-a-GCST003045","MCH-ebi-a-GCST004630","UC-ebi-a-GCST003045","allergy-ebi-a-GCST005038","hgb-ebi-a-GCST004615","hgb-ebi-a-GCST004615","CD-ebi-a-GCST003044","MCH-ebi-a-GCST004630","hgb-ebi-a-GCST004615","CD-ebi-a-GCST003044","UC-ebi-a-GCST003045","CD-ebi-a-GCST003044","MCH-ebi-a-GCST004630","hgb-ebi-a-GCST004615","MCH-ebi-a-GCST004630","MCV-ebi-a-GCST004602","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043","hgb-ebi-a-GCST004615","RBC-ebi-a-GCST004601","IBD-ebi-a-GCST003043"],["04145_PC3","05135_PC4","04720_PC4","05221_PC3","05202_PC1","04657_PC3","05167_PC3","05010_PC3","04071_PC4","04068_PC3","05220_PC5","05166_PC4","04066_PC4","04928_PC3","05167_PC3","05130_PC5","04611_PC4","04540_PC2","00562_PC4","01521_PC1","04664_PC2","05168_PC3","04371_PC4","04371_PC4","05231_PC5","05169_PC5","04270_PC4","04150_PC4","04066_PC3","05016_PC3","04722_PC2","04625_PC3","03008_PC5","05206_PC3","05212_PC4","01522_PC4","01522_PC4","05012_PC3","04066_PC3","04142_PC3","04670_PC1","04713_PC1","00230_PC2","04060_PC2","03050_PC3","04714_PC4","04270_PC1"],["04145","05135","04720","05221","05202","04657","05167","05010","04071","04068","05220","05166","04066","04928","05167","05130","04611","04540","00562","01521","04664","05168","04371","04371","05231","05169","04270","04150","04066","05016","04722","04625","03008","05206","05212","01522","01522","05012","04066","04142","04670","04713","00230","04060","03050","04714","04270"],["Phagosome","Yersinia infection","Long-term potentiation","Acute myeloid leukemia","Transcriptional misregulation in cancer","IL-17 signaling pathway","Kaposi sarcoma-associated herpesvirus infection","Alzheimer disease","Sphingolipid signaling pathway","FoxO signaling pathway","Chronic myeloid leukemia","Human T-cell leukemia virus 1 infection","HIF-1 signaling pathway","Parathyroid hormone synthesis, secretion and action","Kaposi sarcoma-associated herpesvirus infection","Pathogenic Escherichia coli infection","Platelet activation","Gap junction","Inositol phosphate metabolism","EGFR tyrosine kinase inhibitor resistance","Fc epsilon RI signaling pathway","Herpes simplex virus 1 infection","Apelin signaling pathway","Apelin signaling pathway","Choline metabolism in cancer","Epstein-Barr virus infection","Vascular smooth muscle contraction","mTOR signaling pathway","HIF-1 signaling pathway","Huntington disease","Neurotrophin signaling pathway","C-type lectin receptor signaling pathway","Ribosome biogenesis in eukaryotes","MicroRNAs in cancer","Pancreatic cancer","Endocrine resistance","Endocrine resistance","Parkinson disease","HIF-1 signaling pathway","Lysosome","Leukocyte transendothelial migration","Circadian entrainment","Purine metabolism","Cytokine-cytokine receptor interaction","Proteasome","Thermogenesis","Vascular smooth muscle contraction"],[8,6,9,3,6,6,11,5,4,12,5,10,3,11,22,8,5,8,3,5,7,10,13,11,4,8,5,3,3,5,4,8,6,9,3,3,10,7,7,5,10,4,4,5,4,34,3],[4.4e-05,5.9e-05,6e-05,7.1e-05,0.000143,0.000161,0.000191,0.000194,0.000239,0.000297,0.000577,0.000704,0.000754,0.000902,0.000968,7.6e-05,0.00019,0.00043,0.000485,0.000523,0.000818,2.3e-05,0.000677,0.000946,4e-05,0.00012,0.000803,0.000926,2.3e-05,5.3e-05,0.000111,0.000242,0.000328,0.000356,0.000478,0.000484,0.000484,0.000824,0.000849,0.000908,8.3e-05,0.000255,0.000337,0.000527,0.000755,0.000937,0.0009810000000000001],[152,120,67,67,186,94,186,171,119,131,76,219,109,106,186,202,124,88,74,79,68,491,137,137,98,201,132,153,109,264,119,104,105,310,76,98,98,142,109,123,112,97,130,294,45,231,132],[99,89,40,49,94,46,127,111,77,87,62,164,72,53,127,129,74,45,52,53,50,237,69,69,43,105,55,55,75,165,90,74,62,117,56,55,55,87,75,106,69,42,66,118,41,130,54],[0.0478185,0.0478185,0.0478185,0.0478185,0.0653295,0.0653295,0.0653295,0.0653295,0.07154066666666667,0.08001179999999999,0.1413125454545455,0.156252,0.156252,0.1735705714285714,0.1738528,0.29754,0.371925,0.3914565,0.3914565,0.3914565,0.3914565,0.049864,0.2529116533333333,0.2529116533333333,0.05956,0.08934,0.2977787285714286,0.2977787285714286,0.066723,0.0768765,0.107337,0.1560093333333333,0.1560093333333333,0.1560093333333333,0.1560093333333333,0.1560093333333333,0.1560093333333333,0.2143965130434783,0.2143965130434783,0.2143965130434783,0.245016,0.3092290285714286,0.3092290285714286,0.3092290285714286,0.3092290285714286,0.3092290285714286,0.3092290285714286],[0.03928,0.03928,0.03928,null,0.05443085714285714,0.05443085714285714,0.05443085714285714,0.05443085714285714,0.0586745,0.06481200000000001,0.1133228,0.125696,null,0.1462424615384615,0.1462424615384615,0.231496,0.28937,0.377667448,null,0.377667448,0.377667448,0.035719,0.2173992933333334,0.2173992933333334,0.04284,0.06426,0.24988215,null,null,0.111883,0.1171605,0.1503032,0.1503032,0.1503032,null,null,0.1702873333333333,0.1993487666666666,0.1993487666666666,0.1993487666666666,0.187497,0.253761,0.253761,0.27105741,0.27105741,0.27105741,null],[0.02876,0.02876,0.02876,null,0.03985314285714286,0.03985314285714286,0.03985314285714286,0.03985314285714286,null,0.05338575,0.09219177777777778,0.1012352,null,0.1159986666666667,0.1159986666666667,0.180272,0.22534,0.310139,null,0.310139,0.35576442,0.025484,0.1938815333333333,0.1938815333333333,null,0.09024,0.2443812,null,null,0.081779,null,0.137327,0.137327,0.137327,null,null,0.1493624,0.1639244625,0.1639244625,0.1639244625,0.14193,null,null,0.3419649759036145,null,0.3419649759036145,null],[0.02076,0.02076,0.02076,null,0.033043,0.033043,0.033043,null,null,0.04404085714285714,null,0.09134399999999999,null,0.1004784,0.1004784,0.139156,null,0.3432896125,null,null,0.3432896125,0.018814,0.1908484888888889,0.1908484888888889,null,0.06336,null,null,null,null,null,0.1323133333333333,0.1323133333333333,0.1323133333333333,null,null,0.134915,0.1520353181818182,0.1520353181818182,null,0.110639,null,null,null,null,0.3110111166666666,null],[0.02331,null,0.02331,null,null,null,0.049469,null,null,0.05769225,null,0.1059474818181818,null,0.1059474818181818,0.1059474818181818,0.106172,null,0.2993371857142857,null,null,0.2993371857142857,0.013363,0.1698128923076923,0.1698128923076923,null,0.04608,null,null,null,null,null,0.1322933333333333,null,0.1322933333333333,null,null,0.1322933333333333,0.1366575555555556,0.1366575555555556,null,0.085822,null,null,null,null,0.28949932,null],[0.0171,null,0.0171,null,null,null,0.03629,null,null,0.0423225,null,0.07882285714285714,null,0.07882285714285714,0.07882285714285714,0.08185200000000001,null,0.231555,null,null,null,0.009775000000000001,0.1251625,0.1251625,null,0.02988,null,null,null,null,null,0.0968,null,0.0968,null,null,0.0968,null,null,null,0.067396,null,null,null,null,0.2749973333333334,null],[null,null,0.02502,null,null,null,0.0398235,null,null,0.041283,null,0.067276,null,0.067276,0.067276,null,null,null,null,null,null,0.007406,0.094829,0.094829,null,null,null,null,null,null,null,null,null,0.111078,null,null,0.111078,null,null,null,0.052456,null,null,null,null,0.2140373333333333,null],[null,null,null,null,null,null,0.0452925,null,null,0.0452925,null,0.059048,null,0.059048,0.059048,null,null,null,null,null,null,0.005497,0.0703855,0.0703855,null,null,null,null,null,null,null,null,null,null,null,null,0.160688,null,null,null,0.040919,null,null,null,null,0.1669626666666667,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>p_ECT<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n      <th>FDR_3suppSNP<\/th>\n      <th>FDR_4suppSNP<\/th>\n      <th>FDR_5suppSNP<\/th>\n      <th>FDR_6suppSNP<\/th>\n      <th>FDR_7suppSNP<\/th>\n      <th>FDR_8suppSNP<\/th>\n      <th>FDR_9suppSNP<\/th>\n      <th>FDR_10suppSNP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[6,7,8,9,10,11,12,13,14,15,16,17]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="new-eur-traits" class="section level2">
+<h2>New EUR traits</h2>
+<pre class="r"><code>df_all_FDR01 &lt;- c()
+df_all_FDR02 &lt;- c()
+df_p0001 &lt;- c()
+for (celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect,celltype,&quot;_ECT_summary_40genes_selected_newbatch.RDS&quot;))
+  
+  tmp_FDR01 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.1,na.rm = T))
+  tmp_FDR02 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] &lt;- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 &lt;- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 &lt;- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 &lt;- rbind(df_p0001, df[df$p_ECT &lt; 0.001,])
+  
+}
+
+df_p0001 &lt;- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) &lt;- NULL
+colnames(df_all_FDR01) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR01_3suppSNP&quot;,&quot;num_pairs_FDR01_4suppSNP&quot;,&quot;num_pairs_FDR01_5suppSNP&quot;,
+                            &quot;num_pairs_FDR01_6suppSNP&quot;,&quot;num_pairs_FDR01_7suppSNP&quot;,&quot;num_pairs_FDR01_8suppSNP&quot;,
+                            &quot;num_pairs_FDR01_9suppSNP&quot;,&quot;num_pairs_FDR01_10suppSNP&quot;)
+df_all_FDR01 &lt;- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 &lt;- df_all_FDR01 %&gt;% mutate(across(-celltype, as.numeric))
+
+df_long &lt;- df_all_FDR01 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR01_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR01_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.1)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rownames(df_all_FDR02) &lt;- NULL
+colnames(df_all_FDR02) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR02_3suppSNP&quot;,&quot;num_pairs_FDR02_4suppSNP&quot;,&quot;num_pairs_FDR02_5suppSNP&quot;,
+                            &quot;num_pairs_FDR02_6suppSNP&quot;,&quot;num_pairs_FDR02_7suppSNP&quot;,&quot;num_pairs_FDR02_8suppSNP&quot;,
+                            &quot;num_pairs_FDR02_9suppSNP&quot;,&quot;num_pairs_FDR02_10suppSNP&quot;)
+df_all_FDR02 &lt;- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 &lt;- df_all_FDR02 %&gt;% mutate(across(-celltype, as.numeric))
+
+
+df_long &lt;- df_all_FDR02 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR02_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR02_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.2)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-3-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>DT::datatable(df_p0001,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;significant pairs &#39;),options = list(pageLength = 10) )</code></pre>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">significant pairs <\/caption>","data":[["1624","8047","14185","15680","3013","8738","11413","14372","10617","11907","18917","12135","18640","7126","4306","21962","18676","18030","11463","6892","15640","6927","17438","12503","12773","15493","17267","14710","13579","12451","13354","18649","7256","11820","13425","7989","14548","16484","4452","5160","11527","15654","3480","18997","11704","19564","14088","22046","13463","18133","11429","4162","4174","4337","4638","4779","16730","16059","16597","16609"],["B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Platelet","Platelet","Platelet","Platelet","Platelet","Platelet","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)"],["RA-ukb-a-105","Psoriasis-ebi-a-GCST90038681","MCV-ebi-a-GCST90002392","PLT-ebi-a-GCST90002402","T1D-ebi-a-GCST90014023","Psoriasis-ebi-a-GCST90038681","HB-ebi-a-GCST90002384","MCH-ebi-a-GCST90002390","HB-ebi-a-GCST90002384","HCT-ebi-a-GCST90002383","RBC-ebi-a-GCST90002403","HCT-ebi-a-GCST90002383","RBC-ebi-a-GCST90002403","asthma_pmid36778051","SLE-ebi-a-GCST90018917","HT-ebi-a-GCST90018855","RBC-ebi-a-GCST90002403","WBC-ebi-a-GCST90002407","HB-ebi-a-GCST90002384","asthma_pmid36778051","MCH-ebi-a-GCST90002390","asthma_pmid36778051","WBC-ebi-a-GCST90002407","HCT-ebi-a-GCST90002383","HCT-ebi-a-GCST90002383","MCH-ebi-a-GCST90002390","WBC-ebi-a-GCST90002407","MCH-ebi-a-GCST90002390","MCH-ebi-a-GCST90002390","MCV-ebi-a-GCST90002392","MCH-ebi-a-GCST90002390","LDL-ukb-d-30780_irnt","HB-ebi-a-GCST90002384","PLT-ebi-a-GCST90002402","RBC-ebi-a-GCST90002403","HB-ebi-a-GCST90002384","LDL-ukb-d-30780_irnt","allergy-ebi-a-GCST005038","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","HB-ebi-a-GCST90002384","MCH-ebi-a-GCST90002390","T1D-ebi-a-GCST90014023","RBC-ebi-a-GCST90002403","HB-ebi-a-GCST90002384","RBC-ebi-a-GCST90002403","MCV-ebi-a-GCST90002392","HT-ebi-a-GCST90018855","MCV-ebi-a-GCST90002392","WBC-ebi-a-GCST90002407","HB-ebi-a-GCST90002384","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90002402"],["04071_PC4","04062_PC2","05416_PC5","03018_PC5","04211_PC3","05133_PC3","05169_PC3","03010_PC2","04060_PC2","04060_PC2","04934_PC2","04510_PC5","04621_PC5","04720_PC1","04120_PC1","05131_PC2","04068_PC1","05130_PC5","05100_PC3","04070_PC2","05225_PC5","04120_PC2","04142_PC3","04725_PC3","05100_PC3","05163_PC3","03050_PC2","04020_PC5","04910_PC4","04921_PC1","04371_PC4","05203_PC4","04064_PC1","04934_PC5","04144_PC5","05205_PC4","04390_PC3","04150_PC4","04371_PC2","05225_PC5","05145_PC2","05231_PC4","04931_PC5","04666_PC2","05224_PC4","05224_PC4","05100_PC3","05164_PC1","04110_PC3","05167_PC3","05012_PC4","04015_PC2","04022_PC4","04217_PC2","04912_PC3","04972_PC4","05220_PC5","04390_PC4","05161_PC2","05163_PC4"],["04071","04062","05416","03018","04211","05133","05169","03010","04060","04060","04934","04510","04621","04720","04120","05131","04068","05130","05100","04070","05225","04120","04142","04725","05100","05163","03050","04020","04910","04921","04371","05203","04064","04934","04144","05205","04390","04150","04371","05225","05145","05231","04931","04666","05224","05224","05100","05164","04110","05167","05012","04015","04022","04217","04912","04972","05220","04390","05161","05163"],["Sphingolipid signaling pathway","Chemokine signaling pathway","Viral myocarditis","RNA degradation","Longevity regulating pathway","Pertussis","Epstein-Barr virus infection","Ribosome","Cytokine-cytokine receptor interaction","Cytokine-cytokine receptor interaction","Cushing syndrome","Focal adhesion","NOD-like receptor signaling pathway","Long-term potentiation","Ubiquitin mediated proteolysis","Shigellosis","FoxO signaling pathway","Pathogenic Escherichia coli infection","Bacterial invasion of epithelial cells","Phosphatidylinositol signaling system","Hepatocellular carcinoma","Ubiquitin mediated proteolysis","Lysosome","Cholinergic synapse","Bacterial invasion of epithelial cells","Human cytomegalovirus infection","Proteasome","Calcium signaling pathway","Insulin signaling pathway","Oxytocin signaling pathway","Apelin signaling pathway","Viral carcinogenesis","NF-kappa B signaling pathway","Cushing syndrome","Endocytosis","Proteoglycans in cancer","Hippo signaling pathway","mTOR signaling pathway","Apelin signaling pathway","Hepatocellular carcinoma","Toxoplasmosis","Choline metabolism in cancer","Insulin resistance","Fc gamma R-mediated phagocytosis","Breast cancer","Breast cancer","Bacterial invasion of epithelial cells","Influenza A","Cell cycle","Kaposi sarcoma-associated herpesvirus infection","Parkinson disease","Rap1 signaling pathway","cGMP-PKG signaling pathway","Necroptosis","GnRH signaling pathway","Pancreatic secretion","Chronic myeloid leukemia","Hippo signaling pathway","Hepatitis B","Human cytomegalovirus infection"],[3,6,5,4,12,3,8,5,6,8,8,7,4,4,3,3,9,5,8,5,12,5,7,4,10,8,5,5,8,4,15,5,5,6,3,4,8,3,3,3,17,22,6,9,9,10,17,4,12,13,6,3,3,3,3,3,10,8,17,6],[1e-06,4e-05,0.000138,0.000176,0.000195,0.000399,0.000438,0.00045,0.000489,0.00058,0.000693,0.000694,0.000732,0.000866,1e-06,1e-06,7.1e-05,0.000224,0.000288,0.000309,0.000343,0.000361,0.00046,0.00057,0.000759,0.000837,0.0008630000000000001,0.000895,1e-06,0.000506,0.000528,0.0009990000000000001,8e-06,8.3e-05,9.000000000000001e-05,0.000109,0.0006400000000000001,0.000926,1e-06,1e-06,9.500000000000001e-05,0.000148,0.000162,0.000212,0.000228,0.000251,0.000267,0.000287,0.000402,0.000596,0.000907,1e-06,1e-06,1e-06,1e-06,1e-06,0.000356,0.000436,0.000545,0.000597],[119,189,60,79,89,76,201,153,294,294,155,199,181,67,136,236,131,202,73,99,168,136,123,112,73,225,45,193,137,153,137,201,102,155,249,204,155,153,137,168,112,98,108,93,147,147,73,170,124,186,142,210,167,162,93,102,76,155,162,225],[77,109,46,65,56,49,158,126,101,101,75,105,115,40,110,164,85,129,49,66,102,110,106,58,49,152,40,81,87,74,69,121,47,46,111,82,41,55,70,106,74,56,69,66,73,73,48,122,92,135,87,108,78,97,53,40,64,75,113,152],[0.003687,0.07374,0.143793,0.143793,0.143793,0.200327,0.200327,0.200327,0.200327,0.2076064615384616,0.2076064615384616,0.2076064615384616,0.2076064615384616,0.2280672857142857,0.002365,0.002365,0.1119433333333333,0.21344125,0.21344125,0.21344125,0.21344125,0.21344125,0.2417555555555556,0.26961,0.2773273684210526,0.2773273684210526,0.2773273684210526,0.2773273684210526,0.002564,0.2929919428571429,0.2929919428571429,0.2929919428571429,0.019144,0.06520925000000001,0.06520925000000001,0.06520925000000001,0.306304,0.3693196666666667,0.0018095,0.0018095,0.1038653,0.1038653,0.1038653,0.1038653,0.1038653,0.1038653,0.1038653,0.1038653,0.132258,0.1797436666666666,0.2278361555555556,0.0007256,0.0007256,0.0007256,0.0007256,0.0007256,0.2152613333333333,0.2259725714285715,0.2406573333333333,0.2406573333333333],[null,0.11164,0.13606125,0.13606125,0.13606125,null,0.1857283636363636,0.1857283636363636,0.1857283636363636,0.1857283636363636,0.1857283636363636,0.1857283636363636,0.1857283636363636,0.2014171666666667,null,null,0.2200896666666667,0.2200896666666667,0.2200896666666667,0.2200896666666667,0.2200896666666667,0.2200896666666667,0.2403828571428571,0.2514646375,0.2514646375,0.2514646375,0.2514646375,0.2514646375,0.001821,0.2240950615384615,0.2240950615384615,0.2240950615384615,0.014376,0.065291,null,0.065291,0.28752,null,null,null,0.096396125,0.096396125,0.096396125,0.096396125,0.096396125,0.096396125,0.096396125,0.096396125,0.1200193333333333,0.1601452,0.2076073909090909,null,null,null,null,null,0.351880008,0.351880008,0.351880008,0.351880008],[null,0.08428000000000001,0.136955,null,0.136955,null,0.1624731111111111,0.1624731111111111,0.1624731111111111,0.1624731111111111,0.1624731111111111,0.1624731111111111,null,null,null,null,0.1759273333333333,0.1759273333333333,0.1759273333333333,0.1759273333333333,0.1759273333333333,0.1759273333333333,0.1921485714285714,null,0.2297219714285714,0.2297219714285714,0.2297219714285714,0.2297219714285714,0.001288,null,0.2253839,0.2253839,0.011304,0.0586395,null,null,0.30144,null,null,null,0.07632385714285714,0.07632385714285714,0.07632385714285714,0.07632385714285714,0.07632385714285714,0.07632385714285714,0.07632385714285714,null,0.10055025,0.1325106666666667,0.1814907,null,null,null,null,null,0.3029775,0.3029775,0.3029775,0.3029775],[null,0.06264,null,null,0.152685,null,0.1552577142857143,null,0.1552577142857143,0.1552577142857143,0.1552577142857143,0.1552577142857143,null,null,null,null,0.173737,null,0.2797736666666666,null,0.2797736666666666,null,0.281405,null,0.2990505888888889,0.2990505888888889,null,null,0.000887,null,0.234168,null,null,0.09213,null,null,0.3296027272727273,null,null,null,0.05915957142857143,0.05915957142857143,0.05915957142857143,0.05915957142857143,0.05915957142857143,0.05915957142857143,0.05915957142857143,null,0.07793775,0.1027106666666667,0.1406757,null,null,null,null,null,0.23984475,0.23984475,0.23984475,0.23984475],[null,null,null,null,0.1698912,null,0.1698912,null,null,0.1698912,0.1698912,0.1698912,null,null,null,null,0.146189,null,0.2354123333333333,null,0.2354123333333333,null,0.236785,null,0.2872305,0.2872305,null,null,0.000643,null,0.169752,null,null,null,null,null,0.3246736785714285,null,null,null,0.052599,0.052599,null,0.052599,0.052599,0.052599,0.052599,null,0.06788057142857143,0.088059,null,null,null,null,null,null,0.2292633333333333,0.2292633333333333,0.2292633333333333,null],[null,null,null,null,0.1666665,null,0.1666665,null,null,0.1666665,0.1666665,null,null,null,null,null,0.123114,null,0.198254,null,0.198254,null,null,null,0.2902716,0.2902716,null,null,0.00047,null,0.12408,null,null,null,null,null,0.3132951105263158,null,null,null,0.042097,0.042097,null,0.042097,0.042097,0.042097,0.042097,null,0.05432742857142857,0.070477,null,null,null,null,null,null,0.1822116666666667,0.1822116666666667,0.1822116666666667,null],[null,null,null,null,0.147225,null,null,null,null,null,null,null,null,null,null,null,0.103305,null,null,null,0.2495325,null,null,null,0.368115,null,null,null,null,null,0.125991,null,null,null,null,null,null,null,null,null,0.03337499999999999,0.03337499999999999,null,0.03337499999999999,0.03337499999999999,0.03337499999999999,0.03337499999999999,null,0.04307142857142857,0.05587499999999999,null,null,null,null,null,null,0.2144575,null,0.2144575,null],[null,null,null,null,0.116805,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0.4052882565217391,null,null,null,0.4052882565217391,null,null,null,null,null,0.1095908666666667,null,null,null,null,null,null,null,null,null,0.03904875,0.03904875,null,null,null,0.03904875,0.03904875,null,0.047034,0.05810999999999999,null,null,null,null,null,null,0.168405,null,0.168405,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>p_ECT<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n      <th>FDR_3suppSNP<\/th>\n      <th>FDR_4suppSNP<\/th>\n      <th>FDR_5suppSNP<\/th>\n      <th>FDR_6suppSNP<\/th>\n      <th>FDR_7suppSNP<\/th>\n      <th>FDR_8suppSNP<\/th>\n      <th>FDR_9suppSNP<\/th>\n      <th>FDR_10suppSNP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[6,7,8,9,10,11,12,13,14,15,16,17]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="new-eas-traits" class="section level2">
+<h2>New EAS traits</h2>
+<pre class="r"><code>df_all_FDR01 &lt;- c()
+df_all_FDR02 &lt;- c()
+df_p0001 &lt;- c()
+for (celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect,celltype,&quot;_ECT_summary_40genes_EAS.RDS&quot;))
+  
+  tmp_FDR01 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.1,na.rm = T))
+  tmp_FDR02 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] &lt;- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 &lt;- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 &lt;- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 &lt;- rbind(df_p0001, df[df$p_ECT &lt; 0.001,])
+  
+}
+
+df_p0001 &lt;- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) &lt;- NULL
+colnames(df_all_FDR01) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR01_3suppSNP&quot;,&quot;num_pairs_FDR01_4suppSNP&quot;,&quot;num_pairs_FDR01_5suppSNP&quot;,
+                            &quot;num_pairs_FDR01_6suppSNP&quot;,&quot;num_pairs_FDR01_7suppSNP&quot;,&quot;num_pairs_FDR01_8suppSNP&quot;,
+                            &quot;num_pairs_FDR01_9suppSNP&quot;,&quot;num_pairs_FDR01_10suppSNP&quot;)
+df_all_FDR01 &lt;- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 &lt;- df_all_FDR01 %&gt;% mutate(across(-celltype, as.numeric))
+
+df_long &lt;- df_all_FDR01 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR01_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR01_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.1)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rownames(df_all_FDR02) &lt;- NULL
+colnames(df_all_FDR02) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR02_3suppSNP&quot;,&quot;num_pairs_FDR02_4suppSNP&quot;,&quot;num_pairs_FDR02_5suppSNP&quot;,
+                            &quot;num_pairs_FDR02_6suppSNP&quot;,&quot;num_pairs_FDR02_7suppSNP&quot;,&quot;num_pairs_FDR02_8suppSNP&quot;,
+                            &quot;num_pairs_FDR02_9suppSNP&quot;,&quot;num_pairs_FDR02_10suppSNP&quot;)
+df_all_FDR02 &lt;- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 &lt;- df_all_FDR02 %&gt;% mutate(across(-celltype, as.numeric))
+
+
+df_long &lt;- df_all_FDR02 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR02_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR02_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.2)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-4-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>DT::datatable(df_p0001,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;significant pairs &#39;),options = list(pageLength = 10) )</code></pre>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-66aaeb19fe992dfb51c2" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-66aaeb19fe992dfb51c2">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">significant pairs <\/caption>","data":[["10881","10883","11059","11319","11114","14800","10828","5801","13951","14221","18278","13541","20145","20217","5941","271","9218","9188","8998","9238","9208","9145","138","18149","8697","2768","15973","11269","722","13463","12542","5543","9058"],["B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD8+)","T cell (CD8+)"],["MCV-ebi-a-GCST90018746","MCV-ebi-a-GCST90018746","MCV-ebi-a-GCST90018746","MCV-ebi-a-GCST90018746","MCV-ebi-a-GCST90018746","PLT-ebi-a-GCST90018749","MCV-ebi-a-GCST90018746","graves-ebi-a-GCST90018627","MCV-ebi-a-GCST90018746","MCV-ebi-a-GCST90018746","PLT-ebi-a-GCST90018749","MCV-ebi-a-GCST90018746","RBC-ebi-a-GCST90018751","RBC-ebi-a-GCST90018751","graves-ebi-a-GCST90018627","ATD-bbj-a-90","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","ATD-bbj-a-90","RBC-ebi-a-GCST90018751","height-ebi-a-GCST90018739","BMI-ebi-a-GCST90018727","PLT-ebi-a-GCST90018749","RBC-ebi-a-GCST90018751","ATD-bbj-a-90","MCV-ebi-a-GCST90018746","MCH-ebi-a-GCST90018744","graves-ebi-a-GCST90018627","HCT-ebi-a-GCST90018740"],["04611_PC1","04611_PC3","04810_PC4","05133_PC4","04921_PC4","04650_PC5","04371_PC3","04540_PC1","04931_PC1","05200_PC1","05235_PC3","04210_PC1","04310_PC5","04550_PC2","04723_PC1","04110_PC1","05167_PC3","05161_PC3","04935_PC3","05200_PC3","05165_PC3","05135_PC5","03015_PC3","04640_PC4","04550_PC2","04360_PC3","04920_PC3","04010_PC4","04726_PC2","04110_PC3","04810_PC2","04120_PC3","05416_PC3"],["04611","04611","04810","05133","04921","04650","04371","04540","04931","05200","05235","04210","04310","04550","04723","04110","05167","05161","04935","05200","05165","05135","03015","04640","04550","04360","04920","04010","04726","04110","04810","04120","05416"],["Platelet activation","Platelet activation","Regulation of actin cytoskeleton","Pertussis","Oxytocin signaling pathway","Natural killer cell mediated cytotoxicity","Apelin signaling pathway","Gap junction","Insulin resistance","Pathways in cancer","PD-L1 expression and PD-1 checkpoint pathway in cancer","Apoptosis","Wnt signaling pathway","Signaling pathways regulating pluripotency of stem cells","Retrograde endocannabinoid signaling","Cell cycle","Kaposi sarcoma-associated herpesvirus infection","Hepatitis B","Growth hormone synthesis, secretion and action","Pathways in cancer","Human papillomavirus infection","Yersinia infection","mRNA surveillance pathway","Hematopoietic cell lineage","Signaling pathways regulating pluripotency of stem cells","Axon guidance","Adipocytokine signaling pathway","MAPK signaling pathway","Serotonergic synapse","Cell cycle","Regulation of actin cytoskeleton","Ubiquitin mediated proteolysis","Viral myocarditis"],[4,8,5,4,6,3,4,3,7,5,4,5,3,4,6,3,14,6,8,7,12,4,5,4,11,5,3,5,3,7,4,3,3],[1.3e-05,5.6e-05,0.000107,0.000162,0.000285,0.000531,0.000934,1e-06,3.1e-05,0.000106,0.000341,0.000601,0.000624,0.000683,0.000847,1e-06,1e-05,1.3e-05,1.4e-05,1.5e-05,0.000215,0.000272,0.000337,0.000516,0.000672,0.0006890000000000001,0.000783,0.000531,1e-06,0.00052,0.000526,1e-06,0.000291],[124,124,213,76,153,134,137,88,108,531,89,136,160,140,148,124,186,162,119,531,330,120,91,99,140,181,69,295,115,124,213,136,60],[71,71,120,49,79,79,72,45,69,290,69,107,83,61,75,69,119,105,65,255,174,87,64,45,51,74,40,107,47,92,122,116,46],[0.033605,0.07238,0.09219833333333333,0.1046925,0.147345,0.2287725,0.3449128571428571,0.003819,0.0591945,0.134938,0.32556975,0.3726252857142857,0.3726252857142857,0.3726252857142857,0.38186181,0.0018,0.0054,0.0054,0.0054,0.0054,0.0645,0.06994285714285715,0.075825,0.1032,0.1127454545454546,0.1127454545454546,0.11745,0.935622,0.002786,0.4884786666666666,0.4884786666666666,0.001467,0.2134485],[0.022438,0.048328,0.06156066666666667,0.06990300000000001,0.098382,null,0.2686806666666667,null,0.081778,0.139814,0.2998526666666667,0.305976344,null,0.305976344,0.305976344,null,0.0036075,0.0036075,0.0036075,0.0036075,0.041366,0.04361066666666667,0.04631342857142857,0.06204899999999999,0.0662818,0.0662818,null,0.631359,null,0.4745548000000001,0.4745548000000001,null,null],[null,0.060134,0.060134,null,0.10678,null,null,null,0.055304,0.094552,null,0.3573946666666666,null,null,0.3695046285714286,null,0.00204375,0.00204375,0.00204375,0.00204375,0.023435,null,0.03061083333333333,null,0.046938125,0.046938125,null,0.431703,null,0.59956,null,null,null],[null,0.040936,null,null,0.1041675,null,null,null,0.037262,null,null,null,null,null,0.435679925,null,0.00115125,0.00115125,0.00115125,0.00115125,0.013201,null,null,null,0.034384,null,null,null,null,0.38844,null,null,null],[null,0.02576,null,null,null,null,null,null,0.025606,null,null,null,null,null,null,null,0.000895,null,0.000895,0.000895,0.00962125,null,null,null,0.0240576,null,null,null,null,0.2548,null,null,null],[null,0.017136,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0.000735,null,0.000735,null,0.007525,null,null,null,0.01764,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0.00067,null,null,null,0.0072025,null,null,null,0.015008,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0.00039,null,null,null,0.0041925,null,null,null,0.008735999999999999,null,null,null,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>p_ECT<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n      <th>FDR_3suppSNP<\/th>\n      <th>FDR_4suppSNP<\/th>\n      <th>FDR_5suppSNP<\/th>\n      <th>FDR_6suppSNP<\/th>\n      <th>FDR_7suppSNP<\/th>\n      <th>FDR_8suppSNP<\/th>\n      <th>FDR_9suppSNP<\/th>\n      <th>FDR_10suppSNP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[6,7,8,9,10,11,12,13,14,15,16,17]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="genes-1" class="section level1">
+<h1>20 genes</h1>
+<div id="old-gwas-traits-1" class="section level2">
+<h2>Old GWAS traits</h2>
+<pre class="r"><code>df_all_FDR01 &lt;- c()
+df_all_FDR02 &lt;- c()
+df_p0001 &lt;- c()
+for (celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect,celltype,&quot;_ECT_summary_20genes_selected_old.RDS&quot;))
+  
+  tmp_FDR01 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.1,na.rm = T))
+  tmp_FDR02 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] &lt;- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 &lt;- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 &lt;- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 &lt;- rbind(df_p0001, df[df$p_ECT &lt; 0.001,])
+  
+}
+
+df_p0001 &lt;- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) &lt;- NULL
+colnames(df_all_FDR01) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR01_3suppSNP&quot;,&quot;num_pairs_FDR01_4suppSNP&quot;,&quot;num_pairs_FDR01_5suppSNP&quot;,
+                            &quot;num_pairs_FDR01_6suppSNP&quot;,&quot;num_pairs_FDR01_7suppSNP&quot;,&quot;num_pairs_FDR01_8suppSNP&quot;,
+                            &quot;num_pairs_FDR01_9suppSNP&quot;,&quot;num_pairs_FDR01_10suppSNP&quot;)
+df_all_FDR01 &lt;- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 &lt;- df_all_FDR01 %&gt;% mutate(across(-celltype, as.numeric))
+
+df_long &lt;- df_all_FDR01 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR01_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR01_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.1)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rownames(df_all_FDR02) &lt;- NULL
+colnames(df_all_FDR02) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR02_3suppSNP&quot;,&quot;num_pairs_FDR02_4suppSNP&quot;,&quot;num_pairs_FDR02_5suppSNP&quot;,
+                            &quot;num_pairs_FDR02_6suppSNP&quot;,&quot;num_pairs_FDR02_7suppSNP&quot;,&quot;num_pairs_FDR02_8suppSNP&quot;,
+                            &quot;num_pairs_FDR02_9suppSNP&quot;,&quot;num_pairs_FDR02_10suppSNP&quot;)
+df_all_FDR02 &lt;- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 &lt;- df_all_FDR02 %&gt;% mutate(across(-celltype, as.numeric))
+
+
+df_long &lt;- df_all_FDR02 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR02_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR02_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.2)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-5-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>DT::datatable(df_p0001,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;significant pairs &#39;),options = list(pageLength = 10) )</code></pre>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-1814506231684700bf53" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1814506231684700bf53">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">significant pairs <\/caption>","data":[["13303","8749","9709","12798","7556","13513","2373","2208","9364","13223","1279","13426","11505","13979","5479","5229","5268","13728","11403","2310","7129","8422","13209","13271","9115","4318","8512","9223","7016","12251","8654","9033","7479","4015","7965","1630","2752","6754","3344","244","6883","7508","11925","2012","9778","10223","6745","2458","5094","1489","9349","9309","8359","7498","9503","8268","9504","2462","2182","1946","7197","2181","1961","2101","1332","1592","7849","5403","11034","1766"],["B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Platelet","Platelet","Platelet","Platelet","Platelet","Platelet","Platelet","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)"],["RBC-ebi-a-GCST004601","MCV-ebi-a-GCST004602","MCH-ebi-a-GCST004630","WBC-ebi-a-GCST004610","hgb-ebi-a-GCST004615","RBC-ebi-a-GCST004601","CD-ebi-a-GCST003044","CD-ebi-a-GCST003044","MCH-ebi-a-GCST004630","RBC-ebi-a-GCST004601","allergy-ebi-a-GCST005038","RBC-ebi-a-GCST004601","PLT-ebi-a-GCST004603","RBC-ebi-a-GCST004601","HCT-ebi-a-GCST004604","HCT-ebi-a-GCST004604","HCT-ebi-a-GCST004604","RBC-ebi-a-GCST004601","PLT-ebi-a-GCST004603","CD-ebi-a-GCST003044","hgb-ebi-a-GCST004615","MCV-ebi-a-GCST004602","RBC-ebi-a-GCST004601","RBC-ebi-a-GCST004601","MCV-ebi-a-GCST004602","UC-ebi-a-GCST003045","MCV-ebi-a-GCST004602","MCH-ebi-a-GCST004630","hgb-ebi-a-GCST004615","RBC-ebi-a-GCST004601","MCH-ebi-a-GCST004630","MCH-ebi-a-GCST004630","MCV-ebi-a-GCST004602","UC-ebi-a-GCST003045","MCH-ebi-a-GCST004630","CD-ebi-a-GCST003044","IBD-ebi-a-GCST003043","MCV-ebi-a-GCST004602","UC-ebi-a-GCST003045","allergy-ebi-a-GCST005038","hgb-ebi-a-GCST004615","hgb-ebi-a-GCST004615","WBC-ebi-a-GCST004610","CD-ebi-a-GCST003044","MCH-ebi-a-GCST004630","MCH-ebi-a-GCST004630","hgb-ebi-a-GCST004615","CD-ebi-a-GCST003044","UC-ebi-a-GCST003045","CD-ebi-a-GCST003044","MCH-ebi-a-GCST004630","MCH-ebi-a-GCST004630","MCV-ebi-a-GCST004602","hgb-ebi-a-GCST004615","MCH-ebi-a-GCST004630","MCV-ebi-a-GCST004602","WBC-ebi-a-GCST004610","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043","MCV-ebi-a-GCST004602","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043","MCH-ebi-a-GCST004630","hgb-ebi-a-GCST004615","RBC-ebi-a-GCST004601","IBD-ebi-a-GCST003043"],["04145_PC3","05135_PC4","04720_PC4","05221_PC3","05202_PC1","04657_PC3","05167_PC3","05010_PC3","04071_PC4","04068_PC3","05414_PC4","04512_PC1","05220_PC5","05166_PC4","04066_PC4","00480_PC4","00563_PC3","04928_PC3","05167_PC3","05130_PC5","04611_PC4","04540_PC2","00562_PC4","01521_PC1","05320_PC5","04136_PC3","04664_PC2","05168_PC3","05322_PC1","04622_PC1","04371_PC4","04973_PC3","04371_PC4","05231_PC5","05169_PC5","04923_PC5","05031_PC2","04940_PC4","04270_PC4","04150_PC4","04066_PC3","05016_PC3","00600_PC5","04722_PC2","04625_PC3","05146_PC3","03008_PC5","05206_PC3","05212_PC4","01522_PC4","01522_PC4","00620_PC4","04330_PC4","05012_PC3","04066_PC3","04142_PC3","04213_PC4","05216_PC2","04971_PC2","04670_PC1","04730_PC2","04971_PC1","04713_PC1","04924_PC1","00230_PC2","04060_PC2","00500_PC4","03050_PC3","04714_PC4","04270_PC1"],["04145","05135","04720","05221","05202","04657","05167","05010","04071","04068","05414","04512","05220","05166","04066","00480","00563","04928","05167","05130","04611","04540","00562","01521","05320","04136","04664","05168","05322","04622","04371","04973","04371","05231","05169","04923","05031","04940","04270","04150","04066","05016","00600","04722","04625","05146","03008","05206","05212","01522","01522","00620","04330","05012","04066","04142","04213","05216","04971","04670","04730","04971","04713","04924","00230","04060","00500","03050","04714","04270"],["Phagosome","Yersinia infection","Long-term potentiation","Acute myeloid leukemia","Transcriptional misregulation in cancer","IL-17 signaling pathway","Kaposi sarcoma-associated herpesvirus infection","Alzheimer disease","Sphingolipid signaling pathway","FoxO signaling pathway","Dilated cardiomyopathy","ECM-receptor interaction","Chronic myeloid leukemia","Human T-cell leukemia virus 1 infection","HIF-1 signaling pathway","Glutathione metabolism","Glycosylphosphatidylinositol (GPI)-anchor biosynthesis","Parathyroid hormone synthesis, secretion and action","Kaposi sarcoma-associated herpesvirus infection","Pathogenic Escherichia coli infection","Platelet activation","Gap junction","Inositol phosphate metabolism","EGFR tyrosine kinase inhibitor resistance","Autoimmune thyroid disease","Autophagy - other","Fc epsilon RI signaling pathway","Herpes simplex virus 1 infection","Systemic lupus erythematosus","RIG-I-like receptor signaling pathway","Apelin signaling pathway","Carbohydrate digestion and absorption","Apelin signaling pathway","Choline metabolism in cancer","Epstein-Barr virus infection","Regulation of lipolysis in adipocytes","Amphetamine addiction","Type I diabetes mellitus","Vascular smooth muscle contraction","mTOR signaling pathway","HIF-1 signaling pathway","Huntington disease","Sphingolipid metabolism","Neurotrophin signaling pathway","C-type lectin receptor signaling pathway","Amoebiasis","Ribosome biogenesis in eukaryotes","MicroRNAs in cancer","Pancreatic cancer","Endocrine resistance","Endocrine resistance","Pyruvate metabolism","Notch signaling pathway","Parkinson disease","HIF-1 signaling pathway","Lysosome","Longevity regulating pathway - multiple species","Thyroid cancer","Gastric acid secretion","Leukocyte transendothelial migration","Long-term depression","Gastric acid secretion","Circadian entrainment","Renin secretion","Purine metabolism","Cytokine-cytokine receptor interaction","Starch and sucrose metabolism","Proteasome","Thermogenesis","Vascular smooth muscle contraction"],[8,6,9,3,6,6,11,5,4,12,5,8,5,10,3,6,5,11,22,8,5,8,3,5,3,5,7,10,3,6,13,5,11,4,8,3,4,8,5,3,3,5,4,4,8,14,6,9,3,3,10,8,5,7,7,5,8,4,5,10,9,5,4,4,4,5,4,4,34,3],[4.4e-05,5.9e-05,6e-05,7.1e-05,0.000143,0.000161,0.000191,0.000194,0.000239,0.000297,0.000424,0.000478,0.000577,0.000704,0.000754,0.000809,0.000902,0.000902,0.000968,7.6e-05,0.00019,0.00043,0.000485,0.000523,0.000575,0.000761,0.000818,2.3e-05,0.000506,0.000525,0.000677,0.000802,0.000946,4e-05,0.00012,0.000435,0.000535,0.0006310000000000001,0.000803,0.000926,2.3e-05,5.3e-05,7.4e-05,0.000111,0.000242,0.000275,0.000328,0.000356,0.000478,0.000484,0.000484,0.000523,0.000561,0.000824,0.000849,0.000908,2.3e-05,3.1e-05,5e-05,8.3e-05,9.7e-05,0.000189,0.000255,0.000274,0.000337,0.000527,0.000635,0.000755,0.000937,0.0009810000000000001],[152,120,67,67,186,94,186,171,119,131,96,88,76,219,109,56,25,106,186,202,124,88,74,79,53,32,68,491,133,70,137,47,137,98,201,55,69,43,132,153,109,264,47,119,104,102,105,310,76,98,98,40,53,142,109,123,62,37,75,112,60,75,97,69,130,294,36,45,231,132],[99,89,40,49,94,46,127,111,77,87,31,31,62,164,72,31,21,53,127,129,74,45,52,53,23,27,50,237,23,39,69,22,69,43,105,22,27,22,55,55,75,165,22,90,74,39,62,117,56,55,55,30,38,87,75,106,39,29,34,69,30,34,42,28,66,118,21,41,130,54],[0.06306575,0.06306575,0.06306575,0.06306575,0.08616024999999999,0.08616024999999999,0.08616024999999999,0.08616024999999999,0.09435188888888889,0.1055241,0.136952,0.1415278333333333,0.1576985384615385,0.1780447777777778,0.1780447777777778,0.1780447777777778,0.1780447777777778,0.1780447777777778,0.181016,0.385016,0.4240831069767442,0.4240831069767442,0.4240831069767442,0.4240831069767442,0.4240831069767442,0.4240831069767442,0.4240831069767442,0.068402,0.260202695,0.260202695,0.260202695,0.260202695,0.260202695,0.09340000000000001,0.1401,0.294677,0.294677,0.294677,0.3088871428571428,0.3088871428571428,0.086802,0.09309199999999999,0.09309199999999999,0.1047285,0.1628626153846154,0.1628626153846154,0.1628626153846154,0.1628626153846154,0.1628626153846154,0.1628626153846154,0.1628626153846154,0.1628626153846154,0.1628626153846154,0.2058373909090909,0.2058373909090909,0.2058373909090909,0.059613,0.059613,0.0641,0.07461240000000001,0.07461240000000001,0.121149,0.1317255,0.1317255,0.1440113333333333,0.2026842,0.2220190909090909,0.2419775,0.2563786333333333,0.2563786333333333],[0.0496,0.0496,0.0496,null,0.06873142857142857,0.06873142857142857,0.06873142857142857,0.06873142857142857,0.07409,0.08184,0.105152,0.1077672727272727,0.1192466666666667,0.1343015384615385,null,0.13981,0.13981,0.13981,0.1412141176470588,0.291764,0.364705,0.4064371882352941,null,0.4064371882352941,null,0.4064371882352941,0.4064371882352941,0.047242,null,0.22463699375,0.22463699375,0.22463699375,0.22463699375,0.06676,0.10014,null,0.26328475,0.26328475,0.2680414,null,null,0.09853099999999999,0.09853099999999999,0.09853099999999999,0.1354325714285714,0.1354325714285714,0.1354325714285714,0.1354325714285714,null,null,0.1493943,0.1493943,0.1493943,0.1860003076923077,0.1860003076923077,0.1860003076923077,0.0445625,0.0445625,0.04791666666666667,0.055775,0.055775,0.0905625,0.09846874999999999,0.09846874999999999,0.1076527777777778,0.1515125,0.1659659090909091,0.1808854166666667,0.2029242647058824,null],[0.03548,0.03548,0.03548,null,0.04916514285714285,0.04916514285714285,0.04916514285714285,0.04916514285714285,null,0.06585975000000001,0.08357511111111111,0.0847972,0.09305436363636364,0.1040746666666667,null,0.1066765333333333,0.1066765333333333,0.1066765333333333,0.107327,0.222072,0.27759,0.3626907310344828,null,0.3626907310344828,null,0.3626907310344828,0.3626907310344828,0.033005,null,0.2104475333333334,0.2104475333333334,0.2104475333333334,0.2104475333333334,null,0.1374,null,null,0.2976771,0.2976771,null,null,0.100594,null,null,0.13309725,0.13309725,0.13309725,0.13309725,null,null,0.13309725,0.13309725,0.13309725,0.1566712727272727,0.1566712727272727,0.1566712727272727,0.049335,null,0.05201625,0.05201625,0.05201625,0.081081,null,null,null,0.1884025,null,null,0.25737855,null],[0.02502,0.02502,0.02502,null,0.0398235,0.0398235,0.0398235,null,null,0.05307814285714286,null,0.07474725,null,0.097856,null,0.100914,null,0.100914,0.100914,0.168948,null,0.40133795,null,null,null,null,0.40133795,0.023713,null,0.2061812545454546,0.2061812545454546,null,0.2061812545454546,null,0.0954,null,null,0.2508225,null,null,null,null,null,null,0.1158445,0.1158445,0.1158445,0.1158445,null,null,0.1158445,0.1158445,null,0.141040125,0.141040125,null,0.037398,null,null,0.052574,0.052574,null,null,null,null,null,null,null,0.2787196285714286,null],[0.02748,null,0.02748,null,null,null,0.05831866666666666,null,null,0.068013,null,0.0875696,null,0.1074773333333333,null,null,null,0.110836,0.110836,0.128592,null,0.3625472571428571,null,null,null,null,0.3625472571428571,0.016284,null,null,0.1921512,null,0.1921512,null,0.06612,null,null,0.1738405,null,null,null,null,null,null,0.098847,0.098847,null,0.098847,null,null,0.098847,0.098847,null,0.114615,0.114615,null,0.028635,null,null,0.040255,0.040255,null,null,null,null,null,null,null,0.24897925,null],[0.01983,null,0.01983,null,null,null,0.04208366666666667,null,null,0.04907925,null,0.0631916,null,0.07755733333333334,null,null,null,0.079981,0.079981,0.09682400000000001,null,0.27391,null,null,null,null,null,0.011684,null,null,0.149606,null,0.149606,null,0.04344,null,null,0.114211,null,null,null,null,null,null,0.07081420000000001,0.07081420000000001,null,0.07081420000000001,null,null,0.07081420000000001,0.07081420000000001,null,null,null,null,0.021873,null,null,0.030749,0.030749,null,null,null,null,null,null,null,0.1932432,null],[null,null,0.02832,null,null,null,0.045076,null,null,0.04672800000000001,null,null,null,0.07614933333333333,null,null,null,0.07614933333333333,0.07614933333333333,null,null,null,null,null,null,null,null,0.008602,null,null,0.110143,null,0.110143,null,null,null,null,null,null,null,null,null,null,null,null,0.08260266666666666,null,0.08260266666666666,null,null,0.08260266666666666,null,null,null,null,null,null,null,null,0.035308,0.035308,null,null,null,null,null,null,null,0.184912,null],[null,null,null,null,null,null,0.0506385,null,null,0.0506385,null,null,null,0.06601760000000001,null,null,null,0.06601760000000001,0.06601760000000001,null,null,null,null,null,null,null,null,0.006187,null,null,0.0792205,null,0.0792205,null,null,null,null,null,null,null,null,null,null,null,null,0.089298,null,null,null,null,0.089298,null,null,null,null,null,null,null,null,0.045899,null,null,null,null,null,null,null,null,0.1872826666666667,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>p_ECT<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n      <th>FDR_3suppSNP<\/th>\n      <th>FDR_4suppSNP<\/th>\n      <th>FDR_5suppSNP<\/th>\n      <th>FDR_6suppSNP<\/th>\n      <th>FDR_7suppSNP<\/th>\n      <th>FDR_8suppSNP<\/th>\n      <th>FDR_9suppSNP<\/th>\n      <th>FDR_10suppSNP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[6,7,8,9,10,11,12,13,14,15,16,17]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="new-eur-traits-1" class="section level2">
+<h2>New EUR traits</h2>
+<pre class="r"><code>df_all_FDR01 &lt;- c()
+df_all_FDR02 &lt;- c()
+df_p0001 &lt;- c()
+for (celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect,celltype,&quot;_ECT_summary_20genes_selected_newbatch.RDS&quot;))
+  
+  tmp_FDR01 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.1,na.rm = T))
+  tmp_FDR02 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] &lt;- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 &lt;- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 &lt;- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 &lt;- rbind(df_p0001, df[df$p_ECT &lt; 0.001,])
+  
+}
+
+df_p0001 &lt;- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) &lt;- NULL
+colnames(df_all_FDR01) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR01_3suppSNP&quot;,&quot;num_pairs_FDR01_4suppSNP&quot;,&quot;num_pairs_FDR01_5suppSNP&quot;,
+                            &quot;num_pairs_FDR01_6suppSNP&quot;,&quot;num_pairs_FDR01_7suppSNP&quot;,&quot;num_pairs_FDR01_8suppSNP&quot;,
+                            &quot;num_pairs_FDR01_9suppSNP&quot;,&quot;num_pairs_FDR01_10suppSNP&quot;)
+df_all_FDR01 &lt;- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 &lt;- df_all_FDR01 %&gt;% mutate(across(-celltype, as.numeric))
+
+df_long &lt;- df_all_FDR01 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR01_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR01_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.1)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rownames(df_all_FDR02) &lt;- NULL
+colnames(df_all_FDR02) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR02_3suppSNP&quot;,&quot;num_pairs_FDR02_4suppSNP&quot;,&quot;num_pairs_FDR02_5suppSNP&quot;,
+                            &quot;num_pairs_FDR02_6suppSNP&quot;,&quot;num_pairs_FDR02_7suppSNP&quot;,&quot;num_pairs_FDR02_8suppSNP&quot;,
+                            &quot;num_pairs_FDR02_9suppSNP&quot;,&quot;num_pairs_FDR02_10suppSNP&quot;)
+df_all_FDR02 &lt;- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 &lt;- df_all_FDR02 %&gt;% mutate(across(-celltype, as.numeric))
+
+
+df_long &lt;- df_all_FDR02 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR02_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR02_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.2)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-6-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>DT::datatable(df_p0001,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;significant pairs &#39;),options = list(pageLength = 10) )</code></pre>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-43c5071fe8a890b96ecd" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-43c5071fe8a890b96ecd">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">significant pairs <\/caption>","data":[["1624","5125","8047","14185","15680","3013","19878","18943","8738","23209","11413","14372","10617","11907","18917","12135","18640","7126","4087","4306","5183","5203","21962","18676","7368","18030","11463","6892","15640","6927","17438","12503","5744","12773","2803","15493","17267","14710","13579","12541","16351","7770","12451","13354","18649","7256","12175","11820","13425","7989","14548","7789","16484","3985","4452","5160","19521","11527","15654","3480","3678","18997","11704","19564","14088","22046","13463","18133","3805","11429","4141","4162","4174","4337","4566","4638","4779","4860","15562","15776","18073","16730","15503","16059","16597","16609","16473","8142"],["B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Platelet","Platelet","Platelet","Platelet","Platelet","Platelet","Platelet","Platelet","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)"],["RA-ukb-a-105","SLE-ebi-a-GCST90018917","Psoriasis-ebi-a-GCST90038681","MCV-ebi-a-GCST90002392","PLT-ebi-a-GCST90002402","T1D-ebi-a-GCST90014023","LDL-ukb-d-30780_irnt","RBC-ebi-a-GCST90002403","Psoriasis-ebi-a-GCST90038681","allergy-ebi-a-GCST005038","HB-ebi-a-GCST90002384","MCH-ebi-a-GCST90002390","HB-ebi-a-GCST90002384","HCT-ebi-a-GCST90002383","RBC-ebi-a-GCST90002403","HCT-ebi-a-GCST90002383","RBC-ebi-a-GCST90002403","asthma_pmid36778051","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","HT-ebi-a-GCST90018855","RBC-ebi-a-GCST90002403","asthma_pmid36778051","WBC-ebi-a-GCST90002407","HB-ebi-a-GCST90002384","asthma_pmid36778051","MCH-ebi-a-GCST90002390","asthma_pmid36778051","WBC-ebi-a-GCST90002407","HCT-ebi-a-GCST90002383","celiac-ieu-a-1058","HCT-ebi-a-GCST90002383","T1D-ebi-a-GCST90014023","MCH-ebi-a-GCST90002390","WBC-ebi-a-GCST90002407","MCH-ebi-a-GCST90002390","MCH-ebi-a-GCST90002390","MCV-ebi-a-GCST90002392","WBC-ebi-a-GCST90002407","Psoriasis-ebi-a-GCST90038681","MCV-ebi-a-GCST90002392","MCH-ebi-a-GCST90002390","LDL-ukb-d-30780_irnt","HB-ebi-a-GCST90002384","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90002402","RBC-ebi-a-GCST90002403","HB-ebi-a-GCST90002384","LDL-ukb-d-30780_irnt","HB-ebi-a-GCST90002384","allergy-ebi-a-GCST005038","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","RBC-ebi-a-GCST90002403","HB-ebi-a-GCST90002384","MCH-ebi-a-GCST90002390","T1D-ebi-a-GCST90014023","T1D-ebi-a-GCST90014023","RBC-ebi-a-GCST90002403","HB-ebi-a-GCST90002384","RBC-ebi-a-GCST90002403","MCV-ebi-a-GCST90002392","HT-ebi-a-GCST90018855","MCV-ebi-a-GCST90002392","WBC-ebi-a-GCST90002407","T1D-ebi-a-GCST90014023","HB-ebi-a-GCST90002384","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90002402","WBC-ebi-a-GCST90002407","PLT-ebi-a-GCST90002402","MCH-ebi-a-GCST90002390","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90002402","Psoriasis-ebi-a-GCST90038681"],["04071_PC4","05330_PC5","04062_PC2","05416_PC5","03018_PC5","04211_PC3","04512_PC3","04970_PC3","05133_PC3","05414_PC4","05169_PC3","03010_PC2","04060_PC2","04060_PC2","04934_PC2","04510_PC5","04621_PC5","04720_PC1","00970_PC2","04120_PC1","05320_PC3","05330_PC3","05131_PC2","04068_PC1","04924_PC3","05130_PC5","05100_PC3","04070_PC2","05225_PC5","04120_PC2","04142_PC3","04725_PC3","04340_PC4","05100_PC3","01523_PC3","05163_PC3","03050_PC2","04020_PC5","04910_PC4","04970_PC1","05218_PC1","04924_PC5","04921_PC1","04371_PC4","05203_PC4","04064_PC1","05416_PC5","04934_PC5","04144_PC5","05205_PC4","04390_PC3","04971_PC4","04150_PC4","00280_PC5","04371_PC2","05225_PC5","05216_PC1","05145_PC2","05231_PC4","04931_PC5","05150_PC3","04666_PC2","05224_PC4","05224_PC4","05100_PC3","05164_PC1","04110_PC3","05167_PC3","05216_PC5","05012_PC4","03460_PC1","04015_PC2","04022_PC4","04217_PC2","04721_PC1","04912_PC3","04972_PC4","05110_PC5","00052_PC2","03410_PC1","05320_PC3","05220_PC5","05330_PC3","04390_PC4","05161_PC2","05163_PC4","05014_PC3","04136_PC2"],["04071","05330","04062","05416","03018","04211","04512","04970","05133","05414","05169","03010","04060","04060","04934","04510","04621","04720","00970","04120","05320","05330","05131","04068","04924","05130","05100","04070","05225","04120","04142","04725","04340","05100","01523","05163","03050","04020","04910","04970","05218","04924","04921","04371","05203","04064","05416","04934","04144","05205","04390","04971","04150","00280","04371","05225","05216","05145","05231","04931","05150","04666","05224","05224","05100","05164","04110","05167","05216","05012","03460","04015","04022","04217","04721","04912","04972","05110","00052","03410","05320","05220","05330","04390","05161","05163","05014","04136"],["Sphingolipid signaling pathway","Allograft rejection","Chemokine signaling pathway","Viral myocarditis","RNA degradation","Longevity regulating pathway","ECM-receptor interaction","Salivary secretion","Pertussis","Dilated cardiomyopathy","Epstein-Barr virus infection","Ribosome","Cytokine-cytokine receptor interaction","Cytokine-cytokine receptor interaction","Cushing syndrome","Focal adhesion","NOD-like receptor signaling pathway","Long-term potentiation","Aminoacyl-tRNA biosynthesis","Ubiquitin mediated proteolysis","Autoimmune thyroid disease","Allograft rejection","Shigellosis","FoxO signaling pathway","Renin secretion","Pathogenic Escherichia coli infection","Bacterial invasion of epithelial cells","Phosphatidylinositol signaling system","Hepatocellular carcinoma","Ubiquitin mediated proteolysis","Lysosome","Cholinergic synapse","Hedgehog signaling pathway","Bacterial invasion of epithelial cells","Antifolate resistance","Human cytomegalovirus infection","Proteasome","Calcium signaling pathway","Insulin signaling pathway","Salivary secretion","Melanoma","Renin secretion","Oxytocin signaling pathway","Apelin signaling pathway","Viral carcinogenesis","NF-kappa B signaling pathway","Viral myocarditis","Cushing syndrome","Endocytosis","Proteoglycans in cancer","Hippo signaling pathway","Gastric acid secretion","mTOR signaling pathway","Valine, leucine and isoleucine degradation","Apelin signaling pathway","Hepatocellular carcinoma","Thyroid cancer","Toxoplasmosis","Choline metabolism in cancer","Insulin resistance","Staphylococcus aureus infection","Fc gamma R-mediated phagocytosis","Breast cancer","Breast cancer","Bacterial invasion of epithelial cells","Influenza A","Cell cycle","Kaposi sarcoma-associated herpesvirus infection","Thyroid cancer","Parkinson disease","Fanconi anemia pathway","Rap1 signaling pathway","cGMP-PKG signaling pathway","Necroptosis","Synaptic vesicle cycle","GnRH signaling pathway","Pancreatic secretion","Vibrio cholerae infection","Galactose metabolism","Base excision repair","Autoimmune thyroid disease","Chronic myeloid leukemia","Allograft rejection","Hippo signaling pathway","Hepatitis B","Human cytomegalovirus infection","Amyotrophic lateral sclerosis","Autophagy - other"],[3,3,6,5,4,12,3,7,3,5,8,5,6,8,8,7,4,4,3,3,3,3,3,9,6,5,8,5,12,5,7,4,7,10,5,8,5,5,8,3,5,4,4,15,5,5,4,6,3,4,8,5,3,3,3,3,5,17,22,6,5,9,9,10,17,4,12,13,3,6,3,3,3,3,3,3,3,3,4,4,13,10,4,8,17,6,15,4],[1e-06,1e-06,4e-05,0.000138,0.000176,0.000195,0.000233,0.00035,0.000399,0.000424,0.000438,0.00045,0.000489,0.00058,0.000693,0.000694,0.000732,0.000866,1e-06,1e-06,1e-06,1e-06,1e-06,7.1e-05,0.000105,0.000224,0.000288,0.000309,0.000343,0.000361,0.00046,0.00057,0.000659,0.000759,0.000779,0.000837,0.0008630000000000001,0.000895,1e-06,0.000159,0.000319,0.000405,0.000506,0.000528,0.0009990000000000001,8e-06,2.1e-05,8.3e-05,9.000000000000001e-05,0.000109,0.0006400000000000001,0.000677,0.000926,1e-06,1e-06,1e-06,5.1e-05,9.500000000000001e-05,0.000148,0.000162,0.000182,0.000212,0.000228,0.000251,0.000267,0.000287,0.000402,0.000596,0.000616,0.000907,1e-06,1e-06,1e-06,1e-06,1e-06,1e-06,1e-06,1e-06,0.00014,0.000312,0.000342,0.000356,0.000367,0.000436,0.000545,0.000597,0.000708,0.000966],[119,38,189,60,79,89,88,90,76,96,201,153,294,294,155,199,181,67,66,136,53,38,236,131,69,202,73,99,168,136,123,112,50,73,31,225,45,193,137,90,72,69,153,137,201,102,60,155,249,204,155,75,153,48,137,168,37,112,98,108,96,93,147,147,73,170,124,186,37,142,54,210,167,162,78,93,102,50,31,33,53,76,38,155,162,225,57,32],[77,28,109,46,65,56,31,34,49,31,158,126,101,101,75,105,115,40,22,110,23,24,164,85,30,129,49,66,102,110,106,58,20,49,20,152,40,81,87,33,32,28,74,69,121,47,32,46,111,82,41,28,55,37,70,106,29,74,56,69,37,66,73,73,48,122,92,135,29,87,29,108,78,97,37,53,40,36,20,31,29,64,30,75,113,152,39,27],[0.0025025,0.0025025,0.06673333333333334,0.1626625,0.1626625,0.1626625,0.166595,0.1876875,0.1876875,0.1876875,0.1876875,0.1876875,0.188265,0.20735,0.2155094117647059,0.2155094117647059,0.2155094117647059,0.2407961111111111,0.001247,0.001247,0.001247,0.001247,0.001247,0.07378083333333334,0.093525,0.17458,0.1875695833333333,0.1875695833333333,0.1875695833333333,0.1875695833333333,0.2206230769230769,0.2538535714285714,0.2739243333333333,0.2778316,0.2778316,0.2778316,0.2778316,0.2778316,0.003465,0.2754675,0.295513544117647,0.295513544117647,0.295513544117647,0.295513544117647,0.295513544117647,0.030008,0.0393855,0.08177180000000001,0.08177180000000001,0.08177180000000001,0.3627752857142857,0.3627752857142857,0.3948026210526316,0.001574666666666667,0.001574666666666667,0.001574666666666667,0.060231,0.089756,0.1042913846153846,0.1042913846153846,0.1042913846153846,0.1042913846153846,0.1042913846153846,0.1042913846153846,0.1042913846153846,0.1042913846153846,0.1356462857142857,0.181874,0.181874,0.2294244342857143,0.0006047499999999999,0.0006047499999999999,0.0006047499999999999,0.0006047499999999999,0.0006047499999999999,0.0006047499999999999,0.0006047499999999999,0.0006047499999999999,0.07525777777777777,0.1365804615384615,0.1365804615384615,0.1365804615384615,0.1365804615384615,0.1506691428571429,0.1757806666666667,0.180517875,0.2014884705882353,0.2418813923076923],[null,null,0.14564,0.17749875,0.17749875,0.17749875,null,0.1978276666666667,null,0.1978276666666667,0.1978276666666667,0.1978276666666667,0.1978276666666667,0.2050163076923077,0.2050163076923077,0.2050163076923077,0.2050163076923077,0.2252218571428571,null,null,null,null,null,0.2437781428571429,0.2437781428571429,0.2437781428571429,0.2437781428571429,0.2437781428571429,0.2437781428571429,0.2437781428571429,0.2718025,0.2736435421052631,0.2736435421052631,0.2736435421052631,0.2736435421052631,0.2736435421052631,0.2736435421052631,0.2736435421052631,0.002394,null,0.239370075,0.239370075,0.239370075,0.239370075,0.239370075,0.021872,0.028707,0.0745015,null,0.0745015,0.3084863333333334,0.3084863333333334,null,null,null,null,0.0968912,0.0968912,0.0968912,0.0968912,0.0968912,0.0968912,0.0968912,0.0968912,0.0968912,0.0968912,0.1233774545454546,0.1676746666666666,null,0.2049473142857143,null,null,null,null,null,null,null,null,0.2466181928571428,0.2466181928571428,0.2466181928571428,0.2466181928571428,0.2466181928571428,0.2466181928571428,0.2466181928571428,0.2466181928571428,0.2466181928571428,0.2466181928571428],[null,null,0.10628,0.162409125,null,0.162409125,null,0.162409125,null,0.162409125,0.162409125,0.162409125,0.162409125,0.1676325454545454,0.1676325454545454,0.1676325454545454,null,null,null,null,null,null,null,0.1885967142857143,0.1885967142857143,0.1885967142857143,0.1885967142857143,0.1885967142857143,0.1885967142857143,0.1885967142857143,0.2102775,null,0.2337867857142857,0.2337867857142857,0.2337867857142857,0.2337867857142857,0.2337867857142857,0.2337867857142857,0.001649,null,0.23084351,null,null,0.23084351,0.23084351,0.016504,null,0.0856145,null,null,0.3266072833333333,0.3266072833333333,null,null,null,null,0.07274266666666666,0.07274266666666666,0.07274266666666666,0.07274266666666666,0.07274266666666666,0.07274266666666666,0.07274266666666666,0.07274266666666666,0.07274266666666666,null,0.0985704,0.1328538181818182,null,0.1806607789473684,null,null,null,null,null,null,null,null,null,null,0.2445469714285714,0.2445469714285714,null,0.2445469714285714,0.2445469714285714,0.2445469714285714,0.2445469714285714,null],[null,null,0.07700000000000001,null,null,0.16699375,null,0.16699375,null,null,0.16699375,null,0.16699375,0.16699375,0.16699375,0.16699375,null,null,null,null,null,null,null,0.15624,0.15624,null,0.255192,null,0.255192,null,0.273792,null,0.2975729454545455,0.2975729454545455,null,0.2975729454545455,null,null,0.001124,null,null,null,null,0.296736,null,null,null,0.13197,null,null,0.337239,null,null,null,null,null,null,0.07010657142857142,0.07010657142857142,0.07010657142857142,null,0.07010657142857142,0.07010657142857142,0.07010657142857142,0.07010657142857142,null,0.0923595,0.1217164444444444,null,0.1565567555555555,null,null,null,null,null,null,null,null,null,null,0.2207557,0.2207557,null,0.2207557,0.2207557,0.2207557,0.2207557,null],[null,null,null,null,null,0.1694516666666666,null,0.1694516666666666,null,null,0.1694516666666666,null,null,0.1694516666666666,0.1694516666666666,0.1694516666666666,null,null,null,null,null,null,null,0.174447,null,null,0.280917,null,0.280917,null,0.282555,null,0.293787,0.293787,null,0.293787,null,null,0.000792,null,null,null,null,0.209088,null,null,null,null,null,null,0.3203460109756098,null,null,null,null,null,null,0.061766,0.061766,null,null,0.061766,0.061766,0.061766,0.061766,null,0.07971085714285714,0.103406,null,null,null,null,null,null,null,null,null,null,null,null,0.21050625,0.21050625,null,0.21050625,0.21050625,null,0.218772,null],[null,null,null,null,null,0.19525275,null,null,null,null,0.19525275,null,null,0.19525275,0.19525275,null,null,null,null,null,null,null,null,0.144272,null,null,0.2323253333333333,null,0.2323253333333333,null,null,null,null,0.3401568,null,0.3401568,null,null,0.000566,null,null,null,null,0.149424,null,null,null,null,null,null,0.3206725159235669,null,null,null,null,null,null,0.0488165,0.0488165,null,null,0.0488165,0.0488165,0.0488165,0.0488165,null,0.06299914285714286,0.08172649999999999,null,null,null,null,null,null,null,null,null,null,null,null,0.1654075,0.1654075,null,0.1654075,0.1654075,null,0.1719024,null],[null,null,null,null,null,0.170235,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0.119635,null,null,null,null,0.2889775,null,null,null,null,0.394885015625,null,null,null,null,null,null,null,null,null,0.1497893,null,null,null,null,null,null,null,null,null,null,null,null,null,0.0373355,0.0373355,null,null,0.0373355,0.0373355,0.0373355,0.0373355,null,0.04818257142857143,0.06250549999999999,null,null,null,null,null,null,null,null,null,null,null,null,0.166911,0.166911,null,null,0.166911,null,0.166911,null],[null,null,null,null,null,0.13299,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0.3726348585365854,null,null,null,null,0.3726348585365854,null,null,null,null,null,null,null,null,null,0.1279893333333333,null,null,null,null,null,null,null,null,null,null,null,null,null,0.04332075,0.04332075,null,null,null,null,0.04332075,0.04332075,null,0.05217960000000001,0.06446733333333333,null,null,null,null,null,null,null,null,null,null,null,null,0.130272,0.130272,null,null,0.130272,null,0.130272,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>p_ECT<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n      <th>FDR_3suppSNP<\/th>\n      <th>FDR_4suppSNP<\/th>\n      <th>FDR_5suppSNP<\/th>\n      <th>FDR_6suppSNP<\/th>\n      <th>FDR_7suppSNP<\/th>\n      <th>FDR_8suppSNP<\/th>\n      <th>FDR_9suppSNP<\/th>\n      <th>FDR_10suppSNP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[6,7,8,9,10,11,12,13,14,15,16,17]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="new-eas-traits-1" class="section level2">
+<h2>New EAS traits</h2>
+<pre class="r"><code>df_all_FDR01 &lt;- c()
+df_all_FDR02 &lt;- c()
+df_p0001 &lt;- c()
+for (celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect,celltype,&quot;_ECT_summary_20genes_EAS.RDS&quot;))
+  
+  tmp_FDR01 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.1,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.1,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.1,na.rm = T))
+  tmp_FDR02 &lt;- c(unique(df$celltype),sum(df$FDR_3suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_4suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_5suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_6suppSNP &lt; 0.2,na.rm = T),
+                 sum(df$FDR_7suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_8suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_9suppSNP &lt; 0.2,na.rm = T),sum(df$FDR_10suppSNP &lt; 0.2,na.rm = T))
+  tmp_FDR02[2:length(tmp_FDR02)] &lt;- as.numeric(tmp_FDR02[2:length(tmp_FDR02)]) - as.numeric(tmp_FDR01[2:length(tmp_FDR01)])
+  
+  df_all_FDR01 &lt;- rbind(df_all_FDR01,tmp_FDR01)
+  df_all_FDR02 &lt;- rbind(df_all_FDR02,tmp_FDR02)
+  
+  df_p0001 &lt;- rbind(df_p0001, df[df$p_ECT &lt; 0.001,])
+  
+}
+
+df_p0001 &lt;- df_p0001[complete.cases(df_p0001$p_ECT),]
+
+rownames(df_all_FDR01) &lt;- NULL
+colnames(df_all_FDR01) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR01_3suppSNP&quot;,&quot;num_pairs_FDR01_4suppSNP&quot;,&quot;num_pairs_FDR01_5suppSNP&quot;,
+                            &quot;num_pairs_FDR01_6suppSNP&quot;,&quot;num_pairs_FDR01_7suppSNP&quot;,&quot;num_pairs_FDR01_8suppSNP&quot;,
+                            &quot;num_pairs_FDR01_9suppSNP&quot;,&quot;num_pairs_FDR01_10suppSNP&quot;)
+df_all_FDR01 &lt;- as.data.frame(df_all_FDR01, stringsAsFactors = FALSE)
+df_all_FDR01 &lt;- df_all_FDR01 %&gt;% mutate(across(-celltype, as.numeric))
+
+df_long &lt;- df_all_FDR01 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR01_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR01_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.1)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rownames(df_all_FDR02) &lt;- NULL
+colnames(df_all_FDR02) &lt;- c(&quot;celltype&quot;,&quot;num_pairs_FDR02_3suppSNP&quot;,&quot;num_pairs_FDR02_4suppSNP&quot;,&quot;num_pairs_FDR02_5suppSNP&quot;,
+                            &quot;num_pairs_FDR02_6suppSNP&quot;,&quot;num_pairs_FDR02_7suppSNP&quot;,&quot;num_pairs_FDR02_8suppSNP&quot;,
+                            &quot;num_pairs_FDR02_9suppSNP&quot;,&quot;num_pairs_FDR02_10suppSNP&quot;)
+df_all_FDR02 &lt;- as.data.frame(df_all_FDR02, stringsAsFactors = FALSE)
+df_all_FDR02 &lt;- df_all_FDR02 %&gt;% mutate(across(-celltype, as.numeric))
+
+
+df_long &lt;- df_all_FDR02 %&gt;%
+  pivot_longer(
+    cols = starts_with(&quot;num_pairs_FDR02_&quot;),
+    names_to = &quot;num_suppSNP&quot;,
+    values_to = &quot;num_pairs&quot;
+  ) %&gt;%
+  mutate(
+    num_suppSNP = as.numeric(gsub(&quot;num_pairs_FDR02_|suppSNP&quot;, &quot;&quot;, num_suppSNP))
+  )
+
+
+ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.8)) +
+  labs(
+    x = &quot;Cell type&quot;,
+    y = &quot;Number of pairs (FDR &lt; 0.2)&quot;,
+    fill = &quot;Supporting SNPs&quot;
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major.x = element_blank()
+  )</code></pre>
+<p><img src="figure/revision_ECT_extendedGWAS_selectedtraits.Rmd/unnamed-chunk-7-2.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>DT::datatable(df_p0001,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;significant pairs &#39;),options = list(pageLength = 10) )</code></pre>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-3f22443f93eeeda03f7b" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-3f22443f93eeeda03f7b">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">significant pairs <\/caption>","data":[["1263","10881","10883","11059","11319","11114","14800","11562","18102","10828","5801","13951","10100","14221","18278","5306","11904","13541","20145","13146","20217","5941","271","743","9218","9188","8998","9238","9208","9145","15896","138","9029","8844","18149","15253","8697","2768","15973","11269","722","5262","13463","12542","4001","5543","9058"],["B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD8+)","T cell (CD8+)"],["ATD-bbj-a-90","MCV-ebi-a-GCST90018746","MCV-ebi-a-GCST90018746","MCV-ebi-a-GCST90018746","MCV-ebi-a-GCST90018746","MCV-ebi-a-GCST90018746","PLT-ebi-a-GCST90018749","MCV-ebi-a-GCST90018746","WBC-ebi-a-GCST90018758","MCV-ebi-a-GCST90018746","graves-ebi-a-GCST90018627","MCV-ebi-a-GCST90018746","height-ebi-a-GCST90018739","MCV-ebi-a-GCST90018746","PLT-ebi-a-GCST90018749","graves-ebi-a-GCST90018627","MCH-ebi-a-GCST90018744","MCV-ebi-a-GCST90018746","RBC-ebi-a-GCST90018751","MCV-ebi-a-GCST90018746","RBC-ebi-a-GCST90018751","graves-ebi-a-GCST90018627","ATD-bbj-a-90","ATD-bbj-a-90","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","PLT-ebi-a-GCST90018749","ATD-bbj-a-90","height-ebi-a-GCST90018739","height-ebi-a-GCST90018739","RBC-ebi-a-GCST90018751","neut-ebi-a-GCST90018748","height-ebi-a-GCST90018739","BMI-ebi-a-GCST90018727","PLT-ebi-a-GCST90018749","RBC-ebi-a-GCST90018751","ATD-bbj-a-90","graves-ebi-a-GCST90018627","MCV-ebi-a-GCST90018746","MCH-ebi-a-GCST90018744","EO-ebi-a-GCST90018733","graves-ebi-a-GCST90018627","HCT-ebi-a-GCST90018740"],["05340_PC3","04611_PC1","04611_PC3","04810_PC4","05133_PC4","04921_PC4","04650_PC5","05322_PC2","00270_PC2","04371_PC3","04540_PC1","04931_PC1","04979_PC5","05200_PC1","05235_PC3","00380_PC1","00563_PC4","04210_PC1","04310_PC5","00270_PC1","04550_PC2","04723_PC1","04110_PC1","04929_PC3","05167_PC3","05161_PC3","04935_PC3","05200_PC3","05165_PC3","05135_PC5","04727_PC1","03015_PC3","04972_PC4","04726_PC4","04640_PC4","05410_PC3","04550_PC2","04360_PC3","04920_PC3","04010_PC4","04726_PC2","00052_PC2","04110_PC3","04810_PC2","00480_PC1","04120_PC3","05416_PC3"],["05340","04611","04611","04810","05133","04921","04650","05322","00270","04371","04540","04931","04979","05200","05235","00380","00563","04210","04310","00270","04550","04723","04110","04929","05167","05161","04935","05200","05165","05135","04727","03015","04972","04726","04640","05410","04550","04360","04920","04010","04726","00052","04110","04810","00480","04120","05416"],["Primary immunodeficiency","Platelet activation","Platelet activation","Regulation of actin cytoskeleton","Pertussis","Oxytocin signaling pathway","Natural killer cell mediated cytotoxicity","Systemic lupus erythematosus","Cysteine and methionine metabolism","Apelin signaling pathway","Gap junction","Insulin resistance","Cholesterol metabolism","Pathways in cancer","PD-L1 expression and PD-1 checkpoint pathway in cancer","Tryptophan metabolism","Glycosylphosphatidylinositol (GPI)-anchor biosynthesis","Apoptosis","Wnt signaling pathway","Cysteine and methionine metabolism","Signaling pathways regulating pluripotency of stem cells","Retrograde endocannabinoid signaling","Cell cycle","GnRH secretion","Kaposi sarcoma-associated herpesvirus infection","Hepatitis B","Growth hormone synthesis, secretion and action","Pathways in cancer","Human papillomavirus infection","Yersinia infection","GABAergic synapse","mRNA surveillance pathway","Pancreatic secretion","Serotonergic synapse","Hematopoietic cell lineage","Hypertrophic cardiomyopathy","Signaling pathways regulating pluripotency of stem cells","Axon guidance","Adipocytokine signaling pathway","MAPK signaling pathway","Serotonergic synapse","Galactose metabolism","Cell cycle","Regulation of actin cytoskeleton","Glutathione metabolism","Ubiquitin mediated proteolysis","Viral myocarditis"],[3,4,8,5,4,6,3,3,9,4,3,7,3,5,4,3,3,5,3,11,4,6,3,3,14,6,8,7,12,4,3,5,6,6,4,3,11,5,3,5,3,3,7,4,6,3,3],[1e-06,1.3e-05,5.6e-05,0.000107,0.000162,0.000285,0.000531,0.000593,0.000762,0.000934,1e-06,3.1e-05,6e-05,0.000106,0.000341,0.000385,0.00059,0.000601,0.000624,0.000628,0.000683,0.000847,1e-06,1e-06,1e-05,1.3e-05,1.4e-05,1.5e-05,0.000215,0.000272,0.000322,0.000337,0.000369,0.00039,0.000516,0.000636,0.000672,0.0006890000000000001,0.000783,0.000531,1e-06,1e-06,0.00052,0.000526,0.00075,1e-06,0.000291],[38,124,124,213,76,153,134,133,49,137,88,108,50,531,89,42,25,136,160,49,140,148,124,64,186,162,119,531,330,120,89,91,102,115,99,90,140,181,69,295,115,31,124,213,56,136,60],[28,71,71,120,49,79,79,33,32,72,45,69,23,290,69,24,21,107,83,33,61,75,69,27,119,105,65,255,174,87,31,64,35,39,45,31,51,74,40,107,47,21,92,122,32,116,46],[0.003549,0.0230685,0.066248,0.09493575,0.1149876,0.1685775,0.263069625,0.263069625,0.300482,0.3314766,0.004974999999999999,0.0771125,0.09949999999999999,0.1318375,0.3089022727272727,0.3089022727272727,0.3089022727272727,0.3089022727272727,0.3089022727272727,0.3089022727272727,0.3089022727272727,0.3511520833333333,0.0012305,0.0012305,0.006152500000000001,0.006152500000000001,0.006152500000000001,0.006152500000000001,0.07558785714285714,0.0799825,0.0799825,0.0799825,0.0799825,0.0799825,0.09768276923076923,0.1059768125,0.1059768125,0.1059768125,0.1133507647058823,0.990308543790353,0.0018495,0.0018495,0.4864185,0.4864185,0.5107614428571429,0.001954,0.284307],[null,0.029913,0.064428,0.082069,0.09319050000000001,0.131157,null,null,0.292227,0.3008646,null,0.103757,null,0.177391,0.3149723882352941,null,null,0.3149723882352941,null,0.3149723882352941,0.3149723882352941,0.3149723882352941,null,null,0.00485625,0.00485625,0.00485625,0.00485625,0.055685,0.05611666666666666,null,0.05611666666666666,0.05611666666666666,0.05611666666666666,0.06682199999999999,null,0.07435458333333335,0.07435458333333335,null,0.9728345200305811,null,null,0.4468756181818182,0.4468756181818182,0.4468756181818182,null,null],[null,null,0.0776285,0.0776285,null,0.137845,null,null,0.2764155,null,null,0.068758,null,0.117554,null,null,null,0.3326630333333334,null,0.3326630333333334,null,0.3326630333333334,null,null,0.00264375,0.00264375,0.00264375,0.00264375,0.030315,null,null,0.03436875,0.03436875,0.03436875,null,null,0.04857450000000001,0.04857450000000001,null,0.651006,null,null,0.553125,null,0.553125,null,null],[null,null,0.051128,null,null,0.1301025,null,null,0.231902,null,null,0.04575600000000001,null,null,null,null,null,null,null,0.416724,null,0.416724,null,null,0.00145125,0.00145125,0.00145125,0.00145125,0.016641,null,null,null,0.02156142857142857,0.02156142857142857,null,null,0.032508,null,null,null,null,null,0.349125,null,0.349125,null,null],[null,null,0.031416,null,null,null,null,null,0.213741,null,null,0.030783,null,null,null,null,null,null,null,0.311802,null,null,null,null,0.001135,null,0.001135,0.001135,0.01220125,null,null,null,null,null,null,null,0.0305088,null,null,null,null,null,0.30732,null,null,null,null],[null,null,0.020608,null,null,null,null,null,0.140208,null,null,null,null,null,null,null,null,null,null,0.426412,null,null,null,null,0.000889,null,0.000889,null,0.009101666666666668,null,null,null,null,null,null,null,0.021336,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,0.176022,null,null,null,null,null,null,null,null,null,null,0.288252,null,null,null,null,0.0008100000000000001,null,null,null,0.0087075,null,null,null,null,null,null,null,0.018144,null,null,null,null,null,null,null,null,null,null],[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,0.184632,null,null,null,null,0.0005,null,null,null,0.005375,null,null,null,null,null,null,null,0.0112,null,null,null,null,null,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>p_ECT<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n      <th>FDR_3suppSNP<\/th>\n      <th>FDR_4suppSNP<\/th>\n      <th>FDR_5suppSNP<\/th>\n      <th>FDR_6suppSNP<\/th>\n      <th>FDR_7suppSNP<\/th>\n      <th>FDR_8suppSNP<\/th>\n      <th>FDR_9suppSNP<\/th>\n      <th>FDR_10suppSNP<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[6,7,8,9,10,11,12,13,14,15,16,17]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Red Hat Enterprise Linux 8.4 (Ootpa)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el8-x86_64/lib/libopenblas_skylakexp-r0.3.13.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] lubridate_1.9.2 forcats_1.0.0   stringr_1.5.0   dplyr_1.1.2    
+ [5] purrr_1.0.1     readr_2.1.4     tidyr_1.3.0     tibble_3.2.1   
+ [9] ggplot2_3.4.2   tidyverse_2.0.0
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.2.0  xfun_0.38         bslib_0.3.1       colorspace_2.0-3 
+ [5] vctrs_0.6.1       generics_0.1.3    htmltools_0.5.7   yaml_2.3.5       
+ [9] utf8_1.2.2        rlang_1.1.2       jquerylib_0.1.4   later_1.3.0      
+[13] pillar_1.9.0      glue_1.6.2        withr_2.5.0       lifecycle_1.0.4  
+[17] munsell_0.5.0     gtable_0.3.0      workflowr_1.7.1   htmlwidgets_1.6.2
+[21] evaluate_0.15     labeling_0.4.2    knitr_1.42        tzdb_0.3.0       
+[25] fastmap_1.1.0     crosstalk_1.2.0   httpuv_1.6.5      fansi_1.0.3      
+[29] highr_0.9         Rcpp_1.0.14       promises_1.2.0.1  scales_1.2.0     
+[33] DT_0.22           jsonlite_1.8.9    farver_2.1.0      fs_1.5.2         
+[37] hms_1.1.3         digest_0.6.29     stringi_1.7.6     grid_4.2.0       
+[41] rprojroot_2.0.3   cli_3.6.2         tools_4.2.0       magrittr_2.0.3   
+[45] sass_0.4.1        pkgconfig_2.0.3   ellipsis_0.3.2    timechange_0.2.0 
+[49] rmarkdown_2.21    rstudioapi_0.14   R6_2.5.1          git2r_0.30.1     
+[53] compiler_4.2.0   </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
