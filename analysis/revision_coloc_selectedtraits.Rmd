@@ -1,0 +1,74 @@
+---
+title: "Colocalization analysis"
+author: "XSun"
+date: "2025-09-26"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+# Introduction
+
+For the pairs with ECT p-value < 0.0005, we performed colocalization analysis on the supporting SNPs. We considered a ±250 kb window around each SNP. Within this region, we conducted association tests for the factor and the SNPs. Finally, we calculated the colocalization posterior probability (PP4) using `coloc` package.
+
+
+```{r message=FALSE, warning=F}
+library(dplyr)
+library(ggplot2)
+
+#supp_snp <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/6.coloc/results/coloc_res_supp_snp.RDS")
+supp_snp <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/6.coloc_v2/results/coloc_res_supp_snp.RDS")
+supp_snp <- supp_snp[order(supp_snp$p_ECT, decreasing = F),]
+supp_snp$coloc_PP4 <- round(supp_snp$coloc_PP4, digits = 4)
+
+source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection.R")
+```
+
+# EUR
+
+```{r}
+
+supp_snp_EUR <- supp_snp[supp_snp$trait %in% traits_EUR,]
+
+DT::datatable(supp_snp_EUR,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Colocalization results for the supporting SNPs'),options = list(pageLength = 10) )
+
+top_snp <- supp_snp_EUR %>%
+  group_by(celltype, trait, factor) %>%
+  slice_max(order_by = coloc_PP4, n = 1, with_ties = FALSE) %>%
+  ungroup()
+
+ggplot(top_snp, aes(x = coloc_PP4)) +
+  geom_histogram(binwidth = 0.05, fill = "steelblue", color = "white", boundary = 0) +
+  labs(
+    title = "Distribution of Coloc PP4 (top SNP per factor-trait pair)",
+    x = "Coloc PP4",
+    y = "Count"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+# EAS
+
+```{r}
+
+supp_snp_EAS <- supp_snp[supp_snp$trait %in% traits_EAS,]
+
+DT::datatable(supp_snp_EAS,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Colocalization results for the supporting SNPs'),options = list(pageLength = 10) )
+
+top_snp <- supp_snp_EAS %>%
+  group_by(celltype, trait, factor) %>%
+  slice_max(order_by = coloc_PP4, n = 1, with_ties = FALSE) %>%
+  ungroup()
+
+ggplot(top_snp, aes(x = coloc_PP4)) +
+  geom_histogram(binwidth = 0.05, fill = "steelblue", color = "white", boundary = 0) +
+  labs(
+    title = "Distribution of Coloc PP4 (top SNP per factor-trait pair)",
+    x = "Coloc PP4",
+    y = "Count"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+

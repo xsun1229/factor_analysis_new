@@ -1,0 +1,187 @@
+---
+title: "GWAS Selection"
+author: "XSun"
+date: "2025-10-22"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+# GWAS included in the analysis
+
+Below are the **40** GWAS traits included in the analysis.
+- `EUR_old`: Traits included in the initial submission.
+- `EUR_new`: Recently collected traits, added in response to the reviewers’ comments.
+- `EAS`: Traits from the East Asian cohort, also included based on the reviewers’ feedback.
+
+We previously included a larger set of blood cell traits; however, we removed most of them and retained only those that are independent and most commonly used in genetic studies.
+
+
+| Category          | Trait                         | Abbr.     | EUR_old                  | EUR_new                      | EAS                   |
+|-------------------|-------------------------------|-----------|--------------------------|------------------------------|---------------------------|
+| Blood cell traits | Hemoglobin                    | HB        | hgb-ebi-a-GCST004615     | HB-ebi-a-GCST90002384        | HB-ebi-a-GCST90018737     |
+| Blood cell traits | Hematocrit                    | HCT       | HCT-ebi-a-GCST004604     | HCT-ebi-a-GCST90002383       | HCT-ebi-a-GCST90018740    |
+| Blood cell traits | Mean Corpuscular Volume       | MCV       | MCV-ebi-a-GCST004602     | MCV-ebi-a-GCST90002392       | MCV-ebi-a-GCST90018746    |
+| Blood cell traits | Mean Corpuscular Hemoglobin   | MCH       | MCH-ebi-a-GCST004630     | MCH-ebi-a-GCST90002390       | MCH-ebi-a-GCST90018744    |
+| Blood cell traits | Platelet count                | PLT       | PLT-ebi-a-GCST004603     | PLT-ebi-a-GCST90002402       | PLT-ebi-a-GCST90018749    |
+| Blood cell traits | White blood cell count        | WBC       | WBC-ebi-a-GCST004610     | WBC-ebi-a-GCST90002407       | WBC-ebi-a-GCST90018758    |
+| Blood cell traits | Red blood cell count          | RBC       | RBC-ebi-a-GCST004601     | RBC-ebi-a-GCST90002403       | RBC-ebi-a-GCST90018751    |
+| Diseases          | Crohn’s disease               | CD        | CD-ebi-a-GCST003044      | CD-ukb-a-552                 | —                         |
+| Diseases          | Inflammatory bowel disease    | IBD       | IBD-ebi-a-GCST003043     | IBD-ebi-a-GCST004131         | —                         |
+| Diseases          | Ulcerative colitis            | UC        | UC-ebi-a-GCST003045      | —                            | —                         |
+| Diseases          | Rheumatoid arthritis          | RA        | —                        | RA-ukb-a-105                 | RA-bbj-a-151              |
+| Diseases          | Type 1 diabetes               | T1D       | T1D-ebi-a-GCST005536     | T1D-ebi-a-GCST90014023       | —                         |
+| Diseases          | Systemic lupus erythematosus  | SLE       | —                        | SLE-ebi-a-GCST90018917       | SLE-ebi-a-GCST90011866    |
+| Diseases          | Celiac disease                | celiac    | —                        | celiac-ieu-a-1058            | —                         |
+| Diseases          | Asthma                        | asthma    | —                        | asthma_pmid36778051          | —                         |
+| Diseases          | Psoriasis                     | Psoriasis | —                        | Psoriasis-ebi-a-GCST90038681 | —                         |
+| Diseases          | Multiple sclerosis            | MS        | —                        | MS-ieu-b-18                  | —                         |
+| Diseases          | Ankylosing spondylitis        | AS        | —                        | AS-finn-b-M13_ANKYLOSPON     | —                         |
+| Diseases          | LDL cholesterol               | LDL       | —                        | LDL-ukb-d-30780_irnt         | —                         |
+| Diseases          | Hypertension                  | HT        | —                        | HT-ebi-a-GCST90018855        | —                         |
+| Diseases          | Allergy                       | Allergy   | allergy-ebi-a-GCST005038 | allergy-ebi-a-GCST005038     | —                         |
+| Diseases          | Autoimmune thyroid disease    | ATD       | —                        | —                            | ATD-bbj-a-90              |
+| Diseases          | Graves’ disease               | graves    | —                        | —                            | graves-ebi-a-GCST90018627 |
+| Diseases          | BMI                           | BMI       | —                        | —                            | BMI-ebi-a-GCST90018727    |
+| Diseases          | Height                        | height    | —                        | —                            | height-ebi-a-GCST90018739 |
+| Diseases          | Hashimoto thyroiditis         | HT        | —                        | HT-ebi-a-GCST90018855        | —                         |
+
+# Summary of the ECT results and the number of IVs
+
+After running ECT on the traits listed above, we counted the number of pairs with ECT p-values < 0.005. We further filtered the pairs using different cutoffs for the number of supporting SNPs: 3 (as in the initial submission), 5, and 10 (as suggested by the reviewer).
+
+The `Category` column below indicates the source of each trait. Specifically, `EUR_old`, `EUR_new`, and `EAS` correspond to the same categories defined in the previous table.
+
+`Num_IV` is the independent SNPs selected.
+
+| Trait                        | Category          | Num_pair_ECTp < 0.005, >=3supp SNPs | Num_pair_ECTp <0.005, >=5supp SNPs | Num_pair_ECTp <0.005, >=10supp SNPs | Num_IV    |
+|------------------------------|-------------------|------------------------------------|------------------------------------|-------------------------------------|-----------|
+| allergy-ebi-a-GCST005038     | disease_EUR_new   | 9                                  | 4                                  | 1                                   | 70        |
+| asthma_pmid36778051          | disease_EUR_new   | 19                                 | 9                                  | 0                                   |       97  |
+| AS-finn-b-M13_ANKYLOSPON     | disease_EUR_new   | 0                                  | 0                                  | 0                                   |       10  |
+| ATD-bbj-a-90                 | disease_EAS       | 14                                 | 4                                  | 0                                   |       8   |
+| BMI-ebi-a-GCST90018727       | disease_EAS       | 4                                  | 4                                  | 0                                   |       79  |
+| CD-ebi-a-GCST003044          | disease_EUR_old   | 27                                 | 14                                 | 2                                   |       125 |
+| CD-ukb-a-552                 | disease_EUR_new   | 0                                  | 0                                  | 0                                   |       2   |
+| celiac-ieu-a-1058            | disease_EUR_new   | 2                                  | 1                                  | 0                                   |       15  |
+| graves-ebi-a-GCST90018627    | disease_EAS       | 13                                 | 4                                  | 0                                   |       15  |
+| HB-ebi-a-GCST90002384        | bloodcell_EUR_new | 47                                 | 32                                 | 9                                   |       438 |
+| HB-ebi-a-GCST90018737        | bloodcell_EAS     | 6                                  | 0                                  | 0                                   |       38  |
+| hgb-ebi-a-GCST004615         | bloodcell_EUR_old | 39                                 | 19                                 | 3                                   |       123 |
+| HCT-ebi-a-GCST004604         | bloodcell_EUR_old | 12                                 | 6                                  | 1                                   |       114 |
+| HCT-ebi-a-GCST90002383       | bloodcell_EUR_new | 29                                 | 21                                 | 4                                   |       417 |
+| HCT-ebi-a-GCST90018740       | bloodcell_EAS     | 3                                  | 0                                  | 0                                   |       46  |
+| height-ebi-a-GCST90018739    | disease_EAS       | 24                                 | 17                                 | 5                                   |       360 |
+| HT-ebi-a-GCST90018855        | disease_EUR_new   | 14                                 | 3                                  | 0                                   |       14  |
+| IBD-ebi-a-GCST003043         | disease_EUR_old   | 15                                 | 6                                  | 0                                   |       139 |
+| IBD-ebi-a-GCST004131         | disease_EUR_new   | 0                                  | 0                                  | 0                                   | 0         |
+| LDL-ukb-d-30780_irnt         | disease_EUR_new   | 10                                 | 4                                  | 1                                   | 141       |
+| MCH-ebi-a-GCST004630         | bloodcell_EUR_old | 42                                 | 32                                 | 13                                  | 203       |
+| MCH-ebi-a-GCST90002390       | bloodcell_EUR_new | 37                                 | 28                                 | 12                                  | 462       |
+| MCH-ebi-a-GCST90018744       | bloodcell_EAS     | 5                                  | 0                                  | 0                                   | 112       |
+| MCV-ebi-a-GCST004602         | bloodcell_EUR_old | 23                                 | 16                                 | 2                                   | 223       |
+| MCV-ebi-a-GCST90002392       | bloodcell_EUR_new | 42                                 | 28                                 | 11                                  | 499       |
+| MCV-ebi-a-GCST90018746       | bloodcell_EAS     | 45                                 | 21                                 | 3                                   | 120       |
+| MS-ieu-b-18                  | disease_EUR_new   | 0                                  | 0                                  | 0                                   | 0         |
+| PLT-ebi-a-GCST004603         | bloodcell_EUR_old | 15                                 | 10                                 | 2                                   | 224       |
+| PLT-ebi-a-GCST90002402       | bloodcell_EUR_new | 15                                 | 8                                  | 4                                   | 580       |
+| PLT-ebi-a-GCST90018749       | bloodcell_EAS     | 9                                  | 3                                  | 0                                   | 128       |
+| Psoriasis-ebi-a-GCST90038681 | disease_EUR_new   | 7                                  | 1                                  | 0                                   | 18        |
+| RA-bbj-a-151                 | disease_EAS       | 0                                  | 0                                  | 0                                   | 12        |
+| RA-ukb-a-105                 | disease_EUR_new   | 1                                  | 0                                  | 0                                   | 6         |
+| RBC-ebi-a-GCST004601         | bloodcell_EUR_old | 56                                 | 44                                 | 11                                  | 176       |
+| RBC-ebi-a-GCST90002403       | bloodcell_EUR_new | 24                                 | 16                                 | 2                                   | 524       |
+| RBC-ebi-a-GCST90018751       | bloodcell_EAS     | 21                                 | 8                                  | 0                                   | 91        |
+| SLE-ebi-a-GCST90011866       | disease_EAS       | 0                                  | 0                                  | 0                                   | 0         |
+| SLE-ebi-a-GCST90018917       | disease_EUR_new   | 8                                  | 0                                  | 0                                   | 4         |
+| T1D-ebi-a-GCST005536         | disease_EUR_old   | 0                                  | 0                                  | 0                                   | 78        |
+| T1D-ebi-a-GCST90014023       | disease_EUR_new   | 18                                 | 10                                 | 3                                   | 78        |
+| UC-ebi-a-GCST003045          | disease_EUR_old   | 25                                 | 11                                 | 1                                   | 94        |
+| WBC-ebi-a-GCST004610         | bloodcell_EUR_old | 13                                 | 6                                  | 1                                   | 175       |
+| WBC-ebi-a-GCST90002407       | bloodcell_EUR_new | 37                                 | 29                                 | 11                                  | 481       |
+| WBC-ebi-a-GCST90018758       | bloodcell_EAS     | 2                                  | 2                                  | 0                                   | 75        |
+
+```{r}
+
+count_trait_sigpair <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary/count_trait_sigpair_3SNPs_p005.RDS")
+count_trait_sigpair <- count_trait_sigpair[order(count_trait_sigpair$Trait),]
+DT::datatable(count_trait_sigpair,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Number of pairs with ECT p< 0.005, #supporting SNPs >=3, per cell type'),options = list(pageLength = 10) )
+
+count_trait_sigpair <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary/count_trait_sigpair_5SNPs_p005.RDS")
+count_trait_sigpair <- count_trait_sigpair[order(count_trait_sigpair$Trait),]
+DT::datatable(count_trait_sigpair,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Number of pairs with ECT p< 0.005, #supporting SNPs >=5, per cell type'),options = list(pageLength = 10) )
+
+
+count_trait_sigpair <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary/count_trait_sigpair_10SNPs_p005.RDS")
+count_trait_sigpair <- count_trait_sigpair[order(count_trait_sigpair$Trait),]
+DT::datatable(count_trait_sigpair,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Number of pairs with ECT p< 0.005, #supporting SNPs >=10, per cell type'),options = list(pageLength = 10) )
+
+
+```
+
+
+# Examing why different blood cell GWAS returned different results
+
+https://xsun1229.github.io/factor_analysis_new/revision_examine_oldnew_bloodcelltraits.html
+
+The differences among the results are mainly driven by the selection of supporting variants.
+
+Although the p-values for individual SNPs remain the same, the number of independent IVs differs between the new and old blood cell GWAS datasets. The new GWAS includes a larger number of independent IVs, which leads to differences in the FDR due to the varying total number of SNPs considered.
+
+# Selected GWAS
+
+In terms of the number of pairs with ECT p-values < 0.005, the new blood cell GWAS generally yielded more significant pairs, although a few traits showed higher counts in the old GWAS. To ensure consistency, we decided to use the new blood cell GWAS so that all blood cell traits originate from the same study. 
+
+For other traits with multiple GWAS sources, we selected the version that produced the larger number of significant pairs (ECT p < 0.005).
+
+So the final selected GWAS are: 
+
+- EUR:
+
+allergy-ebi-a-GCST005038
+asthma_pmid36778051
+AS-finn-b-M13_ANKYLOSPON
+CD-ebi-a-GCST003044
+celiac-ieu-a-1058
+HB-ebi-a-GCST90002384
+HCT-ebi-a-GCST90002383
+HT-ebi-a-GCST90018855
+IBD-ebi-a-GCST003043
+LDL-ukb-d-30780_irnt
+MCH-ebi-a-GCST90002390
+MCV-ebi-a-GCST90002392
+MS-ieu-b-18
+PLT-ebi-a-GCST90002402
+Psoriasis-ebi-a-GCST90038681
+RA-ukb-a-105
+RBC-ebi-a-GCST90002403
+SLE-ebi-a-GCST90018917
+T1D-ebi-a-GCST90014023
+UC-ebi-a-GCST003045
+WBC-ebi-a-GCST90002407
+
+- EAS:
+
+ATD-bbj-a-90
+BMI-ebi-a-GCST90018727
+graves-ebi-a-GCST90018627
+HB-ebi-a-GCST90018737
+HCT-ebi-a-GCST90018740
+height-ebi-a-GCST90018739
+MCH-ebi-a-GCST90018744
+MCV-ebi-a-GCST90018746
+PLT-ebi-a-GCST90018749
+RA-bbj-a-151
+RBC-ebi-a-GCST90018751
+SLE-ebi-a-GCST90011866
+WBC-ebi-a-GCST90018758
+
+
+
+
+
+
+
+
+

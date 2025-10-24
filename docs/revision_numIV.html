@@ -11,11 +11,11 @@
 
 <meta name="author" content="XSun" />
 
-<meta name="date" content="2025-10-08" />
+<meta name="date" content="2025-10-22" />
 
-<title>Number of Instrument Variables</title>
+<title>Selecting GWAS</title>
 
-<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -31,23 +31,15 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
-<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
-<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
-<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
-<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
-<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
-<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
-<link href="site_libs/font-awesome-6.2.1/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -379,16 +371,18 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Number of Instrument Variables</h1>
+<h1 class="title toc-ignore">Selecting GWAS</h1>
 <h4 class="author">XSun</h4>
-<h4 class="date">2025-10-08</h4>
+<h4 class="date">2025-10-22</h4>
 
 </div>
 
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -397,7 +391,9 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -406,17 +402,27 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-10-08
+<strong>Last updated:</strong> 2025-10-22
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
 </p>
 <p>
-This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.1). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -425,100 +431,74 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreec1850407104e445781a3c4990a19486c63c29469targetblankc185040a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/c1850407104e445781a3c4990a19486c63c29469" target="_blank">c185040</a>
+</a>
 </p>
 </div>
-<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
-<div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20221201)</code> </a>
-</p>
-</div>
-<div id="strongSeedstrongcodesetseed20221201code" class="panel-collapse collapse">
-<div class="panel-body">
-<p>The command <code>set.seed(20221201)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
-</p>
-</div>
-<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
-<div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
-</p>
-</div>
-<div id="strongCachestrongnone" class="panel-collapse collapse">
-<div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
-</p>
-</div>
-<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
-<div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
-</div>
-</div>
-</div>
-<div class="panel panel-default">
-<div class="panel-heading">
-<p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreeaa6fd6307c4c522e46ee9e32c9e65a6ba5d802f1targetblankaa6fd63a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/xsun1229/factor_analysis_new/tree/aa6fd6307c4c522e46ee9e32c9e65a6ba5d802f1" target="_blank">aa6fd63</a> </a>
-</p>
-</div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreeaa6fd6307c4c522e46ee9e32c9e65a6ba5d802f1targetblankaa6fd63a" class="panel-collapse collapse">
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreec1850407104e445781a3c4990a19486c63c29469targetblankc185040a"
+class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/xsun1229/factor_analysis_new/tree/aa6fd6307c4c522e46ee9e32c9e65a6ba5d802f1" target="_blank">aa6fd63</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/c1850407104e445781a3c4990a19486c63c29469" target="_blank">c185040</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
 </p>
 <pre><code>
+Untracked files:
+    Untracked:  analysis/revision_acat_selectedtraits.Rmd
+    Untracked:  analysis/revision_coloc_selectedtraits.Rmd
+    Untracked:  analysis/revision_examine_oldnew_bloodcelltraits.Rmd
+
 Unstaged changes:
-    Modified:   analysis/revision_ECT_extendedGWAS.Rmd
+    Modified:   analysis/revision.Rmd
+    Modified:   analysis/revision_ECT_extendedGWAS_selectedtraits.Rmd
     Modified:   analysis/revision_numIV.Rmd
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
 </p>
 </div>
 </div>
@@ -529,7 +509,12 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/revision_numIV.Rmd</code>) and HTML (<code>docs/revision_numIV.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/revision_numIV.Rmd</code>) and
+HTML (<code>docs/revision_numIV.html</code>) files. If you’ve configured
+a remote Git repository (see <code>?wflow_git_remote</code>), click on
+the hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -553,6 +538,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/af83f5aabfd241ef93e50ffaf8cdefdcd5bf54c0/analysis/revision_numIV.Rmd" target="_blank">af83f5a</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-10-08
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/af83f5aabfd241ef93e50ffaf8cdefdcd5bf54c0/docs/revision_numIV.html" target="_blank">af83f5a</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-10-08
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -594,338 +613,679 @@ update
 </div>
 </div>
 </div>
+<div id="gwas-included-in-the-analysis" class="section level1">
+<h1>GWAS included in the analysis</h1>
+<p>Below are the <strong>40</strong> GWAS traits included in the
+analysis. - <code>EUR_old</code>: Traits included in the initial
+submission. - <code>EUR_new</code>: Recently collected traits, added in
+response to the reviewers’ comments. - <code>EAS</code>: Traits from the
+East Asian cohort, also included based on the reviewers’ feedback.</p>
+<p>We previously included a larger set of blood cell traits; however, we
+removed most of them and retained only those that are independent and
+most commonly used in genetic studies.</p>
 <table>
 <colgroup>
-<col width="56%" />
-<col width="9%" />
-<col width="34%" />
+<col width="13%" />
+<col width="21%" />
+<col width="7%" />
+<col width="18%" />
+<col width="20%" />
+<col width="18%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>Full Trait Name</th>
-<th>Abbr.</th>
 <th>Category</th>
+<th>Trait</th>
+<th>Abbr.</th>
+<th>EUR_old</th>
+<th>EUR_new</th>
+<th>EAS</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Crohn’s disease</td>
-<td>CD</td>
-<td>Immune / Inflammatory disease</td>
-</tr>
-<tr class="even">
-<td>Inflammatory bowel disease</td>
-<td>IBD</td>
-<td>Immune / Inflammatory disease</td>
-</tr>
-<tr class="odd">
-<td>Rheumatoid arthritis</td>
-<td>RA</td>
-<td>Immune / Inflammatory disease</td>
-</tr>
-<tr class="even">
-<td>Ulcerative colitis</td>
-<td>UC</td>
-<td>Immune / Inflammatory disease</td>
-</tr>
-<tr class="odd">
-<td>Atopic dermatitis</td>
-<td>ATD</td>
-<td>Immune / Inflammatory disease</td>
-</tr>
-<tr class="even">
-<td>Graves’ disease</td>
-<td>graves</td>
-<td>Immune / Inflammatory disease</td>
-</tr>
-<tr class="odd">
-<td>Type 1 diabetes</td>
-<td>T1D</td>
-<td>Immune / Metabolic disease</td>
-</tr>
-<tr class="even">
-<td>Asthma</td>
-<td>asthma</td>
-<td>Immune / Respiratory disease</td>
-</tr>
-<tr class="odd">
+<td>Blood cell traits</td>
 <td>Hemoglobin</td>
 <td>HB</td>
-<td>Red blood cell trait</td>
+<td>hgb-ebi-a-GCST004615</td>
+<td>HB-ebi-a-GCST90002384</td>
+<td>HB-ebi-a-GCST90018737</td>
 </tr>
 <tr class="even">
-<td>Hemoglobin concentration</td>
-<td>hgb</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="odd">
+<td>Blood cell traits</td>
 <td>Hematocrit</td>
 <td>HCT</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="even">
-<td>High light scatter reticulocyte count</td>
-<td>HLSRetc</td>
-<td>Red blood cell trait</td>
+<td>HCT-ebi-a-GCST004604</td>
+<td>HCT-ebi-a-GCST90002383</td>
+<td>HCT-ebi-a-GCST90018740</td>
 </tr>
 <tr class="odd">
-<td>High light scatter reticulocyte percentage of red cells</td>
-<td>HLSRetp</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="even">
-<td>Immature fraction of reticulocytes</td>
-<td>IRF</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="odd">
-<td>Mean corpuscular hemoglobin</td>
-<td>MCH</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="even">
-<td>Mean corpuscular hemoglobin concentration</td>
-<td>MCHC</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="odd">
-<td>Mean corpuscular volume</td>
+<td>Blood cell traits</td>
+<td>Mean Corpuscular Volume</td>
 <td>MCV</td>
-<td>Red blood cell trait</td>
+<td>MCV-ebi-a-GCST004602</td>
+<td>MCV-ebi-a-GCST90002392</td>
+<td>MCV-ebi-a-GCST90018746</td>
 </tr>
 <tr class="even">
-<td>Mean reticulocyte volume</td>
-<td>MRV</td>
-<td>Red blood cell trait</td>
+<td>Blood cell traits</td>
+<td>Mean Corpuscular Hemoglobin</td>
+<td>MCH</td>
+<td>MCH-ebi-a-GCST004630</td>
+<td>MCH-ebi-a-GCST90002390</td>
+<td>MCH-ebi-a-GCST90018744</td>
 </tr>
 <tr class="odd">
-<td>Mean spheric corpuscular volume</td>
-<td>MSCV</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="even">
-<td>Red blood cell count</td>
-<td>RBC</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="odd">
-<td>Red cell distribution width</td>
-<td>RDW</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="even">
-<td>Reticulocyte count</td>
-<td>RET</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="odd">
-<td>Reticulocyte fraction of red cells</td>
-<td>RETP</td>
-<td>Red blood cell trait</td>
-</tr>
-<tr class="even">
-<td>Plateletcrit</td>
-<td>PCT</td>
-<td>Platelet trait</td>
-</tr>
-<tr class="odd">
-<td>Platelet distribution width</td>
-<td>PDW</td>
-<td>Platelet trait</td>
-</tr>
-<tr class="even">
+<td>Blood cell traits</td>
 <td>Platelet count</td>
 <td>PLT</td>
-<td>Platelet trait</td>
-</tr>
-<tr class="odd">
-<td>Mean platelet volume</td>
-<td>MPV</td>
-<td>Platelet trait</td>
+<td>PLT-ebi-a-GCST004603</td>
+<td>PLT-ebi-a-GCST90002402</td>
+<td>PLT-ebi-a-GCST90018749</td>
 </tr>
 <tr class="even">
+<td>Blood cell traits</td>
 <td>White blood cell count</td>
 <td>WBC</td>
-<td>White blood cell trait</td>
+<td>WBC-ebi-a-GCST004610</td>
+<td>WBC-ebi-a-GCST90002407</td>
+<td>WBC-ebi-a-GCST90018758</td>
 </tr>
 <tr class="odd">
-<td>Basophil count</td>
-<td>basoc</td>
-<td>White blood cell trait</td>
+<td>Blood cell traits</td>
+<td>Red blood cell count</td>
+<td>RBC</td>
+<td>RBC-ebi-a-GCST004601</td>
+<td>RBC-ebi-a-GCST90002403</td>
+<td>RBC-ebi-a-GCST90018751</td>
 </tr>
 <tr class="even">
-<td>Basophil percentage of white cells</td>
-<td>basop</td>
-<td>White blood cell trait</td>
+<td>Diseases</td>
+<td>Crohn’s disease</td>
+<td>CD</td>
+<td>CD-ebi-a-GCST003044</td>
+<td>CD-ukb-a-552</td>
+<td>—</td>
 </tr>
 <tr class="odd">
-<td>Eosinophil count</td>
-<td>eosc</td>
-<td>White blood cell trait</td>
+<td>Diseases</td>
+<td>Inflammatory bowel disease</td>
+<td>IBD</td>
+<td>IBD-ebi-a-GCST003043</td>
+<td>IBD-ebi-a-GCST004131</td>
+<td>—</td>
 </tr>
 <tr class="even">
-<td>Eosinophil percentage of white cells</td>
-<td>epsp</td>
-<td>White blood cell trait</td>
+<td>Diseases</td>
+<td>Ulcerative colitis</td>
+<td>UC</td>
+<td>UC-ebi-a-GCST003045</td>
+<td>—</td>
+<td>—</td>
 </tr>
 <tr class="odd">
-<td>Lymphocyte count</td>
-<td>lymphc</td>
-<td>White blood cell trait</td>
+<td>Diseases</td>
+<td>Rheumatoid arthritis</td>
+<td>RA</td>
+<td>—</td>
+<td>RA-ukb-a-105</td>
+<td>RA-bbj-a-151</td>
 </tr>
 <tr class="even">
-<td>Lymphocyte percentage of white cells</td>
-<td>lymphp</td>
-<td>White blood cell trait</td>
+<td>Diseases</td>
+<td>Type 1 diabetes</td>
+<td>T1D</td>
+<td>T1D-ebi-a-GCST005536</td>
+<td>T1D-ebi-a-GCST90014023</td>
+<td>—</td>
 </tr>
 <tr class="odd">
-<td>Monocyte count</td>
-<td>mono</td>
-<td>White blood cell trait</td>
+<td>Diseases</td>
+<td>Systemic lupus erythematosus</td>
+<td>SLE</td>
+<td>—</td>
+<td>SLE-ebi-a-GCST90018917</td>
+<td>SLE-ebi-a-GCST90011866</td>
 </tr>
 <tr class="even">
-<td>Monocyte percentage of white cells</td>
-<td>monop</td>
-<td>White blood cell trait</td>
+<td>Diseases</td>
+<td>Celiac disease</td>
+<td>celiac</td>
+<td>—</td>
+<td>celiac-ieu-a-1058</td>
+<td>—</td>
 </tr>
 <tr class="odd">
-<td>Neutrophil count</td>
-<td>neutc</td>
-<td>White blood cell trait</td>
+<td>Diseases</td>
+<td>Asthma</td>
+<td>asthma</td>
+<td>—</td>
+<td>asthma_pmid36778051</td>
+<td>—</td>
 </tr>
 <tr class="even">
-<td>Neutrophil percentage of white cells</td>
-<td>neutp</td>
-<td>White blood cell trait</td>
+<td>Diseases</td>
+<td>Psoriasis</td>
+<td>Psoriasis</td>
+<td>—</td>
+<td>Psoriasis-ebi-a-GCST90038681</td>
+<td>—</td>
 </tr>
 <tr class="odd">
-<td>Granulocyte count</td>
-<td>gran</td>
-<td>White blood cell trait</td>
+<td>Diseases</td>
+<td>Multiple sclerosis</td>
+<td>MS</td>
+<td>—</td>
+<td>MS-ieu-b-18</td>
+<td>—</td>
 </tr>
 <tr class="even">
-<td>Low-density lipoprotein cholesterol</td>
+<td>Diseases</td>
+<td>Ankylosing spondylitis</td>
+<td>AS</td>
+<td>—</td>
+<td>AS-finn-b-M13_ANKYLOSPON</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>LDL cholesterol</td>
 <td>LDL</td>
-<td>Lipid / Metabolic trait</td>
+<td>—</td>
+<td>LDL-ukb-d-30780_irnt</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Hypertension</td>
+<td>HT</td>
+<td>—</td>
+<td>HT-ebi-a-GCST90018855</td>
+<td>—</td>
 </tr>
 <tr class="odd">
-<td>Body mass index</td>
+<td>Diseases</td>
+<td>Allergy</td>
+<td>Allergy</td>
+<td>allergy-ebi-a-GCST005038</td>
+<td>allergy-ebi-a-GCST005038</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Autoimmune thyroid disease</td>
+<td>ATD</td>
+<td>—</td>
+<td>—</td>
+<td>ATD-bbj-a-90</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>Graves’ disease</td>
+<td>graves</td>
+<td>—</td>
+<td>—</td>
+<td>graves-ebi-a-GCST90018627</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
 <td>BMI</td>
-<td>Metabolic / Anthropometric trait</td>
+<td>BMI</td>
+<td>—</td>
+<td>—</td>
+<td>BMI-ebi-a-GCST90018727</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>Height</td>
+<td>height</td>
+<td>—</td>
+<td>—</td>
+<td>height-ebi-a-GCST90018739</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Hashimoto thyroiditis</td>
+<td>HT</td>
+<td>—</td>
+<td>HT-ebi-a-GCST90018855</td>
+<td>—</td>
 </tr>
 </tbody>
 </table>
-<pre class="r"><code>celltypes &lt;- c(&quot;B_cell&quot;,&quot;CD14_positive_monocyte&quot;,&quot;CD15_positive_leukocyte&quot;,&quot;platelet&quot;,&quot;T_cell&quot;,&quot;thymocyte&quot;)
-type &lt;- c(&quot;B cell (CD19+)&quot;,&quot;Monocyte (CD14+)&quot;,&quot;Leukocyte (CD15+)&quot;,&quot;Platelet&quot;,&quot;T cell (CD4+)&quot;,&quot;T cell (CD8+)&quot;)
-names(type) &lt;- celltypes
-
-source(&quot;/project/xinhe/xsun/pathway_factor/data_v2/traits.R&quot;)
-
-
-folder_IV &lt;- &quot;/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/&quot;
-
-
-df &lt;- c()
-for (trait in traits_old){
-  
-  file_IV &lt;- paste0(folder_IV,trait,&quot;_prunedsnps.txt&quot;)
-  
-  if(!file.exists(file_IV)) next
-  
-  snps &lt;- read.table(file_IV, header = T)
-  
-  tmp &lt;- c(trait, nrow(snps))
-  df &lt;- rbind(df,tmp)
-}
-
-df &lt;- as.data.frame(df)
-rownames(df) &lt;- NULL
-
-colnames(df) &lt;- c(&quot;Trait&quot;,&quot;#of SNPs&quot;)
-
- DT::datatable(df,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Old GWAS traits&#39;),options = list(pageLength = 10) )</code></pre>
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0c923cdc0df2ab45b6f5" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-0c923cdc0df2ab45b6f5">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Old GWAS traits<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"],["allergy-ebi-a-GCST005038","baso-ebi-a-GCST004618","CD-ebi-a-GCST003044","EO-ebi-a-GCST004606","gran-ebi-a-GCST004614","HCT-ebi-a-GCST004604","hgb-ebi-a-GCST004615","IBD-ebi-a-GCST003043","lymph-ebi-a-GCST004627","MCHC-ebi-a-GCST004605","MCH-ebi-a-GCST004630","MCV-ebi-a-GCST004602","mono-ebi-a-GCST004625","mpv-ebi-a-GCST004599","MWBC-ebi-a-GCST004626","neut-ebi-a-GCST004629","PCT-ebi-a-GCST004607","PLT-ebi-a-GCST004603","RBC-ebi-a-GCST004601","RDW-ebi-a-GCST004621","RET-ebi-a-GCST004622","UC-ebi-a-GCST003045","WBC-ebi-a-GCST004610"],["70","70","125","160","153","114","123","139","168","75","203","223","179","213","151","154","220","224","176","172","155","94","175"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Trait<\/th>\n      <th>#of SNPs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<pre class="r"><code>df &lt;- c()
-for (trait in traits_newbatch){
-  
-  file_IV &lt;- paste0(folder_IV,trait,&quot;_prunedsnps.txt&quot;)
-  
-  if(!file.exists(file_IV)) next
-  
-  snps &lt;- read.table(file_IV, header = T)
-  
-  tmp &lt;- c(trait, nrow(snps))
-  df &lt;- rbind(df,tmp)
-}
-
-df &lt;- as.data.frame(df)
-rownames(df) &lt;- NULL
-
-colnames(df) &lt;- c(&quot;Trait&quot;,&quot;#of SNPs&quot;)
-
-DT::datatable(df,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;New GWAS traits -- EUR&#39;),options = list(pageLength = 10) )</code></pre>
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">New GWAS traits -- EUR<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33"],["CD-ukb-a-552","HB-ebi-a-GCST90002384","HCT-ebi-a-GCST90002383","HLSRetc-ebi-a-GCST90002385","HLSRetp-ebi-a-GCST90002386","IRF-ebi-a-GCST90002387","LDL-ukb-d-30780_irnt","MCH-ebi-a-GCST90002390","MCHC-ebi-a-GCST90002391","MCV-ebi-a-GCST90002392","MPV-ebi-a-GCST90002395","MRV-ebi-a-GCST90002396","MSCV-ebi-a-GCST90002397","PCT-ebi-a-GCST90002400","PDW-ebi-a-GCST90002401","PLT-ebi-a-GCST90002402","RA-ukb-a-105","RBC-ebi-a-GCST90002403","RDW-ebi-a-GCST90002404","RET-ebi-a-GCST90002405","RETP-ebi-a-GCST90002406","T1D-ebi-a-GCST90014023","WBC-ebi-a-GCST90002407","basoc-ebi-a-GCST90002379","basop-ebi-a-GCST90002380","eosc-ebi-a-GCST90002381","eosp-ebi-a-GCST90002382","lymphc-ebi-a-GCST90002388","lymphp-ebi-a-GCST90002389","monop-ebi-a-GCST90002394","neutc-ebi-a-GCST90002398","neutp-ebi-a-GCST90002399","asthma_pmid36778051"],["2","438","417","428","414","302","141","462","193","499","465","456","542","545","417","580","6","524","391","413","401","78","481","171","133","428","400","486","379","392","418","381","97"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Trait<\/th>\n      <th>#of SNPs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<pre class="r"><code>df &lt;- c()
-for (trait in traits_EAS){
-  
-  file_IV &lt;- paste0(folder_IV,trait,&quot;_prunedsnps.txt&quot;)
-  
-  if(!file.exists(file_IV)) next
-  
-  snps &lt;- read.table(file_IV, header = T)
-  
-  tmp &lt;- c(trait, nrow(snps))
-  df &lt;- rbind(df,tmp)
-}
-
-df &lt;- as.data.frame(df)
-rownames(df) &lt;- NULL
-
-colnames(df) &lt;- c(&quot;Trait&quot;,&quot;#of SNPs&quot;)
-
-DT::datatable(df,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;New GWAS traits -- EAS&#39;),options = list(pageLength = 10) )</code></pre>
-<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-66aaeb19fe992dfb51c2" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-66aaeb19fe992dfb51c2">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">New GWAS traits -- EAS<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"],["ATD-bbj-a-90","baso-ebi-a-GCST90018726","BMI-ebi-a-GCST90018727","EO-ebi-a-GCST90018733","graves-ebi-a-GCST90018627","HB-ebi-a-GCST90018737","HCT-ebi-a-GCST90018740","height-ebi-a-GCST90018739","MCHC-ebi-a-GCST90018745","MCH-ebi-a-GCST90018744","MCV-ebi-a-GCST90018746","mono-ebi-a-GCST90018747","neut-ebi-a-GCST90018748","PLT-ebi-a-GCST90018749","RA-bbj-a-151","RBC-ebi-a-GCST90018751","WBC-ebi-a-GCST90018758"],["8","32","79","40","15","38","46","360","42","112","120","52","30","128","12","91","75"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Trait<\/th>\n      <th>#of SNPs<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<br>
-<p>
-<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
-</button>
-</p>
-<div id="workflowr-sessioninfo" class="collapse">
-<pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.2.0 (2022-04-22)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Red Hat Enterprise Linux 8.4 (Ootpa)
-
-Matrix products: default
-BLAS/LAPACK: /software/openblas-0.3.13-el8-x86_64/lib/libopenblas_skylakexp-r0.3.13.so
-
-locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
- [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
- [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
- [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
-
-attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
-
-loaded via a namespace (and not attached):
- [1] Rcpp_1.0.14       pillar_1.9.0      compiler_4.2.0    bslib_0.3.1      
- [5] later_1.3.0       jquerylib_0.1.4   git2r_0.30.1      workflowr_1.7.1  
- [9] tools_4.2.0       digest_0.6.29     jsonlite_1.8.9    evaluate_0.15    
-[13] lifecycle_1.0.4   tibble_3.2.1      pkgconfig_2.0.3   rlang_1.1.2      
-[17] cli_3.6.2         rstudioapi_0.14   crosstalk_1.2.0   yaml_2.3.5       
-[21] xfun_0.38         fastmap_1.1.0     stringr_1.5.0     knitr_1.42       
-[25] fs_1.5.2          vctrs_0.6.1       sass_0.4.1        htmlwidgets_1.6.2
-[29] rprojroot_2.0.3   DT_0.22           glue_1.6.2        R6_2.5.1         
-[33] fansi_1.0.3       rmarkdown_2.21    magrittr_2.0.3    whisker_0.4      
-[37] ellipsis_0.3.2    promises_1.2.0.1  htmltools_0.5.7   httpuv_1.6.5     
-[41] utf8_1.2.2        stringi_1.7.6    </code></pre>
+</div>
+<div id="summary-of-the-ect-results-and-the-number-of-ivs"
+class="section level1">
+<h1>Summary of the ECT results and the number of IVs</h1>
+<p>After running ECT on the traits listed above, we counted the number
+of pairs with ECT p-values &lt; 0.005. We further filtered the pairs
+using different cutoffs for the number of supporting SNPs: 3 (as in the
+initial submission), 5, and 10 (as suggested by the reviewer).</p>
+<p>The <code>Category</code> column below indicates the source of each
+trait. Specifically, <code>EUR_old</code>, <code>EUR_new</code>, and
+<code>EAS</code> correspond to the same categories defined in the
+previous table.</p>
+<p><code>Num_IV</code> is the independent SNPs selected.</p>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="11%" />
+<col width="21%" />
+<col width="21%" />
+<col width="21%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Trait</th>
+<th>Category</th>
+<th>Num_pair_ECTp &lt; 0.005, &gt;=3supp SNPs</th>
+<th>Num_pair_ECTp &lt;0.005, &gt;=5supp SNPs</th>
+<th>Num_pair_ECTp &lt;0.005, &gt;=10supp SNPs</th>
+<th>Num_IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>allergy-ebi-a-GCST005038</td>
+<td>disease_EUR_new</td>
+<td>9</td>
+<td>4</td>
+<td>1</td>
+<td>70</td>
+</tr>
+<tr class="even">
+<td>asthma_pmid36778051</td>
+<td>disease_EUR_new</td>
+<td>19</td>
+<td>9</td>
+<td>0</td>
+<td>97</td>
+</tr>
+<tr class="odd">
+<td>AS-finn-b-M13_ANKYLOSPON</td>
+<td>disease_EUR_new</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>ATD-bbj-a-90</td>
+<td>disease_EAS</td>
+<td>14</td>
+<td>4</td>
+<td>0</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>BMI-ebi-a-GCST90018727</td>
+<td>disease_EAS</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>79</td>
+</tr>
+<tr class="even">
+<td>CD-ebi-a-GCST003044</td>
+<td>disease_EUR_old</td>
+<td>27</td>
+<td>14</td>
+<td>2</td>
+<td>125</td>
+</tr>
+<tr class="odd">
+<td>CD-ukb-a-552</td>
+<td>disease_EUR_new</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>celiac-ieu-a-1058</td>
+<td>disease_EUR_new</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td>graves-ebi-a-GCST90018627</td>
+<td>disease_EAS</td>
+<td>13</td>
+<td>4</td>
+<td>0</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>HB-ebi-a-GCST90002384</td>
+<td>bloodcell_EUR_new</td>
+<td>47</td>
+<td>32</td>
+<td>9</td>
+<td>438</td>
+</tr>
+<tr class="odd">
+<td>HB-ebi-a-GCST90018737</td>
+<td>bloodcell_EAS</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>38</td>
+</tr>
+<tr class="even">
+<td>hgb-ebi-a-GCST004615</td>
+<td>bloodcell_EUR_old</td>
+<td>39</td>
+<td>19</td>
+<td>3</td>
+<td>123</td>
+</tr>
+<tr class="odd">
+<td>HCT-ebi-a-GCST004604</td>
+<td>bloodcell_EUR_old</td>
+<td>12</td>
+<td>6</td>
+<td>1</td>
+<td>114</td>
+</tr>
+<tr class="even">
+<td>HCT-ebi-a-GCST90002383</td>
+<td>bloodcell_EUR_new</td>
+<td>29</td>
+<td>21</td>
+<td>4</td>
+<td>417</td>
+</tr>
+<tr class="odd">
+<td>HCT-ebi-a-GCST90018740</td>
+<td>bloodcell_EAS</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>46</td>
+</tr>
+<tr class="even">
+<td>height-ebi-a-GCST90018739</td>
+<td>disease_EAS</td>
+<td>24</td>
+<td>17</td>
+<td>5</td>
+<td>360</td>
+</tr>
+<tr class="odd">
+<td>HT-ebi-a-GCST90018855</td>
+<td>disease_EUR_new</td>
+<td>14</td>
+<td>3</td>
+<td>0</td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td>IBD-ebi-a-GCST003043</td>
+<td>disease_EUR_old</td>
+<td>15</td>
+<td>6</td>
+<td>0</td>
+<td>139</td>
+</tr>
+<tr class="odd">
+<td>IBD-ebi-a-GCST004131</td>
+<td>disease_EUR_new</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>LDL-ukb-d-30780_irnt</td>
+<td>disease_EUR_new</td>
+<td>10</td>
+<td>4</td>
+<td>1</td>
+<td>141</td>
+</tr>
+<tr class="odd">
+<td>MCH-ebi-a-GCST004630</td>
+<td>bloodcell_EUR_old</td>
+<td>42</td>
+<td>32</td>
+<td>13</td>
+<td>203</td>
+</tr>
+<tr class="even">
+<td>MCH-ebi-a-GCST90002390</td>
+<td>bloodcell_EUR_new</td>
+<td>37</td>
+<td>28</td>
+<td>12</td>
+<td>462</td>
+</tr>
+<tr class="odd">
+<td>MCH-ebi-a-GCST90018744</td>
+<td>bloodcell_EAS</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>112</td>
+</tr>
+<tr class="even">
+<td>MCV-ebi-a-GCST004602</td>
+<td>bloodcell_EUR_old</td>
+<td>23</td>
+<td>16</td>
+<td>2</td>
+<td>223</td>
+</tr>
+<tr class="odd">
+<td>MCV-ebi-a-GCST90002392</td>
+<td>bloodcell_EUR_new</td>
+<td>42</td>
+<td>28</td>
+<td>11</td>
+<td>499</td>
+</tr>
+<tr class="even">
+<td>MCV-ebi-a-GCST90018746</td>
+<td>bloodcell_EAS</td>
+<td>45</td>
+<td>21</td>
+<td>3</td>
+<td>120</td>
+</tr>
+<tr class="odd">
+<td>MS-ieu-b-18</td>
+<td>disease_EUR_new</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>PLT-ebi-a-GCST004603</td>
+<td>bloodcell_EUR_old</td>
+<td>15</td>
+<td>10</td>
+<td>2</td>
+<td>224</td>
+</tr>
+<tr class="odd">
+<td>PLT-ebi-a-GCST90002402</td>
+<td>bloodcell_EUR_new</td>
+<td>15</td>
+<td>8</td>
+<td>4</td>
+<td>580</td>
+</tr>
+<tr class="even">
+<td>PLT-ebi-a-GCST90018749</td>
+<td>bloodcell_EAS</td>
+<td>9</td>
+<td>3</td>
+<td>0</td>
+<td>128</td>
+</tr>
+<tr class="odd">
+<td>Psoriasis-ebi-a-GCST90038681</td>
+<td>disease_EUR_new</td>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>18</td>
+</tr>
+<tr class="even">
+<td>RA-bbj-a-151</td>
+<td>disease_EAS</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td>RA-ukb-a-105</td>
+<td>disease_EUR_new</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>RBC-ebi-a-GCST004601</td>
+<td>bloodcell_EUR_old</td>
+<td>56</td>
+<td>44</td>
+<td>11</td>
+<td>176</td>
+</tr>
+<tr class="odd">
+<td>RBC-ebi-a-GCST90002403</td>
+<td>bloodcell_EUR_new</td>
+<td>24</td>
+<td>16</td>
+<td>2</td>
+<td>524</td>
+</tr>
+<tr class="even">
+<td>RBC-ebi-a-GCST90018751</td>
+<td>bloodcell_EAS</td>
+<td>21</td>
+<td>8</td>
+<td>0</td>
+<td>91</td>
+</tr>
+<tr class="odd">
+<td>SLE-ebi-a-GCST90011866</td>
+<td>disease_EAS</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>SLE-ebi-a-GCST90018917</td>
+<td>disease_EUR_new</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>T1D-ebi-a-GCST005536</td>
+<td>disease_EUR_old</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>78</td>
+</tr>
+<tr class="even">
+<td>T1D-ebi-a-GCST90014023</td>
+<td>disease_EUR_new</td>
+<td>18</td>
+<td>10</td>
+<td>3</td>
+<td>78</td>
+</tr>
+<tr class="odd">
+<td>UC-ebi-a-GCST003045</td>
+<td>disease_EUR_old</td>
+<td>25</td>
+<td>11</td>
+<td>1</td>
+<td>94</td>
+</tr>
+<tr class="even">
+<td>WBC-ebi-a-GCST004610</td>
+<td>bloodcell_EUR_old</td>
+<td>13</td>
+<td>6</td>
+<td>1</td>
+<td>175</td>
+</tr>
+<tr class="odd">
+<td>WBC-ebi-a-GCST90002407</td>
+<td>bloodcell_EUR_new</td>
+<td>37</td>
+<td>29</td>
+<td>11</td>
+<td>481</td>
+</tr>
+<tr class="even">
+<td>WBC-ebi-a-GCST90018758</td>
+<td>bloodcell_EAS</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>75</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div
+id="examing-why-different-blood-cell-gwas-returned-different-results"
+class="section level1">
+<h1>Examing why different blood cell GWAS returned different
+results</h1>
+<p><a
+href="https://xsun1229.github.io/factor_analysis_new/revision_examine_oldnew_bloodcelltraits.html"
+class="uri">https://xsun1229.github.io/factor_analysis_new/revision_examine_oldnew_bloodcelltraits.html</a></p>
+<p>The differences among the results are mainly driven by the selection
+of supporting variants.</p>
+<p>Although the p-values for individual SNPs remain the same, the number
+of independent IVs differs between the new and old blood cell GWAS
+datasets. The new GWAS includes a larger number of independent IVs,
+which leads to differences in the FDR due to the varying total number of
+SNPs considered.</p>
+</div>
+<div id="selected-gwas" class="section level1">
+<h1>Selected GWAS</h1>
+<p>In terms of the number of pairs with ECT p-values &lt; 0.005, the new
+blood cell GWAS generally yielded more significant pairs, although a few
+traits showed higher counts in the old GWAS. To ensure consistency, we
+decided to use the new blood cell GWAS so that all blood cell traits
+originate from the same study.</p>
+<p>For other traits with multiple GWAS sources, we selected the version
+that produced the larger number of significant pairs (ECT p &lt;
+0.005).</p>
+<p>So the final selected GWAS are:</p>
+<ul>
+<li>EUR:</li>
+</ul>
+<p>allergy-ebi-a-GCST005038 asthma_pmid36778051 AS-finn-b-M13_ANKYLOSPON
+CD-ebi-a-GCST003044 celiac-ieu-a-1058 HB-ebi-a-GCST90002384
+HCT-ebi-a-GCST90002383 HT-ebi-a-GCST90018855 IBD-ebi-a-GCST003043
+LDL-ukb-d-30780_irnt MCH-ebi-a-GCST90002390 MCV-ebi-a-GCST90002392
+MS-ieu-b-18 PLT-ebi-a-GCST90002402 Psoriasis-ebi-a-GCST90038681
+RA-ukb-a-105 RBC-ebi-a-GCST90002403 SLE-ebi-a-GCST90018917
+T1D-ebi-a-GCST90014023 UC-ebi-a-GCST003045 WBC-ebi-a-GCST90002407</p>
+<ul>
+<li>EAS:</li>
+</ul>
+<p>ATD-bbj-a-90 BMI-ebi-a-GCST90018727 graves-ebi-a-GCST90018627
+HB-ebi-a-GCST90018737 HCT-ebi-a-GCST90018740 height-ebi-a-GCST90018739
+MCH-ebi-a-GCST90018744 MCV-ebi-a-GCST90018746 PLT-ebi-a-GCST90018749
+RA-bbj-a-151 RBC-ebi-a-GCST90018751 SLE-ebi-a-GCST90011866
+WBC-ebi-a-GCST90018758</p>
 </div>
 
 

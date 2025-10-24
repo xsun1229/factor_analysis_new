@@ -1,0 +1,143 @@
+---
+title: "Examine old/new blood cell traits"
+author: "XSun"
+date: "2025-10-14"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+```{r}
+library(data.table)
+```
+
+We examine some blood cell traits here. To check why some pairs were reported by old GWAS but not by new.
+
+
+## Leukocyte (CD15+) - MCH
+
+```{r}
+ECT_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/CD15_positive_leukocyte-MCH-ebi-a-GCST004630_ECT.RDS")
+ECT_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/CD15_positive_leukocyte-MCH-ebi-a-GCST90002390_ECT.RDS")
+
+factor <- "05168_PC3"
+
+cat("Old GWAS")
+print(ECT_old[ECT_old$factor_name == factor,])
+cat("New GWAS")
+print(ECT_new[ECT_new$factor_name == factor,])
+
+snp_selected_old <- fread("/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/MCH-ebi-a-GCST004630_prunedsnps.txt")
+snp_selected_new <- fread("/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/MCH-ebi-a-GCST90002390_prunedsnps.txt")
+
+cat(paste0("number of independent loci selected -- old GWAS: ", nrow(snp_selected_old)))
+cat(paste0("number of independent loci selected -- new GWAS: ", nrow(snp_selected_new)))
+cat(paste0("number of overlaps: ", sum(snp_selected_old$SNP %in% snp_selected_new$SNP)))
+
+harmo_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize//CD15_positive_leukocyte-MCH-ebi-a-GCST004630_harmo.RDS")
+harmo_old_factor <- harmo_old[[factor]]
+harmo_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize//CD15_positive_leukocyte-MCH-ebi-a-GCST90002390_harmo.RDS")
+harmo_new_factor <- harmo_new[[factor]]
+
+supp_snp_old <- harmo_old_factor$SNP[harmo_old_factor$FDR.exposure < 0.2]
+supp_snp_new <- harmo_new_factor$SNP[harmo_new_factor$FDR.exposure < 0.2]
+
+df_supp_snp_old <- harmo_old_factor[harmo_old_factor$FDR.exposure < 0.2 |harmo_old_factor$SNP %in% supp_snp_new, c("SNP","pval.outcome","pval.exposure","FDR.exposure")]
+df_supp_snp_new <- harmo_new_factor[harmo_new_factor$FDR.exposure < 0.2 |harmo_new_factor$SNP %in% supp_snp_old, c("SNP","pval.outcome","pval.exposure","FDR.exposure")]
+
+
+df_merged <- merge(df_supp_snp_old, df_supp_snp_new, 
+                   by = "SNP", 
+                   suffixes = c(".old", ".new"), 
+                   all = TRUE)
+
+DT::datatable(df_merged,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs in old and new GWAS '),options = list(pageLength = 10) )
+
+```
+
+
+## T cell (CD4+) - hgb
+
+```{r}
+ECT_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/T_cell-hgb-ebi-a-GCST004615_ECT.RDS")
+ECT_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/T_cell-HB-ebi-a-GCST90002384_ECT.RDS")
+
+factor <- "04066_PC3"
+
+cat("Old GWAS")
+print(ECT_old[ECT_old$factor_name == factor,])
+cat("New GWAS")
+print(ECT_new[ECT_new$factor_name == factor,])
+
+snp_selected_old <- fread("/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/hgb-ebi-a-GCST004615_prunedsnps.txt")
+snp_selected_new <- fread("/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/HB-ebi-a-GCST90002384_prunedsnps.txt")
+
+
+cat(paste0("number of independent loci selected -- old GWAS: ", nrow(snp_selected_old)))
+cat(paste0("number of independent loci selected -- new GWAS: ", nrow(snp_selected_new)))
+cat(paste0("number of overlaps: ", sum(snp_selected_old$SNP %in% snp_selected_new$SNP)))
+
+harmo_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/T_cell-hgb-ebi-a-GCST004615_harmo.RDS")
+harmo_old_factor <- harmo_old[[factor]]
+harmo_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/T_cell-HB-ebi-a-GCST90002384_harmo.RDS")
+harmo_new_factor <- harmo_new[[factor]]
+
+supp_snp_old <- harmo_old_factor$SNP[harmo_old_factor$FDR.exposure < 0.2]
+supp_snp_new <- harmo_new_factor$SNP[harmo_new_factor$FDR.exposure < 0.2]
+
+df_supp_snp_old <- harmo_old_factor[harmo_old_factor$FDR.exposure < 0.2 |harmo_old_factor$SNP %in% supp_snp_new, c("SNP","pval.outcome","pval.exposure","FDR.exposure")]
+df_supp_snp_new <- harmo_new_factor[harmo_new_factor$FDR.exposure < 0.2 |harmo_new_factor$SNP %in% supp_snp_old, c("SNP","pval.outcome","pval.exposure","FDR.exposure")]
+
+
+df_merged <- merge(df_supp_snp_old, df_supp_snp_new, 
+                   by = "SNP", 
+                   suffixes = c(".old", ".new"), 
+                   all = TRUE)
+
+DT::datatable(df_merged,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs in old and new GWAS '),options = list(pageLength = 10) )
+
+```
+
+
+## B cell (CD19+) - RBC
+
+```{r}
+ECT_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/B_cell-RBC-ebi-a-GCST004601_ECT.RDS")
+ECT_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/B_cell-RBC-ebi-a-GCST90002403_ECT.RDS")
+
+factor <- "04145_PC3"
+
+cat("Old GWAS")
+print(ECT_old[ECT_old$factor_name == factor,])
+cat("New GWAS")
+print(ECT_new[ECT_new$factor_name == factor,])
+
+snp_selected_old <- fread("/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/hgb-ebi-a-GCST004615_prunedsnps.txt")
+snp_selected_new <- fread("/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/HB-ebi-a-GCST90002384_prunedsnps.txt")
+
+
+cat(paste0("number of independent loci selected -- old GWAS: ", nrow(snp_selected_old)))
+cat(paste0("number of independent loci selected -- new GWAS: ", nrow(snp_selected_new)))
+cat(paste0("number of overlaps: ", sum(snp_selected_old$SNP %in% snp_selected_new$SNP)))
+
+harmo_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/B_cell-RBC-ebi-a-GCST004601_harmo.RDS")
+harmo_old_factor <- harmo_old[[factor]]
+harmo_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/B_cell-RBC-ebi-a-GCST90002403_harmo.RDS")
+harmo_new_factor <- harmo_new[[factor]]
+
+supp_snp_old <- harmo_old_factor$SNP[harmo_old_factor$FDR.exposure < 0.2]
+supp_snp_new <- harmo_new_factor$SNP[harmo_new_factor$FDR.exposure < 0.2]
+
+df_supp_snp_old <- harmo_old_factor[harmo_old_factor$FDR.exposure < 0.2 |harmo_old_factor$SNP %in% supp_snp_new, c("SNP","pval.outcome","pval.exposure","FDR.exposure")]
+df_supp_snp_new <- harmo_new_factor[harmo_new_factor$FDR.exposure < 0.2 |harmo_new_factor$SNP %in% supp_snp_old, c("SNP","pval.outcome","pval.exposure","FDR.exposure")]
+
+
+df_merged <- merge(df_supp_snp_old, df_supp_snp_new, 
+                   by = "SNP", 
+                   suffixes = c(".old", ".new"), 
+                   all = TRUE)
+
+DT::datatable(df_merged,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs in old and new GWAS '),options = list(pageLength = 10) )
+
+```

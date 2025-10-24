@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="XSun" />
+
+<meta name="date" content="2025-10-22" />
+
+<title>GWAS Selection</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">factor_analysis_new</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/xsun1229/factor_analysis_new">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">GWAS Selection</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2025-10-22</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-10-22
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221201)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221201code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221201)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreec1850407104e445781a3c4990a19486c63c29469targetblankc185040a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/c1850407104e445781a3c4990a19486c63c29469" target="_blank">c185040</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreec1850407104e445781a3c4990a19486c63c29469targetblankc185040a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/c1850407104e445781a3c4990a19486c63c29469" target="_blank">c185040</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Untracked files:
+    Untracked:  analysis/revision_GWAS_selection.Rmd
+    Untracked:  analysis/revision_acat_selectedtraits.Rmd
+    Untracked:  analysis/revision_coloc_selectedtraits.Rmd
+    Untracked:  analysis/revision_examine_oldnew_bloodcelltraits.Rmd
+
+Unstaged changes:
+    Modified:   analysis/revision.Rmd
+    Modified:   analysis/revision_ECT_extendedGWAS_selectedtraits.Rmd
+    Deleted:    analysis/revision_numIV.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="gwas-included-in-the-analysis" class="section level1">
+<h1>GWAS included in the analysis</h1>
+<p>Below are the <strong>40</strong> GWAS traits included in the
+analysis. - <code>EUR_old</code>: Traits included in the initial
+submission. - <code>EUR_new</code>: Recently collected traits, added in
+response to the reviewers’ comments. - <code>EAS</code>: Traits from the
+East Asian cohort, also included based on the reviewers’ feedback.</p>
+<p>We previously included a larger set of blood cell traits; however, we
+removed most of them and retained only those that are independent and
+most commonly used in genetic studies.</p>
+<table>
+<colgroup>
+<col width="13%" />
+<col width="21%" />
+<col width="7%" />
+<col width="18%" />
+<col width="20%" />
+<col width="18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Trait</th>
+<th>Abbr.</th>
+<th>EUR_old</th>
+<th>EUR_new</th>
+<th>EAS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Blood cell traits</td>
+<td>Hemoglobin</td>
+<td>HB</td>
+<td>hgb-ebi-a-GCST004615</td>
+<td>HB-ebi-a-GCST90002384</td>
+<td>HB-ebi-a-GCST90018737</td>
+</tr>
+<tr class="even">
+<td>Blood cell traits</td>
+<td>Hematocrit</td>
+<td>HCT</td>
+<td>HCT-ebi-a-GCST004604</td>
+<td>HCT-ebi-a-GCST90002383</td>
+<td>HCT-ebi-a-GCST90018740</td>
+</tr>
+<tr class="odd">
+<td>Blood cell traits</td>
+<td>Mean Corpuscular Volume</td>
+<td>MCV</td>
+<td>MCV-ebi-a-GCST004602</td>
+<td>MCV-ebi-a-GCST90002392</td>
+<td>MCV-ebi-a-GCST90018746</td>
+</tr>
+<tr class="even">
+<td>Blood cell traits</td>
+<td>Mean Corpuscular Hemoglobin</td>
+<td>MCH</td>
+<td>MCH-ebi-a-GCST004630</td>
+<td>MCH-ebi-a-GCST90002390</td>
+<td>MCH-ebi-a-GCST90018744</td>
+</tr>
+<tr class="odd">
+<td>Blood cell traits</td>
+<td>Platelet count</td>
+<td>PLT</td>
+<td>PLT-ebi-a-GCST004603</td>
+<td>PLT-ebi-a-GCST90002402</td>
+<td>PLT-ebi-a-GCST90018749</td>
+</tr>
+<tr class="even">
+<td>Blood cell traits</td>
+<td>White blood cell count</td>
+<td>WBC</td>
+<td>WBC-ebi-a-GCST004610</td>
+<td>WBC-ebi-a-GCST90002407</td>
+<td>WBC-ebi-a-GCST90018758</td>
+</tr>
+<tr class="odd">
+<td>Blood cell traits</td>
+<td>Red blood cell count</td>
+<td>RBC</td>
+<td>RBC-ebi-a-GCST004601</td>
+<td>RBC-ebi-a-GCST90002403</td>
+<td>RBC-ebi-a-GCST90018751</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Crohn’s disease</td>
+<td>CD</td>
+<td>CD-ebi-a-GCST003044</td>
+<td>CD-ukb-a-552</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>Inflammatory bowel disease</td>
+<td>IBD</td>
+<td>IBD-ebi-a-GCST003043</td>
+<td>IBD-ebi-a-GCST004131</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Ulcerative colitis</td>
+<td>UC</td>
+<td>UC-ebi-a-GCST003045</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>Rheumatoid arthritis</td>
+<td>RA</td>
+<td>—</td>
+<td>RA-ukb-a-105</td>
+<td>RA-bbj-a-151</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Type 1 diabetes</td>
+<td>T1D</td>
+<td>T1D-ebi-a-GCST005536</td>
+<td>T1D-ebi-a-GCST90014023</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>Systemic lupus erythematosus</td>
+<td>SLE</td>
+<td>—</td>
+<td>SLE-ebi-a-GCST90018917</td>
+<td>SLE-ebi-a-GCST90011866</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Celiac disease</td>
+<td>celiac</td>
+<td>—</td>
+<td>celiac-ieu-a-1058</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>Asthma</td>
+<td>asthma</td>
+<td>—</td>
+<td>asthma_pmid36778051</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Psoriasis</td>
+<td>Psoriasis</td>
+<td>—</td>
+<td>Psoriasis-ebi-a-GCST90038681</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>Multiple sclerosis</td>
+<td>MS</td>
+<td>—</td>
+<td>MS-ieu-b-18</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Ankylosing spondylitis</td>
+<td>AS</td>
+<td>—</td>
+<td>AS-finn-b-M13_ANKYLOSPON</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>LDL cholesterol</td>
+<td>LDL</td>
+<td>—</td>
+<td>LDL-ukb-d-30780_irnt</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Hypertension</td>
+<td>HT</td>
+<td>—</td>
+<td>HT-ebi-a-GCST90018855</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>Allergy</td>
+<td>Allergy</td>
+<td>allergy-ebi-a-GCST005038</td>
+<td>allergy-ebi-a-GCST005038</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Autoimmune thyroid disease</td>
+<td>ATD</td>
+<td>—</td>
+<td>—</td>
+<td>ATD-bbj-a-90</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>Graves’ disease</td>
+<td>graves</td>
+<td>—</td>
+<td>—</td>
+<td>graves-ebi-a-GCST90018627</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>BMI</td>
+<td>BMI</td>
+<td>—</td>
+<td>—</td>
+<td>BMI-ebi-a-GCST90018727</td>
+</tr>
+<tr class="odd">
+<td>Diseases</td>
+<td>Height</td>
+<td>height</td>
+<td>—</td>
+<td>—</td>
+<td>height-ebi-a-GCST90018739</td>
+</tr>
+<tr class="even">
+<td>Diseases</td>
+<td>Hashimoto thyroiditis</td>
+<td>HT</td>
+<td>—</td>
+<td>HT-ebi-a-GCST90018855</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="summary-of-the-ect-results-and-the-number-of-ivs"
+class="section level1">
+<h1>Summary of the ECT results and the number of IVs</h1>
+<p>After running ECT on the traits listed above, we counted the number
+of pairs with ECT p-values &lt; 0.005. We further filtered the pairs
+using different cutoffs for the number of supporting SNPs: 3 (as in the
+initial submission), 5, and 10 (as suggested by the reviewer).</p>
+<p>The <code>Category</code> column below indicates the source of each
+trait. Specifically, <code>EUR_old</code>, <code>EUR_new</code>, and
+<code>EAS</code> correspond to the same categories defined in the
+previous table.</p>
+<p><code>Num_IV</code> is the independent SNPs selected.</p>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="11%" />
+<col width="21%" />
+<col width="21%" />
+<col width="21%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Trait</th>
+<th>Category</th>
+<th>Num_pair_ECTp &lt; 0.005, &gt;=3supp SNPs</th>
+<th>Num_pair_ECTp &lt;0.005, &gt;=5supp SNPs</th>
+<th>Num_pair_ECTp &lt;0.005, &gt;=10supp SNPs</th>
+<th>Num_IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>allergy-ebi-a-GCST005038</td>
+<td>disease_EUR_new</td>
+<td>9</td>
+<td>4</td>
+<td>1</td>
+<td>70</td>
+</tr>
+<tr class="even">
+<td>asthma_pmid36778051</td>
+<td>disease_EUR_new</td>
+<td>19</td>
+<td>9</td>
+<td>0</td>
+<td>97</td>
+</tr>
+<tr class="odd">
+<td>AS-finn-b-M13_ANKYLOSPON</td>
+<td>disease_EUR_new</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>ATD-bbj-a-90</td>
+<td>disease_EAS</td>
+<td>14</td>
+<td>4</td>
+<td>0</td>
+<td>8</td>
+</tr>
+<tr class="odd">
+<td>BMI-ebi-a-GCST90018727</td>
+<td>disease_EAS</td>
+<td>4</td>
+<td>4</td>
+<td>0</td>
+<td>79</td>
+</tr>
+<tr class="even">
+<td>CD-ebi-a-GCST003044</td>
+<td>disease_EUR_old</td>
+<td>27</td>
+<td>14</td>
+<td>2</td>
+<td>125</td>
+</tr>
+<tr class="odd">
+<td>CD-ukb-a-552</td>
+<td>disease_EUR_new</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>celiac-ieu-a-1058</td>
+<td>disease_EUR_new</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td>graves-ebi-a-GCST90018627</td>
+<td>disease_EAS</td>
+<td>13</td>
+<td>4</td>
+<td>0</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>HB-ebi-a-GCST90002384</td>
+<td>bloodcell_EUR_new</td>
+<td>47</td>
+<td>32</td>
+<td>9</td>
+<td>438</td>
+</tr>
+<tr class="odd">
+<td>HB-ebi-a-GCST90018737</td>
+<td>bloodcell_EAS</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>38</td>
+</tr>
+<tr class="even">
+<td>hgb-ebi-a-GCST004615</td>
+<td>bloodcell_EUR_old</td>
+<td>39</td>
+<td>19</td>
+<td>3</td>
+<td>123</td>
+</tr>
+<tr class="odd">
+<td>HCT-ebi-a-GCST004604</td>
+<td>bloodcell_EUR_old</td>
+<td>12</td>
+<td>6</td>
+<td>1</td>
+<td>114</td>
+</tr>
+<tr class="even">
+<td>HCT-ebi-a-GCST90002383</td>
+<td>bloodcell_EUR_new</td>
+<td>29</td>
+<td>21</td>
+<td>4</td>
+<td>417</td>
+</tr>
+<tr class="odd">
+<td>HCT-ebi-a-GCST90018740</td>
+<td>bloodcell_EAS</td>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>46</td>
+</tr>
+<tr class="even">
+<td>height-ebi-a-GCST90018739</td>
+<td>disease_EAS</td>
+<td>24</td>
+<td>17</td>
+<td>5</td>
+<td>360</td>
+</tr>
+<tr class="odd">
+<td>HT-ebi-a-GCST90018855</td>
+<td>disease_EUR_new</td>
+<td>14</td>
+<td>3</td>
+<td>0</td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td>IBD-ebi-a-GCST003043</td>
+<td>disease_EUR_old</td>
+<td>15</td>
+<td>6</td>
+<td>0</td>
+<td>139</td>
+</tr>
+<tr class="odd">
+<td>IBD-ebi-a-GCST004131</td>
+<td>disease_EUR_new</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>LDL-ukb-d-30780_irnt</td>
+<td>disease_EUR_new</td>
+<td>10</td>
+<td>4</td>
+<td>1</td>
+<td>141</td>
+</tr>
+<tr class="odd">
+<td>MCH-ebi-a-GCST004630</td>
+<td>bloodcell_EUR_old</td>
+<td>42</td>
+<td>32</td>
+<td>13</td>
+<td>203</td>
+</tr>
+<tr class="even">
+<td>MCH-ebi-a-GCST90002390</td>
+<td>bloodcell_EUR_new</td>
+<td>37</td>
+<td>28</td>
+<td>12</td>
+<td>462</td>
+</tr>
+<tr class="odd">
+<td>MCH-ebi-a-GCST90018744</td>
+<td>bloodcell_EAS</td>
+<td>5</td>
+<td>0</td>
+<td>0</td>
+<td>112</td>
+</tr>
+<tr class="even">
+<td>MCV-ebi-a-GCST004602</td>
+<td>bloodcell_EUR_old</td>
+<td>23</td>
+<td>16</td>
+<td>2</td>
+<td>223</td>
+</tr>
+<tr class="odd">
+<td>MCV-ebi-a-GCST90002392</td>
+<td>bloodcell_EUR_new</td>
+<td>42</td>
+<td>28</td>
+<td>11</td>
+<td>499</td>
+</tr>
+<tr class="even">
+<td>MCV-ebi-a-GCST90018746</td>
+<td>bloodcell_EAS</td>
+<td>45</td>
+<td>21</td>
+<td>3</td>
+<td>120</td>
+</tr>
+<tr class="odd">
+<td>MS-ieu-b-18</td>
+<td>disease_EUR_new</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>PLT-ebi-a-GCST004603</td>
+<td>bloodcell_EUR_old</td>
+<td>15</td>
+<td>10</td>
+<td>2</td>
+<td>224</td>
+</tr>
+<tr class="odd">
+<td>PLT-ebi-a-GCST90002402</td>
+<td>bloodcell_EUR_new</td>
+<td>15</td>
+<td>8</td>
+<td>4</td>
+<td>580</td>
+</tr>
+<tr class="even">
+<td>PLT-ebi-a-GCST90018749</td>
+<td>bloodcell_EAS</td>
+<td>9</td>
+<td>3</td>
+<td>0</td>
+<td>128</td>
+</tr>
+<tr class="odd">
+<td>Psoriasis-ebi-a-GCST90038681</td>
+<td>disease_EUR_new</td>
+<td>7</td>
+<td>1</td>
+<td>0</td>
+<td>18</td>
+</tr>
+<tr class="even">
+<td>RA-bbj-a-151</td>
+<td>disease_EAS</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<td>RA-ukb-a-105</td>
+<td>disease_EUR_new</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+</tr>
+<tr class="even">
+<td>RBC-ebi-a-GCST004601</td>
+<td>bloodcell_EUR_old</td>
+<td>56</td>
+<td>44</td>
+<td>11</td>
+<td>176</td>
+</tr>
+<tr class="odd">
+<td>RBC-ebi-a-GCST90002403</td>
+<td>bloodcell_EUR_new</td>
+<td>24</td>
+<td>16</td>
+<td>2</td>
+<td>524</td>
+</tr>
+<tr class="even">
+<td>RBC-ebi-a-GCST90018751</td>
+<td>bloodcell_EAS</td>
+<td>21</td>
+<td>8</td>
+<td>0</td>
+<td>91</td>
+</tr>
+<tr class="odd">
+<td>SLE-ebi-a-GCST90011866</td>
+<td>disease_EAS</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>SLE-ebi-a-GCST90018917</td>
+<td>disease_EUR_new</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>T1D-ebi-a-GCST005536</td>
+<td>disease_EUR_old</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>78</td>
+</tr>
+<tr class="even">
+<td>T1D-ebi-a-GCST90014023</td>
+<td>disease_EUR_new</td>
+<td>18</td>
+<td>10</td>
+<td>3</td>
+<td>78</td>
+</tr>
+<tr class="odd">
+<td>UC-ebi-a-GCST003045</td>
+<td>disease_EUR_old</td>
+<td>25</td>
+<td>11</td>
+<td>1</td>
+<td>94</td>
+</tr>
+<tr class="even">
+<td>WBC-ebi-a-GCST004610</td>
+<td>bloodcell_EUR_old</td>
+<td>13</td>
+<td>6</td>
+<td>1</td>
+<td>175</td>
+</tr>
+<tr class="odd">
+<td>WBC-ebi-a-GCST90002407</td>
+<td>bloodcell_EUR_new</td>
+<td>37</td>
+<td>29</td>
+<td>11</td>
+<td>481</td>
+</tr>
+<tr class="even">
+<td>WBC-ebi-a-GCST90018758</td>
+<td>bloodcell_EAS</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>75</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>count_trait_sigpair &lt;- readRDS(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary/count_trait_sigpair_3SNPs_p005.RDS&quot;)
+count_trait_sigpair &lt;- count_trait_sigpair[order(count_trait_sigpair$Trait),]
+DT::datatable(count_trait_sigpair,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Number of pairs with ECT p&lt; 0.005, #supporting SNPs &gt;=3, per cell type&#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-0c923cdc0df2ab45b6f5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0c923cdc0df2ab45b6f5">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Number of pairs with ECT p&lt; 0.005, #supporting SNPs &gt;=3, per cell type<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44"],["AS-finn-b-M13_ANKYLOSPON","ATD-bbj-a-90","BMI-ebi-a-GCST90018727","CD-ebi-a-GCST003044","CD-ukb-a-552","HB-ebi-a-GCST90002384","HB-ebi-a-GCST90018737","HCT-ebi-a-GCST004604","HCT-ebi-a-GCST90002383","HCT-ebi-a-GCST90018740","HT-ebi-a-GCST90018855","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST004131","LDL-ukb-d-30780_irnt","MCH-ebi-a-GCST004630","MCH-ebi-a-GCST90002390","MCH-ebi-a-GCST90018744","MCV-ebi-a-GCST004602","MCV-ebi-a-GCST90002392","MCV-ebi-a-GCST90018746","MS-ieu-b-18","PLT-ebi-a-GCST004603","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90018749","Psoriasis-ebi-a-GCST90038681","RA-bbj-a-151","RA-ukb-a-105","RBC-ebi-a-GCST004601","RBC-ebi-a-GCST90002403","RBC-ebi-a-GCST90018751","SLE-ebi-a-GCST90011866","SLE-ebi-a-GCST90018917","T1D-ebi-a-GCST005536","T1D-ebi-a-GCST90014023","UC-ebi-a-GCST003045","WBC-ebi-a-GCST004610","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90018758","allergy-ebi-a-GCST005038","asthma_pmid36778051","celiac-ieu-a-1058","graves-ebi-a-GCST90018627","height-ebi-a-GCST90018739","hgb-ebi-a-GCST004615"],[0,1,0,6,0,9,0,5,3,2,1,1,0,5,4,7,0,4,12,16,0,6,5,3,2,0,1,33,8,8,0,1,0,5,0,4,2,2,5,3,0,1,0,2],[0,1,0,5,0,5,3,2,6,1,2,0,0,0,8,14,3,6,7,23,0,4,0,3,0,0,0,18,4,11,0,4,0,6,4,2,11,0,2,10,2,8,1,4],[0,7,2,2,0,3,0,2,2,0,6,2,0,4,13,8,0,7,7,0,0,2,1,2,4,0,0,3,3,1,0,0,0,1,0,5,5,0,0,1,0,1,21,12],[0,0,0,1,0,14,0,2,7,0,0,2,0,1,2,3,0,3,5,0,0,0,2,0,1,0,0,1,2,1,0,0,0,1,7,1,6,0,2,0,0,2,0,3],[0,5,2,13,0,16,3,1,11,0,5,10,0,0,15,5,2,3,11,6,0,3,7,1,0,0,0,1,7,0,0,3,0,5,14,1,13,0,0,5,0,1,2,18],[0,0,3,1,0,3,2,0,2,1,0,23,0,0,5,3,0,3,8,0,0,0,30,1,2,0,0,5,2,0,0,8,0,1,0,2,8,1,0,3,0,3,3,7],[0,14,4,27,0,47,6,12,29,3,14,15,0,10,42,37,5,23,42,45,0,15,15,9,7,0,1,56,24,21,0,8,0,18,25,13,37,2,9,19,2,13,24,39],["disease_EUR_new","disease_EAS","disease_EAS","disease_EUR_old","disease_EUR_new","bloodcell_EUR_new","bloodcell_EAS_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","disease_EUR_old","disease_EUR_new","disease_EUR_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","disease_EAS","disease_EUR_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EAS","disease_EUR_new","disease_EUR_old","disease_EUR_new","disease_EUR_old","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","disease_EUR_new","disease_EUR_new","disease_EAS","disease_EAS","bloodcell_EUR_old"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Trait<\/th>\n      <th>B cell (CD19+)<\/th>\n      <th>Monocyte (CD14+)<\/th>\n      <th>Leukocyte (CD15+)<\/th>\n      <th>Platelet<\/th>\n      <th>T cell (CD4+)<\/th>\n      <th>T cell (CD8+)<\/th>\n      <th>count_across_celltypes<\/th>\n      <th>Trait_category<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>count_trait_sigpair &lt;- readRDS(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary/count_trait_sigpair_5SNPs_p005.RDS&quot;)
+count_trait_sigpair &lt;- count_trait_sigpair[order(count_trait_sigpair$Trait),]
+DT::datatable(count_trait_sigpair,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Number of pairs with ECT p&lt; 0.005, #supporting SNPs &gt;=5, per cell type&#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Number of pairs with ECT p&lt; 0.005, #supporting SNPs &gt;=5, per cell type<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44"],["AS-finn-b-M13_ANKYLOSPON","ATD-bbj-a-90","BMI-ebi-a-GCST90018727","CD-ebi-a-GCST003044","CD-ukb-a-552","HB-ebi-a-GCST90002384","HB-ebi-a-GCST90018737","HCT-ebi-a-GCST004604","HCT-ebi-a-GCST90002383","HCT-ebi-a-GCST90018740","HT-ebi-a-GCST90018855","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST004131","LDL-ukb-d-30780_irnt","MCH-ebi-a-GCST004630","MCH-ebi-a-GCST90002390","MCH-ebi-a-GCST90018744","MCV-ebi-a-GCST004602","MCV-ebi-a-GCST90002392","MCV-ebi-a-GCST90018746","MS-ieu-b-18","PLT-ebi-a-GCST004603","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90018749","Psoriasis-ebi-a-GCST90038681","RA-bbj-a-151","RA-ukb-a-105","RBC-ebi-a-GCST004601","RBC-ebi-a-GCST90002403","RBC-ebi-a-GCST90018751","SLE-ebi-a-GCST90011866","SLE-ebi-a-GCST90018917","T1D-ebi-a-GCST005536","T1D-ebi-a-GCST90014023","UC-ebi-a-GCST003045","WBC-ebi-a-GCST004610","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90018758","allergy-ebi-a-GCST005038","asthma_pmid36778051","celiac-ieu-a-1058","graves-ebi-a-GCST90018627","height-ebi-a-GCST90018739","hgb-ebi-a-GCST004615"],[0,0,0,2,0,7,0,3,2,0,0,0,0,1,3,4,0,2,8,6,0,5,3,1,1,0,0,31,7,5,0,0,0,4,0,1,2,2,2,1,0,0,0,2],[0,0,0,4,0,3,0,2,4,0,0,0,0,0,2,13,0,5,3,14,0,3,0,1,0,0,0,12,2,2,0,0,0,3,3,1,11,0,2,5,1,4,0,2],[0,2,2,2,0,3,0,1,1,0,3,1,0,2,10,4,0,4,4,0,0,1,1,0,0,0,0,1,2,0,0,0,0,0,0,3,2,0,0,0,0,0,17,3],[0,0,0,0,0,8,0,0,7,0,0,0,0,1,2,2,0,2,3,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,4,1,5,0,0,0,0,0,0,1],[0,2,2,6,0,11,0,0,7,0,0,5,0,0,15,5,0,3,10,1,0,1,3,1,0,0,0,0,5,0,0,0,0,3,4,0,9,0,0,3,0,0,0,11],[0,0,2,0,0,2,1,0,0,0,0,12,0,0,2,1,0,3,8,0,0,0,20,0,0,0,0,2,1,0,0,0,0,1,0,2,7,0,0,2,0,1,1,3],[0,4,4,14,0,32,0,6,21,0,3,6,0,4,32,28,0,16,28,21,0,10,8,3,1,0,0,44,16,8,0,0,0,10,11,6,29,2,4,9,1,4,17,19],["disease_EUR_new","disease_EAS","disease_EAS","disease_EUR_old","disease_EUR_new","bloodcell_EUR_new","bloodcell_EAS_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","disease_EUR_old","disease_EUR_new","disease_EUR_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","disease_EAS","disease_EUR_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EAS","disease_EUR_new","disease_EUR_old","disease_EUR_new","disease_EUR_old","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","disease_EUR_new","disease_EUR_new","disease_EAS","disease_EAS","bloodcell_EUR_old"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Trait<\/th>\n      <th>B cell (CD19+)<\/th>\n      <th>Monocyte (CD14+)<\/th>\n      <th>Leukocyte (CD15+)<\/th>\n      <th>Platelet<\/th>\n      <th>T cell (CD4+)<\/th>\n      <th>T cell (CD8+)<\/th>\n      <th>count_across_celltypes<\/th>\n      <th>Trait_category<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>count_trait_sigpair &lt;- readRDS(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary/count_trait_sigpair_10SNPs_p005.RDS&quot;)
+count_trait_sigpair &lt;- count_trait_sigpair[order(count_trait_sigpair$Trait),]
+DT::datatable(count_trait_sigpair,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Number of pairs with ECT p&lt; 0.005, #supporting SNPs &gt;=10, per cell type&#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-66aaeb19fe992dfb51c2" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-66aaeb19fe992dfb51c2">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Number of pairs with ECT p&lt; 0.005, #supporting SNPs &gt;=10, per cell type<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44"],["AS-finn-b-M13_ANKYLOSPON","ATD-bbj-a-90","BMI-ebi-a-GCST90018727","CD-ebi-a-GCST003044","CD-ukb-a-552","HB-ebi-a-GCST90002384","HB-ebi-a-GCST90018737","HCT-ebi-a-GCST004604","HCT-ebi-a-GCST90002383","HCT-ebi-a-GCST90018740","HT-ebi-a-GCST90018855","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST004131","LDL-ukb-d-30780_irnt","MCH-ebi-a-GCST004630","MCH-ebi-a-GCST90002390","MCH-ebi-a-GCST90018744","MCV-ebi-a-GCST004602","MCV-ebi-a-GCST90002392","MCV-ebi-a-GCST90018746","MS-ieu-b-18","PLT-ebi-a-GCST004603","PLT-ebi-a-GCST90002402","PLT-ebi-a-GCST90018749","Psoriasis-ebi-a-GCST90038681","RA-bbj-a-151","RA-ukb-a-105","RBC-ebi-a-GCST004601","RBC-ebi-a-GCST90002403","RBC-ebi-a-GCST90018751","SLE-ebi-a-GCST90011866","SLE-ebi-a-GCST90018917","T1D-ebi-a-GCST005536","T1D-ebi-a-GCST90014023","UC-ebi-a-GCST003045","WBC-ebi-a-GCST004610","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90018758","allergy-ebi-a-GCST005038","asthma_pmid36778051","celiac-ieu-a-1058","graves-ebi-a-GCST90018627","height-ebi-a-GCST90018739","hgb-ebi-a-GCST004615"],[0,0,0,1,0,0,0,1,0,0,0,0,0,1,0,1,0,0,1,0,0,1,1,0,0,0,0,10,0,0,0,0,0,2,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,2,0,0,0,0,0,1,6,0,0,1,3,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,4,0,1,0,0,0,0,0],[0,0,0,1,0,2,0,0,1,0,0,0,0,0,4,2,0,2,2,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,5,1],[0,0,0,0,0,2,0,0,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,2,0,0,0,0,0,0,0],[0,0,0,0,0,5,0,0,0,0,0,0,0,0,8,2,0,0,6,0,0,0,3,0,0,0,0,0,1,0,0,0,0,0,0,0,4,0,0,0,0,0,0,2],[0,0,1,0,0,1,0,0,0,0,0,1,0,0,2,0,0,1,5,0,0,0,11,0,0,0,0,1,1,0,0,0,0,0,0,0,3,0,0,0,0,0,1,0],[0,0,0,2,0,9,0,1,4,0,0,0,0,1,13,12,0,2,11,3,0,2,4,0,0,0,0,11,2,0,0,0,0,3,1,1,11,0,1,0,0,0,5,3],["disease_EUR_new","disease_EAS","disease_EAS","disease_EUR_old","disease_EUR_new","bloodcell_EUR_new","bloodcell_EAS_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","disease_EUR_old","disease_EUR_new","disease_EUR_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","disease_EAS","disease_EUR_new","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EAS","disease_EUR_new","disease_EUR_old","disease_EUR_new","disease_EUR_old","bloodcell_EUR_old","bloodcell_EUR_new","bloodcell_EAS_new","disease_EUR_new","disease_EUR_new","disease_EUR_new","disease_EAS","disease_EAS","bloodcell_EUR_old"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Trait<\/th>\n      <th>B cell (CD19+)<\/th>\n      <th>Monocyte (CD14+)<\/th>\n      <th>Leukocyte (CD15+)<\/th>\n      <th>Platelet<\/th>\n      <th>T cell (CD4+)<\/th>\n      <th>T cell (CD8+)<\/th>\n      <th>count_across_celltypes<\/th>\n      <th>Trait_category<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6,7,8]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div
+id="examing-why-different-blood-cell-gwas-returned-different-results"
+class="section level1">
+<h1>Examing why different blood cell GWAS returned different
+results</h1>
+<p><a
+href="https://xsun1229.github.io/factor_analysis_new/revision_examine_oldnew_bloodcelltraits.html"
+class="uri">https://xsun1229.github.io/factor_analysis_new/revision_examine_oldnew_bloodcelltraits.html</a></p>
+<p>The differences among the results are mainly driven by the selection
+of supporting variants.</p>
+<p>Although the p-values for individual SNPs remain the same, the number
+of independent IVs differs between the new and old blood cell GWAS
+datasets. The new GWAS includes a larger number of independent IVs,
+which leads to differences in the FDR due to the varying total number of
+SNPs considered.</p>
+</div>
+<div id="selected-gwas" class="section level1">
+<h1>Selected GWAS</h1>
+<p>In terms of the number of pairs with ECT p-values &lt; 0.005, the new
+blood cell GWAS generally yielded more significant pairs, although a few
+traits showed higher counts in the old GWAS. To ensure consistency, we
+decided to use the new blood cell GWAS so that all blood cell traits
+originate from the same study.</p>
+<p>For other traits with multiple GWAS sources, we selected the version
+that produced the larger number of significant pairs (ECT p &lt;
+0.005).</p>
+<p>So the final selected GWAS are:</p>
+<ul>
+<li>EUR:</li>
+</ul>
+<p>allergy-ebi-a-GCST005038 asthma_pmid36778051 AS-finn-b-M13_ANKYLOSPON
+CD-ebi-a-GCST003044 celiac-ieu-a-1058 HB-ebi-a-GCST90002384
+HCT-ebi-a-GCST90002383 HT-ebi-a-GCST90018855 IBD-ebi-a-GCST003043
+LDL-ukb-d-30780_irnt MCH-ebi-a-GCST90002390 MCV-ebi-a-GCST90002392
+MS-ieu-b-18 PLT-ebi-a-GCST90002402 Psoriasis-ebi-a-GCST90038681
+RA-ukb-a-105 RBC-ebi-a-GCST90002403 SLE-ebi-a-GCST90018917
+T1D-ebi-a-GCST90014023 UC-ebi-a-GCST003045 WBC-ebi-a-GCST90002407</p>
+<ul>
+<li>EAS:</li>
+</ul>
+<p>ATD-bbj-a-90 BMI-ebi-a-GCST90018727 graves-ebi-a-GCST90018627
+HB-ebi-a-GCST90018737 HCT-ebi-a-GCST90018740 height-ebi-a-GCST90018739
+MCH-ebi-a-GCST90018744 MCV-ebi-a-GCST90018746 PLT-ebi-a-GCST90018749
+RA-bbj-a-151 RBC-ebi-a-GCST90018751 SLE-ebi-a-GCST90011866
+WBC-ebi-a-GCST90018758</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+[1] C
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.12       rstudioapi_0.13   knitr_1.39        magrittr_2.0.3   
+ [5] workflowr_1.7.0   R6_2.5.1          rlang_1.1.2       fastmap_1.1.0    
+ [9] fansi_1.0.3       stringr_1.5.1     tools_4.2.0       DT_0.22          
+[13] xfun_0.41         utf8_1.2.2        cli_3.6.1         git2r_0.30.1     
+[17] jquerylib_0.1.4   crosstalk_1.2.0   htmltools_0.5.2   rprojroot_2.0.3  
+[21] yaml_2.3.5        digest_0.6.29     tibble_3.2.1      lifecycle_1.0.4  
+[25] later_1.3.0       htmlwidgets_1.5.4 sass_0.4.1        vctrs_0.6.5      
+[29] promises_1.2.0.1  fs_1.5.2          glue_1.6.2        evaluate_0.15    
+[33] rmarkdown_2.25    stringi_1.7.6     bslib_0.3.1       compiler_4.2.0   
+[37] pillar_1.9.0      jsonlite_1.8.0    httpuv_1.6.5      pkgconfig_2.0.3  </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

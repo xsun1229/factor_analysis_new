@@ -10,14 +10,17 @@ output:
 
 **Results using updated functions**
 
-[Number of Instrument Variables](revision_numIV.html)
+[GWAS Selection](revision_GWAS_selection.html)
 
-[ECT results](revision_ECT_extendedGWAS.html)
+[ECT results -- selected traits, reverse causality included](revision_ECT_extendedGWAS_selectedtraits.html)
 
-[ECT results -- selected traits](revision_ECT_extendedGWAS_selectedtraits.html)
+[ACAT for the selected EUR traits](revision_acat_selectedtraits.html)
+
+[Colocalization analysis](revision_coloc_selectedtraits.html)
+
+[Comparing with eQTLGen](revision_eQTLGen.html)
 
 [Power analysis](revision_power.html)
-
 
 
 **Old codes**
@@ -35,9 +38,6 @@ Colocalization analysis
 
 [Link](revision_coloc.html)
 
-Comparing with eQTLGen
-
-[Link](revision_eQTLGen.html)
 
 Analysis for the pathways with >= 20 genes
 
