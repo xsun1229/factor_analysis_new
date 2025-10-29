@@ -8,16 +8,208 @@ output:
     toc: true
 ---
 
-```{r}
+```{r warning=F, message=F, fig.height=4, fig.width=8}
 library(data.table)
+library(patchwork)
+library(ggplot2)
+library(dplyr)
+
+plot_ECT_effect_scatter <- function(dat, ECT_p, fdr_cutoff = 0.2) {
+
+  # 1. Filter SNPs by FDR threshold
+  snp_select <- dat %>%
+    filter(FDR.exposure < fdr_cutoff) %>%
+    mutate(
+      chr = as.numeric(as.character(chr.exposure)),
+      chr = factor(chr.exposure, levels = sort(unique(chr.exposure)))
+    )
+  
+  if (nrow(snp_select) == 0) {
+    #stop("No SNPs passed the FDR cutoff.")
+    p <- NULL
+  }else{
+    # 2. Linear regression
+    fit <- lm(beta.outcome ~ 0 + beta.exposure, data = snp_select)
+    
+    
+    # 4. Create the plot
+    p <- ggplot(snp_select, aes(x = beta.exposure, y = beta.outcome, color = chr)) +
+      geom_point(size = 4) +
+      geom_errorbar(aes(ymin = beta.outcome - se.outcome,
+                        ymax = beta.outcome + se.outcome),
+                    width = 0.01, alpha = 0.6) +
+      geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+      geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+      geom_hline(yintercept = 0, color = "grey", linetype = "dashed") +
+      geom_label(
+        aes(x = Inf, y = Inf),
+        hjust = 1, vjust = 1,
+        label = paste0(
+          "R² = ", signif(summary(fit)$r.squared, 3),
+          "\nECT p = ", signif(ECT_p, 3)
+        ),
+        color = "black", family = "Times", size = 3, label.size = NA, fill = NA
+      ) +
+      xlab(expression(hat(beta)[factor])) +
+      ylab(expression(hat(beta)[gwas])) +
+      theme_bw(base_line_size = 0.3) +
+      theme(
+        axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size = 16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text = element_text(family = "Times"),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 12)
+      )
+  }
+  
+  
+  
+  return(p)
+}
+
+
 ```
 
 We examine some blood cell traits here. To check why some pairs were reported by old GWAS but not by new.
 
+## Platelet - Ret (initial submission)
+
+```{r warning=F, message=F, fig.height=4, fig.width=8}
+ECT_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/platelet-RET-ebi-a-GCST004622_ECT.RDS")
+ECT_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/platelet-RET-ebi-a-GCST90002405_ECT.RDS")
+
+factor <- "04062_PC4"
+
+cat("Old GWAS")
+print(ECT_old[ECT_old$factor_name == factor,])
+cat("New GWAS")
+print(ECT_new[ECT_new$factor_name == factor,])
+
+snp_selected_old <- fread("/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/RET-ebi-a-GCST004622_prunedsnps.txt")
+snp_selected_new <- fread("/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/RET-ebi-a-GCST90002405_prunedsnps.txt")
+
+cat(paste0("number of independent loci selected -- old GWAS: ", nrow(snp_selected_old)))
+cat(paste0("number of independent loci selected -- new GWAS: ", nrow(snp_selected_new)))
+cat(paste0("number of overlaps: ", sum(snp_selected_old$SNP %in% snp_selected_new$SNP)))
+
+harmo_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize//platelet-RET-ebi-a-GCST004622_harmo.RDS")
+harmo_old_factor <- harmo_old[[factor]]
+harmo_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize//platelet-RET-ebi-a-GCST90002405_harmo.RDS")
+harmo_new_factor <- harmo_new[[factor]]
+
+supp_snp_old <- harmo_old_factor$SNP[harmo_old_factor$FDR.exposure < 0.2]
+supp_snp_new <- harmo_new_factor$SNP[harmo_new_factor$FDR.exposure < 0.2]
+
+df_supp_snp_old <- harmo_old_factor[harmo_old_factor$FDR.exposure < 0.2 |harmo_old_factor$SNP %in% supp_snp_new, c("SNP","pval.outcome","pval.exposure","FDR.exposure")]
+df_supp_snp_new <- harmo_new_factor[harmo_new_factor$FDR.exposure < 0.2 |harmo_new_factor$SNP %in% supp_snp_old, c("SNP","pval.outcome","pval.exposure","FDR.exposure")]
+
+
+df_merged <- merge(df_supp_snp_old, df_supp_snp_new,
+                   by = "SNP",
+                   suffixes = c(".old", ".new"),
+                   all = TRUE)
+
+DT::datatable(df_merged,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs in old and new GWAS '),options = list(pageLength = 10) )
+
+plot_old <- plot_ECT_effect_scatter(dat = harmo_old_factor,ECT_p = ECT_old[ECT_old$factor_name == factor,]$p_ECT)
+plot_new <- plot_ECT_effect_scatter(dat = harmo_new_factor,ECT_p = ECT_new[ECT_new$factor_name == factor,]$p_ECT)
+
+if (!is.null(plot_old) & !is.null(plot_new)) {
+  # both exist → plot side by side
+  (plot_old | plot_new) +
+    plot_annotation(title = paste0("Comparison for ", factor))
+
+} else if (!is.null(plot_old) & is.null(plot_new)) {
+  # only old exists
+  plot_old +
+    plot_annotation(title = paste0("Old dataset only: ", factor))
+
+} else if (is.null(plot_old) & !is.null(plot_new)) {
+  # only new exists
+  plot_new +
+    plot_annotation(title = paste0("New dataset only: ", factor))
+
+} else {
+  # both null
+  print("No supporting SNPs for either dataset.")
+}
+
+```
+
+
+
+## B cell - MPV (initial submission)
+
+```{r warning=F, message=F, fig.height=4, fig.width=8}
+ECT_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/B_cell-mpv-ebi-a-GCST004599_ECT.RDS")
+ECT_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/B_cell-MPV-ebi-a-GCST90002395_ECT.RDS")
+
+factor <- "04620_PC4"
+
+cat("Old GWAS")
+print(ECT_old[ECT_old$factor_name == factor,])
+cat("New GWAS")
+print(ECT_new[ECT_new$factor_name == factor,])
+
+snp_selected_old <- fread("/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/mpv-ebi-a-GCST004599_prunedsnps.txt")
+snp_selected_new <- fread("/project/xinhe/xsun/pathway_factor/data_v2/indep_loci/MPV-ebi-a-GCST90002395_prunedsnps.txt")
+
+cat(paste0("number of independent loci selected -- old GWAS: ", nrow(snp_selected_old)))
+cat(paste0("number of independent loci selected -- new GWAS: ", nrow(snp_selected_new)))
+cat(paste0("number of overlaps: ", sum(snp_selected_old$SNP %in% snp_selected_new$SNP)))
+
+harmo_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize//B_cell-mpv-ebi-a-GCST004599_harmo.RDS")
+harmo_old_factor <- harmo_old[[factor]]
+harmo_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize//B_cell-MPV-ebi-a-GCST90002395_harmo.RDS")
+harmo_new_factor <- harmo_new[[factor]]
+
+supp_snp_old <- harmo_old_factor$SNP[harmo_old_factor$FDR.exposure < 0.2]
+supp_snp_new <- harmo_new_factor$SNP[harmo_new_factor$FDR.exposure < 0.2]
+
+df_supp_snp_old <- harmo_old_factor[harmo_old_factor$FDR.exposure < 0.2 |harmo_old_factor$SNP %in% supp_snp_new, c("SNP","pval.outcome","pval.exposure","FDR.exposure")]
+df_supp_snp_new <- harmo_new_factor[harmo_new_factor$FDR.exposure < 0.2 |harmo_new_factor$SNP %in% supp_snp_old, c("SNP","pval.outcome","pval.exposure","FDR.exposure")]
+
+
+df_merged <- merge(df_supp_snp_old, df_supp_snp_new,
+                   by = "SNP",
+                   suffixes = c(".old", ".new"),
+                   all = TRUE)
+
+DT::datatable(df_merged,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs in old and new GWAS '),options = list(pageLength = 10) )
+
+plot_old <- plot_ECT_effect_scatter(dat = harmo_old_factor,ECT_p = ECT_old[ECT_old$factor_name == factor,]$p_ECT)
+plot_new <- plot_ECT_effect_scatter(dat = harmo_new_factor,ECT_p = ECT_new[ECT_new$factor_name == factor,]$p_ECT)
+
+
+if (!is.null(plot_old) & !is.null(plot_new)) {
+  # both exist → plot side by side
+  (plot_old | plot_new) +
+    plot_annotation(title = paste0("Comparison for ", factor))
+
+} else if (!is.null(plot_old) & is.null(plot_new)) {
+  # only old exists
+  plot_old +
+    plot_annotation(title = paste0("Old dataset only: ", factor))
+
+} else if (is.null(plot_old) & !is.null(plot_new)) {
+  # only new exists
+  plot_new +
+    plot_annotation(title = paste0("New dataset only: ", factor))
+
+} else {
+  # both null
+  print("No supporting SNPs for either dataset.")
+}
+```
+
+
+
 
 ## Leukocyte (CD15+) - MCH
 
-```{r}
+```{r warning=F, message=F, fig.height=4, fig.width=8}
 ECT_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/CD15_positive_leukocyte-MCH-ebi-a-GCST004630_ECT.RDS")
 ECT_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/CD15_positive_leukocyte-MCH-ebi-a-GCST90002390_ECT.RDS")
 
@@ -54,12 +246,35 @@ df_merged <- merge(df_supp_snp_old, df_supp_snp_new,
 
 DT::datatable(df_merged,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs in old and new GWAS '),options = list(pageLength = 10) )
 
+
+plot_old <- plot_ECT_effect_scatter(dat = harmo_old_factor,ECT_p = ECT_old[ECT_old$factor_name == factor,]$p_ECT)
+plot_new <- plot_ECT_effect_scatter(dat = harmo_new_factor,ECT_p = ECT_new[ECT_new$factor_name == factor,]$p_ECT)
+
+if (!is.null(plot_old) & !is.null(plot_new)) {
+  # both exist → plot side by side
+  (plot_old | plot_new) +
+    plot_annotation(title = paste0("Comparison for ", factor))
+  
+} else if (!is.null(plot_old) & is.null(plot_new)) {
+  # only old exists
+  plot_old + 
+    plot_annotation(title = paste0("Old dataset only: ", factor))
+  
+} else if (is.null(plot_old) & !is.null(plot_new)) {
+  # only new exists
+  plot_new + 
+    plot_annotation(title = paste0("New dataset only: ", factor))
+  
+} else {
+  # both null
+  print("No supporting SNPs for either dataset.")
+}
 ```
 
 
 ## T cell (CD4+) - hgb
 
-```{r}
+```{r warning=F, message=F, fig.height=4, fig.width=8}
 ECT_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/T_cell-hgb-ebi-a-GCST004615_ECT.RDS")
 ECT_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/T_cell-HB-ebi-a-GCST90002384_ECT.RDS")
 
@@ -97,12 +312,35 @@ df_merged <- merge(df_supp_snp_old, df_supp_snp_new,
 
 DT::datatable(df_merged,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs in old and new GWAS '),options = list(pageLength = 10) )
 
+plot_old <- plot_ECT_effect_scatter(dat = harmo_old_factor,ECT_p = ECT_old[ECT_old$factor_name == factor,]$p_ECT)
+plot_new <- plot_ECT_effect_scatter(dat = harmo_new_factor,ECT_p = ECT_new[ECT_new$factor_name == factor,]$p_ECT)
+
+
+if (!is.null(plot_old) & !is.null(plot_new)) {
+  # both exist → plot side by side
+  (plot_old | plot_new) +
+    plot_annotation(title = paste0("Comparison for ", factor))
+  
+} else if (!is.null(plot_old) & is.null(plot_new)) {
+  # only old exists
+  plot_old + 
+    plot_annotation(title = paste0("Old dataset only: ", factor))
+  
+} else if (is.null(plot_old) & !is.null(plot_new)) {
+  # only new exists
+  plot_new + 
+    plot_annotation(title = paste0("New dataset only: ", factor))
+  
+} else {
+  # both null
+  print("No supporting SNPs for either dataset.")
+}
 ```
 
 
 ## B cell (CD19+) - RBC
 
-```{r}
+```{r warning=F, message=F, fig.height=4, fig.width=8}
 ECT_old <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/B_cell-RBC-ebi-a-GCST004601_ECT.RDS")
 ECT_new <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT/B_cell-RBC-ebi-a-GCST90002403_ECT.RDS")
 
@@ -140,4 +378,25 @@ df_merged <- merge(df_supp_snp_old, df_supp_snp_new,
 
 DT::datatable(df_merged,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs in old and new GWAS '),options = list(pageLength = 10) )
 
+plot_old <- plot_ECT_effect_scatter(dat = harmo_old_factor,ECT_p = ECT_old[ECT_old$factor_name == factor,]$p_ECT)
+plot_new <- plot_ECT_effect_scatter(dat = harmo_new_factor,ECT_p = ECT_new[ECT_new$factor_name == factor,]$p_ECT)
+if (!is.null(plot_old) & !is.null(plot_new)) {
+  # both exist → plot side by side
+  (plot_old | plot_new) +
+    plot_annotation(title = paste0("Comparison for ", factor))
+  
+} else if (!is.null(plot_old) & is.null(plot_new)) {
+  # only old exists
+  plot_old + 
+    plot_annotation(title = paste0("Old dataset only: ", factor))
+  
+} else if (is.null(plot_old) & !is.null(plot_new)) {
+  # only new exists
+  plot_new + 
+    plot_annotation(title = paste0("New dataset only: ", factor))
+  
+} else {
+  # both null
+  print("No supporting SNPs for either dataset.")
+}
 ```
