@@ -12,6 +12,8 @@ output:
 
 For the pairs with ECT p-value < 0.0005, we performed colocalization analysis on the supporting SNPs. We considered a ±250 kb window around each SNP. Within this region, we conducted association tests for the factor and the SNPs. Finally, we calculated the colocalization posterior probability (PP4) using `coloc` package.
 
+For pairs with ECT p-values greater than 0.0005, we sampled a control set consisting of five times as many pairs as those with ECT p-values below 0.0005 and performed colocalization analysis.
+
 
 ```{r message=FALSE, warning=F}
 library(dplyr)
@@ -22,10 +24,16 @@ supp_snp <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/6.coloc_v2/resu
 supp_snp <- supp_snp[order(supp_snp$p_ECT, decreasing = F),]
 supp_snp$coloc_PP4 <- round(supp_snp$coloc_PP4, digits = 4)
 
+supp_snp_control <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/6.coloc_v2/results/coloc_res_supp_snp_control.RDS")
+supp_snp_control$coloc_PP4 <- round(supp_snp_control$coloc_PP4, digits = 4)
+
 source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection.R")
 ```
 
+
 # EUR
+
+## Results for pairs with ECT_p < 0.0005
 
 ```{r}
 
@@ -33,22 +41,71 @@ supp_snp_EUR <- supp_snp[supp_snp$trait %in% traits_EUR,]
 
 DT::datatable(supp_snp_EUR,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Colocalization results for the supporting SNPs'),options = list(pageLength = 10) )
 
-top_snp <- supp_snp_EUR %>%
-  group_by(celltype, trait, factor) %>%
-  slice_max(order_by = coloc_PP4, n = 1, with_ties = FALSE) %>%
-  ungroup()
+# top_snp <- supp_snp_EUR %>%
+#   group_by(celltype, trait, factor) %>%
+#   slice_max(order_by = coloc_PP4, n = 1, with_ties = FALSE) %>%
+#   ungroup()
+# 
+# ggplot(top_snp, aes(x = coloc_PP4)) +
+#   geom_histogram(binwidth = 0.05, fill = "steelblue", color = "white", boundary = 0) +
+#   labs(
+#     title = "Distribution of Coloc PP4 (top SNP per factor-trait pair)",
+#     x = "Coloc PP4",
+#     y = "Count"
+#   ) +
+#   theme_minimal(base_size = 14)
 
-ggplot(top_snp, aes(x = coloc_PP4)) +
+ggplot(supp_snp_EUR, aes(x = coloc_PP4)) +
   geom_histogram(binwidth = 0.05, fill = "steelblue", color = "white", boundary = 0) +
   labs(
-    title = "Distribution of Coloc PP4 (top SNP per factor-trait pair)",
+    title = "Distribution of Coloc PP4",
     x = "Coloc PP4",
     y = "Count"
   ) +
   theme_minimal(base_size = 14)
 ```
 
+## Results for control group
+
+```{r}
+
+supp_snp_control_EUR <- supp_snp_control[supp_snp_control$trait %in% traits_EUR,]
+
+ggplot(supp_snp_control_EUR, aes(x = coloc_PP4)) +
+  geom_histogram(binwidth = 0.05, fill = "steelblue", color = "white", boundary = 0) +
+  labs(
+    title = "Distribution of Coloc PP4, for control group",
+    x = "Coloc PP4",
+    y = "Count"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+## Comparing 2 groups
+
+```{r}
+
+ggplot() +
+  geom_density(data = supp_snp_EUR, aes(x = coloc_PP4, color = "ECTp <0.0005 group"), linewidth = 1) +
+  geom_density(data = supp_snp_control_EUR, aes(x = coloc_PP4, color = "Control group"), linewidth = 1) +
+  scale_color_manual(values = c("ECTp <0.0005 group" = "steelblue", "Control group" = "tomato")) +
+  labs(
+    title = "Distribution of Coloc PP4",
+    x = "Coloc PP4",
+    y = "Density",
+    color = "Group"
+  ) +
+  theme_minimal(base_size = 14)
+
+
+```
+
+
+
+
 # EAS
+
+## Results for pairs with ECT_p < 0.0005
 
 ```{r}
 
@@ -56,19 +113,66 @@ supp_snp_EAS <- supp_snp[supp_snp$trait %in% traits_EAS,]
 
 DT::datatable(supp_snp_EAS,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Colocalization results for the supporting SNPs'),options = list(pageLength = 10) )
 
-top_snp <- supp_snp_EAS %>%
-  group_by(celltype, trait, factor) %>%
-  slice_max(order_by = coloc_PP4, n = 1, with_ties = FALSE) %>%
-  ungroup()
+# top_snp <- supp_snp_EAS %>%
+#   group_by(celltype, trait, factor) %>%
+#   slice_max(order_by = coloc_PP4, n = 1, with_ties = FALSE) %>%
+#   ungroup()
+# 
+# ggplot(top_snp, aes(x = coloc_PP4)) +
+#   geom_histogram(binwidth = 0.05, fill = "steelblue", color = "white", boundary = 0) +
+#   labs(
+#     title = "Distribution of Coloc PP4 (top SNP per factor-trait pair)",
+#     x = "Coloc PP4",
+#     y = "Count"
+#   ) +
+#   theme_minimal(base_size = 14)
 
-ggplot(top_snp, aes(x = coloc_PP4)) +
+ggplot(supp_snp_EAS, aes(x = coloc_PP4)) +
   geom_histogram(binwidth = 0.05, fill = "steelblue", color = "white", boundary = 0) +
   labs(
-    title = "Distribution of Coloc PP4 (top SNP per factor-trait pair)",
+    title = "Distribution of Coloc PP4",
     x = "Coloc PP4",
     y = "Count"
   ) +
   theme_minimal(base_size = 14)
 ```
+
+
+## Results for control group
+
+```{r}
+
+supp_snp_control_EAS <- supp_snp_control[supp_snp_control$trait %in% traits_EAS,]
+
+ggplot(supp_snp_control_EAS, aes(x = coloc_PP4)) +
+  geom_histogram(binwidth = 0.05, fill = "steelblue", color = "white", boundary = 0) +
+  labs(
+    title = "Distribution of Coloc PP4, for control group",
+    x = "Coloc PP4",
+    y = "Count"
+  ) +
+  theme_minimal(base_size = 14)
+```
+
+
+## Comparing 2 groups
+
+```{r}
+
+ggplot() +
+  geom_density(data = supp_snp_EAS, aes(x = coloc_PP4, color = "ECTp <0.0005 group"), linewidth = 1) +
+  geom_density(data = supp_snp_control_EAS, aes(x = coloc_PP4, color = "Control group"), linewidth = 1) +
+  scale_color_manual(values = c("ECTp <0.0005 group" = "steelblue", "Control group" = "tomato")) +
+  labs(
+    title = "Distribution of Coloc PP4",
+    x = "Coloc PP4",
+    y = "Density",
+    color = "Group"
+  ) +
+  theme_minimal(base_size = 14)
+
+
+```
+
 
 

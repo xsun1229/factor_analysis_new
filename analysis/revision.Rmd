@@ -14,6 +14,8 @@ output:
 
 [ECT results -- selected traits, reverse causality included](revision_ECT_extendedGWAS_selectedtraits.html)
 
+[ECT results -- selected traits, disease related pathways removed](revision_ECT_extendedGWAS_selectedtraits_excludepwy.html)
+
 [ACAT for the selected EUR traits](revision_acat_selectedtraits.html)
 
 [Colocalization analysis](revision_coloc_selectedtraits.html)
