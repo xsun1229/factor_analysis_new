@@ -10,7 +10,7 @@ output:
 
 # GWAS included in the analysis
 
-Below are the **40** GWAS traits included in the analysis.
+Below are the **44** GWAS traits included in the analysis.
 - `EUR_old`: Traits included in the initial submission.
 - `EUR_new`: Recently collected traits, added in response to the reviewers’ comments.
 - `EAS`: Traits from the East Asian cohort, also included based on the reviewers’ feedback.
@@ -27,6 +27,8 @@ We previously included a larger set of blood cell traits; however, we removed mo
 | Blood cell traits | Platelet count                | PLT       | PLT-ebi-a-GCST004603     | PLT-ebi-a-GCST90002402       | PLT-ebi-a-GCST90018749    |
 | Blood cell traits | White blood cell count        | WBC       | WBC-ebi-a-GCST004610     | WBC-ebi-a-GCST90002407       | WBC-ebi-a-GCST90018758    |
 | Blood cell traits | Red blood cell count          | RBC       | RBC-ebi-a-GCST004601     | RBC-ebi-a-GCST90002403       | RBC-ebi-a-GCST90018751    |
+| Blood cell traits | Mean Platelet Volume          | MPV       | mpv-ebi-a-GCST004599     | MPV-ebi-a-GCST90002395       | —                         |
+| Blood cell traits | Reticulocyte count            | RET       | RET-ebi-a-GCST004622     | RET-ebi-a-GCST90002405       | —                         |
 | Diseases          | Crohn’s disease               | CD        | CD-ebi-a-GCST003044      | CD-ukb-a-552                 | —                         |
 | Diseases          | Inflammatory bowel disease    | IBD       | IBD-ebi-a-GCST003043     | IBD-ebi-a-GCST004131         | —                         |
 | Diseases          | Ulcerative colitis            | UC        | UC-ebi-a-GCST003045      | —                            | —                         |
@@ -160,6 +162,8 @@ SLE-ebi-a-GCST90018917
 T1D-ebi-a-GCST90014023
 UC-ebi-a-GCST003045
 WBC-ebi-a-GCST90002407
+RET-ebi-a-GCST90002405
+MPV-ebi-a-GCST90002395
 
 - EAS:
 

@@ -2,9 +2,10 @@
 title: "ECT results -- selected traits, disease related pathways removed"
 author: "XSun"
 date: "2025-11-03"
-output: workflowr::wflow_html
-editor_options:
-  chunk_output_type: console
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
 ---
 
 | Trait                         | Abbr.     |
@@ -117,8 +118,10 @@ df_long <- df_all_FDR01 %>%
     num_suppSNP = as.numeric(gsub("num_pairs_FDR01_|suppSNP", "", num_suppSNP))
   )
 
+df_long <- df_long %>%
+  mutate(num_suppSNP = factor(num_suppSNP, levels = sort(unique(num_suppSNP))))
 
-ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+ggplot(df_long, aes(x = celltype, y = as.numeric(num_pairs), fill = num_suppSNP)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
   labs(
     x = "Cell type",
@@ -152,7 +155,10 @@ df_long <- df_all_FDR02 %>%
   )
 
 
-ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+df_long <- df_long %>%
+  mutate(num_suppSNP = factor(num_suppSNP, levels = sort(unique(num_suppSNP))))
+
+ggplot(df_long, aes(x = celltype, y = as.numeric(num_pairs), fill = num_suppSNP)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
   labs(
     x = "Cell type",
@@ -164,6 +170,7 @@ ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
     axis.text.x = element_text(angle = 45, hjust = 1),
     panel.grid.major.x = element_blank()
   )
+
 
 
 DT::datatable(df_p0001,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','significant pairs '),options = list(pageLength = 10) )
@@ -217,7 +224,10 @@ df_long <- df_all_FDR01 %>%
   )
 
 
-ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+df_long <- df_long %>%
+  mutate(num_suppSNP = factor(num_suppSNP, levels = sort(unique(num_suppSNP))))
+
+ggplot(df_long, aes(x = celltype, y = as.numeric(num_pairs), fill = num_suppSNP)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
   labs(
     x = "Cell type",
@@ -229,7 +239,6 @@ ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
     axis.text.x = element_text(angle = 45, hjust = 1),
     panel.grid.major.x = element_blank()
   )
-
 
 
 rownames(df_all_FDR02) <- NULL
@@ -250,8 +259,10 @@ df_long <- df_all_FDR02 %>%
     num_suppSNP = as.numeric(gsub("num_pairs_FDR02_|suppSNP", "", num_suppSNP))
   )
 
+df_long <- df_long %>%
+  mutate(num_suppSNP = factor(num_suppSNP, levels = sort(unique(num_suppSNP))))
 
-ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+ggplot(df_long, aes(x = celltype, y = as.numeric(num_pairs), fill = num_suppSNP)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
   labs(
     x = "Cell type",
@@ -263,6 +274,7 @@ ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
     axis.text.x = element_text(angle = 45, hjust = 1),
     panel.grid.major.x = element_blank()
   )
+
 
 
 DT::datatable(df_p0001,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','significant pairs '),options = list(pageLength = 10) )
@@ -319,7 +331,10 @@ df_long <- df_all_FDR01 %>%
   )
 
 
-ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+df_long <- df_long %>%
+  mutate(num_suppSNP = factor(num_suppSNP, levels = sort(unique(num_suppSNP))))
+
+ggplot(df_long, aes(x = celltype, y = as.numeric(num_pairs), fill = num_suppSNP)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
   labs(
     x = "Cell type",
@@ -331,7 +346,6 @@ ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
     axis.text.x = element_text(angle = 45, hjust = 1),
     panel.grid.major.x = element_blank()
   )
-
 
 
 rownames(df_all_FDR02) <- NULL
@@ -353,7 +367,10 @@ df_long <- df_all_FDR02 %>%
   )
 
 
-ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+df_long <- df_long %>%
+  mutate(num_suppSNP = factor(num_suppSNP, levels = sort(unique(num_suppSNP))))
+
+ggplot(df_long, aes(x = celltype, y = as.numeric(num_pairs), fill = num_suppSNP)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
   labs(
     x = "Cell type",
@@ -365,6 +382,7 @@ ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
     axis.text.x = element_text(angle = 45, hjust = 1),
     panel.grid.major.x = element_blank()
   )
+
 
 
 DT::datatable(df_p0001,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','significant pairs '),options = list(pageLength = 10) )
@@ -417,8 +435,10 @@ df_long <- df_all_FDR01 %>%
     num_suppSNP = as.numeric(gsub("num_pairs_FDR01_|suppSNP", "", num_suppSNP))
   )
 
+df_long <- df_long %>%
+  mutate(num_suppSNP = factor(num_suppSNP, levels = sort(unique(num_suppSNP))))
 
-ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+ggplot(df_long, aes(x = celltype, y = as.numeric(num_pairs), fill = num_suppSNP)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
   labs(
     x = "Cell type",
@@ -430,6 +450,7 @@ ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
     axis.text.x = element_text(angle = 45, hjust = 1),
     panel.grid.major.x = element_blank()
   )
+
 
 
 
@@ -452,7 +473,10 @@ df_long <- df_all_FDR02 %>%
   )
 
 
-ggplot(df_long, aes(x = celltype, y = num_pairs, fill = factor(num_suppSNP))) +
+df_long <- df_long %>%
+  mutate(num_suppSNP = factor(num_suppSNP, levels = sort(unique(num_suppSNP))))
+
+ggplot(df_long, aes(x = celltype, y = as.numeric(num_pairs), fill = num_suppSNP)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
   labs(
     x = "Cell type",
@@ -478,8 +502,7 @@ DT::datatable(df_p0001,caption = htmltools::tags$caption( style = 'caption-side:
 
 # Pathway function summary 
 
-https://uchicago.box.com/s/45robkocp45e63nfvuev8pc47f8hyi6t
-
+https://uchicago.box.com/s/ich3y70feolfz98yf4pe3h1ltxs24171 
 
 
 # Results for EUR
