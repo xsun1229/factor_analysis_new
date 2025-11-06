@@ -11,9 +11,9 @@
 
 <meta name="author" content="XSun" />
 
-<meta name="date" content="2025-09-16" />
+<meta name="date" content="2025-11-06" />
 
-<title>Revision R1</title>
+<title>Deciding the ECT settings</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -35,7 +35,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -234,9 +233,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -361,19 +357,11 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Revision R1</h1>
+<h1 class="title toc-ignore">Deciding the ECT settings</h1>
 <h4 class="author">XSun</h4>
-<h4 class="date">2025-09-16</h4>
+<h4 class="date">2025-11-06</h4>
 
 </div>
 
@@ -440,10 +428,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -487,7 +475,6 @@ were generated:
 Untracked files:
     Untracked:  analysis/revision_deciding_ECT_setting.Rmd
     Untracked:  analysis/revision_figures.Rmd
-    Untracked:  analysis/revision_summarizing_ECT_setting.Rmd
 
 Unstaged changes:
     Modified:   analysis/revision.Rmd
@@ -505,411 +492,19 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/revision.Rmd</code>) and HTML
-(<code>docs/revision.html</code>) files. If you’ve configured a remote
-Git repository (see <code>?wflow_git_remote</code>), click on the
-hyperlinks in the table below to view the files as they were in that
-past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/06049450bde5df9e6d70d8434ee68557be96e0b1/analysis/revision.Rmd" target="_blank">0604945</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-04
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/06049450bde5df9e6d70d8434ee68557be96e0b1/docs/revision.html" target="_blank">0604945</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-04
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/ea8d0f34f5de215ec3252a17c26cb8dd831a26bd/analysis/revision.Rmd" target="_blank">ea8d0f3</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-24
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/ea8d0f34f5de215ec3252a17c26cb8dd831a26bd/docs/revision.html" target="_blank">ea8d0f3</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-24
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c1850407104e445781a3c4990a19486c63c29469/analysis/revision.Rmd" target="_blank">c185040</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-10
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/c1850407104e445781a3c4990a19486c63c29469/docs/revision.html" target="_blank">c185040</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-10
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c2a157fb4823a87d7378e2c373d90e220d8085a0/analysis/revision.Rmd" target="_blank">c2a157f</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-08
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/c2a157fb4823a87d7378e2c373d90e220d8085a0/docs/revision.html" target="_blank">c2a157f</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-08
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa6fd6307c4c522e46ee9e32c9e65a6ba5d802f1/analysis/revision.Rmd" target="_blank">aa6fd63</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-08
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/aa6fd6307c4c522e46ee9e32c9e65a6ba5d802f1/docs/revision.html" target="_blank">aa6fd63</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-08
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/6614e17a7bcc6eb109c3388545b1e9466d02121a/analysis/revision.Rmd" target="_blank">6614e17</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-26
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/6614e17a7bcc6eb109c3388545b1e9466d02121a/docs/revision.html" target="_blank">6614e17</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-26
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/2c849fdefd0be16dd4229421de41556b6bcfda46/analysis/revision.Rmd" target="_blank">2c849fd</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-26
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/2c849fdefd0be16dd4229421de41556b6bcfda46/docs/revision.html" target="_blank">2c849fd</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-26
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/5f58507c31ee8753a6e22668c7564f078251479d/analysis/revision.Rmd" target="_blank">5f58507</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-21
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/c21a0cb49bd61fd77d64112cf5262929bd3b1178/docs/revision.html" target="_blank">c21a0cb</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/analysis/revision.Rmd" target="_blank">08af7bc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/d822c1a198cce43369542a094761b9fe83d3ee92/analysis/revision.Rmd" target="_blank">d822c1a</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/d822c1a198cce43369542a094761b9fe83d3ee92/docs/revision.html" target="_blank">d822c1a</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/ff6ebdbfb7cee14b65c3da2bbfd2601b06bdf247/analysis/revision.Rmd" target="_blank">ff6ebdb</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<p><strong>Results using updated functions</strong></p>
-<p><a href="revision_GWAS_selection.html">GWAS Selection</a></p>
-<p><a href="revision_deciding_ECT_setting.html">Deciding the ECT
-settings</a></p>
-<p><a href="revision_summarizing_ECT_setting.html">Summarizing ECT
-results</a></p>
-<p><a href="revision_acat_selectedtraits.html">ACAT for the selected EUR
-traits</a></p>
-<p><a href="revision_coloc_selectedtraits.html">Colocalization
-analysis</a></p>
-<p><a href="revision_eQTLGen.html">Comparing with eQTLGen</a></p>
-<p><a href="revision_power.html">Power analysis</a></p>
-<p><strong>Old codes</strong></p>
-<p>Checking how the number of supporting SNPs impacts the ECT
-results</p>
-<ul>
-<li><a href="revision_numsnp.html">pathways with &gt;= 40 genes</a></li>
-<li><a href="revision_numsnp_20genes.html">pathways with &gt;= 20
-genes</a></li>
-</ul>
-<p>ACAT results</p>
-<p><a href="revision_acat.html">Link</a></p>
-<p>Colocalization analysis</p>
-<p><a href="revision_coloc.html">Link</a></p>
-<p>Analysis for the pathways with &gt;= 20 genes</p>
+<p><a href="revision_ECT_extendedGWAS_selectedtraits.html">ECT results –
+selected traits, reverse causality included</a></p>
 <p><a
-href="https://xsun1229.github.io/factor_analysis_new/revision_ECT_20genes.html">ECT</a></p>
+href="revision_ECT_extendedGWAS_selectedtraits_excludepwy.html">ECT
+results – selected traits, disease related pathways removed</a></p>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -960,11 +555,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
-});
-</script>
 
 <script>
 $(document).ready(function ()  {

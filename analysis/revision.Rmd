@@ -12,9 +12,9 @@ output:
 
 [GWAS Selection](revision_GWAS_selection.html)
 
-[ECT results -- selected traits, reverse causality included](revision_ECT_extendedGWAS_selectedtraits.html)
+[Deciding the ECT settings](revision_deciding_ECT_setting.html)
 
-[ECT results -- selected traits, disease related pathways removed](revision_ECT_extendedGWAS_selectedtraits_excludepwy.html)
+[Summarizing ECT results](revision_summarizing_ECT_setting.html)
 
 [ACAT for the selected EUR traits](revision_acat_selectedtraits.html)
 

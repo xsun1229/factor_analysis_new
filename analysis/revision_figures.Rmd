@@ -1,0 +1,17 @@
+---
+title: "Figures"
+author: "XSun"
+date: "2025-11-05"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+# Figure 2
+
+```{r}
+
+celltype <- ""
+
+
+```

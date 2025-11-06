@@ -1,0 +1,12 @@
+---
+title: "Deciding the ECT settings"
+author: "XSun"
+date: "2025-11-06"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+[ECT results -- selected traits, reverse causality included](revision_ECT_extendedGWAS_selectedtraits.html)
+
+[ECT results -- selected traits, disease related pathways removed](revision_ECT_extendedGWAS_selectedtraits_excludepwy.html)
