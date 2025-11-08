@@ -14,7 +14,7 @@ output:
 
 [Deciding the ECT settings](revision_deciding_ECT_setting.html)
 
-[Summarizing ECT results](revision_summarizing_ECT_setting.html)
+[Summarizing ECT results](revision_summarizing_ECT_setting_SLEremoved.html)
 
 [ACAT for the selected EUR traits](revision_acat_selectedtraits.html)
 

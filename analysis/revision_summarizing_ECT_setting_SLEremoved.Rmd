@@ -1,5 +1,5 @@
 ---
-title: "Summarizing ECT results -- ≥ 3 supporting SNPs & ≥ 20 genes"
+title: "Summarizing ECT results -- ≥ 3 supporting SNPs & ≥ 20 genes, SLE removed"
 author: "XSun"
 date: "2025-11-06"
 output:
@@ -47,16 +47,19 @@ folder_ect_summary <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_
 df_all_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR.RDS"))
-  df <- df[complete.cases(df$ECT_FDR_3suppSNP),]
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
   
-  df_fdr02 <- df[df$ECT_FDR_3suppSNP < 0.2,]
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
   df_all_fdr02 <- rbind(df_all_fdr02,df_fdr02)
   
 }
 
 
 df_all_fdr02$celltype <- types[df_all_fdr02$celltype]
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP),]
+
+df_all_fdr01 <- df_all_fdr02[df_all_fdr02$ECT_FDR_5suppSNP < 0.1,]
 
 DT::datatable(df_all_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Pairs with ECT FDR <= 0.2 '),options = list(pageLength = 10) )
 
@@ -75,12 +78,12 @@ MBEcutoff <- 0.05
 p <- list()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
   
   df_summary <- df %>%
     group_by(trait) %>%
     summarise(
-      n_sig_FDR_3suppSNP = sum(ECT_FDR_3suppSNP < FDRcutoff, na.rm = TRUE)
+      n_sig_FDR_3suppSNP = sum(ECT_FDR_5suppSNP < FDRcutoff, na.rm = TRUE)
     ) %>%
     arrange(desc(n_sig_FDR_3suppSNP))
   
@@ -114,7 +117,7 @@ all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
 p <- list()
 for (celltype in celltypes) {
   
-  df <- readRDS(paste0(folder_ect_summary, celltype, "_ECT_summary_EUR.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype, "_ECT_summary_EUR_SLEremoved.RDS"))
   
   # Convert mbe_pval_reverse_pair to numeric if it’s stored as character
   df <- df %>%
@@ -122,7 +125,7 @@ for (celltype in celltypes) {
   
   # Keep only FDR-significant pairs
   df_sig <- df %>%
-    dplyr::filter(ECT_FDR_3suppSNP < FDRcutoff)
+    dplyr::filter(ECT_FDR_5suppSNP < FDRcutoff)
   
   # Fix naming if needed
   df_sig$trait[df_sig$trait == "asthma_pmid36778051"] <- "asthma-pmid36778051"
@@ -175,12 +178,12 @@ MBEcutoff <- 0.05
 p <- list()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
   
   df_summary <- df %>%
     group_by(trait) %>%
     summarise(
-      n_sig_FDR_3suppSNP = sum(ECT_FDR_3suppSNP < FDRcutoff, na.rm = TRUE)
+      n_sig_FDR_3suppSNP = sum(ECT_FDR_5suppSNP < FDRcutoff, na.rm = TRUE)
     ) %>%
     arrange(desc(n_sig_FDR_3suppSNP))
   
@@ -214,7 +217,7 @@ all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
 p <- list()
 for (celltype in celltypes) {
   
-  df <- readRDS(paste0(folder_ect_summary, celltype, "_ECT_summary_EUR.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype, "_ECT_summary_EUR_SLEremoved.RDS"))
   
   # Convert mbe_pval_reverse_pair to numeric if it’s stored as character
   df <- df %>%
@@ -222,7 +225,7 @@ for (celltype in celltypes) {
   
   # Keep only FDR-significant pairs
   df_sig <- df %>%
-    dplyr::filter(ECT_FDR_3suppSNP < FDRcutoff)
+    dplyr::filter(ECT_FDR_5suppSNP < FDRcutoff)
   
     # Fix naming if needed
   df_sig$trait[df_sig$trait == "asthma_pmid36778051"] <- "asthma-pmid36778051"
@@ -266,6 +269,7 @@ all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2, top = "
 
 
 
+
 ## Number of significant pairs at different cutoffs, for each cell type
 
 ```{r fig.height=3, fig.width=9, warning=F, message=F}
@@ -274,13 +278,13 @@ num_fdr01 <- c()
 num_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
   
-  df_fdr01 <- df[df$ECT_FDR_3suppSNP < 0.1,]
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
   df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
   num_fdr01 <- c(num_fdr01, nrow(df_fdr01))
   
-  df_fdr02 <- df[df$ECT_FDR_3suppSNP < 0.2 & df$ECT_FDR_3suppSNP >= 0.1,]
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2 & df$ECT_FDR_5suppSNP >= 0.1,]
   df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
   num_fdr02 <- c(num_fdr02, nrow(df_fdr02))
   
@@ -333,7 +337,7 @@ num_fdr02 <- c()
 for (celltype in celltypes) {
   
   df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", 
-                       celltype, "_ECT_summary_EUR.RDS"))
+                       celltype, "_ECT_summary_EUR_SLEremoved.RDS"))
   
   # Convert mbe_pval_reverse_pair to numeric safely (ignore "0/1snp" or NA)
   df$mbe_pval_reverse_pair <- suppressWarnings(as.numeric(df$mbe_pval_reverse_pair))
@@ -342,7 +346,7 @@ for (celltype in celltypes) {
   # --- FDR < 0.1 ---
   df_fdr01 <- df %>%
     dplyr::filter(
-      ECT_FDR_3suppSNP < 0.1,
+      ECT_FDR_5suppSNP < 0.1,
       !(mbe_pval_reverse_pair < MBEcutoff)  # remove reverse-causal pairs
     ) %>%
     dplyr::filter(!is.na(p_ECT))
@@ -352,8 +356,8 @@ for (celltype in celltypes) {
   # --- 0.1 < FDR < 0.2 ---
   df_fdr02 <- df %>%
     dplyr::filter(
-      ECT_FDR_3suppSNP < 0.2,
-      ECT_FDR_3suppSNP >= 0.1,
+      ECT_FDR_5suppSNP < 0.2,
+      ECT_FDR_5suppSNP >= 0.1,
       !(mbe_pval_reverse_pair < MBEcutoff)
     ) %>%
     dplyr::filter(!is.na(p_ECT))
@@ -422,24 +426,24 @@ all <- grid.arrange(p1, p2, nrow = 1)
 
 ## Traits and pathways identified
 
-### SLE-ebi-a-GCST90018917
+### IBD-ebi-a-GCST003043
 
 ```{r fig.height=6, fig.width=12, warning=F, message=F}
 
-trait <- "SLE-ebi-a-GCST90018917"
+trait <- "IBD-ebi-a-GCST003043"
 
 df_trait_fdr01 <- c()
 df_trait_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
   
-  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_3suppSNP< 0.1, ]
-  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_3suppSNP),]
+  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
   df_trait_fdr01 <- rbind(df_trait_fdr01,df_fdr01)
   
-  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_3suppSNP< 0.2, ]
-  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_3suppSNP),]
+  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.2, ]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
   df_trait_fdr02 <- rbind(df_trait_fdr02,df_fdr02)
   
 }
@@ -563,24 +567,24 @@ p
 
 
 
-### IBD-ebi-a-GCST003043
+### RET-ebi-a-GCST90002405
 
 ```{r fig.height=6, fig.width=12, warning=F, message=F}
 
-trait <- "IBD-ebi-a-GCST003043"
+trait <- "RET-ebi-a-GCST90002405"
 
 df_trait_fdr01 <- c()
 df_trait_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
   
-  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_3suppSNP< 0.1, ]
-  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_3suppSNP),]
+  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
   df_trait_fdr01 <- rbind(df_trait_fdr01,df_fdr01)
   
-  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_3suppSNP< 0.2, ]
-  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_3suppSNP),]
+  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.2, ]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
   df_trait_fdr02 <- rbind(df_trait_fdr02,df_fdr02)
   
 }
@@ -697,28 +701,31 @@ p
 
 
 
-## Plots for highlighted pairs
+
+
+## Plots for all pairs at ECT FDR < 0.1
 
 ```{r fig.height=3, fig.width=7, warning=F, message=F}
 
-candidate_pairs <- data.frame(celltype = c("B_cell","B_cell","CD14_positive_monocyte","thymocyte","thymocyte","thymocyte","thymocyte"),
-                              trait = c("Psoriasis-ebi-a-GCST90038681","RA-ukb-a-105","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917",
-                                        "SLE-ebi-a-GCST90018917","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043"),
-                              factor = c("04062_PC2","04071_PC4","04120_PC1","04015_PC2","04022_PC4","00230_PC2","04924_PC1")
-                              )
+# candidate_pairs <- data.frame(celltype = c("B_cell","B_cell","CD14_positive_monocyte","thymocyte","thymocyte","thymocyte","thymocyte"),
+#                               trait = c("Psoriasis-ebi-a-GCST90038681","RA-ukb-a-105","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917",
+#                                         "SLE-ebi-a-GCST90018917","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043"),
+#                               factor = c("04062_PC2","04071_PC4","04120_PC1","04015_PC2","04022_PC4","00230_PC2","04924_PC1")
+#                               )
 
 fdr_cutoff <- 0.2
+df_all_fdr01$celltype <- celltypes[df_all_fdr01$celltype]
 
-for (i in 1:nrow(candidate_pairs)){
+for (i in 1:nrow(df_all_fdr01)){
   
-  celltype <- candidate_pairs$celltype[i]
-  trait <- candidate_pairs$trait[i]
-  factor <- candidate_pairs$factor[i]
+  celltype <- df_all_fdr01$celltype[i]
+  trait <- df_all_fdr01$trait[i]
+  factor <- df_all_fdr01$factor[i]
   
   file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
   dt_harmo <- readRDS(file_harmo)
   
-  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR.RDS"))
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
   
   dat <- dt_harmo[[factor]]
   snp_select <- dat[dat$FDR.exposure < fdr_cutoff,]
