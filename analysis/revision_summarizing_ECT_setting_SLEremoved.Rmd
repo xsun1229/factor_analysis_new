@@ -1,5 +1,5 @@
 ---
-title: "Summarizing ECT results -- ≥ 3 supporting SNPs & ≥ 20 genes, SLE removed"
+title: "Summarizing ECT results -- ≥ 5 supporting SNPs & ≥ 20 genes, SLE removed"
 author: "XSun"
 date: "2025-11-06"
 output:
@@ -557,14 +557,16 @@ p
 ```
 
 
-
-
-
-
-
-
-
-
+|                 Pathway                |     Evidence for role in IBD?    |                                                                                                                                                                                                                           Notes / rationale                                                                                                                                                                                                                           |
+|:--------------------------------------:|:--------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Gastric acid secretion                 | Weak / indirect                  | There are associations: e.g., acid‐suppressive medications (proton-pump inhibitors, H2 R antagonists) that reduce gastric acid secretion have been associated with worse outcomes in IBD. (Karger Publishers) Also acid‐base / electrolyte disturbances are observed in IBD. (PMC) But the pathway of “gastric acid secretion” per se is not usually considered a core mechanistic immune/epithelial pathway in IBD. So I’d mark it as possible but not a strong hit. |
+| Leukocyte transendothelial migration   | Strong evidence                  | Leukocyte recruitment and migration (including across endothelium) is central to intestinal inflammation in IBD. For example, a review of therapies targeting leukocyte trafficking in the gut is available. (PMC) Also the KEGG pathway “Leukocyte transendothelial migration” is listed and overlaps immune‐system processes. (KEGG) So this pathway is well supported.                                                                                             |
+| Cytokine-cytokine receptor interaction | Strong evidence                  | Cytokines and their receptors are central to IBD pathogenesis (many therapies target these). Reviews explicitly mention pathways of cytokine-cytokine receptor interaction in IBD. (PMC) Also gene-set analyses pick this pathway out in IBD datasets. So this is a good candidate to include.                                                                                                                                                                        |
+| Necroptosis                            | Good evidence / emerging         | Necroptosis (a programmed necrosis cell-death pathway) has been implicated in IBD: for example “The Function of Necroptosis and Its Treatment Target in IBD” review. (PMC) And more recent work links epithelial death via RIPK3/MLKL to colitis. (JCI Insight) So it's not as classical as leukocyte migration or cytokine signalling, but it is increasingly recognised.                                                                                            |
+| MAPK signalling pathway                | Strong evidence                  | The MAPK family (ERK/JNK/p38) has been reviewed in the context of IBD, noting their activation in mucosa, links to inflammatory signals, and explored as therapeutic targets. (PubMed) Also experimental colitis models show involvement. (PLOS) So yes this pathway is relevant.                                                                                                                                                                                     |
+| GnRH secretion                         | Weak / no strong direct evidence | The “GnRH secretion” endocrine pathway is not one I found strong direct links to IBD pathogenesis in the literature. It appears more in endocrine/reproductive biology rather than gut inflammation. So likely less relevant (unless you have a specific hypothesis linking it).                                                                                                                                                                                      |
+| Thyroid hormone synthesis              | Weak / no strong direct evidence | Similar to above: thyroid hormone synthesis is an endocrine/metabolic pathway. I did not find strong IBD-pathogenic links in the core IBD immunology/epithelial literature. Could be tangential (via metabolic/inflammatory cross-talk) but not a primary pathway.                                                                                                                                                                                                    |
+| Peroxisome                             | Moderate evidence                | The “peroxisome” pathway (and peroxisome proliferator‐activated receptors PPARs) has been implicated in intestinal inflammation and IBD. For example, the review “The Versatile Role of Peroxisome Proliferator-Activated …” in IBD and gut inflammation. (PMC) So while not as high-profile as cytokine signalling, it is a plausible pathway to consider.                                                                                                           |
 
 
 ### RET-ebi-a-GCST90002405
@@ -692,18 +694,42 @@ p
 
 
 
-
-
-
-
-
-
-
-
+|                     Pathway                     | Relevance to Reticulocyte Count |                                                                          Rationale                                                                         |
+|:-----------------------------------------------:|:-------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Hippo signaling pathway                         | Moderate                        | Hippo regulates cell proliferation and organ size; some evidence in hematopoietic stem/progenitor cell regulation, so may influence erythroid progenitors. |
+| Thermogenesis                                   | Low                             | Primarily metabolic/thermoregulatory; little direct evidence linking to reticulocyte production.                                                           |
+| Purine metabolism                               | Strong                          | Nucleotide supply is critical for rapidly dividing erythroid progenitors; metabolism affects DNA/RNA synthesis in erythropoiesis.                          |
+| Longevity regulating pathway (multiple species) | Low/Moderate                    | Overlaps with mTOR/PI3K/insulin signalling; indirectly may affect HSC/erythroid ageing, but not a major direct driver of retic-count.                      |
+| Vasopressin-regulated water reabsorption        | Low                             | Renal water handling pathway; no clear link to reticulocyte production.                                                                                    |
+| C-type lectin receptor signaling pathway        | Low/Moderate                    | Innate immune receptor signalling; could affect marrow niche via inflammation, but less direct on retic production.                                        |
+| Prolactin signaling pathway                     | Low                             | Hormone signalling, limited evidence for direct erythropoiesis/retic effect.                                                                               |
+| Osteoclast differentiation                      | Moderate                        | Bone marrow micro-environment matters for erythropoiesis; osteoclast/osteoblast activity interplay may influence niche and reticulocyte output.            |
+| Proteasome                                      | Strong                          | Proteostasis and protein turnover are critical in late erythroid maturation/reticulocyte formation.                                                        |
+| Natural killer cell mediated cytotoxicity       | Low/Moderate                    | Immune cytotoxic cells may impact marrow environment under stress, but not a primary regulator of reticulocyte count.                                      |
+| TNF signaling pathway                           | Moderate                        | Inflammatory cytokine (TNF) can suppress erythropoiesis in chronic disease → may reduce reticulocyte output.                                               |
+| Aldosterone synthesis and secretion             | Low                             | Mineralocorticoid hormone system; limited direct erythroid link.                                                                                           |
+| Adherens junction                               | Moderate                        | Cell-cell adhesion in marrow niche/erythroblastic islands may affect erythroid maturation and release of reticulocytes.                                    |
+| Valine, leucine and isoleucine degradation      | Moderate                        | Amino acid metabolism for rapidly dividing cells; BCAA degradation could influence erythroid progenitor growth.                                            |
+| MAPK signaling pathway                          | Strong                          | MAPK pathways known to mediate erythroid progenitor proliferation/differentiation.                                                                         |
+| Glutamatergic synapse                           | Low                             | Neurotransmission pathway; little direct reticulocyte relevance.                                                                                           |
+| Adrenergic signaling in cardiomyocytes          | Low                             | Heart muscle signalling; unlikely to directly regulate retic count.                                                                                        |
+| Serotonergic synapse                            | Low                             | Gut/brain neurotransmission; minimal direct evidence for reticulocyte regulation.                                                                          |
+| Dopaminergic synapse                            | Low                             | Same reasoning as above.                                                                                                                                   |
+| GnRH signaling pathway                          | Low                             | Reproductive hormone axis; little direct erythropoiesis evidence.                                                                                          |
+| RNA degradation                                 | Moderate                        | RNA clearance and turnover likely important in reticulocyte maturation (they lose residual RNA) so plausible.                                              |
+| cAMP signaling pathway                          | Moderate                        | cAMP is a common second messenger in many cell types; could regulate erythroid progenitors/reticulocyte release.                                           |
+| Cholinergic synapse                             | Low                             | Neurotransmission; minimal direct link to reticulocyte production.                                                                                         |
+| Cellular senescence                             | Moderate                        | Senescence in marrow niche/HSC compartment may impair erythropoiesis → influences reticulocyte count.                                                      |
+| Endocytosis                                     | Strong                          | Iron uptake (transferrin receptor endocytosis) and receptor internalisation critical during erythroid maturation and reticulocyte release.                 |
+| mTOR signaling pathway                          | Strong                          | mTOR integrates nutrient/growth signals for cell proliferation including erythroid cells; very plausible effect on reticulocyte count.                     |
+| PI3K-Akt signaling pathway                      | Strong                          | Downstream of growth factor signalling (e.g., EPO) in erythroid progenitors; influences survival/proliferation leading to changes in retics.               |
+| Ferroptosis                                     | Moderate                        | Iron-dependent cell death; excessive ferroptosis could impair erythroid maturation → lowering reticulocyte output.                                         |
 
 
 
 ## Plots for all pairs at ECT FDR < 0.1
+
+### Plots
 
 ```{r fig.height=3, fig.width=7, warning=F, message=F}
 
@@ -883,4 +909,34 @@ for (i in 1:nrow(df_all_fdr01)){
 }
 
 ```
+
+### Gene function on the cell types , nots from chatgpt 
+
+- B cell (CD19+),	Psoriasis-ebi-a-GCST90038681,	04062_PC2,	Chemokine signaling pathway
+
+|            Gene            |                                                                                                                                                                        Evidence for B-cell activation involvement                                                                                                                                                                        |                                                                   Notes / uncertainties                                                                   |
+|:--------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| IKBKB(IKKβ)                | There is strong evidence: A nonsense mutation in IKBKB caused absence of IKKβ and a lack of T- and B-cell activation through their antigen receptors. (PMC) Also, canonical NF-κB pathway downstream of BCR or CD40 in B cells involves IKK complex. (JACI Online)                                                                                                                       | This is a good “hit” for B-cell activation.                                                                                                               |
+| RAF1 (C-RAF)               | Evidence that RAF family (including RAF-1) are involved in B cell activation/differentiation: e.g., a thesis shows that B-cell specific knockout of B-Raf and Raf-1 impacted B cell activation, expansion/plasma cell differentiation. (LMU Munich Theses) However, the study indicates that in certain mature B-cells, ERK phosphorylation could happen independent of Raf-1. (Science) | So RAF1 is involved, but perhaps not strictly essential in all contexts. It likely participates in the BCR→Ras→Raf→MEK→ERK axis in B cells.               |
+| MAPK3(ERK1)                | More general MAPK/ERK signalling is known to be important in B cell activation: e.g., BCR-induced cell spreading is inhibited by ERK inhibitors. (MicroPublication) Because MAPK3 is a core ERK1, it likely participates downstream of B-cell activation signals.                                                                                                                        | Good candidate to include.                                                                                                                                |
+| INPPL1(SHIP2)              | Some relevant evidence: INPPL1 expression is annotated for “B-cell function” in a cell‐type summary. (Human Protein Atlas) Also SHIP family (primarily SHIP1) are established regulators of BCR signalling (often negative regulators) via PI3K signalling in B cells. Though direct literature for SHIP2 (INPPL1) in B cell activation is sparse.                                       | Likely involved (perhaps via regulatory/inhibitory signalling) but evidence is modest.                                                                    |
+| RPS6(Ribosomal protein S6) | There is evidence for involvement in translation regulation in immune cells, but I did not identify a direct paper linking RPS6 to B-cell activation signalling specifically.                                                                                                                                                                                                            | Probably a very indirect player (translation/protein synthesis) rather than direct activation signalling; you may decide to exclude or mark as secondary. |
+
+- Platelet,	HB-ebi-a-GCST90002384,	04064_PC1,	NF-kappa B signaling pathway
+
+|            Gene           |                                                                                                                                                  Evidence for involvement in platelet activation                                                                                                                                                  |                                                      Notes / uncertainties                                                      |
+|:-------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------:|
+| PLCG2(Phospholipase C γ2) | Strong evidence: The literature shows that platelet activation (especially via collagen receptor GP VI or integrins) involves activation of PLCγ2. (PubMed) For example: “Agonist‐induced platelet activation … involves different signalling pathways leading to the activation of phospholipase C … γ2.” (PubMed)                               | This is one of the clearest “hits” on your list for platelet activation.                                                        |
+| NFKB1 (NF-κB p50 subunit) | Yes: There is evidence that NF-κB family members in platelets (despite them being anuclear) are engaged in platelet activation/priming and aggregation. (PMC) For example: “NF-κB inhibitors prevent platelet activation following stimulation with several agonists, suggesting that NF‐κB in platelets functions rather non-genomically.” (PMC) | Good candidate. Although the mechanistic depth may vary, the role is plausible.                                                 |
+| NFKBIA (IκBα)             | Yes: Since IκBα is the inhibitor of NF-κB, and NF-κB signalling is present and functional in platelets (see above), there is support for involvement of the pathway including IκBα in platelet activation. (PubMed)                                                                                                                               | While the direct role of IκBα specifically in platelet activation may be less studied, given the pathway it is likely involved. |
+| TNFRSF1A(TNF-receptor 1)  | Moderate evidence: There is study evidence that platelets express TNF receptors (including TNFR1) and that TNF-α can trigger platelet activation/aggregation. (PubMed) For example: “TNF-α behaves as a trigger of platelet activation through stimulation of the arachidonic acid pathway.” (PubMed)                                             | Good candidate for inclusion as a regulator/modulator of platelet activation (rather than core immediate signalling).           |
+
+- T cell (CD8+),	IBD-ebi-a-GCST003043,	04670_PC1,	Leukocyte transendothelial migration
+
+|            Gene           |                                                                                                                                                  Evidence for involvement in platelet activation                                                                                                                                                  |                                                      Notes / uncertainties                                                      |
+|:-------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------:|
+| PLCG2(Phospholipase C γ2) | Strong evidence: The literature shows that platelet activation (especially via collagen receptor GP VI or integrins) involves activation of PLCγ2. (PubMed) For example: “Agonist‐induced platelet activation … involves different signalling pathways leading to the activation of phospholipase C … γ2.” (PubMed)                               | This is one of the clearest “hits” on your list for platelet activation.                                                        |
+| NFKB1 (NF-κB p50 subunit) | Yes: There is evidence that NF-κB family members in platelets (despite them being anuclear) are engaged in platelet activation/priming and aggregation. (PMC) For example: “NF-κB inhibitors prevent platelet activation following stimulation with several agonists, suggesting that NF‐κB in platelets functions rather non-genomically.” (PMC) | Good candidate. Although the mechanistic depth may vary, the role is plausible.                                                 |
+| NFKBIA (IκBα)             | Yes: Since IκBα is the inhibitor of NF-κB, and NF-κB signalling is present and functional in platelets (see above), there is support for involvement of the pathway including IκBα in platelet activation. (PubMed)                                                                                                                               | While the direct role of IκBα specifically in platelet activation may be less studied, given the pathway it is likely involved. |
+| TNFRSF1A(TNF-receptor 1)  | Moderate evidence: There is study evidence that platelets express TNF receptors (including TNFR1) and that TNF-α can trigger platelet activation/aggregation. (PubMed) For example: “TNF-α behaves as a trigger of platelet activation through stimulation of the arachidonic acid pathway.” (PubMed)                                             | Good candidate for inclusion as a regulator/modulator of platelet activation (rather than core immediate signalling).           |
 

@@ -29,6 +29,7 @@ We previously included a larger set of blood cell traits; however, we removed mo
 | Blood cell traits | Red blood cell count          | RBC       | RBC-ebi-a-GCST004601     | RBC-ebi-a-GCST90002403       | RBC-ebi-a-GCST90018751    |
 | Blood cell traits | Mean Platelet Volume          | MPV       | mpv-ebi-a-GCST004599     | MPV-ebi-a-GCST90002395       | —                         |
 | Blood cell traits | Reticulocyte count            | RET       | RET-ebi-a-GCST004622     | RET-ebi-a-GCST90002405       | —                         |
+| Blood cell traits | Lymphocyte count              | lymphc    | lymphc-ebi-a-GCST90002388| lymph-ebi-a-GCST004627       | lymnpc-ebi-a-GCST90018742 |
 | Diseases          | Crohn’s disease               | CD        | CD-ebi-a-GCST003044      | CD-ukb-a-552                 | —                         |
 | Diseases          | Inflammatory bowel disease    | IBD       | IBD-ebi-a-GCST003043     | IBD-ebi-a-GCST004131         | —                         |
 | Diseases          | Ulcerative colitis            | UC        | UC-ebi-a-GCST003045      | —                            | —                         |
