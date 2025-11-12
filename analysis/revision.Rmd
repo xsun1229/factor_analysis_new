@@ -24,6 +24,8 @@ output:
 
 [Power analysis](revision_power.html)
 
+[Figrues](revision_figures.html)
+
 
 **Old codes**
 

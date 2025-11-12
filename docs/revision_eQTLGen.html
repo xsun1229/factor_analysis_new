@@ -410,7 +410,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-10-29
+<strong>Last updated:</strong> 2025-11-11
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -544,15 +544,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreeea8d0f34f5de215ec3252a17c26cb8dd831a26bdtargetblankea8d0f3a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree0c70bada0be6ace162a91b0485b3b8431ec9b363targetblank0c70bada">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/ea8d0f34f5de215ec3252a17c26cb8dd831a26bd" target="_blank">ea8d0f3</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/0c70bada0be6ace162a91b0485b3b8431ec9b363" target="_blank">0c70bad</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreeea8d0f34f5de215ec3252a17c26cb8dd831a26bdtargetblankea8d0f3a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree0c70bada0be6ace162a91b0485b3b8431ec9b363targetblank0c70bada"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -562,7 +562,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/ea8d0f34f5de215ec3252a17c26cb8dd831a26bd" target="_blank">ea8d0f3</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/0c70bada0be6ace162a91b0485b3b8431ec9b363" target="_blank">0c70bad</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -577,7 +577,9 @@ were generated:
 </p>
 <pre><code>
 Unstaged changes:
+    Modified:   analysis/revision.Rmd
     Modified:   analysis/revision_eQTLGen.Rmd
+    Modified:   analysis/revision_figures.Rmd
 
 </code></pre>
 <p>
@@ -623,6 +625,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/9009455e4da7b6470c12a54c79184dba5230effe/analysis/revision_eQTLGen.Rmd" target="_blank">9009455</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-10-29
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/9009455e4da7b6470c12a54c79184dba5230effe/docs/revision_eQTLGen.html" target="_blank">9009455</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-10-29
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -706,14 +742,15 @@ id="if-supporting-snps-are-trans-eqtls-comparing-with-totally-trait-related-snps
 class="section level1">
 <h1>If supporting SNPs are trans-eqtls, comparing with totally
 trait-related SNPs</h1>
-<p>We have 769 supporting SNPs for all pairs with ECT p &lt; 0.0005 .
-There are 245 unique SNPs.</p>
+<p>We have 989 supporting SNPs for all pairs with ECT FDR &lt; 0.2, when
+filter by gene num &gt;= 20, SNP num &gt;= 5 . There are 329 unique
+SNPs.</p>
 <p>For each trait, we extracted the SNPs with p-value &lt; 5E-8, then
-use the collected SNPs as the pool for random SNP, sampled 10*245 SNPs
+use the collected SNPs as the pool for random SNP, sampled 10*660 SNPs
 from it, use them as the random SNPs</p>
 <p>We test whether supporting genes are more enriched in trans-eQTLs
 than the random genes.</p>
-<pre class="r"><code>supp_snps &lt;- readRDS(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTp0.0005.RDS&quot;)
+<pre class="r"><code>supp_snps &lt;- readRDS(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTFDR02.RDS&quot;)
 snps &lt;- supp_snps$SNP
 snps &lt;- snps[duplicated(snps)]
 
@@ -752,8 +789,8 @@ mat &lt;- mat+1
 
 print(mat)</code></pre>
 <pre><code>         Trans NotTrans
-Supp_SNP    62      185
-Random       9     2443</code></pre>
+Supp_SNP    59      272
+Random      12     3280</code></pre>
 <pre class="r"><code># Fisher&#39;s exact test
 fisher.test(mat)</code></pre>
 <pre><code>
@@ -763,69 +800,10 @@ data:  mat
 p-value &lt; 2.2e-16
 alternative hypothesis: true odds ratio is not equal to 1
 95 percent confidence interval:
-  43.86794 209.54037
+  30.96745 122.33358
 sample estimates:
 odds ratio 
-  90.58549 </code></pre>
-</div>
-<div
-id="if-supporting-snps-are-trans-eqtls-comparing-with-totally-random-snps"
-class="section level1">
-<h1>If supporting SNPs are trans-eqtls, comparing with totally random
-SNPs</h1>
-<p>We have 769 supporting SNPs for all pairs with ECT p &lt; 0.0005 .
-There are 245 unique SNPs.</p>
-<p>We use vSampler to match 10 random SNPs for these supporting
-variants.</p>
-<p>We test whether supporting genes are more enriched in trans-eQTLs
-than the random genes.</p>
-<pre class="r"><code>supp_snps &lt;- readRDS(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTp0.0005.RDS&quot;)
-snps &lt;- supp_snps$SNP
-snps &lt;- snps[duplicated(snps)]
-
-trans_eqtlgen &lt;- read.table(gzfile(&quot;/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/data/data_eqtlgen/2018-09-04-trans-eQTLsFDR0.05-CohortInfoRemoved-BonferroniAdded.txt.gz&quot;),header = T)
-
-num_supp_trans &lt;- sum(snps %in% trans_eqtlgen$SNP)
-num_supp_nottrans &lt;- sum(!snps %in% trans_eqtlgen$SNP)
-
-write.table(snps, file = &quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTp0.0005_unique.txt&quot;, quote = F, col.names = F, row.names = F)
-
-ramdon_snp &lt;- read.table(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/randomsnp.txt&quot;, header = T, fill = T)
-
-trans_eqtlgen$id &lt;- paste0(trans_eqtlgen$SNPChr,&quot;:&quot;,trans_eqtlgen$SNPPos,&quot;:&quot;, trans_eqtlgen$OtherAllele, &quot;:&quot;,trans_eqtlgen$AssessedAllele)
-
-random_snps_all &lt;- c(ramdon_snp$control1,ramdon_snp$control2,ramdon_snp$control3,ramdon_snp$control4,ramdon_snp$control5,
-                     ramdon_snp$control6,ramdon_snp$control7,ramdon_snp$control8,ramdon_snp$control9,ramdon_snp$control10)
-
-num_random_trans &lt;- sum(random_snps_all %in% trans_eqtlgen$id)
-num_random_notrans &lt;- sum(!random_snps_all %in% trans_eqtlgen$id)
-
-
-mat &lt;- matrix(c(num_supp_trans, num_supp_nottrans, num_random_trans, num_random_notrans), nrow = 2, byrow = TRUE,
-              dimnames = list(
-                c(&quot;Supp_SNP&quot;, &quot;Random&quot;),
-                c(&quot;Trans&quot;, &quot;NotTrans&quot;)
-              ))
-
-mat &lt;- mat+1
-
-print(mat)</code></pre>
-<pre><code>         Trans NotTrans
-Supp_SNP    62      185
-Random       1     1451</code></pre>
-<pre class="r"><code># Fisher&#39;s exact test
-fisher.test(mat)</code></pre>
-<pre><code>
-    Fisher&#39;s Exact Test for Count Data
-
-data:  mat
-p-value &lt; 2.2e-16
-alternative hypothesis: true odds ratio is not equal to 1
-95 percent confidence interval:
-    82.5635 16384.0000
-sample estimates:
-odds ratio 
-  482.0003 </code></pre>
+  59.16408 </code></pre>
 </div>
 <div id="if-snp-gene-pairs-were-reported-by-eqtlgen"
 class="section level1">
@@ -834,12 +812,11 @@ class="section level1">
 gene-snp pairs for the top genes and supporting SNPs.</p>
 <pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/trans_pairs.rdata&quot;)
 
-
-print(paste0(&quot;Total gene-transqtl pairs in eQTLGen = &quot;, nrow(pairs_all)))</code></pre>
-<pre><code>[1] &quot;Total gene-transqtl pairs in eQTLGen = 7690&quot;</code></pre>
+print(paste0(&quot;Total gene-transqtl pairs in eQTLGen = &quot;, nrow(pairs_all[pairs_all$trans == T,])))</code></pre>
+<pre><code>[1] &quot;Total gene-transqtl pairs in eQTLGen = 17&quot;</code></pre>
 <pre class="r"><code>DT::datatable(pairs_all[pairs_all$trans == T,],caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;gene-suppoting SNP pair reported by eQTLGen&#39;),options = list(pageLength = 10) )</code></pre>
-<div id="htmlwidget-f1820a988b66ed195727" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f1820a988b66ed195727">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">gene-suppoting SNP pair reported by eQTLGen<\/caption>","data":[["1558","1958","2444","5799"],["TSC1","NFKB1","NLK","FCGR2B"],["rs1701704","rs3184504","rs78744187","rs3184504"],["B_cell","CD14_positive_monocyte","CD14_positive_monocyte","T_cell"],["04211_PC3","05131_PC2","04068_PC1","05150_PC3"],["T1D-ebi-a-GCST90014023","HT-ebi-a-GCST90018855","RBC-ebi-a-GCST90002403","T1D-ebi-a-GCST90014023"],["Longevity regulating pathway","Shigellosis","FoxO signaling pathway","Staphylococcus aureus infection"],["0.000195","1e-06","7.1e-05","0.000182"],[12,3,9,5],[true,true,true,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genes<\/th>\n      <th>snps<\/th>\n      <th>celltype<\/th>\n      <th>factor<\/th>\n      <th>trait<\/th>\n      <th>pwy_name<\/th>\n      <th>p_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n      <th>trans<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":8},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-fca732e27d51c9384b62" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fca732e27d51c9384b62">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">gene-suppoting SNP pair reported by eQTLGen<\/caption>","data":[["2238","2534","2884","4135","4136","4214","4571","4579","5289","5342","5343","5344","5347","5348","5497","5499","5805"],["TSC1","ACO2","NLK","PDE5A","ADCY3","ENO2","ITGB5","CCND3","GNAQ","GNG11","PTGS1","GNG8","GNAI2","ARAF","GNAQ","ADCY3","ITPR1"],["rs1701704","rs1354034","rs78744187","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs4795397"],["B_cell","B_cell","CD14_positive_monocyte","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet"],["04211_PC3","00630_PC4","04068_PC1","00230_PC1","00230_PC1","03018_PC2","04151_PC2","04151_PC2","04725_PC1","04726_PC4","04726_PC4","04726_PC4","04726_PC4","04726_PC4","04912_PC1","04912_PC1","04726_PC3"],["T1D-ebi-a-GCST90014023","lymphc-ebi-a-GCST90002388","RBC-ebi-a-GCST90002403","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","UC-ebi-a-GCST003045"],["Longevity regulating pathway","Glyoxylate and dicarboxylate metabolism","FoxO signaling pathway","Purine metabolism","Purine metabolism","RNA degradation","PI3K-Akt signaling pathway","PI3K-Akt signaling pathway","Cholinergic synapse","Serotonergic synapse","Serotonergic synapse","Serotonergic synapse","Serotonergic synapse","Serotonergic synapse","GnRH signaling pathway","GnRH signaling pathway","Serotonergic synapse"],["0.000195","0.0018998","7.1e-05","0.000177","0.000177","0.0027997","0.0037996","0.0037996","0.0031997","0.0018998","0.0018998","0.0018998","0.0018998","0.0018998","0.0024998","0.0024998","0.0035996"],[12,7,9,8,8,6,8,8,7,8,8,8,8,8,5,5,5],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genes<\/th>\n      <th>snps<\/th>\n      <th>celltype<\/th>\n      <th>factor<\/th>\n      <th>trait<\/th>\n      <th>pwy_name<\/th>\n      <th>p_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n      <th>trans<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":8},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

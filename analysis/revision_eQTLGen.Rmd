@@ -12,16 +12,16 @@ We checked if the supporting SNPs are trans-eQTLs. The trans-eQTLs are downloade
 
 # If supporting SNPs are trans-eqtls, comparing with totally trait-related SNPs
 
-We have 769 supporting SNPs for all pairs with ECT p < 0.0005 . There are 245 unique SNPs. 
+We have 989 supporting SNPs for all pairs with ECT FDR < 0.2, when filter by gene num >= 20, SNP num >= 5 . There are 329 unique SNPs. 
 
-For each trait, we extracted the SNPs with p-value < 5E-8, then use the collected SNPs as the pool for random SNP, sampled 10*245 SNPs from it, use them as the random SNPs
+For each trait, we extracted the SNPs with p-value < 5E-8, then use the collected SNPs as the pool for random SNP, sampled 10*660 SNPs from it, use them as the random SNPs
 
 We test whether supporting genes are more enriched in trans-eQTLs than the random genes.
 
 
 ```{r}
 
-supp_snps <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTp0.0005.RDS")
+supp_snps <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTFDR02.RDS")
 snps <- supp_snps$SNP
 snps <- snps[duplicated(snps)]
 
@@ -66,54 +66,6 @@ fisher.test(mat)
 ```
 
 
-# If supporting SNPs are trans-eqtls, comparing with totally random SNPs
-
-We have 769 supporting SNPs for all pairs with ECT p < 0.0005 . There are 245 unique SNPs. 
-
-We use vSampler to match 10 random SNPs for these supporting variants. 
-
-We test whether supporting genes are more enriched in trans-eQTLs than the random genes.
-
-
-```{r}
-
-supp_snps <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTp0.0005.RDS")
-snps <- supp_snps$SNP
-snps <- snps[duplicated(snps)]
-
-trans_eqtlgen <- read.table(gzfile("/project/xinhe/xsun/pathway_factor/analysis/3.results_analysis/data/data_eqtlgen/2018-09-04-trans-eQTLsFDR0.05-CohortInfoRemoved-BonferroniAdded.txt.gz"),header = T)
-
-num_supp_trans <- sum(snps %in% trans_eqtlgen$SNP)
-num_supp_nottrans <- sum(!snps %in% trans_eqtlgen$SNP)
-
-write.table(snps, file = "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTp0.0005_unique.txt", quote = F, col.names = F, row.names = F)
-
-ramdon_snp <- read.table("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/randomsnp.txt", header = T, fill = T)
-
-trans_eqtlgen$id <- paste0(trans_eqtlgen$SNPChr,":",trans_eqtlgen$SNPPos,":", trans_eqtlgen$OtherAllele, ":",trans_eqtlgen$AssessedAllele)
-
-random_snps_all <- c(ramdon_snp$control1,ramdon_snp$control2,ramdon_snp$control3,ramdon_snp$control4,ramdon_snp$control5,
-                     ramdon_snp$control6,ramdon_snp$control7,ramdon_snp$control8,ramdon_snp$control9,ramdon_snp$control10)
-
-num_random_trans <- sum(random_snps_all %in% trans_eqtlgen$id)
-num_random_notrans <- sum(!random_snps_all %in% trans_eqtlgen$id)
-
-
-mat <- matrix(c(num_supp_trans, num_supp_nottrans, num_random_trans, num_random_notrans), nrow = 2, byrow = TRUE,
-              dimnames = list(
-                c("Supp_SNP", "Random"),
-                c("Trans", "NotTrans")
-              ))
-
-mat <- mat+1
-
-print(mat)
-
-# Fisher's exact test
-fisher.test(mat)
- 
-```
-
 # If SNP-gene pairs were reported by eQTLGen
 
 We use top 10 genes with largest gene loading for a factor. Creat gene-snp pairs for the top genes and supporting SNPs.
@@ -123,8 +75,7 @@ We use top 10 genes with largest gene loading for a factor. Creat gene-snp pairs
 
 load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/trans_pairs.rdata")
 
-
-print(paste0("Total gene-transqtl pairs in eQTLGen = ", nrow(pairs_all)))
+print(paste0("Total gene-transqtl pairs in eQTLGen = ", nrow(pairs_all[pairs_all$trans == T,])))
 
 DT::datatable(pairs_all[pairs_all$trans == T,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','gene-suppoting SNP pair reported by eQTLGen'),options = list(pageLength = 10) )
 

@@ -2,16 +2,487 @@
 title: "Figures"
 author: "XSun"
 date: "2025-11-05"
-output: workflowr::wflow_html
-editor_options:
-  chunk_output_type: console
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
 ---
 
-# Figure 2
+```{r, warning=F, message=F}
 
-```{r}
+library(gridExtra)
+library(ggplot2)
+library(dplyr)
 
-celltype <- ""
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+types <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+names(celltypes) <- types
+names(types) <- celltypes
 
+source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection_SLEremoved.R")
+
+
+qqplot <- function(pvalues,title=NULL) {
+  
+  pval <- pvalues[complete.cases(pvalues)]
+  title <- title
+  plotdata <- data.frame(observed = -log10(sort(as.numeric(pval))),
+                         expected = -log10(ppoints(length(pval))))
+  
+  qq <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
+    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
+    ggtitle(title) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
+         y = expression(paste("Observed -log"[10],"(p-value)"))) +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times"))
+  
+  return(qq)
+  
+}
+
+```
+
+
+# SI figures
+
+The main change for figure S1-S3 is: more factors are included since we decreased the gene num cutoff from 40 to 20.
+
+## S1 hsq and SE
+
+```{r fig.height=5, fig.width=7.7, warning=F, message=F}
+
+p1 <- list()
+p2 <- list()
+for (celltype in celltypes){
+  
+  file_hsq <- paste0("/project/xinhe/xsun/pathway_factor/analysis/7.analysis_for_factors/results/heritability/hsq_summary_", celltype,".txt")
+  
+  H <- read.table(file_hsq, header = T)
+  sum_sorted <- H[order(as.numeric(H$h2)),]
+  sum_sorted$order <- seq(1,nrow(H),by=1)
+  
+  p1[[celltype]] <- ggplot(sum_sorted, aes(x=order, y=h2)) + theme_bw(base_line_size =0.3) +
+    geom_errorbar(aes(ymin=h2-SE, ymax=h2+SE), width=0.1, color = "grey",alpha=0.6) +
+    geom_point(size = 0.8, color = "steelblue") + 
+    ggtitle(types[celltype]) + theme(plot.title = element_text(hjust = 0.5)) + 
+    xlab("PCs sorted by heritability") + ylab("Heritability ± SE") + 
+    ylim(-2,3)  + 
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) 
+  
+  plotdata <- data.frame(observed = -log10(sort(H$Pval)),
+                         expected = -log10(ppoints(nrow(H))))
+  
+  
+  p2[[celltype]] <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
+    geom_point(aes(expected, observed), shape = 1, size = 1.5, color = "steelblue") +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
+    ggtitle(types[celltype]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
+         y = expression(paste("Observed -log"[10],"(p-value)"))) +
+    
+    theme(axis.title.x = element_text(size = 10),
+          axis.text.x = element_text(size = 8, color = "black"),
+          axis.title.y = element_text(size = 10),
+          axis.text.y = element_text(size = 8, color = "black"),
+          text= element_text(family="Times")) 
+  
+  
+  
+  
+}
+
+
+all_interval <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+
+```
+
+
+## S2 hsq qqplot for p-values
+
+```{r fig.height=5, fig.width=7.7, warning=F, message=F}
+
+
+all_qq <- grid.arrange(p2[[1]],p2[[2]],p2[[3]],p2[[4]],p2[[5]],p2[[6]], nrow = 2)
+
+
+```
+
+
+<!-- ## S3 Number of independent signals for factor gwas (factors filtered by hsq >0.9 & hsq pvalue < 0.05) -->
+
+
+<!-- ```{r fig.height=5, fig.width=7.7, warning=F, message=F} -->
+
+
+<!-- p1 <- list() -->
+<!-- for (i in 1:length(types)){  -->
+
+<!--   file <- paste0("/project/xinhe/xsun/pathway_factor/analysis/7.analysis_for_factors/results/num_gwas_signals_", celltype, ".RDS") -->
+<!--   num_signal_all <- readRDS(file) -->
+
+<!--   num_signal_all <- as.data.frame(num_signal_all) -->
+<!--   colnames(num_signal_all) <- "num" -->
+<!--   #p1[[i]] <-  ggplot(num_signal_all, aes(x=num)) + geom_histogram(breaks = seq(0, max(num_signal_all), by = 1),color="white",fill = "steelblue")+ -->
+<!--   p1[[i]] <-  ggplot(num_signal_all, aes(x=num)) + geom_histogram(bins = 30,color="white",fill = "steelblue")+ -->
+<!--     theme_bw(base_line_size =0.3) + -->
+<!--     ggtitle(types[i]) + theme(plot.title = element_text(hjust = 0.5)) + -->
+<!--     labs(x = "# of independent signals", -->
+<!--          y = "Count") + -->
+
+<!--     theme(axis.title.x = element_text(size = 14), -->
+<!--           axis.text.x = element_text(size = 12, color = "black"), -->
+<!--           axis.title.y = element_text(size = 14), -->
+<!--           axis.text.y = element_text(size = 12, color = "black"), -->
+<!--           text= element_text(family="Times")) + -->
+
+<!--     annotate(geom = "text", x = Inf, y = Inf, label = paste0("The total number of tested factor = ",nrow(num_signal_all)), -->
+<!--              hjust = 1, vjust = 1,  size = 2,  family = "Times",   color = "black") -->
+
+
+<!-- } -->
+
+<!-- all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2) -->
+
+
+<!-- ``` -->
+
+
+
+
+## S4 2 examples for ACAT
+
+same examples with initial submission. but the snps are a bit different
+
+```{r fig.height=3, fig.width=5.5, warning=F, message=F}
+
+
+folder_harmo <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/"
+
+
+celltype <- "B_cell"
+trait <- "lymphc-ebi-a-GCST90002388"
+factor <- "04014_PC3"
+
+file_harmo <- paste0(folder_harmo,celltype,"-",trait,"_harmo.RDS")
+list_harmo <- readRDS(file_harmo)
+
+df_harmo <- list_harmo[[factor]]
+
+p1 <- qqplot(df_harmo$pval.exposure, title = "3rd PC of Ras signaling pathway \n- lymphocyte count")
+
+
+celltype <- "B_cell"
+trait <- "IBD-ebi-a-GCST003043"
+factor <- "04612_PC5"
+
+file_harmo <- paste0(folder_harmo,celltype,"-",trait,"_harmo.RDS")
+list_harmo <- readRDS(file_harmo)
+
+df_harmo <- list_harmo[[factor]]
+
+p2 <- qqplot(df_harmo$pval.exposure, title = "5th PC of Antigen processing and \npresentation pathway - IBD")
+
+
+all <- grid.arrange(p1,p2, nrow = 1)
+
+
+```
+
+## S5 Number of supporting SNPs per pair
+
+difference: the current cutoff is >=5SNPs and >=20genes
+
+### EUR
+
+
+```{r fig.height=5, fig.width=7.7, warning=F, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR.RDS"))
+  df <- df[df$trait %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+
+```
+
+
+
+### EAS
+
+
+```{r fig.height=5, fig.width=7.7, warning=F, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EAS.RDS"))
+  df <- df[df$trait %in% traits_EAS,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+
+```
+
+
+## S6 ECT p-values
+
+### EUR
+
+```{r fig.height=5, fig.width=7.7, warning=F, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR.RDS"))
+  df <- df[df$trait %in% traits_EUR,]
+  
+  df <- df[complete.cases(df$p_ECT),]
+  
+  summary_p <- df %>%
+    mutate(bin = cut(p_ECT, breaks = seq(0, 1, by = 0.05), include.lowest = TRUE)) %>%
+    count(bin, name = "Freq")
+  
+  # Correctly handle both [ and ( at the start of interval labels
+  summary_p <- summary_p %>%
+    mutate(
+      bin_low  = as.numeric(sub("[^0-9\\.]*([0-9\\.]+),.*", "\\1", bin)),
+      bin_high = as.numeric(sub(".*,([0-9\\.]+)\\]", "\\1", bin)),
+      bin_mid  = (bin_low + bin_high) / 2
+    )
+  
+  p[[celltype]] <- ggplot(summary_p, aes(x = bin_mid, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "ECT p-value", y = "Count") +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, 1, 0.1), limits = c(0, 1))
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR.RDS"))
+  df <- df[df$trait %in% traits_EUR,]
+  
+  df <- df[complete.cases(df$p_ECT),]
+  
+  p[[celltype]] <- qqplot(pvalues = df$p_ECT, title = types[celltype])
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+
+
+
+### EAS
+
+```{r fig.height=5, fig.width=7.7, warning=F, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EAS.RDS"))
+  df <- df[df$trait %in% traits_EAS,]
+  
+  df <- df[complete.cases(df$p_ECT),]
+  
+  summary_p <- df %>%
+    mutate(bin = cut(p_ECT, breaks = seq(0, 1, by = 0.05), include.lowest = TRUE)) %>%
+    count(bin, name = "Freq")
+  
+  # Correctly handle both [ and ( at the start of interval labels
+  summary_p <- summary_p %>%
+    mutate(
+      bin_low  = as.numeric(sub("[^0-9\\.]*([0-9\\.]+),.*", "\\1", bin)),
+      bin_high = as.numeric(sub(".*,([0-9\\.]+)\\]", "\\1", bin)),
+      bin_mid  = (bin_low + bin_high) / 2
+    )
+  
+  p[[celltype]] <- ggplot(summary_p, aes(x = bin_mid, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "ECT p-value", y = "Count") +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, 1, 0.1), limits = c(0, 1))
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EAS.RDS"))
+  df <- df[df$trait %in% traits_EAS,]
+  
+  df <- df[complete.cases(df$p_ECT),]
+  
+  p[[celltype]] <- qqplot(pvalues = df$p_ECT, title = types[celltype])
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+
+## S7 ECT storey pi1
+
+### EUR
+
+
+```{r fig.height=3, fig.width=5, warning=F, message=F}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/ECT_story_EUR.rdata")
+
+values <- pi1_all
+labels <- c("B cell \n(CD19+)","Monocyte \n(CD14+)","Leukocyte \n(CD15+)","Platelet","T cell \n(CD4+)","T cell \n(CD8+)")
+data <- data.frame(labels, values)
+
+# Create the bar plot
+p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
+  geom_bar(stat="identity", color="steelblue", fill="steelblue") +
+  labs(x="Cell Types", y="Storey's Pi1") +
+  theme_minimal()  +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black", angle = 45, hjust = 1,vjust = 1.1),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+p
+
+```
+
+### EAS
+
+
+```{r fig.height=3, fig.width=5, warning=F, message=F}
+
+load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/ECT_story_EAS.rdata")
+
+values <- pi1_all
+labels <- c("B cell \n(CD19+)","Monocyte \n(CD14+)","Leukocyte \n(CD15+)","Platelet","T cell \n(CD4+)","T cell \n(CD8+)")
+data <- data.frame(labels, values)
+
+# Create the bar plot
+p <- ggplot(data, aes(x=labels, y=values, fill=labels)) +
+  geom_bar(stat="identity", color="steelblue", fill="steelblue") +
+  labs(x="Cell Types", y="Storey's Pi1") +
+  theme_minimal()  +
+  
+  theme(axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 12, color = "black", angle = 45, hjust = 1,vjust = 1.1),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 12, color = "black"),
+        text= element_text(family="Times")) 
+
+p
 
 ```
