@@ -118,43 +118,43 @@ all_qq <- grid.arrange(p2[[1]],p2[[2]],p2[[3]],p2[[4]],p2[[5]],p2[[6]], nrow = 2
 ```
 
 
-<!-- ## S3 Number of independent signals for factor gwas (factors filtered by hsq >0.9 & hsq pvalue < 0.05) -->
+## S3 Number of independent signals for factor gwas (factors filtered by hsq >0.9 & hsq pvalue < 0.05)
 
 
-<!-- ```{r fig.height=5, fig.width=7.7, warning=F, message=F} -->
+```{r fig.height=5, fig.width=7.7, warning=F, message=F}
 
 
-<!-- p1 <- list() -->
-<!-- for (i in 1:length(types)){  -->
+p1 <- list()
+for (celltype in celltypes){
 
-<!--   file <- paste0("/project/xinhe/xsun/pathway_factor/analysis/7.analysis_for_factors/results/num_gwas_signals_", celltype, ".RDS") -->
-<!--   num_signal_all <- readRDS(file) -->
+  file <- paste0("/project/xinhe/xsun/pathway_factor/analysis/7.analysis_for_factors/results/num_gwas_signals_", celltype, ".RDS")
+  num_signal_all <- readRDS(file)
 
-<!--   num_signal_all <- as.data.frame(num_signal_all) -->
-<!--   colnames(num_signal_all) <- "num" -->
-<!--   #p1[[i]] <-  ggplot(num_signal_all, aes(x=num)) + geom_histogram(breaks = seq(0, max(num_signal_all), by = 1),color="white",fill = "steelblue")+ -->
-<!--   p1[[i]] <-  ggplot(num_signal_all, aes(x=num)) + geom_histogram(bins = 30,color="white",fill = "steelblue")+ -->
-<!--     theme_bw(base_line_size =0.3) + -->
-<!--     ggtitle(types[i]) + theme(plot.title = element_text(hjust = 0.5)) + -->
-<!--     labs(x = "# of independent signals", -->
-<!--          y = "Count") + -->
+  num_signal_all <- as.data.frame(num_signal_all)
+  colnames(num_signal_all) <- "num"
+  #p1[[i]] <-  ggplot(num_signal_all, aes(x=num)) + geom_histogram(breaks = seq(0, max(num_signal_all), by = 1),color="white",fill = "steelblue")+
+  p1[[celltype]] <-  ggplot(num_signal_all, aes(x=num)) + geom_histogram(bins = 30,color="white",fill = "steelblue")+
+    theme_bw(base_line_size =0.3) +
+    ggtitle(types[celltype]) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of independent signals",
+         y = "Count") +
 
-<!--     theme(axis.title.x = element_text(size = 14), -->
-<!--           axis.text.x = element_text(size = 12, color = "black"), -->
-<!--           axis.title.y = element_text(size = 14), -->
-<!--           axis.text.y = element_text(size = 12, color = "black"), -->
-<!--           text= element_text(family="Times")) + -->
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black"),
+          text= element_text(family="Times")) +
 
-<!--     annotate(geom = "text", x = Inf, y = Inf, label = paste0("The total number of tested factor = ",nrow(num_signal_all)), -->
-<!--              hjust = 1, vjust = 1,  size = 2,  family = "Times",   color = "black") -->
-
-
-<!-- } -->
-
-<!-- all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2) -->
+    annotate(geom = "text", x = Inf, y = Inf, label = paste0("The total number of tested factor = ",nrow(num_signal_all)),
+             hjust = 1, vjust = 1,  size = 2,  family = "Times",   color = "black")
 
 
-<!-- ``` -->
+}
+
+all1 <- grid.arrange(p1[[1]],p1[[2]],p1[[3]],p1[[4]],p1[[5]],p1[[6]], nrow = 2)
+
+
+```
 
 
 

@@ -499,7 +499,7 @@ p
 
 
 
-supp_snps_all <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTp0.0005_2.RDS")
+supp_snps_all <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTFDR02.RDS")
 supp_snps_trait <- supp_snps_all[supp_snps_all$trait == trait,]
 
 supp_snps_trait <- supp_snps_trait[supp_snps_trait$factor %in% df_trait_fdr01$factor,]
@@ -939,4 +939,838 @@ for (i in 1:nrow(df_all_fdr01)){
 | NFKB1 (NF-κB p50 subunit) | Yes: There is evidence that NF-κB family members in platelets (despite them being anuclear) are engaged in platelet activation/priming and aggregation. (PMC) For example: “NF-κB inhibitors prevent platelet activation following stimulation with several agonists, suggesting that NF‐κB in platelets functions rather non-genomically.” (PMC) | Good candidate. Although the mechanistic depth may vary, the role is plausible.                                                 |
 | NFKBIA (IκBα)             | Yes: Since IκBα is the inhibitor of NF-κB, and NF-κB signalling is present and functional in platelets (see above), there is support for involvement of the pathway including IκBα in platelet activation. (PubMed)                                                                                                                               | While the direct role of IκBα specifically in platelet activation may be less studied, given the pathway it is likely involved. |
 | TNFRSF1A(TNF-receptor 1)  | Moderate evidence: There is study evidence that platelets express TNF receptors (including TNFR1) and that TNF-α can trigger platelet activation/aggregation. (PubMed) For example: “TNF-α behaves as a trigger of platelet activation through stimulation of the arachidonic acid pathway.” (PubMed)                                             | Good candidate for inclusion as a regulator/modulator of platelet activation (rather than core immediate signalling).           |
+
+
+
+
+# EAS
+
+## Detailed results for all pairs at ECT FDR < 0.2
+
+```{r fig.height=3, fig.width=9, warning=F, message=F}
+
+df_all_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EAS_SLEremoved.RDS"))
+  df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
+  
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_all_fdr02 <- rbind(df_all_fdr02,df_fdr02)
+  
+}
+
+
+df_all_fdr02$celltype <- types[df_all_fdr02$celltype]
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP),]
+
+df_all_fdr01 <- df_all_fdr02[df_all_fdr02$ECT_FDR_5suppSNP < 0.1,]
+
+DT::datatable(df_all_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Pairs with ECT FDR <= 0.2 '),options = list(pageLength = 10) )
+
+```
+
+
+## Number of significant pairs at different cutoffs, for each trait
+
+### ECT FDR < 0.1
+
+```{r fig.height=6, fig.width=12, warning=F, message=F}
+
+FDRcutoff <- 0.1
+MBEcutoff <- 0.05
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EAS_SLEremoved.RDS"))
+  
+  df_summary <- df %>%
+    group_by(trait) %>%
+    summarise(
+      n_sig_FDR_3suppSNP = sum(ECT_FDR_5suppSNP < FDRcutoff, na.rm = TRUE)
+    ) %>%
+    arrange(desc(n_sig_FDR_3suppSNP))
+  
+  df_summary$trait[df_summary$trait =="asthma_pmid36778051"] <- "asthma-pmid36778051"
+  
+  df_summary <- df_summary %>%
+    mutate(trait_simple = sub("-.*", "", trait))
+  
+  p[[celltype]] <- ggplot(df_summary, aes(x = reorder(trait_simple, -n_sig_FDR_3suppSNP),
+                       y = n_sig_FDR_3suppSNP,
+                       fill = n_sig_FDR_3suppSNP)) +
+  geom_bar(stat = "identity", width = 0.7, color = "black") +
+  scale_fill_gradient(low = "lightblue", high = "steelblue") +
+  labs(
+    x = "Trait",
+    y = paste0("# of pairs at FDR < ", FDRcutoff),
+    title = types[celltype]
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 90, hjust = 0, size = 10, color = "black"),
+    axis.text.y = element_text(size = 10, color = "black"),
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5)
+  )
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+p <- list()
+for (celltype in celltypes) {
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype, "_ECT_summary_EAS_SLEremoved.RDS"))
+  
+  # Convert mbe_pval_reverse_pair to numeric if it’s stored as character
+  df <- df %>%
+    mutate(mbe_pval_reverse_pair = suppressWarnings(as.numeric(mbe_pval_reverse_pair)))
+  
+  # Keep only FDR-significant pairs
+  df_sig <- df %>%
+    dplyr::filter(ECT_FDR_5suppSNP < FDRcutoff)
+  
+  # Fix naming if needed
+  df_sig$trait[df_sig$trait == "asthma_pmid36778051"] <- "asthma-pmid36778051"
+  
+  # Summarize counts per trait
+  df_summary <- df_sig %>%
+    group_by(trait) %>%
+    summarise(
+      n_sig_pairs = n(),
+      n_mbe_sig = sum(!is.na(mbe_pval_reverse_pair) & mbe_pval_reverse_pair < MBEcutoff)
+    ) %>%
+    # Keep traits with at least one FDR-significant pair
+    dplyr::filter(n_sig_pairs >= 1) %>%
+    mutate(
+      trait_simple = sub("-.*", "", trait)
+    ) %>%
+    arrange(desc(n_sig_pairs))
+  
+  
+  p[[celltype]] <- ggplot(df_summary, aes(x = reorder(trait_simple, -n_sig_pairs))) +
+    geom_bar(aes(y = n_sig_pairs), stat = "identity", fill = "grey80", color = "black", width = 0.7) +
+    geom_bar(aes(y = n_mbe_sig), stat = "identity", fill = "darkturquoise", width = 0.7) +
+    geom_text(aes(y = n_mbe_sig, label = n_mbe_sig), vjust = -0.4, size = 3.5) +
+    labs(
+      x = "Trait",
+      y = paste0("# of FDR<", FDRcutoff, " (blue: MBE p<", MBEcutoff, ")"),
+      title = types[celltype]
+    ) +
+    theme_bw(base_size = 14) +
+    theme(
+      legend.position = "none",
+      axis.text.x = element_text(angle = 90, hjust = 0, size = 10, color = "black"),
+      axis.text.y = element_text(size = 10, color = "black"),
+      plot.title = element_text(size = 16, face = "bold", hjust = 0.5)
+    )
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2, top = "Number of pairs with MBE p < 0.05, for the sig pairs")
+```
+
+
+
+### ECT FDR < 0.2
+
+```{r fig.height=6, fig.width=12, warning=F, message=F}
+
+FDRcutoff <- 0.2
+MBEcutoff <- 0.05
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EAS_SLEremoved.RDS"))
+  
+  df_summary <- df %>%
+    group_by(trait) %>%
+    summarise(
+      n_sig_FDR_3suppSNP = sum(ECT_FDR_5suppSNP < FDRcutoff, na.rm = TRUE)
+    ) %>%
+    arrange(desc(n_sig_FDR_3suppSNP))
+  
+  df_summary$trait[df_summary$trait =="asthma_pmid36778051"] <- "asthma-pmid36778051"
+  
+  df_summary <- df_summary %>%
+    mutate(trait_simple = sub("-.*", "", trait))
+  
+  p[[celltype]] <- ggplot(df_summary, aes(x = reorder(trait_simple, -n_sig_FDR_3suppSNP),
+                       y = n_sig_FDR_3suppSNP,
+                       fill = n_sig_FDR_3suppSNP)) +
+  geom_bar(stat = "identity", width = 0.7, color = "black") +
+  scale_fill_gradient(low = "lightblue", high = "steelblue") +
+  labs(
+    x = "Trait",
+    y = paste0("# of pairs at FDR < ", FDRcutoff),
+    title = types[celltype]
+  ) +
+  theme_bw(base_size = 14) +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 90, hjust = 0, size = 10, color = "black"),
+    axis.text.y = element_text(size = 10, color = "black"),
+    plot.title = element_text(size = 16, face = "bold", hjust = 0.5)
+  )
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+p <- list()
+for (celltype in celltypes) {
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype, "_ECT_summary_EAS_SLEremoved.RDS"))
+  
+  # Convert mbe_pval_reverse_pair to numeric if it’s stored as character
+  df <- df %>%
+    mutate(mbe_pval_reverse_pair = suppressWarnings(as.numeric(mbe_pval_reverse_pair)))
+  
+  # Keep only FDR-significant pairs
+  df_sig <- df %>%
+    dplyr::filter(ECT_FDR_5suppSNP < FDRcutoff)
+  
+    # Fix naming if needed
+  df_sig$trait[df_sig$trait == "asthma_pmid36778051"] <- "asthma-pmid36778051"
+  
+  # Summarize counts per trait
+  df_summary <- df_sig %>%
+    group_by(trait) %>%
+    summarise(
+      n_sig_pairs = n(),
+      n_mbe_sig = sum(!is.na(mbe_pval_reverse_pair) & mbe_pval_reverse_pair < MBEcutoff)
+    ) %>%
+    # Keep traits with at least one FDR-significant pair
+    dplyr::filter(n_sig_pairs >= 1) %>%
+    mutate(
+      trait_simple = sub("-.*", "", trait)
+    ) %>%
+    arrange(desc(n_sig_pairs))
+  
+
+  
+  p[[celltype]] <- ggplot(df_summary, aes(x = reorder(trait_simple, -n_sig_pairs))) +
+    geom_bar(aes(y = n_sig_pairs), stat = "identity", fill = "grey80", color = "black", width = 0.7) +
+    geom_bar(aes(y = n_mbe_sig), stat = "identity", fill = "darkturquoise", width = 0.7) +
+    geom_text(aes(y = n_mbe_sig, label = n_mbe_sig), vjust = -0.4, size = 3.5) +
+    labs(
+      x = "Trait",
+      y = paste0("# of FDR<", FDRcutoff, " (blue: MBE p<", MBEcutoff, ")"),
+      title = types[celltype]
+    ) +
+    theme_bw(base_size = 14) +
+    theme(
+      legend.position = "none",
+      axis.text.x = element_text(angle = 90, hjust = 0, size = 10, color = "black"),
+      axis.text.y = element_text(size = 10, color = "black"),
+      plot.title = element_text(size = 16, face = "bold", hjust = 0.5)
+    )
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2, top = "Number of pairs with MBE p < 0.05, for the sig pairs")
+```
+
+
+
+
+## Number of significant pairs at different cutoffs, for each cell type
+
+```{r fig.height=3, fig.width=9, warning=F, message=F}
+
+num_fdr01 <- c()
+num_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EAS_SLEremoved.RDS"))
+  
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+  num_fdr01 <- c(num_fdr01, nrow(df_fdr01))
+  
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2 & df$ECT_FDR_5suppSNP >= 0.1,]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+  num_fdr02 <- c(num_fdr02, nrow(df_fdr02))
+  
+}
+
+sum <- data.frame(celltype = types,
+                  num_fdr01 = num_fdr01,
+                  num_fdr02 = num_fdr02)
+
+
+df <- sum %>%
+  pivot_longer(cols = starts_with("num_fdr"), names_to = "event", values_to = "total") %>%
+  mutate(
+    event = recode(event,
+                   "num_fdr01" = "FDR < 0.1",
+                   "num_fdr02" = "0.1 < FDR < 0.2")
+  )
+
+df$event <- factor(df$event, levels = c("FDR < 0.1", "0.1 < FDR < 0.2"))
+
+# Plot
+p1 <- ggplot(df, aes(x = fct_inorder(celltype), y = total, fill = event)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9), alpha = 0.9) +
+  scale_fill_manual(
+    name = "group",
+    values = c("#F8766D", "darkturquoise"),
+    labels = c("FDR < 0.1", "0.1 < FDR < 0.2")
+  ) +
+  geom_text(
+    aes(label = total),
+    position = position_dodge(width = 0.9),
+    color = "black",
+    size = 3,
+    vjust = -0.3
+  ) +
+  labs(x = "Cell types", y = "Count") +
+  ggtitle("# of pairs") +
+  ylim(0, 60) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.title.x = element_text(size = 14),
+    axis.text.x = element_text(size = 8, color = "black", angle = 45, hjust = 1, vjust = 1.1),
+    axis.title.y = element_text(size = 14),
+    axis.text.y = element_text(size = 12, color = "black"),
+    text = element_text(family = "Times")
+  )
+
+num_fdr01 <- c()
+num_fdr02 <- c()
+for (celltype in celltypes) {
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", 
+                       celltype, "_ECT_summary_EAS_SLEremoved.RDS"))
+  
+  # Convert mbe_pval_reverse_pair to numeric safely (ignore "0/1snp" or NA)
+  df$mbe_pval_reverse_pair <- suppressWarnings(as.numeric(df$mbe_pval_reverse_pair))
+  df$mbe_pval_reverse_pair[is.na(df$mbe_pval_reverse_pair)] <- 0.5
+  
+  # --- FDR < 0.1 ---
+  df_fdr01 <- df %>%
+    dplyr::filter(
+      ECT_FDR_5suppSNP < 0.1,
+      !(mbe_pval_reverse_pair < MBEcutoff)  # remove reverse-causal pairs
+    ) %>%
+    dplyr::filter(!is.na(p_ECT))
+  
+  num_fdr01 <- c(num_fdr01, nrow(df_fdr01))
+  
+  # --- 0.1 < FDR < 0.2 ---
+  df_fdr02 <- df %>%
+    dplyr::filter(
+      ECT_FDR_5suppSNP < 0.2,
+      ECT_FDR_5suppSNP >= 0.1,
+      !(mbe_pval_reverse_pair < MBEcutoff)
+    ) %>%
+    dplyr::filter(!is.na(p_ECT))
+  
+  num_fdr02 <- c(num_fdr02, nrow(df_fdr02))
+}
+
+# summary table
+sum <- data.frame(
+  celltype = types,
+  num_fdr01 = num_fdr01,
+  num_fdr02 = num_fdr02
+)
+
+
+
+df <- sum %>%
+  pivot_longer(
+    cols = starts_with("num_fdr"),
+    names_to = "event",
+    values_to = "total"
+  ) %>%
+  mutate(
+    event = recode(event,
+                   "num_fdr01" = "FDR < 0.1",
+                   "num_fdr02" = "0.1 < FDR < 0.2")
+  )
+
+df$event <- factor(df$event, levels = c("FDR < 0.1",
+                                        "0.1 < FDR < 0.2"))
+
+# ---- Plot ----
+p2 <- ggplot(df, aes(x = fct_inorder(celltype), y = total, fill = event)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9), alpha = 0.9) +
+  scale_fill_manual(
+    name = "group",
+    values = c("#F8766D", "darkturquoise"),
+    labels = c("FDR < 0.1", "0.1 < FDR < 0.2")
+  ) +
+  geom_text(
+    aes(label = total),
+    position = position_dodge(width = 0.9),
+    color = "black",
+    size = 3,
+    vjust = -0.3
+  ) +
+  labs(
+    x = "Cell types",
+    y = "Count (excluding MBE p < 0.05)",
+    title = "# of pairs after removing reverse-causal signals"
+  ) +
+  ylim(0, 60) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.title.x = element_text(size = 14),
+    axis.text.x = element_text(size = 8, color = "black", angle = 45, hjust = 1, vjust = 1.1),
+    axis.title.y = element_text(size = 14),
+    axis.text.y = element_text(size = 12, color = "black"),
+    text = element_text(family = "Times")
+  )
+
+all <- grid.arrange(p1, p2, nrow = 1)
+```
+
+
+
+## Traits and pathways identified
+
+### height-ebi-a-GCST90018739
+
+```{r fig.height=6, fig.width=12, warning=F, message=F}
+
+trait <- "height-ebi-a-GCST90018739"
+
+df_trait_fdr01 <- c()
+df_trait_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EAS_SLEremoved.RDS"))
+  
+  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 <- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.2, ]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 <- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+df_trait_fdr01$celltype <- types[df_trait_fdr01$celltype]
+
+# Prepare data
+selected <- df_trait_fdr01 %>%
+  dplyr::mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.1")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p
+
+
+
+supp_snps_all <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTFDR02.RDS")
+supp_snps_trait <- supp_snps_all[supp_snps_all$trait == trait,]
+
+supp_snps_trait <- supp_snps_trait[supp_snps_trait$factor %in% df_trait_fdr01$factor,]
+
+DT::datatable(supp_snps_trait,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0("supporting snps for ", trait)),options = list(pageLength = 10) )
+
+df_trait_fdr02$celltype <- types[df_trait_fdr02$celltype]
+
+# Prepare data
+selected <- df_trait_fdr02 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.2")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p
+```
+
+
+
+
+
+
+### MCV-ebi-a-GCST90018746
+
+```{r fig.height=6, fig.width=12, warning=F, message=F}
+
+trait <- "MCV-ebi-a-GCST90018746"
+
+df_trait_fdr01 <- c()
+df_trait_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EAS_SLEremoved.RDS"))
+  
+  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 <- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.2, ]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 <- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+df_trait_fdr01$celltype <- types[df_trait_fdr01$celltype]
+
+# Prepare data
+selected <- df_trait_fdr01 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.1")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p
+
+
+df_trait_fdr02$celltype <- types[df_trait_fdr02$celltype]
+
+# Prepare data
+selected <- df_trait_fdr02 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.2")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p
+```
+
+
+## Plots for all pairs at ECT FDR < 0.1
+
+### Plots
+
+```{r fig.height=3, fig.width=7, warning=F, message=F}
+
+# candidate_pairs <- data.frame(celltype = c("B_cell","B_cell","CD14_positive_monocyte","thymocyte","thymocyte","thymocyte","thymocyte"),
+#                               trait = c("Psoriasis-ebi-a-GCST90038681","RA-ukb-a-105","SLE-ebi-a-GCST90018917","SLE-ebi-a-GCST90018917",
+#                                         "SLE-ebi-a-GCST90018917","IBD-ebi-a-GCST003043","IBD-ebi-a-GCST003043"),
+#                               factor = c("04062_PC2","04071_PC4","04120_PC1","04015_PC2","04022_PC4","00230_PC2","04924_PC1")
+#                               )
+
+fdr_cutoff <- 0.2
+df_all_fdr01$celltype <- celltypes[df_all_fdr01$celltype]
+
+for (i in 1:nrow(df_all_fdr01)){
+  
+  celltype <- df_all_fdr01$celltype[i]
+  trait <- df_all_fdr01$trait[i]
+  factor <- df_all_fdr01$factor[i]
+  
+  file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
+  dt_harmo <- readRDS(file_harmo)
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EAS_SLEremoved.RDS"))
+  
+  dat <- dt_harmo[[factor]]
+  snp_select <- dat[dat$FDR.exposure < fdr_cutoff,]
+  snp_select$chr <- as.numeric(as.character(snp_select$chr.exposure))
+  snp_select$chr <- factor(snp_select$chr, levels = sort(unique(snp_select$chr)))
+  
+  fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  
+  ect_p <- df$p_ECT[df$factor == factor & df$trait ==trait]
+  
+  pathwayname <- df$pathwayName[df$factor == factor & df$trait ==trait]
+  
+  eff <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+    geom_point(size = 4) + 
+    geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01, alpha=0.6) +
+    theme_bw(base_line_size = 0.3) +
+    theme(axis.title.x = element_text(size = 16),
+          axis.text.x = element_text(size = 14, color = "black"),
+          axis.title.y = element_text(size =16),
+          axis.text.y = element_text(size = 14, color = "black"),
+          text= element_text(family="Times"),
+          legend.text = element_text(size=12),
+          legend.title = element_text(size=12)) + 
+    geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+    geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+               label = paste("R^2 = ", signif(summary(fit)$r.squared, 3), 
+                             "\nECT p-value =", ect_p),
+               color = "black", family = "Times", size =3, label.size = NA,fill=NA) +
+    xlab(expression(hat(beta)[factor])) + 
+    ylab(expression(hat(beta)[gwas])) +
+    geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+    geom_hline(yintercept = 0, color = "grey", linetype = "dashed")
+  
+  
+  #snp_select <- dat[dat$FDR.exposure > fdr_cutoff & dat$steiger_dir ==T,]
+  snp_select <- dat[dat$FDR.exposure > fdr_cutoff,]
+  
+  fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  coef <- summary(fit)
+  p <- round(coef$coefficients[,4], digits = 4)
+  #ect_p <- df$p_ECT[df$factor == factor & df$trait ==trait]
+  
+  eff_rev <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome)) +
+    geom_point(size = 4, color ="steelblue") + 
+    theme_bw(base_line_size = 0.3) +
+    theme(axis.title.x = element_text(size = 16),
+          axis.text.x = element_text(size = 14, color = "black"),
+          axis.title.y = element_text(size =16),
+          axis.text.y = element_text(size = 14, color = "black"),
+          text= element_text(family="Times"),
+          legend.text = element_text(size=12),
+          legend.title = element_text(size=12)) + 
+    geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+    geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+               label = paste("R^2 = ", signif(summary(fit)$r.squared, 3), 
+                             "\n p-value =", p),
+               color = "black", family = "Times", size =3, label.size = NA,fill=NA) +
+    xlab(expression(hat(beta)[factor])) + 
+    ylab(expression(hat(beta)[gwas])) +
+    geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+    geom_hline(yintercept = 0, color = "grey", linetype = "dashed")
+  
+
+  
+  file_gene_loading <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/gene_loading/",celltype, "_", factor, "-", trait, ".RDS")
+  gene_loadings_pc <- readRDS(file_gene_loading)
+  
+  gene_loadings_pc_abs <- abs(gene_loadings_pc)
+  gene_loadings_pc_abs_sort <- sort(gene_loadings_pc_abs,decreasing = T)
+  topgenes <- names(gene_loadings_pc_abs_sort)[1:10]
+  
+  gene_loadings_pc <- as.data.frame(cbind(names(gene_loadings_pc),gene_loadings_pc))
+  names(gene_loadings_pc) <- c("gene_name","gene_loadings_pc")
+  
+  # Extract gene information based on the gene symbol
+  gene_info <- genes(EnsDb.Hsapiens.v75, filter = ~ gene_name ==  gene_loadings_pc$gene_name)
+  gene_info <- as.data.frame(gene_info)
+  gene_info <- gene_info[!duplicated(gene_info$gene_name),]
+  
+  gene_info <- merge(gene_info,gene_loadings_pc, by="gene_name")
+  gene_info <- gene_info[gene_info$seqnames %in%c(1:22),]
+  
+  loading_plot <- gene_info[,c("seqnames","start","gene_name","gene_loadings_pc")]
+  colnames(loading_plot) <- c("chromosome_name","start_position","gene_name","loadings")
+  loading_plot$loadings <- round(as.numeric(loading_plot$loadings),digits = 4)
+  
+  don <- loading_plot %>%
+    
+    # Compute chromosome size
+    group_by(chromosome_name) %>%
+    summarise(chr_len=max(start_position)) %>%
+    
+    # Calculate cumulative position of each chromosome
+    mutate(tot=cumsum(as.numeric(chr_len))-as.numeric(chr_len)) %>%
+    dplyr::select(-chr_len) %>%
+    
+    # Add this info to the initial dataset
+    left_join(loading_plot, ., by=c("chromosome_name"="chromosome_name")) %>%
+    
+    # Add a cumulative position of each SNP
+    arrange(chromosome_name, start_position) %>%
+    mutate( start_positioncum=start_position+tot) %>%
+    
+    # Add highlight and annotation information
+    #mutate( is_annotate=ifelse(gene_name %in% loading_plot_top10$gene_name, "yes", "no"))
+    mutate( is_annotate=ifelse(gene_name %in% topgenes, "yes", "no"))
+  # Then we need to prepare the X axis. Indeed we do not want to display the cumulative position of SNP in bp, but just show the chromosome name instead.
+  axisdf = don %>% group_by(chromosome_name) %>% summarize(center=( max(start_positioncum) + min(start_positioncum) ) / 2 )
+  
+  manhplot_gene <- ggplot(don, aes(x=start_positioncum, y=loadings)) +
+    
+    # Show all points
+    #rasterise(geom_point( aes(color=as.factor(chromosome_name)), alpha=0.8, size=3),dpi=80 )+
+    geom_point( aes(color=as.factor(chromosome_name)), alpha=0.8, size=3) +
+    scale_color_manual(values = rep(c("red", "steelblue"), 22)) +
+    
+    # custom X axis:
+    scale_x_continuous( label = as.integer(axisdf$chromosome_name), breaks= axisdf$center ) +
+    #scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+    
+    #ylab(expression(paste("-log"[10],"(p-value)"))) +
+    #ylim(0,max(-log10(don$loadings)) + 2) +
+    #ylim(min(as.numeric(don$loadings)),max(as.numeric(don$loadings))) +
+    #ylab("") +
+    ylab("Gene Loadings") +
+    xlab("Chromosome") +
+    
+    # Custom the theme:
+    theme_bw() +
+    #ggtitle(i) + theme(plot.title = element_text(hjust = 0.5)) +
+    theme(
+      legend.position="none",
+      panel.border = element_blank(),
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor.x = element_blank(),
+      axis.title.x = element_text(size = 18),
+      axis.text.x = element_text(size = 16, color = "black"),
+      axis.title.y = element_text(size = 18),
+      axis.text.y = element_text(size = 16, color = "black"),
+      text= element_text(family="Times"),
+      #axis.text.y=element_blank(),
+      #axis.ticks.y=element_blank()
+    ) +
+    geom_label_repel( data=subset(don, is_annotate=="yes"), aes(label=gene_name), size=4)
+  
+    
+    cat(paste0(celltype,"-", pathwayname, "-", trait ))
+  
+  
+    all <- grid.arrange(eff, eff_rev, nrow = 1)
+    
+    print(manhplot_gene)
+    print(paste0("Top 10 genes with largest abs loading: ", paste0(topgenes, collapse = ",")))
+  
+}
+
+```
+
+<!-- ### Gene function on the cell types , nots from chatgpt  -->
 
