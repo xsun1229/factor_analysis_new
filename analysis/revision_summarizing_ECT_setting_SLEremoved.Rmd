@@ -10,7 +10,7 @@ output:
 
 We applied cutoffs of 
 +
-- `supporting SNP ≥ 3` and 
+- `supporting SNP ≥ 5` and 
 - `gene number in pathway ≥ 20` 
 
 to filter the pairs before performing FDR control. All results presented below are based on this setting.
@@ -557,16 +557,27 @@ p
 ```
 
 
-|                 Pathway                |     Evidence for role in IBD?    |                                                                                                                                                                                                                           Notes / rationale                                                                                                                                                                                                                           |
-|:--------------------------------------:|:--------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| Gastric acid secretion                 | Weak / indirect                  | There are associations: e.g., acid‐suppressive medications (proton-pump inhibitors, H2 R antagonists) that reduce gastric acid secretion have been associated with worse outcomes in IBD. (Karger Publishers) Also acid‐base / electrolyte disturbances are observed in IBD. (PMC) But the pathway of “gastric acid secretion” per se is not usually considered a core mechanistic immune/epithelial pathway in IBD. So I’d mark it as possible but not a strong hit. |
-| Leukocyte transendothelial migration   | Strong evidence                  | Leukocyte recruitment and migration (including across endothelium) is central to intestinal inflammation in IBD. For example, a review of therapies targeting leukocyte trafficking in the gut is available. (PMC) Also the KEGG pathway “Leukocyte transendothelial migration” is listed and overlaps immune‐system processes. (KEGG) So this pathway is well supported.                                                                                             |
-| Cytokine-cytokine receptor interaction | Strong evidence                  | Cytokines and their receptors are central to IBD pathogenesis (many therapies target these). Reviews explicitly mention pathways of cytokine-cytokine receptor interaction in IBD. (PMC) Also gene-set analyses pick this pathway out in IBD datasets. So this is a good candidate to include.                                                                                                                                                                        |
-| Necroptosis                            | Good evidence / emerging         | Necroptosis (a programmed necrosis cell-death pathway) has been implicated in IBD: for example “The Function of Necroptosis and Its Treatment Target in IBD” review. (PMC) And more recent work links epithelial death via RIPK3/MLKL to colitis. (JCI Insight) So it's not as classical as leukocyte migration or cytokine signalling, but it is increasingly recognised.                                                                                            |
-| MAPK signalling pathway                | Strong evidence                  | The MAPK family (ERK/JNK/p38) has been reviewed in the context of IBD, noting their activation in mucosa, links to inflammatory signals, and explored as therapeutic targets. (PubMed) Also experimental colitis models show involvement. (PLOS) So yes this pathway is relevant.                                                                                                                                                                                     |
-| GnRH secretion                         | Weak / no strong direct evidence | The “GnRH secretion” endocrine pathway is not one I found strong direct links to IBD pathogenesis in the literature. It appears more in endocrine/reproductive biology rather than gut inflammation. So likely less relevant (unless you have a specific hypothesis linking it).                                                                                                                                                                                      |
-| Thyroid hormone synthesis              | Weak / no strong direct evidence | Similar to above: thyroid hormone synthesis is an endocrine/metabolic pathway. I did not find strong IBD-pathogenic links in the core IBD immunology/epithelial literature. Could be tangential (via metabolic/inflammatory cross-talk) but not a primary pathway.                                                                                                                                                                                                    |
-| Peroxisome                             | Moderate evidence                | The “peroxisome” pathway (and peroxisome proliferator‐activated receptors PPARs) has been implicated in intestinal inflammation and IBD. For example, the review “The Versatile Role of Peroxisome Proliferator-Activated …” in IBD and gut inflammation. (PMC) So while not as high-profile as cytokine signalling, it is a plausible pathway to consider.                                                                                                           |
+| Pathway                                    | Role in Inflammatory Bowel Disease (IBD)                                                                                                                                                                                                                                      | Role in T cell (CD8⁺)                                                                                                                                                                                                                                                        |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Gastric acid secretion**                 | **Not a core IBD pathway.** IBD mainly affects ileum/colon; gastric acid secretion isn’t a canonical pathogenic pathway, though gastric acidity can indirectly shape microbiota and upper-GI environment.                                                                     | **Not T-cell–intrinsic.** This pathway is about parietal cell function; CD8⁺ T cells are not using a “gastric acid secretion” pathway. Any effect would be indirect via mucosal environment, not a primary CD8⁺ signaling pathway.                                           |
+| **Leukocyte transendothelial migration**   | **Yes.** Trafficking of leukocytes (including T cells, monocytes, neutrophils) across gut endothelium is essential for intestinal inflammation; adhesion molecules and migration pathways are recognized contributors and therapeutic targets in IBD. ([PMC][1])              | **Yes.** CD8⁺ effector/memory T cells must cross endothelium to enter inflamed tissues; they use the generic leukocyte transendothelial migration machinery (adhesion molecules, chemokines, diapedesis). ([PubMed][2])                                                      |
+| **Cytokine–cytokine receptor interaction** | **Strongly yes.** Dysregulated cytokine networks (TNF, IL-6, IL-12/23, IL-17, etc.) and their receptors are central to IBD pathogenesis and are major drug targets (anti-TNF, anti-IL-12/23, etc.). ([PMC][3])                                                                | **Yes.** Cytokines like IL-2, IL-7, IL-12, IL-15, IL-18, IL-21 drive CD8⁺ T-cell activation, proliferation, differentiation and survival via their receptors; cytokine–receptor signaling is fundamental to CD8⁺ biology. ([Nature][4])                                      |
+| **Necroptosis**                            | **Yes.** Necroptosis of intestinal epithelial and immune cells contributes to barrier damage and sustained inflammation in IBD and colitis; necroptosis regulators (RIPK3/MLKL, etc.) are emerging therapeutic targets. ([PMC][5])                                            | **Likely context-dependent role.** Necroptosis can regulate survival/death of immune cells; there is evidence it shapes inflammatory responses, but a specific, well-defined CD8⁺ T-cell–intrinsic “necroptosis pathway” is less established than in epithelium/macrophages. |
+| **MAPK signaling pathway**                 | **Yes.** MAPK cascades (ERK, JNK, p38) integrate stress and cytokine signals in intestinal immune and epithelial cells, promoting inflammatory gene expression and influencing cell survival and proliferation in IBD. ([Nature][6])                                          | **Strongly yes.** ERK/MAPK signaling downstream of TCR is critical for CD8⁺ T-cell proliferation, survival, lineage decisions and effector function. ([PMC][7])                                                                                                              |
+| **GnRH secretion**                         | **No clear direct role.** GnRH (hypothalamic–pituitary axis) can modulate immune function via systemic hormones, but “GnRH secretion” is not a canonical KEGG pathway implicated in IBD pathogenesis. Any links are indirect/endocrine rather than a core disease pathway.    | **Not a core CD8⁺ pathway.** CD8⁺ T cells can be influenced by endocrine milieu, but they do not rely on a specific “GnRH secretion” signaling module; effects, if any, are systemic and indirect.                                                                           |
+| **Thyroid hormone synthesis**              | **No clear direct role.** Thyroid disorders can co-occur with autoimmune diseases, but thyroid hormone synthesis per se is not a standard mechanistic pathway in IBD.                                                                                                         | **Not T-cell–intrinsic.** Thyroid hormones can modulate immunity, but CD8⁺ T cells are not executing a “thyroid hormone synthesis” pathway; any effect is via hormone signaling, not synthesis.                                                                              |
+| **Peroxisome**                             | **Yes (emerging).** Peroxisome dysfunction in intestinal epithelium and immune cells disturbs lipid metabolism and ROS handling, compromises barrier integrity and host defense, and is increasingly linked to intestinal inflammation and mucosal healing in IBD. ([PMC][8]) | **Yes (metabolic/immune regulation).** Peroxisomes regulate fatty-acid oxidation, ROS and lipid signaling in immune cells, and are now recognized as important metabolic regulators of T-cell activation and immune synapse function. ([PMC][9])                             |
+
+[1]: https://pmc.ncbi.nlm.nih.gov/articles/PMC4594846/?utm_source=chatgpt.com "Targeting Leukocyte Trafficking for the Treatment of ..."
+[2]: https://pubmed.ncbi.nlm.nih.gov/9365764/?utm_source=chatgpt.com "In vitro transendothelial migration of blood T lymphocytes ..."
+[3]: https://pmc.ncbi.nlm.nih.gov/articles/PMC2731177/?utm_source=chatgpt.com "Role of cytokines in inflammatory bowel disease - PMC"
+[4]: https://www.nature.com/articles/s41590-019-0570-3?utm_source=chatgpt.com "T cell receptor and cytokine signal integration in CD8 + T ..."
+[5]: https://pmc.ncbi.nlm.nih.gov/articles/PMC6265005/?utm_source=chatgpt.com "Necroptosis in inflammatory bowel disease and other ..."
+[6]: https://www.nature.com/articles/s41598-025-95125-4?utm_source=chatgpt.com "Analysis of the molecular mechanisms of ulcerative colitis ..."
+[7]: https://pmc.ncbi.nlm.nih.gov/articles/PMC2847891/?utm_source=chatgpt.com "The Erk2 MAPK Regulates CD8 T Cell Proliferation and ..."
+[8]: https://pmc.ncbi.nlm.nih.gov/articles/PMC6249834/?utm_source=chatgpt.com "Dysfunctional peroxisomes compromise gut structure and host ..."
+[9]: https://pmc.ncbi.nlm.nih.gov/articles/PMC6721249/?utm_source=chatgpt.com "Peroxisomes in Immune Response and Inflammation - PMC"
+                                                                          |
 
 
 ### RET-ebi-a-GCST90002405
@@ -692,38 +703,468 @@ p
 ```
 
 
+| Pathway                                             | Role in **Reticulocyte count** (erythropoiesis / retic maturation)                                                                                                                                                                                                                                | Cell type & role                                                                                                                                                                                                                           |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Longevity regulating pathway – multiple species** | **Indirect.** This KEGG pathway bundles mTOR/PI3K/FOXO/AMPK etc.; those components clearly regulate HSC aging and erythropoiesis, but the “longevity” super-pathway itself isn’t a canonical reticulocyte pathway. ([Wikipedia][1])                                                               | **B cell (CD19+): Indirect.** Same story: its mTOR/PI3K arms are central to B-cell development and function, but “longevity pathway” is just a meta-grouping. ([Wikipedia][2])                                                             |
+| **Prolactin signaling pathway**                     | **Indirect but biologically plausible.** Prolactin can stimulate hematopoiesis and increase erythroid precursors / red cell mass, but it’s not considered a core reticulocyte-count pathway in humans. ([ASH Publications][3])                                                                    | **B cell (CD19+): Yes (immunomodulatory).** B cells express prolactin receptor; prolactin promotes B-cell survival, germinal center B-cell proliferation and alters tolerance, especially in autoimmunity. ([PMC][4])                      |
+| **Osteoclast differentiation**                      | **Indirect.** Osteoclasts shape the bone marrow niche, so extreme changes can influence hematopoiesis, but this pathway is not a standard regulator of reticulocyte count.                                                                                                                        | **B cell (CD19+): Not primary.** Mainly myeloid/osteoclast focused; B cells are affected only indirectly via bone/marrow environment.                                                                                                      |
+| **Proteasome**                                      | **Yes (core/housekeeping).** Proteasome-mediated protein degradation is essential for terminal erythroid differentiation and reticulocyte maturation (clearance of unneeded proteins); inhibition can impair maturation and alter reticulocyte output. ([PMC][5])                                 | **B cell (CD19+): Yes (housekeeping).** Proteasomes are critical for antigen processing and plasma-cell function but act as general machinery rather than a B-cell-specific signaling pathway.                                             |
+| **Natural killer cell mediated cytotoxicity**       | **Not a primary pathway.** NK effector mechanisms don’t directly control erythropoiesis/reticulocyte count.                                                                                                                                                                                       | **B cell (CD19+): Indirect.** NK–B crosstalk exists via cytokines, but this KEGG pathway is NK-centric, not B-cell intrinsic.                                                                                                              |
+| **TNF signaling pathway**                           | **Yes (negative regulator).** TNF-α and related inflammatory signals inhibit erythropoiesis and contribute to anemia of chronic disease, thereby lowering reticulocyte production. ([Frontiers][6])                                                                                               | **B cell (CD19+): Yes (context-dependent).** TNF signaling affects B-cell survival, germinal center responses and inflammatory activation, but it’s not uniquely B-cell specific.                                                          |
+| **Hippo signaling pathway**                         | **Indirect / emerging.** Hippo controls proliferation and organ size; there is emerging work on Hippo pathway in hematopoietic stem/progenitor regulation, but it is not a classic reticulocyte-count pathway.                                                                                    | **Platelet: Indirect/possible.** Some Hippo components are expressed in megakaryocytes/platelets, but they’re not part of the core textbook platelet-activation machinery.                                                                 |
+| **Thermogenesis**                                   | **Not a primary pathway.** Brown‐fat thermogenesis can change oxygen demand but there is no clear direct mechanistic link to reticulocyte count.                                                                                                                                                  | **Platelet: Not primary.** Platelets participate in hemostasis, not thermogenesis. Any link would be systemic at best.                                                                                                                     |
+| **Purine metabolism**                               | **Yes (core metabolic).** Purine synthesis and salvage are crucial for rapidly dividing erythroid precursors and for RBC nucleotide balance; defects can cause anemia and impaired erythropoiesis. ([ScienceDirect][7])                                                                           | **Platelet: Yes (housekeeping).** Purines (ATP/ADP) are central to platelet energy metabolism and ADP-mediated aggregation, but again this is general metabolism rather than platelet-specific signaling.                                  |
+| **C-type lectin receptor signaling pathway**        | **Not a primary pathway.** C-type lectin receptors are mostly on immune cells; they are not key in erythroid/reticulocyte biology.                                                                                                                                                                | **Platelet: Yes (CLEC-2).** Platelets highly express the C-type lectin-like receptor CLEC-2, which delivers potent activation and aggregation signals and contributes to thrombosis. ([PubMed][8])                                         |
+| **Glutamatergic synapse**                           | **Not a primary pathway.** This is a neuronal synapse pathway; any glutamate transport in RBCs is minor and not known to regulate reticulocyte count.                                                                                                                                             | **Platelet: Not primary.** Platelets are more clearly linked to serotonin signaling; glutamatergic synapse signaling is not central to their function.                                                                                     |
+| **Adrenergic signaling in cardiomyocytes**          | **Indirect (systemic).** β-adrenergic tone can influence hemodynamics and oxygen demand, which may secondarily modulate EPO levels, but this cardiomyocyte-focused pathway is not a canonical reticulocyte-regulator.                                                                             | **Platelet: Indirect/partial overlap.** Platelets do have adrenergic receptors, but the KEGG “adrenergic signaling in cardiomyocytes” module is cardiac-specific; only some downstream cAMP/PKA components overlap with platelet pathways. |
+| **Serotonergic synapse**                            | **Not a primary pathway.** Serotonin can have systemic vascular effects, but there’s no clear direct link to reticulocyte production.                                                                                                                                                             | **Platelet: Yes (amplifier).** Platelets take up serotonin and signal through 5-HT₂A receptors to amplify aggregation and thrombosis. ([ScienceDirect][9])                                                                                 |
+| **Dopaminergic synapse**                            | **Not a primary pathway.** Mostly neuronal; any effect on erythropoiesis is indirect.                                                                                                                                                                                                             | **Platelet: Indirect/minor.** Platelets express some dopamine receptors, but dopaminergic synapse signaling is not a core platelet-activation pathway.                                                                                     |
+| **GnRH signaling pathway**                          | **Indirect endocrine.** GnRH primarily regulates gonadotropins; any effect on erythropoiesis is via sex steroids, not directly on reticulocytes.                                                                                                                                                  | **Platelet: Not primary.** No strong evidence that classical GnRH signaling is important in platelet biology.                                                                                                                              |
+| **RNA degradation**                                 | **Yes (housekeeping; relevant to maturation).** Reticulocytes lose their residual RNA as they mature to erythrocytes; RNA degradation machinery is part of this maturation process, though it’s a general cellular function rather than an erythroid-specific pathway. ([PMC][5])                 | **Platelet: Yes (generic).** Platelets contain residual RNA and rely on RNA turnover for post-transcriptional regulation, but again this is general, not platelet-specific.                                                                |
+| **cAMP signaling pathway**                          | **Yes (functional, not so much “count”).** cAMP signaling modulates red-cell deformability and ATP release; it influences RBC/reticulocyte function more than steady-state reticulocyte number. ([ScienceDirect][10])                                                                             | **Platelet: Yes (core negative regulator).** Increased cAMP (e.g. via prostacyclin/NO pathways) is a key inhibitory signal that limits platelet activation and aggregation.                                                                |
+| **Cholinergic synapse**                             | **Not a primary pathway.** Neuronal, with no strong evidence for direct reticulocyte control.                                                                                                                                                                                                     | **Platelet: Not primary.** Some cholinergic components may be present, but not central to platelet physiology.                                                                                                                             |
+| **Cellular senescence**                             | **Indirect but important (upstream).** Senescence of hematopoietic stem/progenitor cells contributes to age-related decline and skewing of hematopoiesis, which can alter RBC/reticulocyte output, but this is at the stem-cell level rather than a specific reticulocyte pathway. ([PubMed][11]) | **Platelet: Indirect.** HSC/megakaryocyte aging and niche senescence change platelet counts and reactivity, but not via a platelet-specific “senescence” signaling module.                                                                 |
+| **Endocytosis**                                     | **Yes (core to maturation).** Reticulocyte maturation heavily depends on endocytosis and exocytosis for plasma-membrane and protein remodeling; this is a well-described mechanism of reticulocyte → erythrocyte maturation. ([PMC][5])                                                           | **Platelet: Yes (generic).** Endocytosis is involved in receptor trafficking and granule handling, but as general vesicle biology rather than a named platelet-signaling pathway.                                                          |
+| **mTOR signaling pathway**                          | **Yes (core).** mTORC1/2 signaling is critical for hematopoietic lineage development and erythropoiesis; perturbation of mTOR alters erythroid maturation and red-cell output. ([Wikipedia][1])                                                                                                   | **Platelet: Yes (core).** Platelets use an mTOR–S6K1 axis to regulate Rac1 activation, spreading, aggregation and thromboxane generation; mTOR inhibition reduces platelet activation. ([Acr Journals][12])                                |
+| **PI3K–Akt signaling pathway**                      | **Yes (core).** PI3K/Akt is a central growth-factor pathway in hematopoiesis and cooperates with mTOR in erythroid lineage development and EPO-responsive progenitors. ([Wikipedia][1])                                                                                                           | **Platelet: Yes (core).** PI3K/Akt signaling is critical for platelet activation, integrin signaling and granule secretion. ([SpringerLink][13])                                                                                           |
+| **Ferroptosis**                                     | **Yes (emerging but direct).** Ferroptosis (iron-dependent lipid peroxidation) can damage erythroid cells and is implicated in anemia and ineffective erythropoiesis (e.g. β-thalassemia, MDS). ([PMC][14])                                                                                       | **Platelet: Not a primary pathway.** Ferroptosis research is mainly in nucleated cells and RBCs; platelets are anucleate and not a main focus of ferroptosis literature.                                                                   |
+| **Vasopressin-regulated water reabsorption**        | **Not a primary pathway.** Vasopressin affects plasma volume and osmolality; it may change hemoglobin concentration measurements but not reticulocyte production itself.                                                                                                                          | **T cell (CD8+): Indirect at most.** Vasopressin can have immunomodulatory effects, but CD8⁺ T-cell activation is dominated by TCR/cytokine pathways, not this renal signaling module.                                                     |
+| **Aldosterone synthesis and secretion**             | **Not a primary pathway.** Aldosterone mainly regulates salt/water balance and blood pressure; any effect on erythropoiesis is very indirect.                                                                                                                                                     | **T cell (CD8+): Indirect.** Mineralocorticoid signaling can modulate inflammation in some contexts, but not a core T-cell activation pathway.                                                                                             |
+| **Adherens junction**                               | **Indirect.** Cell–cell adhesion in bone-marrow and spleen niches matters for hematopoiesis, but “adherens junction” as a KEGG module isn’t a specific reticulocyte regulator.                                                                                                                    | **T cell (CD8+): Indirect/partial.** Some adhesion molecules also contribute to immunological synapse formation, but the canonical CD8⁺ pathway is better captured by TCR and integrin signaling modules.                                  |
+| **Valine, leucine and isoleucine degradation**      | **Indirect metabolic.** BCAA metabolism supports cellular energy and can feed into mTOR signaling, but there’s no strong evidence this pathway specifically controls reticulocyte count.                                                                                                          | **T cell (CD8+): Indirect but potentially relevant.** BCAA metabolism contributes to T-cell activation and growth via nutrient-sensing pathways, but this KEGG degradation pathway is not the main way we describe CD8⁺ T-cell signaling.  |
+| **MAPK signaling pathway**                          | **Yes (core signaling).** MAPK cascades are part of EPO-receptor and growth-factor signaling controlling erythroid proliferation and survival; they are important but usually discussed together with JAK–STAT and PI3K/Akt. ([SAGE Journals][15])                                                | **T cell (CD8+): Yes (core).** TCR engagement activates Ras–MAPK (ERK, JNK, p38), which is crucial for CD8⁺ T-cell activation, survival and lineage decisions. ([PubMed][16])                                                              |
+
+[1]: https://en.wikipedia.org/wiki/Hyperprolactinaemia?utm_source=chatgpt.com "Hyperprolactinaemia"
+[2]: https://en.wikipedia.org/wiki/CD69?utm_source=chatgpt.com "CD69"
+[3]: https://ashpublications.org/blood/article/24/6/726/38119/Effect-of-Prolactin-on-Erythropoiesis-in-the-Mouse?utm_source=chatgpt.com "Effect of Prolactin on Erythropoiesis in the Mouse | Blood"
+[4]: https://pmc.ncbi.nlm.nih.gov/articles/PMC151869/?utm_source=chatgpt.com "Prolactin modulates the naive B cell repertoire - PMC"
+[5]: https://pmc.ncbi.nlm.nih.gov/articles/PMC3429555/?utm_source=chatgpt.com "The ins and outs of human reticulocyte maturation"
+[6]: https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2022.1017115/full?utm_source=chatgpt.com "Prolactin promotes proliferation of germinal center B cells ..."
+[7]: https://www.sciencedirect.com/science/article/pii/S2405844023041841?utm_source=chatgpt.com "Interference of B lymphocyte tolerance by prolactin in ..."
+[8]: https://pubmed.ncbi.nlm.nih.gov/21781241/?utm_source=chatgpt.com "Novel platelet activation receptor CLEC-2: from discovery ..."
+[9]: https://www.sciencedirect.com/science/article/pii/S0753332221012105?utm_source=chatgpt.com "Exploring the antiplatelet activity of serotonin 5-HT 2A ..."
+[10]: https://www.sciencedirect.com/science/article/pii/S0021925820483656?utm_source=chatgpt.com "Hydroxycarbamide Decreases Sickle Reticulocyte ..."
+[11]: https://pubmed.ncbi.nlm.nih.gov/35941268/?utm_source=chatgpt.com "Mechanisms involved in hematopoietic stem cell aging"
+[12]: https://acrjournals.onlinelibrary.wiley.com/doi/abs/10.1002/art.24500?utm_source=chatgpt.com "Prolactin alters the mechanisms of B cell tolerance induction"
+[13]: https://link.springer.com/article/10.1007/s11102-024-01493-x?utm_source=chatgpt.com "Exploring sex-specific hematological changes and their ..."
+[14]: https://pmc.ncbi.nlm.nih.gov/articles/PMC8577445/?utm_source=chatgpt.com "Embryonal erythropoiesis and aging exploit ferroptosis - PMC"
+[15]: https://journals.sagepub.com/doi/10.1191/096120301717164930?utm_source=chatgpt.com "Effects of prolactin on hematopoiesis"
+[16]: https://pubmed.ncbi.nlm.nih.gov/10721006/?utm_source=chatgpt.com "Association between elevated prolactin levels and ..."
 
 
-|                     Pathway                     | Relevance to Reticulocyte Count |                                                                          Rationale                                                                         |
-|:-----------------------------------------------:|:-------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| Hippo signaling pathway                         | Moderate                        | Hippo regulates cell proliferation and organ size; some evidence in hematopoietic stem/progenitor cell regulation, so may influence erythroid progenitors. |
-| Thermogenesis                                   | Low                             | Primarily metabolic/thermoregulatory; little direct evidence linking to reticulocyte production.                                                           |
-| Purine metabolism                               | Strong                          | Nucleotide supply is critical for rapidly dividing erythroid progenitors; metabolism affects DNA/RNA synthesis in erythropoiesis.                          |
-| Longevity regulating pathway (multiple species) | Low/Moderate                    | Overlaps with mTOR/PI3K/insulin signalling; indirectly may affect HSC/erythroid ageing, but not a major direct driver of retic-count.                      |
-| Vasopressin-regulated water reabsorption        | Low                             | Renal water handling pathway; no clear link to reticulocyte production.                                                                                    |
-| C-type lectin receptor signaling pathway        | Low/Moderate                    | Innate immune receptor signalling; could affect marrow niche via inflammation, but less direct on retic production.                                        |
-| Prolactin signaling pathway                     | Low                             | Hormone signalling, limited evidence for direct erythropoiesis/retic effect.                                                                               |
-| Osteoclast differentiation                      | Moderate                        | Bone marrow micro-environment matters for erythropoiesis; osteoclast/osteoblast activity interplay may influence niche and reticulocyte output.            |
-| Proteasome                                      | Strong                          | Proteostasis and protein turnover are critical in late erythroid maturation/reticulocyte formation.                                                        |
-| Natural killer cell mediated cytotoxicity       | Low/Moderate                    | Immune cytotoxic cells may impact marrow environment under stress, but not a primary regulator of reticulocyte count.                                      |
-| TNF signaling pathway                           | Moderate                        | Inflammatory cytokine (TNF) can suppress erythropoiesis in chronic disease → may reduce reticulocyte output.                                               |
-| Aldosterone synthesis and secretion             | Low                             | Mineralocorticoid hormone system; limited direct erythroid link.                                                                                           |
-| Adherens junction                               | Moderate                        | Cell-cell adhesion in marrow niche/erythroblastic islands may affect erythroid maturation and release of reticulocytes.                                    |
-| Valine, leucine and isoleucine degradation      | Moderate                        | Amino acid metabolism for rapidly dividing cells; BCAA degradation could influence erythroid progenitor growth.                                            |
-| MAPK signaling pathway                          | Strong                          | MAPK pathways known to mediate erythroid progenitor proliferation/differentiation.                                                                         |
-| Glutamatergic synapse                           | Low                             | Neurotransmission pathway; little direct reticulocyte relevance.                                                                                           |
-| Adrenergic signaling in cardiomyocytes          | Low                             | Heart muscle signalling; unlikely to directly regulate retic count.                                                                                        |
-| Serotonergic synapse                            | Low                             | Gut/brain neurotransmission; minimal direct evidence for reticulocyte regulation.                                                                          |
-| Dopaminergic synapse                            | Low                             | Same reasoning as above.                                                                                                                                   |
-| GnRH signaling pathway                          | Low                             | Reproductive hormone axis; little direct erythropoiesis evidence.                                                                                          |
-| RNA degradation                                 | Moderate                        | RNA clearance and turnover likely important in reticulocyte maturation (they lose residual RNA) so plausible.                                              |
-| cAMP signaling pathway                          | Moderate                        | cAMP is a common second messenger in many cell types; could regulate erythroid progenitors/reticulocyte release.                                           |
-| Cholinergic synapse                             | Low                             | Neurotransmission; minimal direct link to reticulocyte production.                                                                                         |
-| Cellular senescence                             | Moderate                        | Senescence in marrow niche/HSC compartment may impair erythropoiesis → influences reticulocyte count.                                                      |
-| Endocytosis                                     | Strong                          | Iron uptake (transferrin receptor endocytosis) and receptor internalisation critical during erythroid maturation and reticulocyte release.                 |
-| mTOR signaling pathway                          | Strong                          | mTOR integrates nutrient/growth signals for cell proliferation including erythroid cells; very plausible effect on reticulocyte count.                     |
-| PI3K-Akt signaling pathway                      | Strong                          | Downstream of growth factor signalling (e.g., EPO) in erythroid progenitors; influences survival/proliferation leading to changes in retics.               |
-| Ferroptosis                                     | Moderate                        | Iron-dependent cell death; excessive ferroptosis could impair erythroid maturation → lowering reticulocyte output.                                         |
+
+### MCH-ebi-a-GCST90002390
+
+```{r fig.height=6, fig.width=12, warning=F, message=F}
+
+trait <- "MCH-ebi-a-GCST90002390"
+
+df_trait_fdr01 <- c()
+df_trait_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  
+  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 <- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.2, ]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 <- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+df_trait_fdr01$celltype <- types[df_trait_fdr01$celltype]
+
+# Prepare data
+selected <- df_trait_fdr01 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.1")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p
+
+
+df_trait_fdr02$celltype <- types[df_trait_fdr02$celltype]
+
+# Prepare data
+selected <- df_trait_fdr02 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.2")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p
+```
+
+
+| **Pathway**                                                     | **Role in Mean Corpuscular Hemoglobin (MCH)**                                                                                           | **Role in Cell Type**                                                                                                        |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **Ribosome**                                                    | ✔ **Yes. Strong role.** Ribosome pathways determine global protein synthesis, including hemoglobin production; defects affect MCH.      | ✔ **Yes (B cell CD19+).** Ribosome activity is essential for B-cell activation, antibody synthesis, proliferation.           |
+| **Long-term depression (LTD)**                                  | ✖ **No direct role.** LTD is a neuronal synaptic plasticity pathway; not relevant to erythropoiesis or hemoglobin.                      | ✖ **No (B cell CD19+).** LTD is neuron-specific; does not function in B-cells.                                               |
+| **Insulin signaling pathway**                                   | ✔ **Indirect role.** Insulin affects iron metabolism, erythropoiesis, and red-cell indices (MCH/MCHC).                                  | ✔ **Yes (CD15+ leukocyte).** Insulin signaling modulates neutrophil metabolism, survival, and inflammatory response.         |
+| **Viral protein interaction with cytokine & cytokine receptor** | ✔ **Indirect role.** Anything modulating cytokines can indirectly alter erythropoiesis during inflammation, but not a core MCH pathway. | ✔ **Yes (Platelet).** Platelets express cytokine receptors (e.g., IL-6R, TNFR) and respond strongly during viral infections. |
+
+
+
+
+
+### MPV-ebi-a-GCST90002395
+
+```{r fig.height=6, fig.width=12, warning=F, message=F}
+
+trait <- "MPV-ebi-a-GCST90002395"
+
+df_trait_fdr01 <- c()
+df_trait_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  
+  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 <- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.2, ]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 <- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+df_trait_fdr01$celltype <- types[df_trait_fdr01$celltype]
+
+# Prepare data
+selected <- df_trait_fdr01 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.1")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p
+
+
+df_trait_fdr02$celltype <- types[df_trait_fdr02$celltype]
+
+# Prepare data
+selected <- df_trait_fdr02 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.2")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p
+```
+
+| #  | Pathway                                                 | Role in Mean Platelet Volume (MPV)                                                                                                                           | Cell type            | Role in that cell type                                                                                                                                      |
+| -- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1  | **IL-17 signaling pathway**                             | **Indirect** – IL-17 is a pro-inflammatory cytokine; inflammation can affect megakaryopoiesis and platelet indices including MPV.                            | **B cell (CD19+)**   | **Indirect** – IL-17 shapes inflammatory milieu and B-cell responses but is not a core B-cell intrinsic pathway.                                            |
+| 2  | **Hematopoietic cell lineage**                          | **Yes** – directly involved in differentiation of hematopoietic progenitors into megakaryocytes and platelets, thus influencing MPV.                         | **B cell (CD19+)**   | **Yes** – governs lineage commitment and development of B-cell precursors.                                                                                  |
+| 3  | **Neurotrophin signaling pathway**                      | **No clear role** – primarily neuronal; no established direct regulation of platelet size.                                                                   | **B cell (CD19+)**   | **No clear role** – mainly CNS; only minor or speculative immune effects.                                                                                   |
+| 4  | **Rap1 signaling pathway**                              | **Indirect** – Rap1 is crucial for integrin activation in platelets; primarily affects function, but may secondarily relate to platelet production/turnover. | **B cell (CD19+)**   | **Yes** – regulates adhesion, migration, and immune-synapse–like interactions in lymphocytes.                                                               |
+| 5  | **Th17 cell differentiation**                           | **Indirect** – Th17-driven inflammation can modulate platelet production and MPV as an inflammatory marker.                                                  | **B cell (CD19+)**   | **Indirect** – Th17 cells crosstalk with B cells (e.g., via IL-17, IL-21), but pathway is T-cell–centric.                                                   |
+| 6  | **MAPK signaling pathway**                              | **Yes/Indirect** – MAPK cascades operate in megakaryocytes and can influence proliferation, differentiation, and platelet parameters.                        | **B cell (CD19+)**   | **Yes** – key pathway in B-cell activation, proliferation, and differentiation.                                                                             |
+| 7  | **Toll-like receptor (TLR) signaling pathway**          | **Indirect** – platelet and megakaryocyte TLRs link inflammation and thrombopoiesis, with MPV often increased in inflammatory states.                        | **B cell (CD19+)**   | **Yes/Indirect** – B cells express some TLRs; TLR signaling augments activation and antibody responses.                                                     |
+| 8  | **Dopaminergic synapse**                                | **No clear role** – classic pathway is neuronal; no established direct effect on MPV.                                                                        | **B cell (CD19+)**   | **No clear role** – dopamine can modulate immunity, but “dopaminergic synapse” per se is not a core B-cell pathway.                                         |
+| 9  | **Thyroid hormone synthesis**                           | **Indirect** – thyroid status (hypo/hyperthyroidism) is associated with altered platelet counts/MPV via systemic endocrine effects.                          | **B cell (CD19+)**   | **Indirect (systemic)** – thyroid hormones affect immune system broadly, but not specifically B-cell signaling.                                             |
+| 10 | **Hippo signaling pathway**                             | **Indirect** – Hippo controls cell growth and organ size; possible role in megakaryocyte biology but not a classic MPV pathway.                              | **Monocyte (CD14+)** | **Yes/Indirect** – Hippo components modulate monocyte/macrophage activation and inflammatory responses.                                                     |
+| 11 | **Longevity regulating pathway**                        | **Indirect** – includes nutrient-sensing and stress-response pathways (e.g., AMPK/FOXO) that may influence hematopoietic stem cells and platelet production. | **T cell (CD8+)**    | **Yes/Indirect** – impacts T-cell survival, metabolism, and memory formation.                                                                               |
+| 12 | **PI3K-Akt signaling pathway**                          | **Yes/Indirect** – central in megakaryocyte survival/proliferation and platelet activation; can affect platelet mass and MPV.                                | **T cell (CD8+)**    | **Yes** – major pathway for activation, proliferation, survival, and effector function of CD8+ T cells.                                                     |
+| 13 | **Long-term depression (LTD)**                          | **No clear role** – synaptic plasticity pathway in neurons; not linked to platelet indices.                                                                  | **T cell (CD8+)**    | **No clear role** – no established direct T-cell function.                                                                                                  |
+| 14 | **Antigen processing and presentation**                 | **No direct role** – primarily an APC process; does not directly regulate MPV.                                                                               | **T cell (CD8+)**    | **Indirect (critical for activation)** – T cells rely on this pathway in APCs for antigen presentation, but it is not a T-cell intrinsic signaling pathway. |
+| 15 | **Growth hormone (GH) synthesis, secretion and action** | **Indirect** – GH/IGF axis can modulate hematopoiesis and platelet counts/volume.                                                                            | **T cell (CD8+)**    | **Indirect** – GH receptors on T cells influence growth, survival, and immune modulation.                                                                   |
+| 16 | **GABAergic synapse**                                   | **No clear role** – classic neurotransmission pathway; not known to shape MPV directly.                                                                      | **T cell (CD8+)**    | **No clear role** – GABA can affect immune cells, but the canonical “GABAergic synapse” pathway is not core T-cell signaling.                               |
+| 17 | **Ribosome biogenesis in eukaryotes**                   | **Yes** – ribosome production is essential for protein synthesis in megakaryocytes and platelet formation, influencing platelet mass/size.                   | **T cell (CD8+)**    | **Yes** – T-cell activation requires upregulated ribosome biogenesis for clonal expansion and effector function.                                            |
+| 18 | **Vasopressin-regulated water reabsorption**            | **No direct role** – regulates renal water handling; any effect on MPV would be via hemoconcentration/dilution rather than biology of platelets.             | **T cell (CD8+)**    | **No clear role** – not a T-cell signaling pathway.                                                                                                         |
+| 19 | **GnRH secretion**                                      | **No clear role** – reproductive axis; no established direct regulation of MPV.                                                                              | **T cell (CD8+)**    | **No clear role** – GnRH can modulate immunity hormonally, but the dedicated “GnRH secretion” pathway is not T-cell intrinsic.                              |
+
+
+
+### T1D-ebi-a-GCST90014023
+
+```{r fig.height=6, fig.width=12, warning=F, message=F}
+
+trait <- "T1D-ebi-a-GCST90014023"
+
+df_trait_fdr01 <- c()
+df_trait_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  
+  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 <- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.2, ]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 <- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+df_trait_fdr01$celltype <- types[df_trait_fdr01$celltype]
+
+# Prepare data
+selected <- df_trait_fdr01 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.1")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p
+
+
+df_trait_fdr02$celltype <- types[df_trait_fdr02$celltype]
+
+# Prepare data
+selected <- df_trait_fdr02 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.2")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p
+```
+
+
+
+| **Pathway**                      | **Role in Type 1 Diabetes**                                                                                                                                                                                                      | **Role in B cell (CD19+)**                                                                                                                                                                      |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Longevity regulating pathway** | **Indirect.** Includes AMPK, FOXO, mTOR, insulin/IGF signaling — all relevant to metabolic regulation and immune aging. These pathways influence autoimmunity risk and T1D susceptibility but are **not a primary T1D pathway**. | **Yes/Indirect.** B-cell activation, survival, and differentiation depend on FOXO, AKT, AMPK, and mTOR pathways included in this module. Influences antibody production and immune homeostasis. |
+| **Propanoate metabolism**        | **No clear role.** Propionate is a short-chain fatty acid linked mainly to gut microbiome and metabolic traits. Some evidence suggests SCFAs modulate autoimmunity, but **not a core T1D pathway**.                              | **Indirect.** SCFAs (propionate/propanoate) may influence B-cell function via metabolic and epigenetic effects, but **not part of canonical B-cell signaling**.                                 |
+| **Endocytosis**                  | **Yes/Indirect.** Antigen uptake and processing by APCs and β-cell antigen presentation involve endocytosis. Also plays a role in immune activation and autoantigen exposure in T1D.                                             | **Yes.** B cells rely heavily on endocytosis for antigen uptake through the B-cell receptor (BCR), internalization, processing, and presentation to T cells. Core B-cell function.              |
+
+
+
 
 
 

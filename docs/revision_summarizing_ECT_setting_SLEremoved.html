@@ -545,15 +545,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree33e06f736eed2fbc1d073176551806e5cd0c37ebtargetblank33e06f7a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7targetblank6f0c870a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/33e06f736eed2fbc1d073176551806e5cd0c37eb" target="_blank">33e06f7</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7" target="_blank">6f0c870</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree33e06f736eed2fbc1d073176551806e5cd0c37ebtargetblank33e06f7a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7targetblank6f0c870a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -563,7 +563,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/33e06f736eed2fbc1d073176551806e5cd0c37eb" target="_blank">33e06f7</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7" target="_blank">6f0c870</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -578,7 +578,6 @@ were generated:
 </p>
 <pre><code>
 Unstaged changes:
-    Modified:   analysis/revision_figures.Rmd
     Modified:   analysis/revision_summarizing_ECT_setting_SLEremoved.Rmd
 
 </code></pre>
@@ -627,6 +626,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7/analysis/revision_summarizing_ECT_setting_SLEremoved.Rmd" target="_blank">6f0c870</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-12
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7/docs/revision_summarizing_ECT_setting_SLEremoved.html" target="_blank">6f0c870</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-12
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -702,7 +735,7 @@ update
 </div>
 </div>
 </div>
-<p>We applied cutoffs of + - <code>supporting SNP ≥ 3</code> and -
+<p>We applied cutoffs of + - <code>supporting SNP ≥ 5</code> and -
 <code>gene number in pathway ≥ 20</code></p>
 <p>to filter the pairs before performing FDR control. All results
 presented below are based on this setting.</p>
@@ -1535,95 +1568,127 @@ XSun
 <table>
 <colgroup>
 <col width="7%" />
-<col width="6%" />
-<col width="86%" />
+<col width="46%" />
+<col width="46%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="center">Pathway</th>
-<th align="center">Evidence for role in IBD?</th>
-<th align="center">Notes / rationale</th>
+<th>Pathway</th>
+<th>Role in Inflammatory Bowel Disease (IBD)</th>
+<th>Role in T cell (CD8⁺)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">Gastric acid secretion</td>
-<td align="center">Weak / indirect</td>
-<td align="center">There are associations: e.g., acid‐suppressive
-medications (proton-pump inhibitors, H2 R antagonists) that reduce
-gastric acid secretion have been associated with worse outcomes in IBD.
-(Karger Publishers) Also acid‐base / electrolyte disturbances are
-observed in IBD. (PMC) But the pathway of “gastric acid secretion” per
-se is not usually considered a core mechanistic immune/epithelial
-pathway in IBD. So I’d mark it as possible but not a strong hit.</td>
+<td><strong>Gastric acid secretion</strong></td>
+<td><strong>Not a core IBD pathway.</strong> IBD mainly affects
+ileum/colon; gastric acid secretion isn’t a canonical pathogenic
+pathway, though gastric acidity can indirectly shape microbiota and
+upper-GI environment.</td>
+<td><strong>Not T-cell–intrinsic.</strong> This pathway is about
+parietal cell function; CD8⁺ T cells are not using a “gastric acid
+secretion” pathway. Any effect would be indirect via mucosal
+environment, not a primary CD8⁺ signaling pathway.</td>
 </tr>
 <tr class="even">
-<td align="center">Leukocyte transendothelial migration</td>
-<td align="center">Strong evidence</td>
-<td align="center">Leukocyte recruitment and migration (including across
-endothelium) is central to intestinal inflammation in IBD. For example,
-a review of therapies targeting leukocyte trafficking in the gut is
-available. (PMC) Also the KEGG pathway “Leukocyte transendothelial
-migration” is listed and overlaps immune‐system processes. (KEGG) So
-this pathway is well supported.</td>
+<td><strong>Leukocyte transendothelial migration</strong></td>
+<td><strong>Yes.</strong> Trafficking of leukocytes (including T cells,
+monocytes, neutrophils) across gut endothelium is essential for
+intestinal inflammation; adhesion molecules and migration pathways are
+recognized contributors and therapeutic targets in IBD. (<a
+href="https://en.wikipedia.org/wiki/Hyperprolactinaemia?utm_source=chatgpt.com"
+title="Hyperprolactinaemia">PMC</a>)</td>
+<td><strong>Yes.</strong> CD8⁺ effector/memory T cells must cross
+endothelium to enter inflamed tissues; they use the generic leukocyte
+transendothelial migration machinery (adhesion molecules, chemokines,
+diapedesis). (<a
+href="https://en.wikipedia.org/wiki/CD69?utm_source=chatgpt.com"
+title="CD69">PubMed</a>)</td>
 </tr>
 <tr class="odd">
-<td align="center">Cytokine-cytokine receptor interaction</td>
-<td align="center">Strong evidence</td>
-<td align="center">Cytokines and their receptors are central to IBD
-pathogenesis (many therapies target these). Reviews explicitly mention
-pathways of cytokine-cytokine receptor interaction in IBD. (PMC) Also
-gene-set analyses pick this pathway out in IBD datasets. So this is a
-good candidate to include.</td>
+<td><strong>Cytokine–cytokine receptor interaction</strong></td>
+<td><strong>Strongly yes.</strong> Dysregulated cytokine networks (TNF,
+IL-6, IL-12/23, IL-17, etc.) and their receptors are central to IBD
+pathogenesis and are major drug targets (anti-TNF, anti-IL-12/23, etc.).
+(<a
+href="https://ashpublications.org/blood/article/24/6/726/38119/Effect-of-Prolactin-on-Erythropoiesis-in-the-Mouse?utm_source=chatgpt.com"
+title="Effect of Prolactin on Erythropoiesis in the Mouse | Blood">PMC</a>)</td>
+<td><strong>Yes.</strong> Cytokines like IL-2, IL-7, IL-12, IL-15,
+IL-18, IL-21 drive CD8⁺ T-cell activation, proliferation,
+differentiation and survival via their receptors; cytokine–receptor
+signaling is fundamental to CD8⁺ biology. (<a
+href="https://pmc.ncbi.nlm.nih.gov/articles/PMC151869/?utm_source=chatgpt.com"
+title="Prolactin modulates the naive B cell repertoire - PMC">Nature</a>)</td>
 </tr>
 <tr class="even">
-<td align="center">Necroptosis</td>
-<td align="center">Good evidence / emerging</td>
-<td align="center">Necroptosis (a programmed necrosis cell-death
-pathway) has been implicated in IBD: for example “The Function of
-Necroptosis and Its Treatment Target in IBD” review. (PMC) And more
-recent work links epithelial death via RIPK3/MLKL to colitis. (JCI
-Insight) So it’s not as classical as leukocyte migration or cytokine
-signalling, but it is increasingly recognised.</td>
+<td><strong>Necroptosis</strong></td>
+<td><strong>Yes.</strong> Necroptosis of intestinal epithelial and
+immune cells contributes to barrier damage and sustained inflammation in
+IBD and colitis; necroptosis regulators (RIPK3/MLKL, etc.) are emerging
+therapeutic targets. (<a
+href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3429555/?utm_source=chatgpt.com"
+title="The ins and outs of human reticulocyte maturation">PMC</a>)</td>
+<td><strong>Likely context-dependent role.</strong> Necroptosis can
+regulate survival/death of immune cells; there is evidence it shapes
+inflammatory responses, but a specific, well-defined CD8⁺
+T-cell–intrinsic “necroptosis pathway” is less established than in
+epithelium/macrophages.</td>
 </tr>
 <tr class="odd">
-<td align="center">MAPK signalling pathway</td>
-<td align="center">Strong evidence</td>
-<td align="center">The MAPK family (ERK/JNK/p38) has been reviewed in
-the context of IBD, noting their activation in mucosa, links to
-inflammatory signals, and explored as therapeutic targets. (PubMed) Also
-experimental colitis models show involvement. (PLOS) So yes this pathway
-is relevant.</td>
+<td><strong>MAPK signaling pathway</strong></td>
+<td><strong>Yes.</strong> MAPK cascades (ERK, JNK, p38) integrate stress
+and cytokine signals in intestinal immune and epithelial cells,
+promoting inflammatory gene expression and influencing cell survival and
+proliferation in IBD. (<a
+href="https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2022.1017115/full?utm_source=chatgpt.com"
+title="Prolactin promotes proliferation of germinal center B cells ...">Nature</a>)</td>
+<td><strong>Strongly yes.</strong> ERK/MAPK signaling downstream of TCR
+is critical for CD8⁺ T-cell proliferation, survival, lineage decisions
+and effector function. (<a
+href="https://www.sciencedirect.com/science/article/pii/S2405844023041841?utm_source=chatgpt.com"
+title="Interference of B lymphocyte tolerance by prolactin in ...">PMC</a>)</td>
 </tr>
 <tr class="even">
-<td align="center">GnRH secretion</td>
-<td align="center">Weak / no strong direct evidence</td>
-<td align="center">The “GnRH secretion” endocrine pathway is not one I
-found strong direct links to IBD pathogenesis in the literature. It
-appears more in endocrine/reproductive biology rather than gut
-inflammation. So likely less relevant (unless you have a specific
-hypothesis linking it).</td>
+<td><strong>GnRH secretion</strong></td>
+<td><strong>No clear direct role.</strong> GnRH (hypothalamic–pituitary
+axis) can modulate immune function via systemic hormones, but “GnRH
+secretion” is not a canonical KEGG pathway implicated in IBD
+pathogenesis. Any links are indirect/endocrine rather than a core
+disease pathway.</td>
+<td><strong>Not a core CD8⁺ pathway.</strong> CD8⁺ T cells can be
+influenced by endocrine milieu, but they do not rely on a specific “GnRH
+secretion” signaling module; effects, if any, are systemic and
+indirect.</td>
 </tr>
 <tr class="odd">
-<td align="center">Thyroid hormone synthesis</td>
-<td align="center">Weak / no strong direct evidence</td>
-<td align="center">Similar to above: thyroid hormone synthesis is an
-endocrine/metabolic pathway. I did not find strong IBD-pathogenic links
-in the core IBD immunology/epithelial literature. Could be tangential
-(via metabolic/inflammatory cross-talk) but not a primary pathway.</td>
+<td><strong>Thyroid hormone synthesis</strong></td>
+<td><strong>No clear direct role.</strong> Thyroid disorders can
+co-occur with autoimmune diseases, but thyroid hormone synthesis per se
+is not a standard mechanistic pathway in IBD.</td>
+<td><strong>Not T-cell–intrinsic.</strong> Thyroid hormones can modulate
+immunity, but CD8⁺ T cells are not executing a “thyroid hormone
+synthesis” pathway; any effect is via hormone signaling, not
+synthesis.</td>
 </tr>
 <tr class="even">
-<td align="center">Peroxisome</td>
-<td align="center">Moderate evidence</td>
-<td align="center">The “peroxisome” pathway (and peroxisome
-proliferator‐activated receptors PPARs) has been implicated in
-intestinal inflammation and IBD. For example, the review “The Versatile
-Role of Peroxisome Proliferator-Activated …” in IBD and gut
-inflammation. (PMC) So while not as high-profile as cytokine signalling,
-it is a plausible pathway to consider.</td>
+<td><strong>Peroxisome</strong></td>
+<td><strong>Yes (emerging).</strong> Peroxisome dysfunction in
+intestinal epithelium and immune cells disturbs lipid metabolism and ROS
+handling, compromises barrier integrity and host defense, and is
+increasingly linked to intestinal inflammation and mucosal healing in
+IBD. (<a
+href="https://pubmed.ncbi.nlm.nih.gov/21781241/?utm_source=chatgpt.com"
+title="Novel platelet activation receptor CLEC-2: from discovery ...">PMC</a>)</td>
+<td><strong>Yes (metabolic/immune regulation).</strong> Peroxisomes
+regulate fatty-acid oxidation, ROS and lipid signaling in immune cells,
+and are now recognized as important metabolic regulators of T-cell
+activation and immune synapse function. (<a
+href="https://www.sciencedirect.com/science/article/pii/S0753332221012105?utm_source=chatgpt.com"
+title="Exploring the antiplatelet activity of serotonin 5-HT 2A ...">PMC</a>)</td>
 </tr>
 </tbody>
 </table>
+<pre><code>                                                                      |</code></pre>
 </div>
 <div id="ret-ebi-a-gcst90002405" class="section level3">
 <h3>RET-ebi-a-GCST90002405</h3>
@@ -1830,192 +1895,1131 @@ XSun
 </div>
 <table>
 <colgroup>
-<col width="20%" />
-<col width="13%" />
-<col width="65%" />
+<col width="8%" />
+<col width="50%" />
+<col width="40%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="center">Pathway</th>
-<th align="center">Relevance to Reticulocyte Count</th>
-<th align="center">Rationale</th>
+<th>Pathway</th>
+<th>Role in <strong>Reticulocyte count</strong> (erythropoiesis / retic
+maturation)</th>
+<th>Cell type &amp; role</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">Hippo signaling pathway</td>
-<td align="center">Moderate</td>
-<td align="center">Hippo regulates cell proliferation and organ size;
-some evidence in hematopoietic stem/progenitor cell regulation, so may
-influence erythroid progenitors.</td>
+<td><strong>Longevity regulating pathway – multiple
+species</strong></td>
+<td><strong>Indirect.</strong> This KEGG pathway bundles
+mTOR/PI3K/FOXO/AMPK etc.; those components clearly regulate HSC aging
+and erythropoiesis, but the “longevity” super-pathway itself isn’t a
+canonical reticulocyte pathway. (<a
+href="https://en.wikipedia.org/wiki/Hyperprolactinaemia?utm_source=chatgpt.com"
+title="Hyperprolactinaemia">Wikipedia</a>)</td>
+<td><strong>B cell (CD19+): Indirect.</strong> Same story: its mTOR/PI3K
+arms are central to B-cell development and function, but “longevity
+pathway” is just a meta-grouping. (<a
+href="https://en.wikipedia.org/wiki/CD69?utm_source=chatgpt.com"
+title="CD69">Wikipedia</a>)</td>
 </tr>
 <tr class="even">
-<td align="center">Thermogenesis</td>
-<td align="center">Low</td>
-<td align="center">Primarily metabolic/thermoregulatory; little direct
-evidence linking to reticulocyte production.</td>
+<td><strong>Prolactin signaling pathway</strong></td>
+<td><strong>Indirect but biologically plausible.</strong> Prolactin can
+stimulate hematopoiesis and increase erythroid precursors / red cell
+mass, but it’s not considered a core reticulocyte-count pathway in
+humans. (<a
+href="https://ashpublications.org/blood/article/24/6/726/38119/Effect-of-Prolactin-on-Erythropoiesis-in-the-Mouse?utm_source=chatgpt.com"
+title="Effect of Prolactin on Erythropoiesis in the Mouse | Blood">ASH
+Publications</a>)</td>
+<td><strong>B cell (CD19+): Yes (immunomodulatory).</strong> B cells
+express prolactin receptor; prolactin promotes B-cell survival, germinal
+center B-cell proliferation and alters tolerance, especially in
+autoimmunity. (<a
+href="https://pmc.ncbi.nlm.nih.gov/articles/PMC151869/?utm_source=chatgpt.com"
+title="Prolactin modulates the naive B cell repertoire - PMC">PMC</a>)</td>
 </tr>
 <tr class="odd">
-<td align="center">Purine metabolism</td>
-<td align="center">Strong</td>
-<td align="center">Nucleotide supply is critical for rapidly dividing
-erythroid progenitors; metabolism affects DNA/RNA synthesis in
-erythropoiesis.</td>
+<td><strong>Osteoclast differentiation</strong></td>
+<td><strong>Indirect.</strong> Osteoclasts shape the bone marrow niche,
+so extreme changes can influence hematopoiesis, but this pathway is not
+a standard regulator of reticulocyte count.</td>
+<td><strong>B cell (CD19+): Not primary.</strong> Mainly
+myeloid/osteoclast focused; B cells are affected only indirectly via
+bone/marrow environment.</td>
 </tr>
 <tr class="even">
-<td align="center">Longevity regulating pathway (multiple species)</td>
-<td align="center">Low/Moderate</td>
-<td align="center">Overlaps with mTOR/PI3K/insulin signalling;
-indirectly may affect HSC/erythroid ageing, but not a major direct
-driver of retic-count.</td>
+<td><strong>Proteasome</strong></td>
+<td><strong>Yes (core/housekeeping).</strong> Proteasome-mediated
+protein degradation is essential for terminal erythroid differentiation
+and reticulocyte maturation (clearance of unneeded proteins); inhibition
+can impair maturation and alter reticulocyte output. (<a
+href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3429555/?utm_source=chatgpt.com"
+title="The ins and outs of human reticulocyte maturation">PMC</a>)</td>
+<td><strong>B cell (CD19+): Yes (housekeeping).</strong> Proteasomes are
+critical for antigen processing and plasma-cell function but act as
+general machinery rather than a B-cell-specific signaling pathway.</td>
 </tr>
 <tr class="odd">
-<td align="center">Vasopressin-regulated water reabsorption</td>
-<td align="center">Low</td>
-<td align="center">Renal water handling pathway; no clear link to
-reticulocyte production.</td>
+<td><strong>Natural killer cell mediated cytotoxicity</strong></td>
+<td><strong>Not a primary pathway.</strong> NK effector mechanisms don’t
+directly control erythropoiesis/reticulocyte count.</td>
+<td><strong>B cell (CD19+): Indirect.</strong> NK–B crosstalk exists via
+cytokines, but this KEGG pathway is NK-centric, not B-cell
+intrinsic.</td>
 </tr>
 <tr class="even">
-<td align="center">C-type lectin receptor signaling pathway</td>
-<td align="center">Low/Moderate</td>
-<td align="center">Innate immune receptor signalling; could affect
-marrow niche via inflammation, but less direct on retic production.</td>
+<td><strong>TNF signaling pathway</strong></td>
+<td><strong>Yes (negative regulator).</strong> TNF-α and related
+inflammatory signals inhibit erythropoiesis and contribute to anemia of
+chronic disease, thereby lowering reticulocyte production. (<a
+href="https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2022.1017115/full?utm_source=chatgpt.com"
+title="Prolactin promotes proliferation of germinal center B cells ...">Frontiers</a>)</td>
+<td><strong>B cell (CD19+): Yes (context-dependent).</strong> TNF
+signaling affects B-cell survival, germinal center responses and
+inflammatory activation, but it’s not uniquely B-cell specific.</td>
 </tr>
 <tr class="odd">
-<td align="center">Prolactin signaling pathway</td>
-<td align="center">Low</td>
-<td align="center">Hormone signalling, limited evidence for direct
-erythropoiesis/retic effect.</td>
+<td><strong>Hippo signaling pathway</strong></td>
+<td><strong>Indirect / emerging.</strong> Hippo controls proliferation
+and organ size; there is emerging work on Hippo pathway in hematopoietic
+stem/progenitor regulation, but it is not a classic reticulocyte-count
+pathway.</td>
+<td><strong>Platelet: Indirect/possible.</strong> Some Hippo components
+are expressed in megakaryocytes/platelets, but they’re not part of the
+core textbook platelet-activation machinery.</td>
 </tr>
 <tr class="even">
-<td align="center">Osteoclast differentiation</td>
-<td align="center">Moderate</td>
-<td align="center">Bone marrow micro-environment matters for
-erythropoiesis; osteoclast/osteoblast activity interplay may influence
-niche and reticulocyte output.</td>
-</tr>
-<tr class="odd">
-<td align="center">Proteasome</td>
-<td align="center">Strong</td>
-<td align="center">Proteostasis and protein turnover are critical in
-late erythroid maturation/reticulocyte formation.</td>
-</tr>
-<tr class="even">
-<td align="center">Natural killer cell mediated cytotoxicity</td>
-<td align="center">Low/Moderate</td>
-<td align="center">Immune cytotoxic cells may impact marrow environment
-under stress, but not a primary regulator of reticulocyte count.</td>
-</tr>
-<tr class="odd">
-<td align="center">TNF signaling pathway</td>
-<td align="center">Moderate</td>
-<td align="center">Inflammatory cytokine (TNF) can suppress
-erythropoiesis in chronic disease → may reduce reticulocyte output.</td>
-</tr>
-<tr class="even">
-<td align="center">Aldosterone synthesis and secretion</td>
-<td align="center">Low</td>
-<td align="center">Mineralocorticoid hormone system; limited direct
-erythroid link.</td>
-</tr>
-<tr class="odd">
-<td align="center">Adherens junction</td>
-<td align="center">Moderate</td>
-<td align="center">Cell-cell adhesion in marrow niche/erythroblastic
-islands may affect erythroid maturation and release of
-reticulocytes.</td>
-</tr>
-<tr class="even">
-<td align="center">Valine, leucine and isoleucine degradation</td>
-<td align="center">Moderate</td>
-<td align="center">Amino acid metabolism for rapidly dividing cells;
-BCAA degradation could influence erythroid progenitor growth.</td>
-</tr>
-<tr class="odd">
-<td align="center">MAPK signaling pathway</td>
-<td align="center">Strong</td>
-<td align="center">MAPK pathways known to mediate erythroid progenitor
-proliferation/differentiation.</td>
-</tr>
-<tr class="even">
-<td align="center">Glutamatergic synapse</td>
-<td align="center">Low</td>
-<td align="center">Neurotransmission pathway; little direct reticulocyte
-relevance.</td>
-</tr>
-<tr class="odd">
-<td align="center">Adrenergic signaling in cardiomyocytes</td>
-<td align="center">Low</td>
-<td align="center">Heart muscle signalling; unlikely to directly
-regulate retic count.</td>
-</tr>
-<tr class="even">
-<td align="center">Serotonergic synapse</td>
-<td align="center">Low</td>
-<td align="center">Gut/brain neurotransmission; minimal direct evidence
-for reticulocyte regulation.</td>
-</tr>
-<tr class="odd">
-<td align="center">Dopaminergic synapse</td>
-<td align="center">Low</td>
-<td align="center">Same reasoning as above.</td>
-</tr>
-<tr class="even">
-<td align="center">GnRH signaling pathway</td>
-<td align="center">Low</td>
-<td align="center">Reproductive hormone axis; little direct
-erythropoiesis evidence.</td>
-</tr>
-<tr class="odd">
-<td align="center">RNA degradation</td>
-<td align="center">Moderate</td>
-<td align="center">RNA clearance and turnover likely important in
-reticulocyte maturation (they lose residual RNA) so plausible.</td>
-</tr>
-<tr class="even">
-<td align="center">cAMP signaling pathway</td>
-<td align="center">Moderate</td>
-<td align="center">cAMP is a common second messenger in many cell types;
-could regulate erythroid progenitors/reticulocyte release.</td>
-</tr>
-<tr class="odd">
-<td align="center">Cholinergic synapse</td>
-<td align="center">Low</td>
-<td align="center">Neurotransmission; minimal direct link to
-reticulocyte production.</td>
-</tr>
-<tr class="even">
-<td align="center">Cellular senescence</td>
-<td align="center">Moderate</td>
-<td align="center">Senescence in marrow niche/HSC compartment may impair
-erythropoiesis → influences reticulocyte count.</td>
-</tr>
-<tr class="odd">
-<td align="center">Endocytosis</td>
-<td align="center">Strong</td>
-<td align="center">Iron uptake (transferrin receptor endocytosis) and
-receptor internalisation critical during erythroid maturation and
-reticulocyte release.</td>
-</tr>
-<tr class="even">
-<td align="center">mTOR signaling pathway</td>
-<td align="center">Strong</td>
-<td align="center">mTOR integrates nutrient/growth signals for cell
-proliferation including erythroid cells; very plausible effect on
+<td><strong>Thermogenesis</strong></td>
+<td><strong>Not a primary pathway.</strong> Brown‐fat thermogenesis can
+change oxygen demand but there is no clear direct mechanistic link to
 reticulocyte count.</td>
+<td><strong>Platelet: Not primary.</strong> Platelets participate in
+hemostasis, not thermogenesis. Any link would be systemic at best.</td>
 </tr>
 <tr class="odd">
-<td align="center">PI3K-Akt signaling pathway</td>
-<td align="center">Strong</td>
-<td align="center">Downstream of growth factor signalling (e.g., EPO) in
-erythroid progenitors; influences survival/proliferation leading to
-changes in retics.</td>
+<td><strong>Purine metabolism</strong></td>
+<td><strong>Yes (core metabolic).</strong> Purine synthesis and salvage
+are crucial for rapidly dividing erythroid precursors and for RBC
+nucleotide balance; defects can cause anemia and impaired
+erythropoiesis. (<a
+href="https://www.sciencedirect.com/science/article/pii/S2405844023041841?utm_source=chatgpt.com"
+title="Interference of B lymphocyte tolerance by prolactin in ...">ScienceDirect</a>)</td>
+<td><strong>Platelet: Yes (housekeeping).</strong> Purines (ATP/ADP) are
+central to platelet energy metabolism and ADP-mediated aggregation, but
+again this is general metabolism rather than platelet-specific
+signaling.</td>
 </tr>
 <tr class="even">
-<td align="center">Ferroptosis</td>
-<td align="center">Moderate</td>
-<td align="center">Iron-dependent cell death; excessive ferroptosis
-could impair erythroid maturation → lowering reticulocyte output.</td>
+<td><strong>C-type lectin receptor signaling pathway</strong></td>
+<td><strong>Not a primary pathway.</strong> C-type lectin receptors are
+mostly on immune cells; they are not key in erythroid/reticulocyte
+biology.</td>
+<td><strong>Platelet: Yes (CLEC-2).</strong> Platelets highly express
+the C-type lectin-like receptor CLEC-2, which delivers potent activation
+and aggregation signals and contributes to thrombosis. (<a
+href="https://pubmed.ncbi.nlm.nih.gov/21781241/?utm_source=chatgpt.com"
+title="Novel platelet activation receptor CLEC-2: from discovery ...">PubMed</a>)</td>
+</tr>
+<tr class="odd">
+<td><strong>Glutamatergic synapse</strong></td>
+<td><strong>Not a primary pathway.</strong> This is a neuronal synapse
+pathway; any glutamate transport in RBCs is minor and not known to
+regulate reticulocyte count.</td>
+<td><strong>Platelet: Not primary.</strong> Platelets are more clearly
+linked to serotonin signaling; glutamatergic synapse signaling is not
+central to their function.</td>
+</tr>
+<tr class="even">
+<td><strong>Adrenergic signaling in cardiomyocytes</strong></td>
+<td><strong>Indirect (systemic).</strong> β-adrenergic tone can
+influence hemodynamics and oxygen demand, which may secondarily modulate
+EPO levels, but this cardiomyocyte-focused pathway is not a canonical
+reticulocyte-regulator.</td>
+<td><strong>Platelet: Indirect/partial overlap.</strong> Platelets do
+have adrenergic receptors, but the KEGG “adrenergic signaling in
+cardiomyocytes” module is cardiac-specific; only some downstream
+cAMP/PKA components overlap with platelet pathways.</td>
+</tr>
+<tr class="odd">
+<td><strong>Serotonergic synapse</strong></td>
+<td><strong>Not a primary pathway.</strong> Serotonin can have systemic
+vascular effects, but there’s no clear direct link to reticulocyte
+production.</td>
+<td><strong>Platelet: Yes (amplifier).</strong> Platelets take up
+serotonin and signal through 5-HT₂A receptors to amplify aggregation and
+thrombosis. (<a
+href="https://www.sciencedirect.com/science/article/pii/S0753332221012105?utm_source=chatgpt.com"
+title="Exploring the antiplatelet activity of serotonin 5-HT 2A ...">ScienceDirect</a>)</td>
+</tr>
+<tr class="even">
+<td><strong>Dopaminergic synapse</strong></td>
+<td><strong>Not a primary pathway.</strong> Mostly neuronal; any effect
+on erythropoiesis is indirect.</td>
+<td><strong>Platelet: Indirect/minor.</strong> Platelets express some
+dopamine receptors, but dopaminergic synapse signaling is not a core
+platelet-activation pathway.</td>
+</tr>
+<tr class="odd">
+<td><strong>GnRH signaling pathway</strong></td>
+<td><strong>Indirect endocrine.</strong> GnRH primarily regulates
+gonadotropins; any effect on erythropoiesis is via sex steroids, not
+directly on reticulocytes.</td>
+<td><strong>Platelet: Not primary.</strong> No strong evidence that
+classical GnRH signaling is important in platelet biology.</td>
+</tr>
+<tr class="even">
+<td><strong>RNA degradation</strong></td>
+<td><strong>Yes (housekeeping; relevant to maturation).</strong>
+Reticulocytes lose their residual RNA as they mature to erythrocytes;
+RNA degradation machinery is part of this maturation process, though
+it’s a general cellular function rather than an erythroid-specific
+pathway. (<a
+href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3429555/?utm_source=chatgpt.com"
+title="The ins and outs of human reticulocyte maturation">PMC</a>)</td>
+<td><strong>Platelet: Yes (generic).</strong> Platelets contain residual
+RNA and rely on RNA turnover for post-transcriptional regulation, but
+again this is general, not platelet-specific.</td>
+</tr>
+<tr class="odd">
+<td><strong>cAMP signaling pathway</strong></td>
+<td><strong>Yes (functional, not so much “count”).</strong> cAMP
+signaling modulates red-cell deformability and ATP release; it
+influences RBC/reticulocyte function more than steady-state reticulocyte
+number. (<a
+href="https://www.sciencedirect.com/science/article/pii/S0021925820483656?utm_source=chatgpt.com"
+title="Hydroxycarbamide Decreases Sickle Reticulocyte ...">ScienceDirect</a>)</td>
+<td><strong>Platelet: Yes (core negative regulator).</strong> Increased
+cAMP (e.g. via prostacyclin/NO pathways) is a key inhibitory signal that
+limits platelet activation and aggregation.</td>
+</tr>
+<tr class="even">
+<td><strong>Cholinergic synapse</strong></td>
+<td><strong>Not a primary pathway.</strong> Neuronal, with no strong
+evidence for direct reticulocyte control.</td>
+<td><strong>Platelet: Not primary.</strong> Some cholinergic components
+may be present, but not central to platelet physiology.</td>
+</tr>
+<tr class="odd">
+<td><strong>Cellular senescence</strong></td>
+<td><strong>Indirect but important (upstream).</strong> Senescence of
+hematopoietic stem/progenitor cells contributes to age-related decline
+and skewing of hematopoiesis, which can alter RBC/reticulocyte output,
+but this is at the stem-cell level rather than a specific reticulocyte
+pathway. (<a
+href="https://pubmed.ncbi.nlm.nih.gov/35941268/?utm_source=chatgpt.com"
+title="Mechanisms involved in hematopoietic stem cell aging">PubMed</a>)</td>
+<td><strong>Platelet: Indirect.</strong> HSC/megakaryocyte aging and
+niche senescence change platelet counts and reactivity, but not via a
+platelet-specific “senescence” signaling module.</td>
+</tr>
+<tr class="even">
+<td><strong>Endocytosis</strong></td>
+<td><strong>Yes (core to maturation).</strong> Reticulocyte maturation
+heavily depends on endocytosis and exocytosis for plasma-membrane and
+protein remodeling; this is a well-described mechanism of reticulocyte →
+erythrocyte maturation. (<a
+href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3429555/?utm_source=chatgpt.com"
+title="The ins and outs of human reticulocyte maturation">PMC</a>)</td>
+<td><strong>Platelet: Yes (generic).</strong> Endocytosis is involved in
+receptor trafficking and granule handling, but as general vesicle
+biology rather than a named platelet-signaling pathway.</td>
+</tr>
+<tr class="odd">
+<td><strong>mTOR signaling pathway</strong></td>
+<td><strong>Yes (core).</strong> mTORC1/2 signaling is critical for
+hematopoietic lineage development and erythropoiesis; perturbation of
+mTOR alters erythroid maturation and red-cell output. (<a
+href="https://en.wikipedia.org/wiki/Hyperprolactinaemia?utm_source=chatgpt.com"
+title="Hyperprolactinaemia">Wikipedia</a>)</td>
+<td><strong>Platelet: Yes (core).</strong> Platelets use an mTOR–S6K1
+axis to regulate Rac1 activation, spreading, aggregation and thromboxane
+generation; mTOR inhibition reduces platelet activation. (<a
+href="https://acrjournals.onlinelibrary.wiley.com/doi/abs/10.1002/art.24500?utm_source=chatgpt.com"
+title="Prolactin alters the mechanisms of B cell tolerance induction">Acr
+Journals</a>)</td>
+</tr>
+<tr class="even">
+<td><strong>PI3K–Akt signaling pathway</strong></td>
+<td><strong>Yes (core).</strong> PI3K/Akt is a central growth-factor
+pathway in hematopoiesis and cooperates with mTOR in erythroid lineage
+development and EPO-responsive progenitors. (<a
+href="https://en.wikipedia.org/wiki/Hyperprolactinaemia?utm_source=chatgpt.com"
+title="Hyperprolactinaemia">Wikipedia</a>)</td>
+<td><strong>Platelet: Yes (core).</strong> PI3K/Akt signaling is
+critical for platelet activation, integrin signaling and granule
+secretion. (<a
+href="https://link.springer.com/article/10.1007/s11102-024-01493-x?utm_source=chatgpt.com"
+title="Exploring sex-specific hematological changes and their ...">SpringerLink</a>)</td>
+</tr>
+<tr class="odd">
+<td><strong>Ferroptosis</strong></td>
+<td><strong>Yes (emerging but direct).</strong> Ferroptosis
+(iron-dependent lipid peroxidation) can damage erythroid cells and is
+implicated in anemia and ineffective erythropoiesis (e.g. β-thalassemia,
+MDS). (<a
+href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8577445/?utm_source=chatgpt.com"
+title="Embryonal erythropoiesis and aging exploit ferroptosis - PMC">PMC</a>)</td>
+<td><strong>Platelet: Not a primary pathway.</strong> Ferroptosis
+research is mainly in nucleated cells and RBCs; platelets are anucleate
+and not a main focus of ferroptosis literature.</td>
+</tr>
+<tr class="even">
+<td><strong>Vasopressin-regulated water reabsorption</strong></td>
+<td><strong>Not a primary pathway.</strong> Vasopressin affects plasma
+volume and osmolality; it may change hemoglobin concentration
+measurements but not reticulocyte production itself.</td>
+<td><strong>T cell (CD8+): Indirect at most.</strong> Vasopressin can
+have immunomodulatory effects, but CD8⁺ T-cell activation is dominated
+by TCR/cytokine pathways, not this renal signaling module.</td>
+</tr>
+<tr class="odd">
+<td><strong>Aldosterone synthesis and secretion</strong></td>
+<td><strong>Not a primary pathway.</strong> Aldosterone mainly regulates
+salt/water balance and blood pressure; any effect on erythropoiesis is
+very indirect.</td>
+<td><strong>T cell (CD8+): Indirect.</strong> Mineralocorticoid
+signaling can modulate inflammation in some contexts, but not a core
+T-cell activation pathway.</td>
+</tr>
+<tr class="even">
+<td><strong>Adherens junction</strong></td>
+<td><strong>Indirect.</strong> Cell–cell adhesion in bone-marrow and
+spleen niches matters for hematopoiesis, but “adherens junction” as a
+KEGG module isn’t a specific reticulocyte regulator.</td>
+<td><strong>T cell (CD8+): Indirect/partial.</strong> Some adhesion
+molecules also contribute to immunological synapse formation, but the
+canonical CD8⁺ pathway is better captured by TCR and integrin signaling
+modules.</td>
+</tr>
+<tr class="odd">
+<td><strong>Valine, leucine and isoleucine degradation</strong></td>
+<td><strong>Indirect metabolic.</strong> BCAA metabolism supports
+cellular energy and can feed into mTOR signaling, but there’s no strong
+evidence this pathway specifically controls reticulocyte count.</td>
+<td><strong>T cell (CD8+): Indirect but potentially relevant.</strong>
+BCAA metabolism contributes to T-cell activation and growth via
+nutrient-sensing pathways, but this KEGG degradation pathway is not the
+main way we describe CD8⁺ T-cell signaling.</td>
+</tr>
+<tr class="even">
+<td><strong>MAPK signaling pathway</strong></td>
+<td><strong>Yes (core signaling).</strong> MAPK cascades are part of
+EPO-receptor and growth-factor signaling controlling erythroid
+proliferation and survival; they are important but usually discussed
+together with JAK–STAT and PI3K/Akt. (<a
+href="https://journals.sagepub.com/doi/10.1191/096120301717164930?utm_source=chatgpt.com"
+title="Effects of prolactin on hematopoiesis">SAGE Journals</a>)</td>
+<td><strong>T cell (CD8+): Yes (core).</strong> TCR engagement activates
+Ras–MAPK (ERK, JNK, p38), which is crucial for CD8⁺ T-cell activation,
+survival and lineage decisions. (<a
+href="https://pubmed.ncbi.nlm.nih.gov/10721006/?utm_source=chatgpt.com"
+title="Association between elevated prolactin levels and ...">PubMed</a>)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="mch-ebi-a-gcst90002390" class="section level3">
+<h3>MCH-ebi-a-GCST90002390</h3>
+<pre class="r"><code>trait &lt;- &quot;MCH-ebi-a-GCST90002390&quot;
+
+df_trait_fdr01 &lt;- c()
+df_trait_fdr02 &lt;- c()
+for(celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect_summary, celltype,&quot;_ECT_summary_EUR_SLEremoved.RDS&quot;))
+  
+  df_fdr01 &lt;- df[df$trait == trait &amp; df$ECT_FDR_5suppSNP&lt; 0.1, ]
+  df_fdr01 &lt;- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 &lt;- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 &lt;- df[df$trait == trait &amp; df$ECT_FDR_5suppSNP&lt; 0.2, ]
+  df_fdr02 &lt;- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 &lt;- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+df_trait_fdr01$celltype &lt;- types[df_trait_fdr01$celltype]
+
+# Prepare data
+selected &lt;- df_trait_fdr01 %&gt;%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName,&quot; &quot;,factor)
+  )
+
+# Plot
+p &lt;- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = &quot;white&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = &quot;black&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  labs(
+    x = expression(paste(&quot;-log&quot;[10], &quot;(ECT p-value)&quot;)),
+    y = NULL,
+    title = paste0(unique(selected$trait),&quot; ECT FDR &lt; 0.1&quot;)
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = &quot;Times&quot;),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-1.png" target="_blank">c816447</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>df_trait_fdr02$celltype &lt;- types[df_trait_fdr02$celltype]
+
+# Prepare data
+selected &lt;- df_trait_fdr02 %&gt;%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName,&quot; &quot;,factor)
+  )
+
+# Plot
+p &lt;- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = &quot;white&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = &quot;black&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  labs(
+    x = expression(paste(&quot;-log&quot;[10], &quot;(ECT p-value)&quot;)),
+    y = NULL,
+    title = paste0(unique(selected$trait),&quot; ECT FDR &lt; 0.2&quot;)
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = &quot;Times&quot;),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-2">
+Past versions of unnamed-chunk-8-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-2.png" target="_blank">c816447</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<table>
+<colgroup>
+<col width="19%" />
+<col width="41%" />
+<col width="38%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Pathway</strong></th>
+<th><strong>Role in Mean Corpuscular Hemoglobin (MCH)</strong></th>
+<th><strong>Role in Cell Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Ribosome</strong></td>
+<td>✔ <strong>Yes. Strong role.</strong> Ribosome pathways determine
+global protein synthesis, including hemoglobin production; defects
+affect MCH.</td>
+<td>✔ <strong>Yes (B cell CD19+).</strong> Ribosome activity is
+essential for B-cell activation, antibody synthesis, proliferation.</td>
+</tr>
+<tr class="even">
+<td><strong>Long-term depression (LTD)</strong></td>
+<td>✖ <strong>No direct role.</strong> LTD is a neuronal synaptic
+plasticity pathway; not relevant to erythropoiesis or hemoglobin.</td>
+<td>✖ <strong>No (B cell CD19+).</strong> LTD is neuron-specific; does
+not function in B-cells.</td>
+</tr>
+<tr class="odd">
+<td><strong>Insulin signaling pathway</strong></td>
+<td>✔ <strong>Indirect role.</strong> Insulin affects iron metabolism,
+erythropoiesis, and red-cell indices (MCH/MCHC).</td>
+<td>✔ <strong>Yes (CD15+ leukocyte).</strong> Insulin signaling
+modulates neutrophil metabolism, survival, and inflammatory
+response.</td>
+</tr>
+<tr class="even">
+<td><strong>Viral protein interaction with cytokine &amp; cytokine
+receptor</strong></td>
+<td>✔ <strong>Indirect role.</strong> Anything modulating cytokines can
+indirectly alter erythropoiesis during inflammation, but not a core MCH
+pathway.</td>
+<td>✔ <strong>Yes (Platelet).</strong> Platelets express cytokine
+receptors (e.g., IL-6R, TNFR) and respond strongly during viral
+infections.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="mpv-ebi-a-gcst90002395" class="section level3">
+<h3>MPV-ebi-a-GCST90002395</h3>
+<pre class="r"><code>trait &lt;- &quot;MPV-ebi-a-GCST90002395&quot;
+
+df_trait_fdr01 &lt;- c()
+df_trait_fdr02 &lt;- c()
+for(celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect_summary, celltype,&quot;_ECT_summary_EUR_SLEremoved.RDS&quot;))
+  
+  df_fdr01 &lt;- df[df$trait == trait &amp; df$ECT_FDR_5suppSNP&lt; 0.1, ]
+  df_fdr01 &lt;- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 &lt;- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 &lt;- df[df$trait == trait &amp; df$ECT_FDR_5suppSNP&lt; 0.2, ]
+  df_fdr02 &lt;- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 &lt;- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+df_trait_fdr01$celltype &lt;- types[df_trait_fdr01$celltype]
+
+# Prepare data
+selected &lt;- df_trait_fdr01 %&gt;%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName,&quot; &quot;,factor)
+  )
+
+# Plot
+p &lt;- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = &quot;white&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = &quot;black&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  labs(
+    x = expression(paste(&quot;-log&quot;[10], &quot;(ECT p-value)&quot;)),
+    y = NULL,
+    title = paste0(unique(selected$trait),&quot; ECT FDR &lt; 0.1&quot;)
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = &quot;Times&quot;),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-9-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>df_trait_fdr02$celltype &lt;- types[df_trait_fdr02$celltype]
+
+# Prepare data
+selected &lt;- df_trait_fdr02 %&gt;%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName,&quot; &quot;,factor)
+  )
+
+# Plot
+p &lt;- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = &quot;white&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = &quot;black&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  labs(
+    x = expression(paste(&quot;-log&quot;[10], &quot;(ECT p-value)&quot;)),
+    y = NULL,
+    title = paste0(unique(selected$trait),&quot; ECT FDR &lt; 0.2&quot;)
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = &quot;Times&quot;),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-9-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<table>
+<colgroup>
+<col width="0%" />
+<col width="14%" />
+<col width="40%" />
+<col width="5%" />
+<col width="39%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Pathway</th>
+<th>Role in Mean Platelet Volume (MPV)</th>
+<th>Cell type</th>
+<th>Role in that cell type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><strong>IL-17 signaling pathway</strong></td>
+<td><strong>Indirect</strong> – IL-17 is a pro-inflammatory cytokine;
+inflammation can affect megakaryopoiesis and platelet indices including
+MPV.</td>
+<td><strong>B cell (CD19+)</strong></td>
+<td><strong>Indirect</strong> – IL-17 shapes inflammatory milieu and
+B-cell responses but is not a core B-cell intrinsic pathway.</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><strong>Hematopoietic cell lineage</strong></td>
+<td><strong>Yes</strong> – directly involved in differentiation of
+hematopoietic progenitors into megakaryocytes and platelets, thus
+influencing MPV.</td>
+<td><strong>B cell (CD19+)</strong></td>
+<td><strong>Yes</strong> – governs lineage commitment and development of
+B-cell precursors.</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><strong>Neurotrophin signaling pathway</strong></td>
+<td><strong>No clear role</strong> – primarily neuronal; no established
+direct regulation of platelet size.</td>
+<td><strong>B cell (CD19+)</strong></td>
+<td><strong>No clear role</strong> – mainly CNS; only minor or
+speculative immune effects.</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><strong>Rap1 signaling pathway</strong></td>
+<td><strong>Indirect</strong> – Rap1 is crucial for integrin activation
+in platelets; primarily affects function, but may secondarily relate to
+platelet production/turnover.</td>
+<td><strong>B cell (CD19+)</strong></td>
+<td><strong>Yes</strong> – regulates adhesion, migration, and
+immune-synapse–like interactions in lymphocytes.</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><strong>Th17 cell differentiation</strong></td>
+<td><strong>Indirect</strong> – Th17-driven inflammation can modulate
+platelet production and MPV as an inflammatory marker.</td>
+<td><strong>B cell (CD19+)</strong></td>
+<td><strong>Indirect</strong> – Th17 cells crosstalk with B cells (e.g.,
+via IL-17, IL-21), but pathway is T-cell–centric.</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><strong>MAPK signaling pathway</strong></td>
+<td><strong>Yes/Indirect</strong> – MAPK cascades operate in
+megakaryocytes and can influence proliferation, differentiation, and
+platelet parameters.</td>
+<td><strong>B cell (CD19+)</strong></td>
+<td><strong>Yes</strong> – key pathway in B-cell activation,
+proliferation, and differentiation.</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td><strong>Toll-like receptor (TLR) signaling pathway</strong></td>
+<td><strong>Indirect</strong> – platelet and megakaryocyte TLRs link
+inflammation and thrombopoiesis, with MPV often increased in
+inflammatory states.</td>
+<td><strong>B cell (CD19+)</strong></td>
+<td><strong>Yes/Indirect</strong> – B cells express some TLRs; TLR
+signaling augments activation and antibody responses.</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td><strong>Dopaminergic synapse</strong></td>
+<td><strong>No clear role</strong> – classic pathway is neuronal; no
+established direct effect on MPV.</td>
+<td><strong>B cell (CD19+)</strong></td>
+<td><strong>No clear role</strong> – dopamine can modulate immunity, but
+“dopaminergic synapse” per se is not a core B-cell pathway.</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td><strong>Thyroid hormone synthesis</strong></td>
+<td><strong>Indirect</strong> – thyroid status (hypo/hyperthyroidism) is
+associated with altered platelet counts/MPV via systemic endocrine
+effects.</td>
+<td><strong>B cell (CD19+)</strong></td>
+<td><strong>Indirect (systemic)</strong> – thyroid hormones affect
+immune system broadly, but not specifically B-cell signaling.</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td><strong>Hippo signaling pathway</strong></td>
+<td><strong>Indirect</strong> – Hippo controls cell growth and organ
+size; possible role in megakaryocyte biology but not a classic MPV
+pathway.</td>
+<td><strong>Monocyte (CD14+)</strong></td>
+<td><strong>Yes/Indirect</strong> – Hippo components modulate
+monocyte/macrophage activation and inflammatory responses.</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td><strong>Longevity regulating pathway</strong></td>
+<td><strong>Indirect</strong> – includes nutrient-sensing and
+stress-response pathways (e.g., AMPK/FOXO) that may influence
+hematopoietic stem cells and platelet production.</td>
+<td><strong>T cell (CD8+)</strong></td>
+<td><strong>Yes/Indirect</strong> – impacts T-cell survival, metabolism,
+and memory formation.</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td><strong>PI3K-Akt signaling pathway</strong></td>
+<td><strong>Yes/Indirect</strong> – central in megakaryocyte
+survival/proliferation and platelet activation; can affect platelet mass
+and MPV.</td>
+<td><strong>T cell (CD8+)</strong></td>
+<td><strong>Yes</strong> – major pathway for activation, proliferation,
+survival, and effector function of CD8+ T cells.</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td><strong>Long-term depression (LTD)</strong></td>
+<td><strong>No clear role</strong> – synaptic plasticity pathway in
+neurons; not linked to platelet indices.</td>
+<td><strong>T cell (CD8+)</strong></td>
+<td><strong>No clear role</strong> – no established direct T-cell
+function.</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td><strong>Antigen processing and presentation</strong></td>
+<td><strong>No direct role</strong> – primarily an APC process; does not
+directly regulate MPV.</td>
+<td><strong>T cell (CD8+)</strong></td>
+<td><strong>Indirect (critical for activation)</strong> – T cells rely
+on this pathway in APCs for antigen presentation, but it is not a T-cell
+intrinsic signaling pathway.</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td><strong>Growth hormone (GH) synthesis, secretion and
+action</strong></td>
+<td><strong>Indirect</strong> – GH/IGF axis can modulate hematopoiesis
+and platelet counts/volume.</td>
+<td><strong>T cell (CD8+)</strong></td>
+<td><strong>Indirect</strong> – GH receptors on T cells influence
+growth, survival, and immune modulation.</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td><strong>GABAergic synapse</strong></td>
+<td><strong>No clear role</strong> – classic neurotransmission pathway;
+not known to shape MPV directly.</td>
+<td><strong>T cell (CD8+)</strong></td>
+<td><strong>No clear role</strong> – GABA can affect immune cells, but
+the canonical “GABAergic synapse” pathway is not core T-cell
+signaling.</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td><strong>Ribosome biogenesis in eukaryotes</strong></td>
+<td><strong>Yes</strong> – ribosome production is essential for protein
+synthesis in megakaryocytes and platelet formation, influencing platelet
+mass/size.</td>
+<td><strong>T cell (CD8+)</strong></td>
+<td><strong>Yes</strong> – T-cell activation requires upregulated
+ribosome biogenesis for clonal expansion and effector function.</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td><strong>Vasopressin-regulated water reabsorption</strong></td>
+<td><strong>No direct role</strong> – regulates renal water handling;
+any effect on MPV would be via hemoconcentration/dilution rather than
+biology of platelets.</td>
+<td><strong>T cell (CD8+)</strong></td>
+<td><strong>No clear role</strong> – not a T-cell signaling
+pathway.</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td><strong>GnRH secretion</strong></td>
+<td><strong>No clear role</strong> – reproductive axis; no established
+direct regulation of MPV.</td>
+<td><strong>T cell (CD8+)</strong></td>
+<td><strong>No clear role</strong> – GnRH can modulate immunity
+hormonally, but the dedicated “GnRH secretion” pathway is not T-cell
+intrinsic.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="t1d-ebi-a-gcst90014023" class="section level3">
+<h3>T1D-ebi-a-GCST90014023</h3>
+<pre class="r"><code>trait &lt;- &quot;T1D-ebi-a-GCST90014023&quot;
+
+df_trait_fdr01 &lt;- c()
+df_trait_fdr02 &lt;- c()
+for(celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect_summary, celltype,&quot;_ECT_summary_EUR_SLEremoved.RDS&quot;))
+  
+  df_fdr01 &lt;- df[df$trait == trait &amp; df$ECT_FDR_5suppSNP&lt; 0.1, ]
+  df_fdr01 &lt;- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 &lt;- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 &lt;- df[df$trait == trait &amp; df$ECT_FDR_5suppSNP&lt; 0.2, ]
+  df_fdr02 &lt;- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 &lt;- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+df_trait_fdr01$celltype &lt;- types[df_trait_fdr01$celltype]
+
+# Prepare data
+selected &lt;- df_trait_fdr01 %&gt;%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName,&quot; &quot;,factor)
+  )
+
+# Plot
+p &lt;- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = &quot;white&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = &quot;black&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  labs(
+    x = expression(paste(&quot;-log&quot;[10], &quot;(ECT p-value)&quot;)),
+    y = NULL,
+    title = paste0(unique(selected$trait),&quot; ECT FDR &lt; 0.1&quot;)
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = &quot;Times&quot;),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-10-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-10-1.png" target="_blank">6f0c870</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>df_trait_fdr02$celltype &lt;- types[df_trait_fdr02$celltype]
+
+# Prepare data
+selected &lt;- df_trait_fdr02 %&gt;%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName,&quot; &quot;,factor)
+  )
+
+# Plot
+p &lt;- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = &quot;white&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = &quot;black&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  labs(
+    x = expression(paste(&quot;-log&quot;[10], &quot;(ECT p-value)&quot;)),
+    y = NULL,
+    title = paste0(unique(selected$trait),&quot; ECT FDR &lt; 0.2&quot;)
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = &quot;Times&quot;),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-10-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-2">
+Past versions of unnamed-chunk-10-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-10-2.png" target="_blank">6f0c870</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="50%" />
+<col width="42%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Pathway</strong></th>
+<th><strong>Role in Type 1 Diabetes</strong></th>
+<th><strong>Role in B cell (CD19+)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Longevity regulating pathway</strong></td>
+<td><strong>Indirect.</strong> Includes AMPK, FOXO, mTOR, insulin/IGF
+signaling — all relevant to metabolic regulation and immune aging. These
+pathways influence autoimmunity risk and T1D susceptibility but are
+<strong>not a primary T1D pathway</strong>.</td>
+<td><strong>Yes/Indirect.</strong> B-cell activation, survival, and
+differentiation depend on FOXO, AKT, AMPK, and mTOR pathways included in
+this module. Influences antibody production and immune homeostasis.</td>
+</tr>
+<tr class="even">
+<td><strong>Propanoate metabolism</strong></td>
+<td><strong>No clear role.</strong> Propionate is a short-chain fatty
+acid linked mainly to gut microbiome and metabolic traits. Some evidence
+suggests SCFAs modulate autoimmunity, but <strong>not a core T1D
+pathway</strong>.</td>
+<td><strong>Indirect.</strong> SCFAs (propionate/propanoate) may
+influence B-cell function via metabolic and epigenetic effects, but
+<strong>not part of canonical B-cell signaling</strong>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Endocytosis</strong></td>
+<td><strong>Yes/Indirect.</strong> Antigen uptake and processing by APCs
+and β-cell antigen presentation involve endocytosis. Also plays a role
+in immune activation and autoantigen exposure in T1D.</td>
+<td><strong>Yes.</strong> B cells rely heavily on endocytosis for
+antigen uptake through the B-cell receptor (BCR), internalization,
+processing, and presentation to T cells. Core B-cell function.</td>
 </tr>
 </tbody>
 </table>
@@ -2200,13 +3204,13 @@ for (i in 1:nrow(df_all_fdr01)){
   
 }</code></pre>
 <pre><code>CD15_positive_leukocyte-Insulin signaling pathway-MCH-ebi-a-GCST90002390</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
-Past versions of unnamed-chunk-8-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div id="fig-unnamed-chunk-11-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2225,26 +3229,26 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-1.png" target="_blank">c816447</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-1.png" target="_blank">6f0c870</a>
 </td>
 <td>
 XSun
 </td>
 <td>
-2025-11-07
+2025-11-12
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-2">
-Past versions of unnamed-chunk-8-2.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-2">
+Past versions of unnamed-chunk-11-2.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-8-2" class="collapse">
+<div id="fig-unnamed-chunk-11-2" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2263,13 +3267,13 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-2.png" target="_blank">c816447</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-2.png" target="_blank">6f0c870</a>
 </td>
 <td>
 XSun
 </td>
 <td>
-2025-11-07
+2025-11-12
 </td>
 </tr>
 </tbody>
@@ -2278,550 +3282,25 @@ XSun
 </div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: IKBKB,TSC1,CBL,PHKA2,SOCS4,PHKB,MAPK3,RPS6,RAF1,INPPL1&quot;
 platelet-NF-kappa B signaling pathway-HB-ebi-a-GCST90002384</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-3">
-Past versions of unnamed-chunk-8-3.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-3.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-4">
-Past versions of unnamed-chunk-8-4.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-4.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-4.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: LTB,LY96,TNFRSF1A,PLCG2,CD14,NFKBIA,NFKB1,PTGS2,CFLAR,PARP1&quot;
 platelet-Hippo signaling pathway-RET-ebi-a-GCST90002405</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-5.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-5">
-Past versions of unnamed-chunk-8-5.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-5" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-5.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-6.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-6">
-Past versions of unnamed-chunk-8-6.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-6" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-6.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-6.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: ACTB,BIRC2,CTNNB1,FZD7,TEAD4,FZD1,PPP1CA,PPP2R2D,PPP2R2B,NF2&quot;
 platelet-Thermogenesis-RET-ebi-a-GCST90002405</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-7.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-7">
-Past versions of unnamed-chunk-8-7.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-7" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-7.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-8.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-8">
-Past versions of unnamed-chunk-8-8.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-8" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-8.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-8.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: ACTG1,PRKAA1,GRB2,COX4I1,GNAS,KDM3B,PRKACB,SLC25A20,MGLL,NDUFB9&quot;
 platelet-Purine metabolism-RET-ebi-a-GCST90002405</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-9.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-9">
-Past versions of unnamed-chunk-8-9.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-9" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-9.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-10.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-10">
-Past versions of unnamed-chunk-8-10.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-10" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-10.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-9.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-10.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: NT5C2,AK3,NT5C,PDE4D,PDE5A,ADCY3,DGUOK,NME1-NME2,RRM2,PAPSS1&quot;
 B_cell-Chemokine signaling pathway-Psoriasis-ebi-a-GCST90038681</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-11.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-11">
-Past versions of unnamed-chunk-8-11.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-11" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-11.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-12.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-12">
-Past versions of unnamed-chunk-8-12.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-12" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-12.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-11.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-12.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3R2,RHOA,PTK2,PRKCD,DOCK2,NFKB1,ELMO1,IKBKG,VAV2,CDC42&quot;
 thymocyte-Gastric acid secretion-IBD-ebi-a-GCST003043</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-13.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-13">
-Past versions of unnamed-chunk-8-13.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-13" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-13.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-14.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-14">
-Past versions of unnamed-chunk-8-14.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-14" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-14.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-13.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-14.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PLCB1,CALM2,ATP1B3,KCNJ10,GNAI3,ITPR1,PRKCA,CALM3,ATP1A1,ACTB&quot;
 thymocyte-Leukocyte transendothelial migration-IBD-ebi-a-GCST003043</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-15.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-15">
-Past versions of unnamed-chunk-8-15.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-15" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-15.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-16.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-16">
-Past versions of unnamed-chunk-8-16.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-8-16" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-8-16.png" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-15.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-16.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: CTNNA1,ACTB,PIK3R2,ITGAL,ACTN4,ITGB2,RAC2,MSN,MAPK13,SIPA1&quot;</code></pre>
 </div>
 <div id="gene-function-on-the-cell-types-nots-from-chatgpt"
@@ -3096,7 +3575,44 @@ for(celltype in celltypes){
 }
 
 all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-10-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-13-1.png" target="_blank">6f0c870</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>p &lt;- list()
 for (celltype in celltypes) {
   
@@ -3147,7 +3663,7 @@ for (celltype in celltypes) {
 }
 
 all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2, top = &quot;Number of pairs with MBE p &lt; 0.05, for the sig pairs&quot;)</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-10-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-13-2.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
 <div id="ect-fdr-0.2-1" class="section level3">
 <h3>ECT FDR &lt; 0.2</h3>
@@ -3192,7 +3708,44 @@ for(celltype in celltypes){
 }
 
 all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-14-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
+Past versions of unnamed-chunk-14-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-14-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-14-1.png" target="_blank">6f0c870</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>p &lt;- list()
 for (celltype in celltypes) {
   
@@ -3244,7 +3797,44 @@ for (celltype in celltypes) {
 }
 
 all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2, top = &quot;Number of pairs with MBE p &lt; 0.05, for the sig pairs&quot;)</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-11-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-14-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-2">
+Past versions of unnamed-chunk-14-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-14-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-14-2.png" target="_blank">6f0c870</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div
@@ -3398,7 +3988,44 @@ p2 &lt;- ggplot(df, aes(x = fct_inorder(celltype), y = total, fill = event)) +
   )
 
 all &lt;- grid.arrange(p1, p2, nrow = 1)</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-12-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
+Past versions of unnamed-chunk-15-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-15-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/6f0c8705006fa3ea4e69d3218cc656c67dcd2ab7/docs/figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-1.png" target="_blank">6f0c870</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="traits-and-pathways-identified-1" class="section level2">
 <h2>Traits and pathways identified</h2>
@@ -3470,7 +4097,7 @@ p &lt;- ggplot(selected) +
   xlim(0, 8)
 
 p</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-13-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-16-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>supp_snps_all &lt;- readRDS(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTFDR02.RDS&quot;)
 supp_snps_trait &lt;- supp_snps_all[supp_snps_all$trait == trait,]
 
@@ -3527,7 +4154,7 @@ p &lt;- ggplot(selected) +
   xlim(0, 8)
 
 p</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-13-3.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-16-3.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
 <div id="mcv-ebi-a-gcst90018746" class="section level3">
 <h3>MCV-ebi-a-GCST90018746</h3>
@@ -3597,7 +4224,7 @@ p &lt;- ggplot(selected) +
   xlim(0, 8)
 
 p</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-14-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-17-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>df_trait_fdr02$celltype &lt;- types[df_trait_fdr02$celltype]
 
 # Prepare data
@@ -3646,7 +4273,7 @@ p &lt;- ggplot(selected) +
   xlim(0, 8)
 
 p</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-14-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-17-2.png" width="1152" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="plots-for-all-pairs-at-ect-fdr-0.1-1" class="section level2">
@@ -3828,67 +4455,67 @@ for (i in 1:nrow(df_all_fdr01)){
   
 }</code></pre>
 <pre><code>CD15_positive_leukocyte-Kaposi sarcoma-associated herpesvirus infection-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,GNG2,JAK1,RB1,JAK2,MAP2K4,RCAN1,MAP2K1,GNG10,IFNAR2&quot;
 CD15_positive_leukocyte-Hepatitis B-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-4.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,TRAF6,JAK2,MAP2K4,JAK1,RB1,MAP2K1,ARAF,TYK2,NRAS&quot;
 CD15_positive_leukocyte-Growth hormone synthesis, secretion and action-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-6.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,JAK2,GSK3B,AKT1,MAP2K4,GNAQ,RAF1,EP300,MAPK3,ITPR2&quot;
 CD15_positive_leukocyte-Pathways in cancer-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-8.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,GNG2,TRAF6,JAK1,JAK2,RB1,GNAQ,MAP2K1,HDAC2,IFNAR2&quot;
 CD15_positive_leukocyte-Human papillomavirus infection-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-9.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-10.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-9.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-10.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,PPP2R2D,JAK1,RB1,PPP2CA,MAP2K1,HDAC2,CDC42,NRAS,TBPL1&quot;
 CD15_positive_leukocyte-mRNA surveillance pathway-ATD-bbj-a-90</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-11.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-12.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-11.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-12.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PABPC1L,PNN,SMG1,PELO,WDR33,NXF1,UPF2,PABPN1,CPSF4,CPSF2&quot;
 CD15_positive_leukocyte-Pancreatic secretion-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-13.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-14.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-13.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-14.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PLCB2,RAB11A,ITPR1,RAP1A,GNAQ,ITPR2,TPCN2,AMY1C,PLCB1,KCNQ1&quot;
 CD15_positive_leukocyte-Serotonergic synapse-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-15.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-16.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-15.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-16.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PLA2G4B,MAPK3,GNAI2,PTGS1,ITPR2,ITPR1,GNG5,GNB2,GNB1,MAPK1&quot;
 CD15_positive_leukocyte-Signaling pathways regulating pluripotency of stem cells-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-17.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-18.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-17.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-18.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,ACVR1,JAK2,JAK1,NRAS,MAP2K1,GSK3B,CTNNB1,AKT1,RIF1&quot;
 CD15_positive_leukocyte-Axon guidance-BMI-ebi-a-GCST90018727</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-19.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-20.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-19.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-20.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,NRAS,RAF1,EPHB1,GSK3B,MAPK3,CDC42,PIK3R1,LIMK2,MAPK1&quot;
 CD14_positive_monocyte-Insulin resistance-MCV-ebi-a-GCST90018746</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-21.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-22.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-21.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-22.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PPP1CA,NR1H2,PPP1CC,RPS6KB1,G6PC3,PCK2,RELA,STAT3,PIK3CA,PTEN&quot;
 CD15_positive_leukocyte-Human cytomegalovirus infection-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-23.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-24.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-23.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-24.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,GNG2,JAK1,GNAQ,RB1,RPS6KB2,GNA13,GNG10,MAP2K1,GNG5&quot;
 CD15_positive_leukocyte-Huntington disease-BMI-ebi-a-GCST90018727</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-25.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-26.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-25.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-26.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: DNAH1,NDUFB3,ULK1,TBP,NDUFS7,NDUFS3,TUBA1C,CASP9,CYC1,NRBF2&quot;
 CD15_positive_leukocyte-Phosphatidylinositol signaling system-ATD-bbj-a-90</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-27.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-28.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-27.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-28.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,IPMK,MTM1,ITPR2,PI4KB,IP6K2,PIK3R1,CALM2,MTMR4,PRKCB&quot;
 CD15_positive_leukocyte-Axon guidance-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-29.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-30.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-29.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-30.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,NRAS,RAF1,EPHB1,GSK3B,MAPK3,CDC42,PIK3R1,LIMK2,MAPK1&quot;
 B_cell-Platelet activation-MCV-ebi-a-GCST90018746</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-31.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-32.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-31.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-32.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: VWF,PTGS1,GP9,TLN1,MYLK,GP1BA,ITGB3,GP6,P2RY12,ADCY3&quot;
 B_cell-Regulation of actin cytoskeleton-MCV-ebi-a-GCST90018746</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-33.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-34.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-33.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-34.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: ITGB5,ACTN1,MYLK,MAPK3,ITGB3,NRAS,NCKAP1L,PIP4K2A,ITGA2B,MYL9&quot;
 CD15_positive_leukocyte-Various types of N-glycan biosynthesis-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-35.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-36.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-35.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-36.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: STT3B,MAN2A2,B4GALT2,STT3A,DDOST,MGAT2,MGAT1,MGAT4B,ALG12,MGAT4A&quot;
 CD14_positive_monocyte-Pathways in cancer-MCV-ebi-a-GCST90018746</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-37.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-38.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-37.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-38.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: FH,HDAC2,CDKN1B,CTBP1,CSF3R,RASSF5,ARHGEF1,NFKB2,BAX,RELA&quot;
 CD15_positive_leukocyte-Shigellosis-height-ebi-a-GCST90018739</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-39.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-40.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-39.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-40.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PIK3CB,UBE2D2,BCL10,UBE2N,TRAF6,FBXW11,UBE2V2,RBCK1,CDC42,MAPK9&quot;
 B_cell-Oxytocin signaling pathway-MCV-ebi-a-GCST90018746</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-41.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-15-42.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-41.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved.Rmd/unnamed-chunk-18-42.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: MAPK3,CALM3,CDKN1A,MAP2K2,MYL6B,CAMK2B,CALML4,PIK3CG,RHOA,PLA2G4B&quot;</code></pre>
 <!-- ### Gene function on the cell types , nots from chatgpt  -->
 <br>
