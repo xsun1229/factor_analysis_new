@@ -15,7 +15,7 @@ suppressMessages(library(gridExtra))
 suppressMessages(library(tidyr))
 suppressMessages(library(forcats))
 
-source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection.R")
+source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection_SLEremoved.R")
 #traits <- c(traits_EUR, traits_EAS)
 traits <- c(traits_EUR)
 
@@ -333,7 +333,7 @@ for (celltype in celltypes) {
   
   acat_celltype <- acat_allcelltypes[[celltype]]
   
-  p <- as.numeric(acat_celltype$acat_p_MHCremoved)
+  p <- as.numeric(acat_celltype$acat_p_correct_noMHC_pairnull)
   p1[[celltype]] <- histogram(pvalues = p,title = type[celltype],xlab = "Corrected ACAT p-values - Pair Null, MHC removed")
   p2[[celltype]] <- qqplot(pvalues = p,title = type[celltype])
   
