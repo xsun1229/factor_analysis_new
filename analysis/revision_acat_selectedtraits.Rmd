@@ -133,7 +133,7 @@ When computing ACAT p-values, we used two settings:
 
 ``````{r warning=FALSE, message=FALSE, fig.width=15, fig.height=10}
 
-folder_acat <- "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT_v2/results/acat_correct/"
+folder_acat <- "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT_v2/results/acat_correct_EUR/"
 
 acat_allcelltypes <- list()
 for (i in 1:length(celltypes)) {

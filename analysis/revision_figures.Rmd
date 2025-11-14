@@ -489,7 +489,7 @@ ITGAL and ITGB2 form LFA-1, which has been shown to facilitate T-cell activation
 
 3. RAC2 
 
-RAC2 is a member of the Rac subfamily of Rho GTPases. It plays essential roles in T-cell development, cytoskeletal remodeling, and survival[PMID: 19088377, 11581314, 18579797].
+RAC2 is a member of the Rac subfamily of Rho GTPases. It plays essential roles in T-cell development, cytoskeletal remodeling, and survival[PMID: 19088377, 11581314, 18579797].  **In the absence of Rac2, the motility of T cells in response to CXCL12, CCL19, and CCL21 was partially reduced [PMID: 20870900]**
 
 4. SIPA1
 
@@ -506,6 +506,10 @@ MAPK13 phosphorylates TCF1, leading to increase of stem-like T cells [PMID 38272
 7. MSN 
 
 MSN (Moesin) are implicated in promoting T cell activation and polarity [PMID: 19124745]
+
+8. ACTN4
+
+**ACTN4 has been shown to play important roles in cytoskeleton organization, cell adhesion, and cell migration [PMID: 25885339]**
 
 
 # SI figures
