@@ -13,9 +13,12 @@ output:
 library(gridExtra)
 library(ggplot2)
 library(dplyr)
+library(tidyverse)
+library(EnsDb.Hsapiens.v75)
+library(ggrepel)
 
 celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
-types <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+types <- c("B cell (CD19+)","Monocyte (CD14+)","Granulocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
 names(celltypes) <- types
 names(types) <- celltypes
 
@@ -46,7 +49,463 @@ qqplot <- function(pvalues,title=NULL) {
   
 }
 
+
 ```
+
+
+# Main text figures
+
+## Figure 4
+
+### example 1, NF-kappa B signaling pathway - Platelet - HB-ebi-a-GCST90002384
+
+```{r fig.height=3, fig.width=7.7, warning=F, message=F}
+
+celltype <- "platelet"
+trait <- "HB-ebi-a-GCST90002384"
+factor <- "04064_PC1"
+fdr_cutoff <- 0.2
+  
+file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
+dt_harmo <- readRDS(file_harmo)
+
+df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+
+dat <- dt_harmo[[factor]]
+snp_select <- dat[dat$FDR.exposure < fdr_cutoff,]
+snp_select$chr <- as.numeric(as.character(snp_select$chr.exposure))
+snp_select$chr <- factor(snp_select$chr, levels = sort(unique(snp_select$chr)))
+
+fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+
+ect_p <- df$p_ECT[df$factor == factor & df$trait ==trait]
+
+pathwayname <- df$pathwayName[df$factor == factor & df$trait ==trait]
+
+eff <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01, alpha=0.6) +
+  theme_bw(base_line_size = 0.3) +
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+  geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+             label = paste("R^2 = ", signif(summary(fit)$r.squared, 3), 
+                           "\nECT p-value =", ect_p),
+             color = "black", family = "Times", size =3, label.size = NA,fill=NA) +
+  xlab(expression(hat(beta)[factor])) + 
+  ylab(expression(hat(beta)[gwas])) +
+  geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+  geom_hline(yintercept = 0, color = "grey", linetype = "dashed")
+
+
+#snp_select <- dat[dat$FDR.exposure > fdr_cutoff & dat$steiger_dir ==T,]
+snp_select <- dat[dat$FDR.exposure > fdr_cutoff,]
+
+fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+coef <- summary(fit)
+p <- round(coef$coefficients[,4], digits = 4)
+#ect_p <- df$p_ECT[df$factor == factor & df$trait ==trait]
+
+eff_rev <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome)) +
+  geom_point(size = 4, color ="steelblue") + 
+  theme_bw(base_line_size = 0.3) +
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+  geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+             label = paste("R^2 = ", signif(summary(fit)$r.squared, 3), 
+                           "\n p-value =", p),
+             color = "black", family = "Times", size =3, label.size = NA,fill=NA) +
+  xlab(expression(hat(beta)[factor])) + 
+  ylab(expression(hat(beta)[gwas])) +
+  geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+  geom_hline(yintercept = 0, color = "grey", linetype = "dashed")
+
+
+
+file_gene_loading <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/gene_loading/",celltype, "_", factor, "-", trait, ".RDS")
+gene_loadings_pc <- readRDS(file_gene_loading)
+
+gene_loadings_pc_abs <- abs(gene_loadings_pc)
+gene_loadings_pc_abs_sort <- sort(gene_loadings_pc_abs,decreasing = T)
+topgenes <- names(gene_loadings_pc_abs_sort)[1:10]
+
+gene_loadings_pc <- as.data.frame(cbind(names(gene_loadings_pc),gene_loadings_pc))
+names(gene_loadings_pc) <- c("gene_name","gene_loadings_pc")
+
+# Extract gene information based on the gene symbol
+gene_info <- genes(EnsDb.Hsapiens.v75, filter = ~ gene_name ==  gene_loadings_pc$gene_name)
+gene_info <- as.data.frame(gene_info)
+gene_info <- gene_info[!duplicated(gene_info$gene_name),]
+
+gene_info <- merge(gene_info,gene_loadings_pc, by="gene_name")
+gene_info <- gene_info[gene_info$seqnames %in%c(1:22),]
+
+loading_plot <- gene_info[,c("seqnames","start","gene_name","gene_loadings_pc")]
+colnames(loading_plot) <- c("chromosome_name","start_position","gene_name","loadings")
+loading_plot$loadings <- round(as.numeric(loading_plot$loadings),digits = 4)
+
+don <- loading_plot %>%
+  
+  # Compute chromosome size
+  group_by(chromosome_name) %>%
+  summarise(chr_len=max(start_position)) %>%
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(as.numeric(chr_len))-as.numeric(chr_len)) %>%
+  dplyr::select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(loading_plot, ., by=c("chromosome_name"="chromosome_name")) %>%
+  
+  # Add a cumulative position of each SNP
+  arrange(chromosome_name, start_position) %>%
+  mutate( start_positioncum=start_position+tot) %>%
+  
+  # Add highlight and annotation information
+  #mutate( is_annotate=ifelse(gene_name %in% loading_plot_top10$gene_name, "yes", "no"))
+  mutate( is_annotate=ifelse(gene_name %in% topgenes, "yes", "no"))
+# Then we need to prepare the X axis. Indeed we do not want to display the cumulative position of SNP in bp, but just show the chromosome name instead.
+axisdf = don %>% group_by(chromosome_name) %>% summarize(center=( max(start_positioncum) + min(start_positioncum) ) / 2 )
+
+manhplot_gene <- ggplot(don, aes(x=start_positioncum, y=loadings)) +
+  
+  # Show all points
+  #rasterise(geom_point( aes(color=as.factor(chromosome_name)), alpha=0.8, size=3),dpi=80 )+
+  geom_point( aes(color=as.factor(chromosome_name)), alpha=0.8, size=3) +
+  scale_color_manual(values = rep(c("red", "steelblue"), 22)) +
+  
+  # custom X axis:
+  scale_x_continuous( label = as.integer(axisdf$chromosome_name), breaks= axisdf$center ) +
+  #scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  
+  #ylab(expression(paste("-log"[10],"(p-value)"))) +
+  #ylim(0,max(-log10(don$loadings)) + 2) +
+  #ylim(min(as.numeric(don$loadings)),max(as.numeric(don$loadings))) +
+  #ylab("") +
+  ylab("Gene Loadings") +
+  xlab("Chromosome") +
+  
+  # Custom the theme:
+  theme_bw() +
+  #ggtitle(i) + theme(plot.title = element_text(hjust = 0.5)) +
+  theme(
+    legend.position="none",
+    panel.border = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.title.x = element_text(size = 18),
+    axis.text.x = element_text(size = 16, color = "black"),
+    axis.title.y = element_text(size = 18),
+    axis.text.y = element_text(size = 16, color = "black"),
+    text= element_text(family="Times"),
+    #axis.text.y=element_blank(),
+    #axis.ticks.y=element_blank()
+  ) +
+  geom_label_repel( data=subset(don, is_annotate=="yes"), aes(label=gene_name), size=4)
+
+
+cat(paste0(celltype,"-", pathwayname, "-", trait ))
+
+
+all <- grid.arrange(eff, eff_rev, nrow = 1)
+
+print(manhplot_gene)
+print(paste0("Top 10 genes with largest abs loading: ", paste0(topgenes, collapse = ",")))
+
+```
+
+
+- NF-kappa B signaling pathway -> Platelet -> hemoglobin
+
+NF-κB activation in platelets promotes SNAP-23–dependent granule secretion, increases P-selectin surface expression, stimulates TXA₂ and ADP release, and facilitates inside-out activation of αIIbβ3 integrin to drive aggregation and thrombus formation. NF-κB activation in endothelial cells under inflammatory conditions upregulates adhesion molecules, enhancing platelet binding and promoting a pro-thrombotic vascular environment. [PMID: 31461836]
+
+Thrombocytopenia increases mucosal and internal bleeding risk, leading to iron-deficiency anemia and reduced hemoglobin levels [PMID: 15248165]. Inflammatory cytokines such as IL-6 elevate platelet counts [PMID: 7951005] and induce hepcidin, which decreases iron availability and lowers hemoglobin [PMID: 15124018]. Platelet-derived S1P maintains endothelial barrier integrity; when this pathway is disrupted, vascular leak and red blood cell loss can occur [PMID: 36142188]. Additionally, conditions characterized by excessive platelet activation (e.g., TTP, HUS, DIC) produce platelet-rich microthrombi, causing schistocyte formation and hemolysis [PMID: 32310498], ultimately leading to hemoglobin reduction.
+
+- TOP loading genes -> Platelet
+
+
+
+
+1. LY96
+
+LY96 (MD-2) is the LPS-binding component of the TLR4–MD2 receptor complex. LPS binds directly to MD-2, enabling TLR4 activation and downstream inflammatory signaling. In platelets, LPS–TLR4–MD2 signaling promotes platelet activation and secretion [PMID: 19494325].
+
+2. TNFRSF1A
+
+TNFRSF1A encodes TNF receptor 1 (TNFR1). TNF-α signaling through TNFR1 enhances platelet activation and procoagulant activity, indicating a direct stimulatory effect of TNF-α on platelets [PMID: 26819099; 8679214].
+
+3. PLCG2
+
+PLCG2 encodes PLCγ2, the essential phospholipase required for platelet activation downstream of the collagen receptor GPVI, as well as integrin αIIbβ3 outside-in signaling. Loss of PLCγ2 severely impairs platelet activation [PMID: 25793864].
+
+4. CD14
+
+CD14 is a co-receptor that facilitates LPS–TLR4 signaling. Although platelets do not express membrane-bound CD14, soluble CD14 enables platelet TLR4 responsiveness. Together with LY96/MD-2, CD14 contributes to LPS-induced platelet activation and secretion [PMID: 24585776].
+
+5. NFKBIA
+
+NFKBIA encodes IκBα, the major inhibitory protein that restrains NF-κB activity. Because NF-κB regulates platelet activation, granule secretion, and integrin signaling, NFKBIA contributes to the control of NF-κB–dependent platelet responses, as discussed before.
+
+6. NFKB1
+
+NFKB1 encodes the NF-κB subunit p50, a core component of the platelet NF-κB signaling machinery. NF-κB activation in platelets influences secretion, aggregation, and thrombus formation, linking NFKB1 to platelet inflammatory and functional responses, as discussed before.
+
+7. CFLAR
+
+CFLAR encodes c-FLIP, a key anti-apoptotic regulator that modulates caspase-8 activity. c-FLIP affects TNF-α–driven signaling pathways [PMID: 23070002] and participates in mechanisms that regulate platelet lifespan and survival.
+
+8. PARP1
+
+PARP1 is a major substrate of activated caspases. Caspase signaling has both apoptotic and non-apoptotic roles in hematopoiesis, including megakaryocyte differentiation and platelet maturation. [PMID: 21176168].
+
+
+<!-- 1. LY96 -->
+
+<!-- LY96 (MD-2) is the LPS-binding component of the TLR4 receptor. LPS binds to MD-2, enabling TLR4–MD2 activation and downstream inflammatory signaling. LPS stimulates platelet secretion [PMID: 19494325].  -->
+
+<!-- 2. TNFRSF1A -->
+
+<!-- TNFRSF1A is TNF receptor 1. Increased levels of TNF-α are known to activate platelets[PMID: 26819099, 8679214].  -->
+
+<!-- 3. PLCG2 -->
+
+<!-- PLCG2 encodes PLCγ2, which is required for platelet activation. [PMID: 25793864] -->
+
+<!-- 4. CD14 -->
+
+<!-- CD14 is a coreceptor for LPS signaling through TLR4. Combine with the evidence of LY96, it is related to latelet secretion.[PMID: 24585776] -->
+
+<!-- 5. NFKBIA  -->
+
+<!-- NFKBIA is the gene that encodes IκBα, the major inhibitory protein that keeps NF-κB inactive under resting conditions. We have discussed the role of  NF-κB in platelets before.  -->
+
+<!-- 6. NFKB1 -->
+
+<!-- Critical part of platelet NF-κB machinery. We have discussed the role of  NF-κB in platelets -->
+
+<!-- 7. CFLAR  -->
+
+<!-- CFLAR encodes c-FLIP, is a master anti-apoptotic regulator and resistance factor that suppresses tumor necrosis factor-α (TNF-α) [PMID: 23070002], which has been discussed earlier.  -->
+
+<!-- 8. PARP1  -->
+
+<!-- PARP1 is a key substrate of activated caspases, which are central regulators of apoptosis and also have important non-apoptotic roles in hematopoiesis, including platelet maturation. [PMID: 21176168] -->
+
+### example 2, Leukocyte transendothelial migration - T cell (CD 8+) - IBD-ebi-a-GCST003043
+
+```{r fig.height=3, fig.width=7.7, warning=F, message=F}
+
+celltype <- "thymocyte"
+trait <- "IBD-ebi-a-GCST003043"
+factor <- "04670_PC1"
+fdr_cutoff <- 0.2
+  
+file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
+dt_harmo <- readRDS(file_harmo)
+
+df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+
+dat <- dt_harmo[[factor]]
+snp_select <- dat[dat$FDR.exposure < fdr_cutoff,]
+snp_select$chr <- as.numeric(as.character(snp_select$chr.exposure))
+snp_select$chr <- factor(snp_select$chr, levels = sort(unique(snp_select$chr)))
+
+fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+
+ect_p <- df$p_ECT[df$factor == factor & df$trait ==trait]
+
+pathwayname <- df$pathwayName[df$factor == factor & df$trait ==trait]
+
+eff <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+  geom_point(size = 4) + 
+  geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01, alpha=0.6) +
+  theme_bw(base_line_size = 0.3) +
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+  geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+             label = paste("R^2 = ", signif(summary(fit)$r.squared, 3), 
+                           "\nECT p-value =", ect_p),
+             color = "black", family = "Times", size =3, label.size = NA,fill=NA) +
+  xlab(expression(hat(beta)[factor])) + 
+  ylab(expression(hat(beta)[gwas])) +
+  geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+  geom_hline(yintercept = 0, color = "grey", linetype = "dashed")
+
+
+#snp_select <- dat[dat$FDR.exposure > fdr_cutoff & dat$steiger_dir ==T,]
+snp_select <- dat[dat$FDR.exposure > fdr_cutoff,]
+
+fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+coef <- summary(fit)
+p <- round(coef$coefficients[,4], digits = 4)
+#ect_p <- df$p_ECT[df$factor == factor & df$trait ==trait]
+
+eff_rev <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome)) +
+  geom_point(size = 4, color ="steelblue") + 
+  theme_bw(base_line_size = 0.3) +
+  theme(axis.title.x = element_text(size = 16),
+        axis.text.x = element_text(size = 14, color = "black"),
+        axis.title.y = element_text(size =16),
+        axis.text.y = element_text(size = 14, color = "black"),
+        text= element_text(family="Times"),
+        legend.text = element_text(size=12),
+        legend.title = element_text(size=12)) + 
+  geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+  geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+             label = paste("R^2 = ", signif(summary(fit)$r.squared, 3), 
+                           "\n p-value =", p),
+             color = "black", family = "Times", size =3, label.size = NA,fill=NA) +
+  xlab(expression(hat(beta)[factor])) + 
+  ylab(expression(hat(beta)[gwas])) +
+  geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+  geom_hline(yintercept = 0, color = "grey", linetype = "dashed")
+
+
+
+file_gene_loading <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/gene_loading/",celltype, "_", factor, "-", trait, ".RDS")
+gene_loadings_pc <- readRDS(file_gene_loading)
+
+gene_loadings_pc_abs <- abs(gene_loadings_pc)
+gene_loadings_pc_abs_sort <- sort(gene_loadings_pc_abs,decreasing = T)
+topgenes <- names(gene_loadings_pc_abs_sort)[1:10]
+
+gene_loadings_pc <- as.data.frame(cbind(names(gene_loadings_pc),gene_loadings_pc))
+names(gene_loadings_pc) <- c("gene_name","gene_loadings_pc")
+
+# Extract gene information based on the gene symbol
+gene_info <- genes(EnsDb.Hsapiens.v75, filter = ~ gene_name ==  gene_loadings_pc$gene_name)
+gene_info <- as.data.frame(gene_info)
+gene_info <- gene_info[!duplicated(gene_info$gene_name),]
+
+gene_info <- merge(gene_info,gene_loadings_pc, by="gene_name")
+gene_info <- gene_info[gene_info$seqnames %in%c(1:22),]
+
+loading_plot <- gene_info[,c("seqnames","start","gene_name","gene_loadings_pc")]
+colnames(loading_plot) <- c("chromosome_name","start_position","gene_name","loadings")
+loading_plot$loadings <- round(as.numeric(loading_plot$loadings),digits = 4)
+
+don <- loading_plot %>%
+  
+  # Compute chromosome size
+  group_by(chromosome_name) %>%
+  summarise(chr_len=max(start_position)) %>%
+  
+  # Calculate cumulative position of each chromosome
+  mutate(tot=cumsum(as.numeric(chr_len))-as.numeric(chr_len)) %>%
+  dplyr::select(-chr_len) %>%
+  
+  # Add this info to the initial dataset
+  left_join(loading_plot, ., by=c("chromosome_name"="chromosome_name")) %>%
+  
+  # Add a cumulative position of each SNP
+  arrange(chromosome_name, start_position) %>%
+  mutate( start_positioncum=start_position+tot) %>%
+  
+  # Add highlight and annotation information
+  #mutate( is_annotate=ifelse(gene_name %in% loading_plot_top10$gene_name, "yes", "no"))
+  mutate( is_annotate=ifelse(gene_name %in% topgenes, "yes", "no"))
+# Then we need to prepare the X axis. Indeed we do not want to display the cumulative position of SNP in bp, but just show the chromosome name instead.
+axisdf = don %>% group_by(chromosome_name) %>% summarize(center=( max(start_positioncum) + min(start_positioncum) ) / 2 )
+
+manhplot_gene <- ggplot(don, aes(x=start_positioncum, y=loadings)) +
+  
+  # Show all points
+  #rasterise(geom_point( aes(color=as.factor(chromosome_name)), alpha=0.8, size=3),dpi=80 )+
+  geom_point( aes(color=as.factor(chromosome_name)), alpha=0.8, size=3) +
+  scale_color_manual(values = rep(c("red", "steelblue"), 22)) +
+  
+  # custom X axis:
+  scale_x_continuous( label = as.integer(axisdf$chromosome_name), breaks= axisdf$center ) +
+  #scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+  
+  #ylab(expression(paste("-log"[10],"(p-value)"))) +
+  #ylim(0,max(-log10(don$loadings)) + 2) +
+  #ylim(min(as.numeric(don$loadings)),max(as.numeric(don$loadings))) +
+  #ylab("") +
+  ylab("Gene Loadings") +
+  xlab("Chromosome") +
+  
+  # Custom the theme:
+  theme_bw() +
+  #ggtitle(i) + theme(plot.title = element_text(hjust = 0.5)) +
+  theme(
+    legend.position="none",
+    panel.border = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.title.x = element_text(size = 18),
+    axis.text.x = element_text(size = 16, color = "black"),
+    axis.title.y = element_text(size = 18),
+    axis.text.y = element_text(size = 16, color = "black"),
+    text= element_text(family="Times"),
+    #axis.text.y=element_blank(),
+    #axis.ticks.y=element_blank()
+  ) +
+  geom_label_repel( data=subset(don, is_annotate=="yes"), aes(label=gene_name), size=4)
+
+
+cat(paste0(celltype,"-", pathwayname, "-", trait ))
+
+
+all <- grid.arrange(eff, eff_rev, nrow = 1)
+
+print(manhplot_gene)
+print(paste0("Top 10 genes with largest abs loading: ", paste0(topgenes, collapse = ",")))
+
+```
+
+
+- Leukocyte transendothelial migration -> CD8⁺ T cells -> IBD
+
+Leukocyte transendothelial migration (TEM) is the process by which white blood cells (leukocytes) exit the bloodstream and enter tissues [PMID: 21073340, 33855018]. Because CD8⁺ T cells are leukocytes, TEM directly enables their recruitment to inflammatory sites, allowing them to exert their cytotoxic and cytokine-mediated functions.
+
+Emerging evidence shows that CD8⁺ T cells play important roles in IBD. Chronic intestinal infection can drive epithelial barrier leakage through type I IFN signaling and CD8⁺ T-cell activity, and blocking CD8⁺ T cells prevents this barrier breakdown [PMID: 32880630]. At the same time, CD8⁺ T cells in IBD are highly heterogeneous: cytotoxic (Tc1) and IL-17–producing (Tc17) subsets promote inflammation, whereas other CD8⁺ subsets may be neutral or even protective [PMID: 34707610].
+
+- TOP loading genes -> CD8⁺ T cells
+
+1 & 2 . ITGAL & ITGB2
+
+<!-- ITGAL is essential for CD8⁺ T-cell activation, where its product, the CD11a α-subunit of LFA-1, supports magnesium-dependent immune synapse formation and antigen-specific cytotoxicity [PMID: 39605903].  -->
+
+ITGAL and ITGB2 form LFA-1, which has been shown to facilitate T-cell activation by functioning as a scavenger receptor on CD8⁺ dendritic cells, enabling them to acquire antigen from antigen-bearing DCs [PMID: 17641014]. 
+
+3. RAC2 
+
+RAC2 is a member of the Rac subfamily of Rho GTPases. It plays essential roles in T-cell development, cytoskeletal remodeling, and survival[PMID: 19088377, 11581314, 18579797].
+
+4. SIPA1
+
+Sipa1 was shown to inhibit  thymocyte development [PMID: 37545505]
+
+5. PIK3R2 
+
+PIK3R2 is a key component of the PI3K–Akt signaling pathway, which plays a central role in T-cell exhaustion[PMID  17164340]
+
+6. MAPK13
+
+MAPK13 phosphorylates TCF1, leading to increase of stem-like T cells [PMID 38272565].
+
+7. MSN 
+
+MSN (Moesin) are implicated in promoting T cell activation and polarity [PMID: 19124745]
 
 
 # SI figures
