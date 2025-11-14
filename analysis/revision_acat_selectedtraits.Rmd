@@ -301,6 +301,17 @@ grid.arrange(grobs=p2, nrow = 2)
 
 # Corrected ACAT p-values (pair null)
 
+We applied this correction at three levels: pair null, trait null, and global null.
+
+- Under the pair null, the null distribution was derived from the 100 ACAT p-values of each individual factor–SNP pair.
+- Under the trait null, all factors corresponding to a given trait were pooled to form the null distribution.
+- Under the global null, we pooled all ACAT p-values across factors and traits within each cell type.
+
+When computing ACAT p-values, we used two settings:
+
+- All independent variants associated with the given 
+- Excluding variants within the MHC region.
+
 ## MHC included 
 
 ``````{r warning=FALSE, message=FALSE, fig.width=15, fig.height=10}
@@ -346,6 +357,17 @@ grid.arrange(grobs=p2, nrow = 2)
 
 
 # Corrected ACAT p-values (trait null)
+
+We applied this correction at three levels: pair null, trait null, and global null.
+
+- Under the pair null, the null distribution was derived from the 100 ACAT p-values of each individual factor–SNP pair.
+- Under the trait null, all factors corresponding to a given trait were pooled to form the null distribution.
+- Under the global null, we pooled all ACAT p-values across factors and traits within each cell type.
+
+When computing ACAT p-values, we used two settings:
+
+- All independent variants associated with the given 
+- Excluding variants within the MHC region.
 
 ## MHC included 
 
