@@ -24,6 +24,7 @@ names(types) <- celltypes
 
 source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection_SLEremoved.R")
 
+folder_ect_summary <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/"
 
 qqplot <- function(pvalues,title=NULL) {
   
@@ -54,6 +55,115 @@ qqplot <- function(pvalues,title=NULL) {
 
 
 # Main text figures
+
+## Figure 3 
+
+```{r fig.height=6, fig.width=12, warning=F, message=F}
+
+trait <- "RET-ebi-a-GCST90002405"
+
+df_trait_fdr01 <- c()
+df_trait_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  
+  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 <- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.2, ]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 <- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+df_trait_fdr02$celltype <- types[df_trait_fdr02$celltype]
+
+# Prepare data
+selected <- df_trait_fdr02 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.2")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 5)
+
+p
+```
+
+- Platelets
+
+Activated platelets, which are recruited to sites of vascular injury, are known to release a variety of chemokines (Y. Chen et al.,2020). The resulting chemokine-receptor interactions are crucial regulators of hematopoiesis (Bonavita et al., 2018; Broxmeyer, 2008; Duchene et al., 2017), which can impact the reticulocyte counts.
+
+
+1. Hippo signaling pathway
+
+Hippo signalling pathway plays a crucial role in human megakaryoblastic cell differentiation and thrombopoiesis.[PMID: 27786336,27903710,27515249]. megakaryocytes' main function is producing platelets [PMID 26787738]
+
+2. Purine metabolism
+
+purines have been shown to play an important role in the physiology of platelets[PMID 37108190]. Platelets contain very high levels of adenine nucleotides (like ADP and ATP), which are stored in granules and released during activation by stimuli such as thrombin or collagen. Released ADP promotes aggregation, while other purine metabolites—ATP, AMP, adenosine, and AP4—inhibit platelet aggregation. [(]Agarwal, K.C. (1996). Purines and Regulation of Platelet Activation. In: Abd-Elfattah, AS.A., Wechsler, A.S. (eds) Purines and Myocardial Protection. Developments in Cardiovascular Medicine, vol 181. Springer, Boston, MA.]
+
+3. C-type lectin receptor signaling pathway
+
+C-type lectin receptor signaling—especially via CLEC-2—drives strong platelet activation, aggregation, and thrombo-inflammatory responses through Syk-dependent pathways.[PMID: 25150298]
+
+4. Glutamatergic synapse 
+
+glutamate activates AMPA receptors on platelet surface. AMPAR signaling increases platelet activation and promotes thrombosis, while blocking AMPAR reduces platelet activation. [PMID: 18283118]
+
+5. cAMP signaling pathway
+
+The cAMP signaling pathway represents the most potent endogenous system for the control of platelet activation through its ability to modulate multiple platelet functions[PMID: 26617518, 24100445, 26617518]
+
+
+6. mTOR signaling pathway
+
+platelets use an mTOR/S6K1 pathway to activate Rac1 and regulate platelet spreading on fibrinogen [PMID: 21757621]. mTOR regulates GPVI-mediated platelet activation [PMID: 33971888]
+
+7. PI3K-Akt signaling pathway
+
+The PI3K/Akt signaling pathway has been implicated in playing an important role in platelet activation during hemostasis and thrombosis [PMID: 30972780]
+
+
+
 
 ## Figure 4
 
@@ -233,9 +343,9 @@ NF-κB activation in platelets promotes SNAP-23–dependent granule secretion, i
 
 Thrombocytopenia increases mucosal and internal bleeding risk, leading to iron-deficiency anemia and reduced hemoglobin levels [PMID: 15248165]. Inflammatory cytokines such as IL-6 elevate platelet counts [PMID: 7951005] and induce hepcidin, which decreases iron availability and lowers hemoglobin [PMID: 15124018]. Platelet-derived S1P maintains endothelial barrier integrity; when this pathway is disrupted, vascular leak and red blood cell loss can occur [PMID: 36142188]. Additionally, conditions characterized by excessive platelet activation (e.g., TTP, HUS, DIC) produce platelet-rich microthrombi, causing schistocyte formation and hemolysis [PMID: 32310498], ultimately leading to hemoglobin reduction.
 
+Also, Activated platelets, which are recruited to sites of vascular injury, are known to release a variety of chemokines (Y. Chen et al.,2020). The resulting chemokine-receptor interactions are crucial regulators of hematopoiesis (Bonavita et al., 2018; Broxmeyer, 2008; Duchene et al., 2017), leading to the change of hemoglobin.
+
 - TOP loading genes -> Platelet
-
-
 
 
 1. LY96
