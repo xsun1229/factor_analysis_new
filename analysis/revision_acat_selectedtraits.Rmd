@@ -14,6 +14,7 @@ suppressMessages(library(ggplot2))
 suppressMessages(library(gridExtra))
 suppressMessages(library(tidyr))
 suppressMessages(library(forcats))
+suppressMessages(library(dplyr))
 
 source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection_SLEremoved.R")
 #traits <- c(traits_EUR, traits_EAS)
@@ -23,6 +24,13 @@ celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","plat
 type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
 names(type) <- celltypes
 names(celltypes) <- type
+
+pathway_df <- read.table("/project2/xinhe/xsun/pathways/kegg/pathway_name.txt",
+                         sep = "\t",       # your file is tab-separated
+                         header = FALSE,   # no header line in your example
+                         stringsAsFactors = FALSE,
+                         colClasses = c("character", "character"))
+colnames(pathway_df) <- c("ID", "name")
 
 qqplot <- function(pvalues,title=NULL) {
   
@@ -165,9 +173,17 @@ celltype <- "B_cell"
 
 
 acat_celltype <- acat_allcelltypes[[celltype]]
-acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
+acat_celltype$celltype <- type[acat_celltype$celltype]
+acat_celltype <- acat_celltype %>%
+  mutate(PathwayID = sub("_.*", "", factor)) %>%
+  left_join(pathway_df, by = c("PathwayID" = "ID"))
 
-DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+acat_celltype <- acat_celltype[, c("celltype", "trait", "factor","name",
+                                   setdiff(names(acat_celltype), c("celltype", "trait","factor","name","PathwayID")))]
+acat_celltype <- acat_celltype[order(acat_celltype$acat_p_correct_noMHC_traitnull),]
+acat_celltype <- acat_celltype[complete.cases(acat_celltype$acat_p_correct_noMHC_traitnull),]
+
+DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('ACAT results for top 100 pairs ranked by noMHC_trait_null ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
@@ -181,9 +197,17 @@ celltype <- "CD14_positive_monocyte"
 
 
 acat_celltype <- acat_allcelltypes[[celltype]]
-acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
+acat_celltype$celltype <- type[acat_celltype$celltype]
+acat_celltype <- acat_celltype %>%
+  mutate(PathwayID = sub("_.*", "", factor)) %>%
+  left_join(pathway_df, by = c("PathwayID" = "ID"))
 
-DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+acat_celltype <- acat_celltype[, c("celltype", "trait", "factor","name",
+                                   setdiff(names(acat_celltype), c("celltype", "trait","factor","name","PathwayID")))]
+acat_celltype <- acat_celltype[order(acat_celltype$acat_p_correct_noMHC_traitnull),]
+acat_celltype <- acat_celltype[complete.cases(acat_celltype$acat_p_correct_noMHC_traitnull),]
+
+DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('ACAT results for top 100 pairs ranked by noMHC_trait_null ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
@@ -197,9 +221,17 @@ celltype <- "CD15_positive_leukocyte"
 
 
 acat_celltype <- acat_allcelltypes[[celltype]]
-acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
+acat_celltype$celltype <- type[acat_celltype$celltype]
+acat_celltype <- acat_celltype %>%
+  mutate(PathwayID = sub("_.*", "", factor)) %>%
+  left_join(pathway_df, by = c("PathwayID" = "ID"))
 
-DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+acat_celltype <- acat_celltype[, c("celltype", "trait", "factor","name",
+                                   setdiff(names(acat_celltype), c("celltype", "trait","factor","name","PathwayID")))]
+acat_celltype <- acat_celltype[order(acat_celltype$acat_p_correct_noMHC_traitnull),]
+acat_celltype <- acat_celltype[complete.cases(acat_celltype$acat_p_correct_noMHC_traitnull),]
+
+DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('ACAT results for top 100 pairs ranked by noMHC_trait_null ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
@@ -211,11 +243,18 @@ DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-
 
 celltype <- "platelet"
 
-
 acat_celltype <- acat_allcelltypes[[celltype]]
-acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
+acat_celltype$celltype <- type[acat_celltype$celltype]
+acat_celltype <- acat_celltype %>%
+  mutate(PathwayID = sub("_.*", "", factor)) %>%
+  left_join(pathway_df, by = c("PathwayID" = "ID"))
 
-DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+acat_celltype <- acat_celltype[, c("celltype", "trait", "factor","name",
+                                   setdiff(names(acat_celltype), c("celltype", "trait","factor","name","PathwayID")))]
+acat_celltype <- acat_celltype[order(acat_celltype$acat_p_correct_noMHC_traitnull),]
+acat_celltype <- acat_celltype[complete.cases(acat_celltype$acat_p_correct_noMHC_traitnull),]
+
+DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('ACAT results for top 100 pairs ranked by noMHC_trait_null ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
@@ -226,11 +265,18 @@ DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-
 
 celltype <- "T_cell"
 
-
 acat_celltype <- acat_allcelltypes[[celltype]]
-acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
+acat_celltype$celltype <- type[acat_celltype$celltype]
+acat_celltype <- acat_celltype %>%
+  mutate(PathwayID = sub("_.*", "", factor)) %>%
+  left_join(pathway_df, by = c("PathwayID" = "ID"))
 
-DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+acat_celltype <- acat_celltype[, c("celltype", "trait", "factor","name",
+                                   setdiff(names(acat_celltype), c("celltype", "trait","factor","name","PathwayID")))]
+acat_celltype <- acat_celltype[order(acat_celltype$acat_p_correct_noMHC_traitnull),]
+acat_celltype <- acat_celltype[complete.cases(acat_celltype$acat_p_correct_noMHC_traitnull),]
+
+DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('ACAT results for top 100 pairs ranked by noMHC_trait_null ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
@@ -241,11 +287,18 @@ DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-
 
 celltype <- "thymocyte"
 
-
 acat_celltype <- acat_allcelltypes[[celltype]]
-acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
+acat_celltype$celltype <- type[acat_celltype$celltype]
+acat_celltype <- acat_celltype %>%
+  mutate(PathwayID = sub("_.*", "", factor)) %>%
+  left_join(pathway_df, by = c("PathwayID" = "ID"))
 
-DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+acat_celltype <- acat_celltype[, c("celltype", "trait", "factor","name",
+                                   setdiff(names(acat_celltype), c("celltype", "trait","factor","name","PathwayID")))]
+acat_celltype <- acat_celltype[order(acat_celltype$acat_p_correct_noMHC_traitnull),]
+acat_celltype <- acat_celltype[complete.cases(acat_celltype$acat_p_correct_noMHC_traitnull),]
+
+DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('ACAT results for top 100 pairs ranked by noMHC_trait_null ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
