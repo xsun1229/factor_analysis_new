@@ -167,7 +167,7 @@ celltype <- "B_cell"
 acat_celltype <- acat_allcelltypes[[celltype]]
 acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
 
-DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
@@ -183,7 +183,7 @@ celltype <- "CD14_positive_monocyte"
 acat_celltype <- acat_allcelltypes[[celltype]]
 acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
 
-DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
@@ -199,7 +199,7 @@ celltype <- "CD15_positive_leukocyte"
 acat_celltype <- acat_allcelltypes[[celltype]]
 acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
 
-DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
@@ -215,7 +215,7 @@ celltype <- "platelet"
 acat_celltype <- acat_allcelltypes[[celltype]]
 acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
 
-DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
@@ -230,7 +230,7 @@ celltype <- "T_cell"
 acat_celltype <- acat_allcelltypes[[celltype]]
 acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
 
-DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
@@ -245,7 +245,7 @@ celltype <- "thymocyte"
 acat_celltype <- acat_allcelltypes[[celltype]]
 acat_celltype <- acat_celltype[order(acat_celltype$acat_p),]
 
-DT::datatable(acat_celltype[1:100,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
+DT::datatable(acat_celltype,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('TOP 100 pairs by Original ACAT p-values -- ', type[celltype])),options = list(pageLength = 10) )
 
 
 ```
