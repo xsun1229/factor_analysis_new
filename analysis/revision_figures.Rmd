@@ -63,7 +63,7 @@ qqplot <- function(pvalues,title=NULL) {
 df_all_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
   
   df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
@@ -94,7 +94,7 @@ df_trait_fdr01 <- c()
 df_trait_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
   df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
@@ -207,7 +207,7 @@ fdr_cutoff <- 0.2
 file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
 dt_harmo <- readRDS(file_harmo)
 
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
 
 dat <- dt_harmo[[factor]]
 snp_select <- dat[dat$FDR.exposure < fdr_cutoff,]
@@ -453,7 +453,7 @@ fdr_cutoff <- 0.2
 file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
 dt_harmo <- readRDS(file_harmo)
 
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
 
 dat <- dt_harmo[[factor]]
 snp_select <- dat[dat$FDR.exposure < fdr_cutoff,]

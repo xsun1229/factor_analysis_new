@@ -1,0 +1,75 @@
+---
+title: "ACAT for specific pairs"
+author: "XSun"
+date: "2025-11-15"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+# Introduction
+
+We examine some pairs with low noMHC_trait_null p-values here. 
+
+```{r warning=F, message=F}
+library(ggplot2)
+library(gridExtra)
+
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+types <- c("B cell (CD19+)","Monocyte (CD14+)","Granulocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+names(celltypes) <- types
+names(types) <- celltypes
+
+qqplot <- function(pvalues,title=NULL) {
+  
+  pval <- pvalues[complete.cases(pvalues)]
+  title <- title
+  plotdata <- data.frame(observed = -log10(sort(as.numeric(pval))),
+                         expected = -log10(ppoints(length(pval))))
+  
+  qq <- ggplot(plotdata) + theme_bw(base_line_size =0.3) +
+    geom_point(aes(expected, observed), shape = 1, size = 1.5,color = "steelblue") +
+    geom_abline(intercept = 0, slope = 1, alpha = 0.6, color = "red") +
+    ggtitle(title) + theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = expression(paste("Expected -log"[10],"(p-value)")),
+         y = expression(paste("Observed -log"[10],"(p-value)"))) +
+    
+    theme(axis.title.x = element_text(size = 14),
+          axis.text.x = element_text(size = 12, color = "black"),
+          axis.title.y = element_text(size = 14),
+          axis.text.y = element_text(size = 12, color = "black") )
+  
+  return(qq)
+  
+}
+
+```
+
+# Platelet - Hippo signaling pathway - RET-ebi-a-GCST90002405
+
+```{r fig.height=3, fig.width=3, warning=F, message=F}
+
+celltype <- "platelet"
+trait <- "RET-ebi-a-GCST90002405"
+factor <- "04390_PC5"
+fdr_cutoff <- 0.2
+  
+file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
+dt_harmo <- readRDS(file_harmo)
+
+df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+
+df$celltype <- types[df$celltype]
+
+DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
+
+dat <- dt_harmo[[factor]]
+
+qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
+
+DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
+
+```
+
+

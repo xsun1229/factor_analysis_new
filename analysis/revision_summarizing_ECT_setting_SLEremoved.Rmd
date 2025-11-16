@@ -47,7 +47,7 @@ folder_ect_summary <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_
 df_all_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
   
   df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
@@ -78,7 +78,7 @@ MBEcutoff <- 0.05
 p <- list()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   df_summary <- df %>%
     group_by(trait) %>%
@@ -117,7 +117,7 @@ all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
 p <- list()
 for (celltype in celltypes) {
   
-  df <- readRDS(paste0(folder_ect_summary, celltype, "_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype, "_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   # Convert mbe_pval_reverse_pair to numeric if it’s stored as character
   df <- df %>%
@@ -178,7 +178,7 @@ MBEcutoff <- 0.05
 p <- list()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   df_summary <- df %>%
     group_by(trait) %>%
@@ -217,7 +217,7 @@ all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
 p <- list()
 for (celltype in celltypes) {
   
-  df <- readRDS(paste0(folder_ect_summary, celltype, "_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype, "_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   # Convert mbe_pval_reverse_pair to numeric if it’s stored as character
   df <- df %>%
@@ -278,7 +278,7 @@ num_fdr01 <- c()
 num_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
   df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
@@ -337,7 +337,7 @@ num_fdr02 <- c()
 for (celltype in celltypes) {
   
   df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", 
-                       celltype, "_ECT_summary_EUR_SLEremoved.RDS"))
+                       celltype, "_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   # Convert mbe_pval_reverse_pair to numeric safely (ignore "0/1snp" or NA)
   df$mbe_pval_reverse_pair <- suppressWarnings(as.numeric(df$mbe_pval_reverse_pair))
@@ -436,7 +436,7 @@ df_trait_fdr01 <- c()
 df_trait_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
   df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
@@ -590,7 +590,7 @@ df_trait_fdr01 <- c()
 df_trait_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
   df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
@@ -763,7 +763,7 @@ df_trait_fdr01 <- c()
 df_trait_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
   df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
@@ -897,7 +897,7 @@ df_trait_fdr01 <- c()
 df_trait_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
   df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
@@ -1043,7 +1043,7 @@ df_trait_fdr01 <- c()
 df_trait_fdr02 <- c()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
   df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
@@ -1192,7 +1192,7 @@ for (i in 1:nrow(df_all_fdr01)){
   file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
   dt_harmo <- readRDS(file_harmo)
   
-  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
   
   dat <- dt_harmo[[factor]]
   snp_select <- dat[dat$FDR.exposure < fdr_cutoff,]

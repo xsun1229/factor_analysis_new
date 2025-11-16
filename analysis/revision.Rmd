@@ -18,6 +18,8 @@ output:
 
 [ACAT for the selected EUR traits](revision_acat_selectedtraits.html)
 
+[ACAT for specific pairs](revision_acat_specific_pairs.html)
+
 [Colocalization analysis](revision_coloc_selectedtraits.html)
 
 [Comparing with eQTLGen](revision_eQTLGen.html)
