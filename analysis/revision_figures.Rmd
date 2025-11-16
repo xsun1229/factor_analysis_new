@@ -1,5 +1,5 @@
 ---
-title: "Figures"
+title: "Tables and Figures"
 author: "XSun"
 date: "2025-11-05"
 output:
@@ -50,6 +50,34 @@ qqplot <- function(pvalues,title=NULL) {
   
 }
 
+
+```
+
+
+# Main text table
+
+## Table 1
+
+```{r fig.height=3, fig.width=9, warning=F, message=F}
+
+df_all_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
+  
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_all_fdr02 <- rbind(df_all_fdr02,df_fdr02)
+  
+}
+
+
+df_all_fdr02$celltype <- types[df_all_fdr02$celltype]
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP),]
+
+df_all_fdr01 <- df_all_fdr02[df_all_fdr02$ECT_FDR_5suppSNP < 0.1,]
+
+DT::datatable(df_all_fdr01,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Pairs with ECT FDR <= 0.1 '),options = list(pageLength = 10) )
 
 ```
 
