@@ -10,7 +10,7 @@ output:
 
 # Introduction
 
-We examine some pairs with low noMHC_trait_null p-values here. 
+We examine top pairs with low noMHC_trait_null p-values here, as well as some interesting pairs. 
 
 ```{r warning=F, message=F}
 library(ggplot2)
@@ -44,316 +44,83 @@ qqplot <- function(pvalues,title=NULL) {
   
 }
 
+DT::datatable(matrix())
 ```
 
 
-# B cell
+# Top 5 pairs for each cell type
 
-## B cell - ECM-receptor interaction - T1D-ebi-a-GCST90014023
+```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'}
 
-```{r fig.height=3, fig.width=3, warning=F, message=F}
-
-celltype <- "B_cell"
-trait <- "T1D-ebi-a-GCST90014023"
-factor <- "04512_PC1"
-fdr_cutoff <- 0.2
+for (celltype in celltypes[1]){
   
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-dat <- dt_harmo[[factor]]
-
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-
-
-
-# Monocyte (CD14+)
-
-## Monocyte (CD14+) - Protein processing in endoplasmic reticulum - WBC-ebi-a-GCST90002407
-
-```{r fig.height=3, fig.width=3, warning=F, message=F}
-
-celltype <- "CD14_positive_monocyte"
-trait <- "WBC-ebi-a-GCST90002407"
-factor <- "04141_PC1"
-fdr_cutoff <- 0.2
+  cat(celltype)
+  cat("<br>")
+  cat("<br>")
   
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-dat <- dt_harmo[[factor]]
-
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
-
-```
-
-
-## Monocyte (CD14+) - Amino sugar and nucleotide sugar metabolism - WBC-ebi-a-GCST90002407
-
-```{r fig.height=3, fig.width=3, warning=F, message=F}
-
-celltype <- "CD14_positive_monocyte"
-trait <- "WBC-ebi-a-GCST90002407"
-factor <- "00520_PC1"
-fdr_cutoff <- 0.2
+  file <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/",celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")
+  acat_celltype <- readRDS(file)
+  acat_celltype <- acat_celltype[order(acat_celltype$acat_p_correct_noMHC_traitnull),]
   
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-dat <- dt_harmo[[factor]]
-
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
-
-```
-
-
-## Monocyte (CD14+) - Cholesterol metabolism - WBC-ebi-a-GCST90002407
-
-```{r fig.height=3, fig.width=3, warning=F, message=F}
-
-celltype <- "CD14_positive_monocyte"
-trait <- "WBC-ebi-a-GCST90002407"
-factor <- "04979_PC1"
-fdr_cutoff <- 0.2
+  acat_top5 <- acat_celltype[1:5,]
   
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-dat <- dt_harmo[[factor]]
-
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-
-
-# Granulocyte (CD15+)
-
-## Granulocyte (CD15+) - Glutathione metabolism - PLT-ebi-a-GCST90002402
-
-```{r fig.height=3, fig.width=3, warning=F, message=F}
-
-celltype <- "CD15_positive_leukocyte"
-trait <- "PLT-ebi-a-GCST90002402"
-factor <- "00480_PC4"
-fdr_cutoff <- 0.2
+  for (i in 1:nrow(acat_top5)){
+    
+    cat(paste0("Top", i,"\n"))
+    
+    trait <- acat_top5$trait[i]
+    factor <- acat_top5$factor[i]
+    
+    df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+    df$celltype <- types[df$celltype]
+    cat(knitr::knit_print(DT::datatable(df[df$trait == trait & df$factor == factor,], caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Pair details',options = list(pageLength = 10)))))
+    cat("<br>")
+    cat("<br>")
+    cat("<br>")
+    cat("<br>")
+    
+    file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
+    dt_harmo <- readRDS(file_harmo)
+    
+    dat <- dt_harmo[[factor]]
+    
+    p <- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
+    print(p)
+    
+    file_detail <- paste0("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT_v2/results/acat_snpdetail_noMHCtraitnull/",celltype, "_", factor,"_", trait,".RDS")
+    dat_suppsnp <- readRDS(file_detail)
+    cat(knitr::knit_print(DT::datatable(dat_suppsnp, caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs',options = list(pageLength = 5)))))
+    
+    cat("<br>")
+    cat("<br>")
+    cat("<br>")
+    cat("<br>")
+    cat("<br>")
+    cat("<br>")
+    
+  }
   
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
+}
 
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
 
-df$celltype <- types[df$celltype]
 
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-dat <- dt_harmo[[factor]]
-
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
 
 ```
 
 
-## Granulocyte (CD15+) - Complement and coagulation cascades - MPV-ebi-a-GCST90002395
-
-```{r fig.height=3, fig.width=3, warning=F, message=F}
-
-celltype <- "CD15_positive_leukocyte"
-trait <- "MPV-ebi-a-GCST90002395"
-factor <- "04610_PC3"
-fdr_cutoff <- 0.2
-  
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-dat <- dt_harmo[[factor]]
-
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
-
-```
-
-
-
+# Some other interesting examples 
 
 # Platelet
 
 ## Platelet - Hippo signaling pathway - RET-ebi-a-GCST90002405
 
-```{r fig.height=3, fig.width=3, warning=F, message=F}
+```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'}
 
 celltype <- "platelet"
 trait <- "RET-ebi-a-GCST90002405"
 factor <- "04390_PC5"
 fdr_cutoff <- 0.2
-  
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
 
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-dat <- dt_harmo[[factor]]
-
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-# T cell (CD4+)
-
-## T cell (CD4+) - Inositol phosphate metabolism - WBC-ebi-a-GCST90002407
-
-```{r fig.height=3, fig.width=3, warning=F, message=F}
-
-celltype <- "T_cell"
-trait <- "WBC-ebi-a-GCST90002407"
-factor <- "00562_PC5"
-fdr_cutoff <- 0.2
-  
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-dat <- dt_harmo[[factor]]
-
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
-
-```
-
-
-## T cell (CD4+) - Pyrimidine metabolism - PLT-ebi-a-GCST90002402
-
-```{r fig.height=3, fig.width=3, warning=F, message=F}
-
-celltype <- "T_cell"
-trait <- "PLT-ebi-a-GCST90002402"
-factor <- "00240_PC4"
-fdr_cutoff <- 0.2
-  
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-dat <- dt_harmo[[factor]]
-
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
-
-```
-
-
-# T cell (CD8+)
-
-## T cell (CD8+) - Glutamatergic synapse - AS-finn-b-M13_ANKYLOSPON
-
-```{r fig.height=3, fig.width=3, warning=F, message=F}
-
-celltype <- "thymocyte"
-trait <- "AS-finn-b-M13_ANKYLOSPON"
-factor <- "04724_PC5"
-fdr_cutoff <- 0.2
-  
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-dat <- dt_harmo[[factor]]
-
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-
-## T cell (CD8+) - Cholesterol metabolism - lymphc-ebi-a-GCST90002388
-
-```{r fig.height=3, fig.width=3, warning=F, message=F}
-
-celltype <- "thymocyte"
-trait <- "lymphc-ebi-a-GCST90002388"
-factor <- "04979_PC5"
-fdr_cutoff <- 0.2
-  
 file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
 dt_harmo <- readRDS(file_harmo)
 
@@ -377,31 +144,331 @@ DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","
 
 
 
-## T cell (CD8+) - TGF-beta signaling pathway - AS-finn-b-M13_ANKYLOSPON
+<!-- # B cell -->
 
-```{r fig.height=3, fig.width=3, warning=F, message=F}
+<!-- ## B cell - ECM-receptor interaction - T1D-ebi-a-GCST90014023 -->
 
-celltype <- "thymocyte"
-trait <- "AS-finn-b-M13_ANKYLOSPON"
-factor <- "04350_PC1"
-fdr_cutoff <- 0.2
-  
-file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-dt_harmo <- readRDS(file_harmo)
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
 
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+<!-- celltype <- "B_cell" -->
+<!-- trait <- "T1D-ebi-a-GCST90014023" -->
+<!-- factor <- "04512_PC1" -->
+<!-- fdr_cutoff <- 0.2 -->
 
-df$celltype <- types[df$celltype]
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
 
-DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
 
-dat <- dt_harmo[[factor]]
+<!-- df$celltype <- types[df$celltype] -->
 
-qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
 
-DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
+<!-- dat <- dt_harmo[[factor]] -->
 
-```
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
+
+
+
+
+<!-- # Monocyte (CD14+) -->
+
+<!-- ## Monocyte (CD14+) - Protein processing in endoplasmic reticulum - WBC-ebi-a-GCST90002407 -->
+
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
+
+<!-- celltype <- "CD14_positive_monocyte" -->
+<!-- trait <- "WBC-ebi-a-GCST90002407" -->
+<!-- factor <- "04141_PC1" -->
+<!-- fdr_cutoff <- 0.2 -->
+
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
+
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
+
+<!-- df$celltype <- types[df$celltype] -->
+
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
+
+<!-- dat <- dt_harmo[[factor]] -->
+
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
+
+
+<!-- ## Monocyte (CD14+) - Amino sugar and nucleotide sugar metabolism - WBC-ebi-a-GCST90002407 -->
+
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
+
+<!-- celltype <- "CD14_positive_monocyte" -->
+<!-- trait <- "WBC-ebi-a-GCST90002407" -->
+<!-- factor <- "00520_PC1" -->
+<!-- fdr_cutoff <- 0.2 -->
+
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
+
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
+
+<!-- df$celltype <- types[df$celltype] -->
+
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
+
+<!-- dat <- dt_harmo[[factor]] -->
+
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
+
+
+<!-- ## Monocyte (CD14+) - Cholesterol metabolism - WBC-ebi-a-GCST90002407 -->
+
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
+
+<!-- celltype <- "CD14_positive_monocyte" -->
+<!-- trait <- "WBC-ebi-a-GCST90002407" -->
+<!-- factor <- "04979_PC1" -->
+<!-- fdr_cutoff <- 0.2 -->
+
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
+
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
+
+<!-- df$celltype <- types[df$celltype] -->
+
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
+
+<!-- dat <- dt_harmo[[factor]] -->
+
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
+
+
+
+
+
+
+<!-- # Granulocyte (CD15+) -->
+
+<!-- ## Granulocyte (CD15+) - Glutathione metabolism - PLT-ebi-a-GCST90002402 -->
+
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
+
+<!-- celltype <- "CD15_positive_leukocyte" -->
+<!-- trait <- "PLT-ebi-a-GCST90002402" -->
+<!-- factor <- "00480_PC4" -->
+<!-- fdr_cutoff <- 0.2 -->
+
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
+
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
+
+<!-- df$celltype <- types[df$celltype] -->
+
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
+
+<!-- dat <- dt_harmo[[factor]] -->
+
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
+
+
+<!-- ## Granulocyte (CD15+) - Complement and coagulation cascades - MPV-ebi-a-GCST90002395 -->
+
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
+
+<!-- celltype <- "CD15_positive_leukocyte" -->
+<!-- trait <- "MPV-ebi-a-GCST90002395" -->
+<!-- factor <- "04610_PC3" -->
+<!-- fdr_cutoff <- 0.2 -->
+
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
+
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
+
+<!-- df$celltype <- types[df$celltype] -->
+
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
+
+<!-- dat <- dt_harmo[[factor]] -->
+
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
+
+
+
+
+
+
+
+
+<!-- # T cell (CD4+) -->
+
+<!-- ## T cell (CD4+) - Inositol phosphate metabolism - WBC-ebi-a-GCST90002407 -->
+
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
+
+<!-- celltype <- "T_cell" -->
+<!-- trait <- "WBC-ebi-a-GCST90002407" -->
+<!-- factor <- "00562_PC5" -->
+<!-- fdr_cutoff <- 0.2 -->
+
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
+
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
+
+<!-- df$celltype <- types[df$celltype] -->
+
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
+
+<!-- dat <- dt_harmo[[factor]] -->
+
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
+
+
+<!-- ## T cell (CD4+) - Pyrimidine metabolism - PLT-ebi-a-GCST90002402 -->
+
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
+
+<!-- celltype <- "T_cell" -->
+<!-- trait <- "PLT-ebi-a-GCST90002402" -->
+<!-- factor <- "00240_PC4" -->
+<!-- fdr_cutoff <- 0.2 -->
+
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
+
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
+
+<!-- df$celltype <- types[df$celltype] -->
+
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
+
+<!-- dat <- dt_harmo[[factor]] -->
+
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
+
+
+<!-- # T cell (CD8+) -->
+
+<!-- ## T cell (CD8+) - Glutamatergic synapse - AS-finn-b-M13_ANKYLOSPON -->
+
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
+
+<!-- celltype <- "thymocyte" -->
+<!-- trait <- "AS-finn-b-M13_ANKYLOSPON" -->
+<!-- factor <- "04724_PC5" -->
+<!-- fdr_cutoff <- 0.2 -->
+
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
+
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
+
+<!-- df$celltype <- types[df$celltype] -->
+
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
+
+<!-- dat <- dt_harmo[[factor]] -->
+
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
+
+
+
+
+
+<!-- ## T cell (CD8+) - Cholesterol metabolism - lymphc-ebi-a-GCST90002388 -->
+
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
+
+<!-- celltype <- "thymocyte" -->
+<!-- trait <- "lymphc-ebi-a-GCST90002388" -->
+<!-- factor <- "04979_PC5" -->
+<!-- fdr_cutoff <- 0.2 -->
+
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
+
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
+
+<!-- df$celltype <- types[df$celltype] -->
+
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
+
+<!-- dat <- dt_harmo[[factor]] -->
+
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
+
+
+
+
+
+
+
+<!-- ## T cell (CD8+) - TGF-beta signaling pathway - AS-finn-b-M13_ANKYLOSPON -->
+
+<!-- ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'} -->
+
+<!-- celltype <- "thymocyte" -->
+<!-- trait <- "AS-finn-b-M13_ANKYLOSPON" -->
+<!-- factor <- "04350_PC1" -->
+<!-- fdr_cutoff <- 0.2 -->
+
+<!-- file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS") -->
+<!-- dt_harmo <- readRDS(file_harmo) -->
+
+<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
+
+<!-- df$celltype <- types[df$celltype] -->
+
+<!-- DT::datatable(df[df$trait == trait & df$factor == factor,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
+
+<!-- dat <- dt_harmo[[factor]] -->
+
+<!-- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test") -->
+
+<!-- DT::datatable(dat[dat$FDR.exposure < 0.2,c("SNP","chr.exposure","pos.exposure","pval.outcome", "pval.exposure","FDR.exposure")],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) ) -->
+
+<!-- ``` -->
 
 
 
