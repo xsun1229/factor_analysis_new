@@ -24,7 +24,7 @@ output:
 
 [Comparing with eQTLGen](revision_eQTLGen.html)
 
-[Power analysis](revision_power.html)
+[Power analysis](revision_power_simulate.html)
 
 [Figrues](revision_figures.html)
 
