@@ -532,15 +532,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree23a11ad02272616669af2010c84af8abe09401d9targetblank23a11ada">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreeaa8e1ff98c4973ac339b20d1c40f779adca87417targetblankaa8e1ffa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/23a11ad02272616669af2010c84af8abe09401d9" target="_blank">23a11ad</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/aa8e1ff98c4973ac339b20d1c40f779adca87417" target="_blank">aa8e1ff</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree23a11ad02272616669af2010c84af8abe09401d9targetblank23a11ada"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreeaa8e1ff98c4973ac339b20d1c40f779adca87417targetblankaa8e1ffa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -550,7 +550,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/23a11ad02272616669af2010c84af8abe09401d9" target="_blank">23a11ad</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/aa8e1ff98c4973ac339b20d1c40f779adca87417" target="_blank">aa8e1ff</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -612,6 +612,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa8e1ff98c4973ac339b20d1c40f779adca87417/analysis/revision_power_simulate.Rmd" target="_blank">aa8e1ff</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-17
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/aa8e1ff98c4973ac339b20d1c40f779adca87417/docs/revision_power_simulate.html" target="_blank">aa8e1ff</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-17
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -740,10 +774,18 @@ file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_
 
 ECT_res_allround_df&lt;- readRDS(file_power)
 
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
 
 ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
   geom_histogram(bins = 30, color = &quot;white&quot;) +
   geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
   theme_bw() +
   labs(
     x = &quot;ECT p-value&quot;,
@@ -756,6 +798,43 @@ This warning is displayed once every 8 hours.
 Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 generated.</code></pre>
 <p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa8e1ff98c4973ac339b20d1c40f779adca87417/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-3-1.png" target="_blank">aa8e1ff</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="downsample-50" class="section level3">
 <h3>downsample: 50%</h3>
@@ -765,10 +844,18 @@ file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_
 
 ECT_res_allround_df&lt;- readRDS(file_power)
 
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
 
 ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
   geom_histogram(bins = 30, color = &quot;white&quot;) +
   geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
   theme_bw() +
   labs(
     x = &quot;ECT p-value&quot;,
@@ -776,6 +863,43 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
 <p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa8e1ff98c4973ac339b20d1c40f779adca87417/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-4-1.png" target="_blank">aa8e1ff</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="downsample-70" class="section level3">
 <h3>downsample: 70%</h3>
@@ -785,10 +909,18 @@ file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_
 
 ECT_res_allround_df&lt;- readRDS(file_power)
 
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
 
 ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
   geom_histogram(bins = 30, color = &quot;white&quot;) +
   geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
   theme_bw() +
   labs(
     x = &quot;ECT p-value&quot;,
@@ -796,6 +928,43 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
 <p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa8e1ff98c4973ac339b20d1c40f779adca87417/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-5-1.png" target="_blank">aa8e1ff</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="downsample-100" class="section level3">
 <h3>downsample: 100%</h3>
@@ -805,10 +974,18 @@ file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_
 
 ECT_res_allround_df&lt;- readRDS(file_power)
 
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
 
 ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
   geom_histogram(bins = 30, color = &quot;white&quot;) +
   geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
   theme_bw() +
   labs(
     x = &quot;ECT p-value&quot;,
@@ -816,81 +993,323 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
 <p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<!-- ## Highlighted example 2: Leukocyte transendothelial migration - T cell (CD 8+) - IBD-ebi-a-GCST003043 -->
-<!-- ```{r} -->
-<!-- celltype <- "thymocyte" -->
-<!-- trait <- "IBD-ebi-a-GCST003043" -->
-<!-- factor <- "04670_PC1" -->
-<!-- df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")) -->
-<!-- df$celltype <- types[df$celltype] -->
-<!-- dt_pair <- df[df$trait == trait & df$factor == factor,] -->
-<!-- p_obs <- dt_pair$p_ECT -->
-<!-- DT::datatable(dt_pair,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) ) -->
-<!-- ``` -->
-<!-- ### downsample: 30% -->
-<!-- ```{r} -->
-<!-- downsample_size <- 0.3 -->
-<!-- file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS") -->
-<!-- ECT_res_allround_df<- readRDS(file_power) -->
-<!--  -->
-<!-- ggplot(ECT_res_allround_df, aes(x = p_ECT)) + -->
-<!--   geom_histogram(bins = 30, color = "white") + -->
-<!--   geom_vline(xintercept = p_obs, color = "red", size = 1) + -->
-<!--   theme_bw() + -->
-<!--   labs( -->
-<!--     x = "ECT p-value", -->
-<!--     y = "Count", -->
-<!--     title = "Distribution of simulated ECT p-values\n(Original p shown in red)" -->
-<!--   ) -->
-<!-- ``` -->
-<!-- ### downsample: 50% -->
-<!-- ```{r} -->
-<!-- downsample_size <- 0.5 -->
-<!-- file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS") -->
-<!-- ECT_res_allround_df<- readRDS(file_power) -->
-<!--  -->
-<!-- ggplot(ECT_res_allround_df, aes(x = p_ECT)) + -->
-<!--   geom_histogram(bins = 30, color = "white") + -->
-<!--   geom_vline(xintercept = p_obs, color = "red", size = 1) + -->
-<!--   theme_bw() + -->
-<!--   labs( -->
-<!--     x = "ECT p-value", -->
-<!--     y = "Count", -->
-<!--     title = "Distribution of simulated ECT p-values\n(Original p shown in red)" -->
-<!--   ) -->
-<!-- ``` -->
-<!-- ### downsample: 70% -->
-<!-- ```{r} -->
-<!-- downsample_size <- 0.7 -->
-<!-- file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS") -->
-<!-- ECT_res_allround_df<- readRDS(file_power) -->
-<!--  -->
-<!-- ggplot(ECT_res_allround_df, aes(x = p_ECT)) + -->
-<!--   geom_histogram(bins = 30, color = "white") + -->
-<!--   geom_vline(xintercept = p_obs, color = "red", size = 1) + -->
-<!--   theme_bw() + -->
-<!--   labs( -->
-<!--     x = "ECT p-value", -->
-<!--     y = "Count", -->
-<!--     title = "Distribution of simulated ECT p-values\n(Original p shown in red)" -->
-<!--   ) -->
-<!-- ``` -->
-<!-- ### downsample: 100% -->
-<!-- ```{r} -->
-<!-- downsample_size <- 1 -->
-<!-- file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS") -->
-<!-- ECT_res_allround_df<- readRDS(file_power) -->
-<!--  -->
-<!-- ggplot(ECT_res_allround_df, aes(x = p_ECT)) + -->
-<!--   geom_histogram(bins = 30, color = "white") + -->
-<!--   geom_vline(xintercept = p_obs, color = "red", size = 1) + -->
-<!--   theme_bw() + -->
-<!--   labs( -->
-<!--     x = "ECT p-value", -->
-<!--     y = "Count", -->
-<!--     title = "Distribution of simulated ECT p-values\n(Original p shown in red)" -->
-<!--   ) -->
-<!-- ``` -->
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa8e1ff98c4973ac339b20d1c40f779adca87417/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-6-1.png" target="_blank">aa8e1ff</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div
+id="highlighted-example-2-leukocyte-transendothelial-migration---t-cell-cd-8---ibd-ebi-a-gcst003043"
+class="section level2">
+<h2>Highlighted example 2: Leukocyte transendothelial migration - T cell
+(CD 8+) - IBD-ebi-a-GCST003043</h2>
+<pre class="r"><code>celltype &lt;- &quot;thymocyte&quot;
+trait &lt;- &quot;IBD-ebi-a-GCST003043&quot;
+factor &lt;- &quot;04670_PC1&quot;
+
+df &lt;- readRDS(paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/&quot;, celltype,&quot;_ECT_summary_EUR_SLEremoved_noMHCadded.RDS&quot;))
+
+df$celltype &lt;- types[df$celltype]
+
+dt_pair &lt;- df[df$trait == trait &amp; df$factor == factor,]
+p_obs &lt;- dt_pair$p_ECT
+
+DT::datatable(dt_pair,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Details for this pair&#39;),options = list(pageLength = 10) )</code></pre>
+<div id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Details for this pair<\/caption>","data":[["2"],["T cell (CD8+)"],["IBD-ebi-a-GCST003043"],["04670_PC1"],["04670"],["Leukocyte transendothelial migration"],[10],[0],[8.3e-05],[0.0996],[112],[69],["disease_EUR_old"],["-0.146323318161613"],["0.380080136666012"],[0.0415006],[0.0412207],[0.2376238],[0.2376238],[0.2015042],[0.1987707],[0.2052896],[0.2013522]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>num_supp_SNP_MHC<\/th>\n      <th>p_ECT<\/th>\n      <th>ECT_FDR_5suppSNP<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n      <th>trait_category<\/th>\n      <th>mbe_reverse_pair<\/th>\n      <th>mbe_pval_reverse_pair<\/th>\n      <th>acat_p<\/th>\n      <th>acat_p_MHCremoved<\/th>\n      <th>acat_p_correct_pairnull<\/th>\n      <th>acat_p_correct_noMHC_pairnull<\/th>\n      <th>acat_p_correct_traitnull<\/th>\n      <th>acat_p_correct_noMHC_traitnull<\/th>\n      <th>acat_p_correct_globalnull<\/th>\n      <th>acat_p_correct_noMHC_globalnull<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[6,7,8,9,10,11,15,16,17,18,19,20,21,22]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="downsample-30-1" class="section level3">
+<h3>downsample: 30%</h3>
+<pre class="r"><code>downsample_size &lt;- 0.3
+
+file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/&quot;, celltype,&quot;-&quot;, factor, &quot;-&quot;, trait,&quot;_downsample_&quot;,downsample_size,&quot;_simulated.RDS&quot;)
+
+ECT_res_allround_df&lt;- readRDS(file_power)
+
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
+
+ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
+  geom_histogram(bins = 30, color = &quot;white&quot;) +
+  geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
+  theme_bw() +
+  labs(
+    x = &quot;ECT p-value&quot;,
+    y = &quot;Count&quot;,
+    title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
+  )</code></pre>
+<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa8e1ff98c4973ac339b20d1c40f779adca87417/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-8-1.png" target="_blank">aa8e1ff</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="downsample-50-1" class="section level3">
+<h3>downsample: 50%</h3>
+<pre class="r"><code>downsample_size &lt;- 0.5
+
+file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/&quot;, celltype,&quot;-&quot;, factor, &quot;-&quot;, trait,&quot;_downsample_&quot;,downsample_size,&quot;_simulated.RDS&quot;)
+
+ECT_res_allround_df&lt;- readRDS(file_power)
+
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
+
+ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
+  geom_histogram(bins = 30, color = &quot;white&quot;) +
+  geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
+  theme_bw() +
+  labs(
+    x = &quot;ECT p-value&quot;,
+    y = &quot;Count&quot;,
+    title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
+  )</code></pre>
+<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa8e1ff98c4973ac339b20d1c40f779adca87417/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-9-1.png" target="_blank">aa8e1ff</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="downsample-70-1" class="section level3">
+<h3>downsample: 70%</h3>
+<pre class="r"><code>downsample_size &lt;- 0.7
+
+file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/&quot;, celltype,&quot;-&quot;, factor, &quot;-&quot;, trait,&quot;_downsample_&quot;,downsample_size,&quot;_simulated.RDS&quot;)
+
+ECT_res_allround_df&lt;- readRDS(file_power)
+
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
+
+ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
+  geom_histogram(bins = 30, color = &quot;white&quot;) +
+  geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
+  theme_bw() +
+  labs(
+    x = &quot;ECT p-value&quot;,
+    y = &quot;Count&quot;,
+    title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
+  )</code></pre>
+<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa8e1ff98c4973ac339b20d1c40f779adca87417/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-10-1.png" target="_blank">aa8e1ff</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="downsample-100-1" class="section level3">
+<h3>downsample: 100%</h3>
+<pre class="r"><code>downsample_size &lt;- 1
+
+file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/&quot;, celltype,&quot;-&quot;, factor, &quot;-&quot;, trait,&quot;_downsample_&quot;,downsample_size,&quot;_simulated.RDS&quot;)
+
+ECT_res_allround_df&lt;- readRDS(file_power)
+
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
+
+ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
+  geom_histogram(bins = 30, color = &quot;white&quot;) +
+  geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
+  theme_bw() +
+  labs(
+    x = &quot;ECT p-value&quot;,
+    y = &quot;Count&quot;,
+    title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
+  )</code></pre>
+<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa8e1ff98c4973ac339b20d1c40f779adca87417/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-11-1.png" target="_blank">aa8e1ff</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="random-example-1" class="section level2">
@@ -907,9 +1326,9 @@ dt_pair &lt;- df[df$trait == trait &amp; df$factor == factor,]
 p_obs &lt;- dt_pair$p_ECT
 
 DT::datatable(dt_pair,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Details for this pair&#39;),options = list(pageLength = 10) )</code></pre>
-<div id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Details for this pair<\/caption>","data":[["3242"],["B cell (CD19+)"],["MCH-ebi-a-GCST90002390"],["04926_PC4"],["04926"],["Relaxin signaling pathway"],[12],[0],[0.952048],[0.9895539],[129],[65],["bloodcell_EUR_new"],[null],[null],[0.0005055],[0.0005023],[0.009901],[0.009901],[0.0068759],[0.0032325],[0.0051395],[0.002993]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>num_supp_SNP_MHC<\/th>\n      <th>p_ECT<\/th>\n      <th>ECT_FDR_5suppSNP<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n      <th>trait_category<\/th>\n      <th>mbe_reverse_pair<\/th>\n      <th>mbe_pval_reverse_pair<\/th>\n      <th>acat_p<\/th>\n      <th>acat_p_MHCremoved<\/th>\n      <th>acat_p_correct_pairnull<\/th>\n      <th>acat_p_correct_noMHC_pairnull<\/th>\n      <th>acat_p_correct_traitnull<\/th>\n      <th>acat_p_correct_noMHC_traitnull<\/th>\n      <th>acat_p_correct_globalnull<\/th>\n      <th>acat_p_correct_noMHC_globalnull<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[6,7,8,9,10,11,15,16,17,18,19,20,21,22]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<div id="downsample-30-1" class="section level3">
+<div id="htmlwidget-66aaeb19fe992dfb51c2" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-66aaeb19fe992dfb51c2">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Details for this pair<\/caption>","data":[["3242"],["B cell (CD19+)"],["MCH-ebi-a-GCST90002390"],["04926_PC4"],["04926"],["Relaxin signaling pathway"],[12],[0],[0.952048],[0.9895539],[129],[65],["bloodcell_EUR_new"],[null],[null],[0.0005055],[0.0005023],[0.009901],[0.009901],[0.0068759],[0.0032325],[0.0051395],[0.002993]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>trait<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>num_supp_SNP_MHC<\/th>\n      <th>p_ECT<\/th>\n      <th>ECT_FDR_5suppSNP<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n      <th>trait_category<\/th>\n      <th>mbe_reverse_pair<\/th>\n      <th>mbe_pval_reverse_pair<\/th>\n      <th>acat_p<\/th>\n      <th>acat_p_MHCremoved<\/th>\n      <th>acat_p_correct_pairnull<\/th>\n      <th>acat_p_correct_noMHC_pairnull<\/th>\n      <th>acat_p_correct_traitnull<\/th>\n      <th>acat_p_correct_noMHC_traitnull<\/th>\n      <th>acat_p_correct_globalnull<\/th>\n      <th>acat_p_correct_noMHC_globalnull<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[6,7,8,9,10,11,15,16,17,18,19,20,21,22]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="downsample-30-2" class="section level3">
 <h3>downsample: 30%</h3>
 <pre class="r"><code>downsample_size &lt;- 0.3
 
@@ -917,19 +1336,27 @@ file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_
 
 ECT_res_allround_df&lt;- readRDS(file_power)
 
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
 
 ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
   geom_histogram(bins = 30, color = &quot;white&quot;) +
   geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
   theme_bw() +
   labs(
     x = &quot;ECT p-value&quot;,
     y = &quot;Count&quot;,
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
-<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="downsample-50-1" class="section level3">
+<div id="downsample-50-2" class="section level3">
 <h3>downsample: 50%</h3>
 <pre class="r"><code>downsample_size &lt;- 0.5
 
@@ -937,19 +1364,27 @@ file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_
 
 ECT_res_allround_df&lt;- readRDS(file_power)
 
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
 
 ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
   geom_histogram(bins = 30, color = &quot;white&quot;) +
   geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
   theme_bw() +
   labs(
     x = &quot;ECT p-value&quot;,
     y = &quot;Count&quot;,
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
-<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="downsample-70-1" class="section level3">
+<div id="downsample-70-2" class="section level3">
 <h3>downsample: 70%</h3>
 <pre class="r"><code>downsample_size &lt;- 0.7
 
@@ -957,19 +1392,27 @@ file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_
 
 ECT_res_allround_df&lt;- readRDS(file_power)
 
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
 
 ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
   geom_histogram(bins = 30, color = &quot;white&quot;) +
   geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
   theme_bw() +
   labs(
     x = &quot;ECT p-value&quot;,
     y = &quot;Count&quot;,
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
-<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="downsample-100-1" class="section level3">
+<div id="downsample-100-2" class="section level3">
 <h3>downsample: 100%</h3>
 <pre class="r"><code>downsample_size &lt;- 1
 
@@ -977,17 +1420,25 @@ file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_
 
 ECT_res_allround_df&lt;- readRDS(file_power)
 
+num_leq &lt;- sum(ECT_res_allround_df$p_ECT &lt;= p_obs)
 
 ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
   geom_histogram(bins = 30, color = &quot;white&quot;) +
   geom_vline(xintercept = p_obs, color = &quot;red&quot;, size = 1) +
+  annotate(
+    &quot;text&quot;,
+    x = Inf, y = Inf,
+    hjust = 1.05, vjust = 1.5,   # adjust position
+    label = paste0(&quot;Number of simulated p_ECT \n≤ original p_ECT = &quot;, num_leq),
+    size = 4
+  ) +
   theme_bw() +
   labs(
     x = &quot;ECT p-value&quot;,
     y = &quot;Count&quot;,
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
-<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
