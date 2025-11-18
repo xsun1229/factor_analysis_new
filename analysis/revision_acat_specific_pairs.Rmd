@@ -15,6 +15,9 @@ We examine top pairs with low noMHC_trait_null p-values here, as well as some in
 ```{r warning=F, message=F}
 library(ggplot2)
 library(gridExtra)
+library(htmltools)
+library(DT)
+library(knitr)
 
 celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
 types <- c("B cell (CD19+)","Monocyte (CD14+)","Granulocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
@@ -48,64 +51,162 @@ DT::datatable(matrix())
 ```
 
 
-# Top 5 pairs for each cell type
+# Table --- Top 5 pairs for each cell type
 
-```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'}
+```{r fig.height=3, fig.width=3, warning=FALSE, message=FALSE, results='asis'}
 
-for (celltype in celltypes[1]){
+for (celltype in celltypes) {
   
-  cat(celltype)
-  cat("<br>")
-  cat("<br>")
+  # ---- Header ----
+  cat(sprintf("<h2 style='margin-top:1px'>Cell type: %s</h2>", types[celltype]))
   
-  file <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/",celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS")
+  # Load summary
+  file <- sprintf(
+    "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/%s_ECT_summary_EUR_SLEremoved_noMHCadded.RDS",
+    celltype)
   acat_celltype <- readRDS(file)
-  acat_celltype <- acat_celltype[order(acat_celltype$acat_p_correct_noMHC_traitnull),]
+  acat_celltype <- acat_celltype[order(acat_celltype$acat_p_correct_noMHC_traitnull), ]
+  acat_top5 <- acat_celltype[1:5, ]
   
-  acat_top5 <- acat_celltype[1:5,]
-  
-  for (i in 1:nrow(acat_top5)){
+  # ---- Loop over top results ----
+  merge_table_celltype <- c()
+  for (i in seq_len(nrow(acat_top5))) {
     
-    cat(paste0("Top", i,"\n"))
-    
-    trait <- acat_top5$trait[i]
+    trait  <- acat_top5$trait[i]
     factor <- acat_top5$factor[i]
+    pathway <- acat_top5$pathwayName[i]
+    p_ECT <- acat_top5$p_ECT[i]
+    ECT_FDR_5suppSNP <- acat_top5$ECT_FDR_5suppSNP[i]
+    num_supp_SNP <- acat_top5$num_supp_SNP[i]
+    num_supp_SNP_MHC <- acat_top5$num_supp_SNP_MHC[i]
+    acat_p_correct_traitnull <- acat_top5$acat_p_correct_traitnull[i]
+    acat_p_correct_noMHC_traitnull <- acat_top5$acat_p_correct_noMHC_traitnull[i]
     
-    df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-    df$celltype <- types[df$celltype]
-    cat(knitr::knit_print(DT::datatable(df[df$trait == trait & df$factor == factor,], caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Pair details',options = list(pageLength = 10)))))
-    cat("<br>")
-    cat("<br>")
-    cat("<br>")
-    cat("<br>")
+    # ================================
+    #     SUPPORTING SNP DETAILS
+    # ================================
+    file_detail <- sprintf(
+      "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT_v2/results/acat_snpdetail_noMHCtraitnull/%s_%s_%s.RDS",
+      celltype, factor, trait)
     
-    file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
-    dt_harmo <- readRDS(file_harmo)
-    
-    dat <- dt_harmo[[factor]]
-    
-    p <- qqplot(dat$pval.exposure, title = "p-values from \nfactor association test")
-    print(p)
-    
-    file_detail <- paste0("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT_v2/results/acat_snpdetail_noMHCtraitnull/",celltype, "_", factor,"_", trait,".RDS")
     dat_suppsnp <- readRDS(file_detail)
-    cat(knitr::knit_print(DT::datatable(dat_suppsnp, caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs',options = list(pageLength = 5)))))
     
-    cat("<br>")
-    cat("<br>")
-    cat("<br>")
-    cat("<br>")
-    cat("<br>")
-    cat("<br>")
+    merged_table <- data.frame(
+      celltype    = rep(types[celltype],length =nrow(dat_suppsnp)),
+      trait       = rep(trait,length =nrow(dat_suppsnp)),
+      factor      = rep(factor,length =nrow(dat_suppsnp)),
+      pathway     = rep(pathway,length =nrow(dat_suppsnp)),
+      p_ECT       = rep(p_ECT,length =nrow(dat_suppsnp)),
+      ECT_FDR_5suppSNP     = rep(ECT_FDR_5suppSNP,length =nrow(dat_suppsnp)),
+      num_supp_SNP         = rep(num_supp_SNP,length =nrow(dat_suppsnp)),
+      num_supp_SNP_MHC     = rep(num_supp_SNP_MHC,length =nrow(dat_suppsnp)),
+      acat_p_correct_traitnull           = rep(acat_p_correct_traitnull,length =nrow(dat_suppsnp)),
+      acat_p_correct_noMHC_traitnull     = rep(acat_p_correct_noMHC_traitnull,length =nrow(dat_suppsnp)),
+      suppSNP      = dat_suppsnp$SNP,
+      genes_nearby = dat_suppsnp$`genes.nearby (+_100kb)`,     # <-- modify if your column name differs
+      p_exposure   = dat_suppsnp$pval.exposure,
+      fdr_exposure = dat_suppsnp$FDR.exposure,
+      p_outcome    = dat_suppsnp$pval.outcome
+    )
     
-  }
+    merge_table_celltype <- rbind(merge_table_celltype,merged_table)
+    rownames(merge_table_celltype) <- NULL
+  } # end loop over top results
   
-}
-
-
+  snp_tbl <- datatable(
+    merge_table_celltype,
+    caption = tags$caption(
+      style = 'caption-side:left; text-align:left; color:black; font-size:140%;',
+      paste0(types[celltype], ' :Pair + Supporting SNP Details (one row per SNP)')
+    ),
+    options = list(pageLength = 10)
+  )
+  
+  cat(knit_print(snp_tbl))
+} # end loop over cell types
 
 
 ```
+
+# Plots --- Top 5 pairs for each cell type
+
+```{r fig.height=3, fig.width=3, warning=FALSE, message=FALSE, results='asis'}
+
+for (celltype in celltypes) {
+
+  # ---- Header for each cell type ----
+  cat(sprintf("<h2 style='margin-top:1px'>Cell type: %s</h2>", types[celltype]))
+
+  # Load summary
+  file <- sprintf("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/%s_ECT_summary_EUR_SLEremoved_noMHCadded.RDS",
+                  celltype)
+  acat_celltype <- readRDS(file)
+  acat_celltype <- acat_celltype[order(acat_celltype$acat_p_correct_noMHC_traitnull), ]
+
+  acat_top5 <- acat_celltype[1:5, ]
+
+  # ---- Loop over top results ----
+  for (i in seq_len(nrow(acat_top5))) {
+
+    cat(sprintf("<h3 style='margin-top:1px'>Top %d</h3>", i))
+
+    trait  <- acat_top5$trait[i]
+    factor <- acat_top5$factor[i]
+
+    # ================================
+    #       PAIR DETAILS TABLE
+    # ================================
+    df <- acat_celltype
+    df$celltype <- types[df$celltype]
+
+    df_show <- df[df$trait == trait & df$factor == factor, ]
+    df_show <- df_show[,c("celltype", "trait", "factor","pathwayName","num_supp_SNP","num_supp_SNP_MHC","p_ECT","acat_p_correct_noMHC_traitnull")]
+    pair_tbl <- datatable(
+      df_show,
+      caption = tags$caption(
+        style='caption-side: left; text-align:left; color:black; font-size:140%;',
+        'Pair Details'
+      ),
+      options = list(pageLength = 10)
+    )
+
+    cat(knit_print(pair_tbl))
+
+
+    # ================================
+    #       QQ PLOT
+    # ================================
+    file_harmo <- sprintf("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/%s-%s_harmo.RDS",
+                           celltype, trait)
+    dt_harmo <- readRDS(file_harmo)
+    dat <- dt_harmo[[factor]]
+
+    cat("<b>QQ Plot of p-values from factor association test</b>")
+    print( qqplot(dat$pval.exposure,
+                  title = "P-values from Factor Association Test") )
+
+    # ================================
+    #       SUPPORTING SNP TABLE
+    # ================================
+    file_detail <- sprintf("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT_v2/results/acat_snpdetail_noMHCtraitnull/%s_%s_%s.RDS",
+                           celltype, factor, trait)
+    dat_suppsnp <- readRDS(file_detail)
+
+    snp_tbl <- datatable(
+      dat_suppsnp,
+      caption = tags$caption(
+        style = 'caption-side:left; text-align:left; color:black; font-size:140%;',
+        'Supporting SNPs'
+      ),
+      options = list(pageLength = 5)
+    )
+
+    cat(knit_print(snp_tbl))
+  }
+}
+
+```
+
 
 
 # Some other interesting examples 
