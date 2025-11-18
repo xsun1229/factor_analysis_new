@@ -86,6 +86,8 @@ DT::datatable(df_all_fdr01,caption = htmltools::tags$caption( style = 'caption-s
 
 ## Figure 3 
 
+### RET-ebi-a-GCST90002405
+
 ```{r fig.height=6, fig.width=12, warning=F, message=F}
 
 trait <- "RET-ebi-a-GCST90002405"
@@ -160,7 +162,6 @@ p
 
 Activated platelets, which are recruited to sites of vascular injury, are known to release a variety of chemokines (Y. Chen et al.,2020). The resulting chemokine-receptor interactions are crucial regulators of hematopoiesis (Bonavita et al., 2018; Broxmeyer, 2008; Duchene et al., 2017), which can impact the reticulocyte counts.
 
-
 1. Hippo signaling pathway
 
 Hippo signalling pathway plays a crucial role in human megakaryoblastic cell differentiation and thrombopoiesis.[PMID: 27786336,27903710,27515249]. megakaryocytes' main function is producing platelets [PMID 26787738]
@@ -190,7 +191,77 @@ platelets use an mTOR/S6K1 pathway to activate Rac1 and regulate platelet spread
 
 The PI3K/Akt signaling pathway has been implicated in playing an important role in platelet activation during hemostasis and thrombosis [PMID: 30972780]
 
+### T1D-ebi-a-GCST90014023
 
+```{r fig.height=6, fig.width=12, warning=F, message=F}
+
+trait <- "T1D-ebi-a-GCST90014023"
+
+df_trait_fdr01 <- c()
+df_trait_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+  
+  df_fdr01 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.1, ]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 <- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 <- df[df$trait == trait & df$ECT_FDR_5suppSNP< 0.2, ]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 <- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+df_trait_fdr02$celltype <- types[df_trait_fdr02$celltype]
+
+# Prepare data
+selected <- df_trait_fdr02 %>%
+  mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName," ",factor)
+  )
+
+# Plot
+p <- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = "white",
+    size = 4.5,
+    family = "Times"
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = "black",
+    size = 4.5,
+    family = "Times"
+  ) +
+  labs(
+    x = expression(paste("-log"[10], "(ECT p-value)")),
+    y = NULL,
+    title = paste0(unique(selected$trait)," ECT FDR < 0.2")
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = "Times"),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 5)
+
+p
+```
 
 
 ## Figure 4
@@ -770,28 +841,28 @@ same examples with initial submission. but the snps are a bit different
 folder_harmo <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/"
 
 
-celltype <- "B_cell"
-trait <- "lymphc-ebi-a-GCST90002388"
-factor <- "04014_PC3"
+celltype <- "CD14_positive_monocyte"
+trait <- "WBC-ebi-a-GCST90002407"
+factor <- "04141_PC1"
 
 file_harmo <- paste0(folder_harmo,celltype,"-",trait,"_harmo.RDS")
 list_harmo <- readRDS(file_harmo)
 
 df_harmo <- list_harmo[[factor]]
 
-p1 <- qqplot(df_harmo$pval.exposure, title = "3rd PC of Ras signaling pathway \n- lymphocyte count")
+p1 <- qqplot(df_harmo$pval.exposure, title = "1st PC of Protein processing in \nendoplasmic reticulum - WBC")
 
 
-celltype <- "B_cell"
-trait <- "IBD-ebi-a-GCST003043"
-factor <- "04612_PC5"
+celltype <- "platelet"
+trait <- "RET-ebi-a-GCST90002405"
+factor <- "04390_PC5"
 
 file_harmo <- paste0(folder_harmo,celltype,"-",trait,"_harmo.RDS")
 list_harmo <- readRDS(file_harmo)
 
 df_harmo <- list_harmo[[factor]]
 
-p2 <- qqplot(df_harmo$pval.exposure, title = "5th PC of Antigen processing and \npresentation pathway - IBD")
+p2 <- qqplot(df_harmo$pval.exposure, title = "5th PC of Hippo signaling pathway \n - Reticulocyte Count")
 
 
 all <- grid.arrange(p1,p2, nrow = 1)
