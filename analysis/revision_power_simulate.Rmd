@@ -77,8 +77,107 @@ names(types) <- celltypes
 
 ```
 
+# Summary of the power
 
-# Results for the pair 
+## Highlighted example 1: NF-kappa B signaling pathway - Platelet - HB-ebi-a-GCST90002384
+
+```{r}
+
+trait="HB-ebi-a-GCST90002384"
+factor="04064_PC1"
+celltype="platelet"
+
+df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+
+df$celltype <- types[df$celltype]
+
+dt_pair <- df[df$trait == trait & df$factor == factor,]
+p_obs <- dt_pair$p_ECT
+
+
+df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+
+DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 10) )
+
+df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+
+p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+
+```
+
+```{r}
+
+power_all <- c()
+for (downsample_size in c(0.3, 0.5, 0.7, 1)){
+  
+  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+  ECT_res_allround_df<- readRDS(file_power)
+  
+  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
+  power_all <- rbind(power_all, tmp)
+}
+
+colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+rownames(power_all) <- NULL
+
+DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
+
+```
+
+
+## Highlighted example 2: Leukocyte transendothelial migration - T cell (CD 8+) - IBD-ebi-a-GCST003043
+
+```{r}
+
+celltype <- "thymocyte"
+trait <- "IBD-ebi-a-GCST003043"
+factor <- "04670_PC1"
+
+df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+
+df$celltype <- types[df$celltype]
+
+dt_pair <- df[df$trait == trait & df$factor == factor,]
+p_obs <- dt_pair$p_ECT
+
+df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+
+DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 10) )
+
+df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+
+p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+
+```
+
+```{r}
+
+power_all <- c()
+for (downsample_size in c(0.3, 0.5, 0.7, 1)){
+  
+  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+  ECT_res_allround_df<- readRDS(file_power)
+  
+  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
+  power_all <- rbind(power_all, tmp)
+}
+
+colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+rownames(power_all) <- NULL
+
+DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
+
+```
+
+
+
+# Plots for all downsample size
 
 ## Highlighted example 1: NF-kappa B signaling pathway - Platelet - HB-ebi-a-GCST90002384
 
@@ -98,6 +197,7 @@ p_obs <- dt_pair$p_ECT
 DT::datatable(dt_pair,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
 
 ```
+
 
 ### downsample: 30%
 
