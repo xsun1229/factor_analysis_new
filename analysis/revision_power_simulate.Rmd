@@ -118,7 +118,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -151,7 +151,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -183,7 +183,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -214,7 +214,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -265,7 +265,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -298,7 +298,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -330,7 +330,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -361,7 +361,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -412,7 +412,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -445,7 +445,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -477,7 +477,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
@@ -508,7 +508,7 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     "text",
     x = Inf, y = Inf,
     hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n≤ original p_ECT = ", num_leq),
+    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
     size = 4
   ) +
   theme_bw() +
