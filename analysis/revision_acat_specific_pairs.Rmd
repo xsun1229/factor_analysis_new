@@ -211,8 +211,6 @@ for (celltype in celltypes) {
 
 # Some other interesting examples 
 
-# Platelet
-
 ## Platelet - Hippo signaling pathway - RET-ebi-a-GCST90002405
 
 ```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'}
