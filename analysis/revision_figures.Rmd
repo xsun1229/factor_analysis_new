@@ -275,7 +275,12 @@ B cells contribute to type 1 diabetes by losing normal tolerance and becoming au
 
 The Longevity Regulating Pathway involves AMPK, mTOR, insulin/IGF-1, FOXO, autophagy, and mitochondrial regulation[PMID: 40136535].  Among these pathways, mTOR signaling controls B-cell activation and antibody production [PMID: 28583723]. AMP-activated protein kinase (AMPK) is an energy sensor that regulates cellular metabolism [PMID: 16823475], which can also regulate B cells.  FOXOs are critical to maintain the homeostasis of T- and B-cells within the immune system [PMID: 29782339]. Autophagy is are crucial for long-term B-cell survival. 
 
-2. Endocytosis
+2. Propanoate metabolism
+
+Propionate, along with other short-chain fatty acids (SCFAs), has been shown to directly modulate B-cell function. Prior work demonstrated that SCFAs, including propionate, alter histone acetylation and propionylation in B cells, thereby influencing class-switch recombination and plasma-cell differentiation (PMID: 31896754). Consistent with this, SCFAs have been reported to enhance B-cell metabolic activity and increase IgA and IgG production (PMID: 27476413). Additional studies indicate that SCFAs regulate B cells differentiation via the FFA2 receptor  (PMID: 35393660).
+
+
+3. Endocytosis
 
 Endocytosis refers to the active process allowing the absorption of various molecules and macromolecules from the extracellular fluid. Endocytosis is essential for B cells: it mediates antigen uptake, processing, MHC-II presentation, regulates BCR signaling, and supports germinal-center selection.
 

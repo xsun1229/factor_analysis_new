@@ -410,7 +410,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-11-18
+<strong>Last updated:</strong> 2025-11-19
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -544,15 +544,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree977037c765dc7f77a1fec555ab6788033e846f25targetblank977037ca">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree7a6312af336e57c5b5a3002a481bb7df3952a145targetblank7a6312aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/977037c765dc7f77a1fec555ab6788033e846f25" target="_blank">977037c</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/7a6312af336e57c5b5a3002a481bb7df3952a145" target="_blank">7a6312a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree977037c765dc7f77a1fec555ab6788033e846f25targetblank977037ca"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree7a6312af336e57c5b5a3002a481bb7df3952a145targetblank7a6312aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -562,7 +562,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/977037c765dc7f77a1fec555ab6788033e846f25" target="_blank">977037c</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/7a6312af336e57c5b5a3002a481bb7df3952a145" target="_blank">7a6312a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -576,12 +576,8 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Ignored files:
-    Ignored:    analysis/figure/
-
 Unstaged changes:
     Modified:   analysis/revision_figures.Rmd
-    Modified:   analysis/revision_power_simulate.Rmd
 
 </code></pre>
 <p>
@@ -627,6 +623,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/7a6312af336e57c5b5a3002a481bb7df3952a145/analysis/revision_figures.Rmd" target="_blank">7a6312a</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-19
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/analysis/revision_figures.Rmd" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/docs/revision_figures.html" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1021,6 +1068,8 @@ selected &lt;- df_trait_fdr02 %&gt;%
     pathwayName = paste0(pathwayName,&quot; &quot;,factor)
   )
 
+selected &lt;- selected[order(selected$p_ECT, decreasing = F), ]
+selected &lt;- selected[1:6,]
 # Plot
 p &lt;- ggplot(selected) +
   geom_col(
@@ -1350,6 +1399,18 @@ can also regulate B cells. FOXOs are critical to maintain the
 homeostasis of T- and B-cells within the immune system [PMID: 29782339].
 Autophagy is are crucial for long-term B-cell survival.</p>
 <ol start="2" style="list-style-type: decimal">
+<li>Propanoate metabolism</li>
+</ol>
+<p>Propionate, along with other short-chain fatty acids (SCFAs), has
+been shown to directly modulate B-cell function. Prior work demonstrated
+that SCFAs, including propionate, alter histone acetylation and
+propionylation in B cells, thereby influencing class-switch
+recombination and plasma-cell differentiation (PMID: 31896754).
+Consistent with this, SCFAs have been reported to enhance B-cell
+metabolic activity and increase IgA and IgG production (PMID: 27476413).
+Additional studies indicate that SCFAs regulate B cells differentiation
+via the FFA2 receptor (PMID: 35393660).</p>
+<ol start="3" style="list-style-type: decimal">
 <li>Endocytosis</li>
 </ol>
 <p>Endocytosis refers to the active process allowing the absorption of
@@ -2722,6 +2783,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/docs/figure/revision_figures.Rmd/unnamed-chunk-13-1.png" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/109e7dcbfc60227f544100cf9ff084a6215947bd/docs/figure/revision_figures.Rmd/unnamed-chunk-13-1.png" target="_blank">109e7dc</a>
 </td>
 <td>
@@ -2824,6 +2896,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/docs/figure/revision_figures.Rmd/unnamed-chunk-14-1.png" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/109e7dcbfc60227f544100cf9ff084a6215947bd/docs/figure/revision_figures.Rmd/unnamed-chunk-14-1.png" target="_blank">109e7dc</a>
 </td>
 <td>
@@ -2917,6 +3000,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/docs/figure/revision_figures.Rmd/unnamed-chunk-15-1.png" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/109e7dcbfc60227f544100cf9ff084a6215947bd/docs/figure/revision_figures.Rmd/unnamed-chunk-15-1.png" target="_blank">109e7dc</a>
 </td>
 <td>
@@ -2955,6 +3049,43 @@ for(celltype in celltypes){
 
 all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)</code></pre>
 <p><img src="figure/revision_figures.Rmd/unnamed-chunk-15-2.png" width="739.2" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-2">
+Past versions of unnamed-chunk-15-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-15-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/docs/figure/revision_figures.Rmd/unnamed-chunk-15-2.png" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="eas-1" class="section level3">
 <h3>EAS</h3>
@@ -3021,6 +3152,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/docs/figure/revision_figures.Rmd/unnamed-chunk-16-1.png" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/109e7dcbfc60227f544100cf9ff084a6215947bd/docs/figure/revision_figures.Rmd/unnamed-chunk-16-1.png" target="_blank">109e7dc</a>
 </td>
 <td>
@@ -3048,6 +3190,43 @@ for(celltype in celltypes){
 
 all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)</code></pre>
 <p><img src="figure/revision_figures.Rmd/unnamed-chunk-16-2.png" width="739.2" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-2">
+Past versions of unnamed-chunk-16-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/docs/figure/revision_figures.Rmd/unnamed-chunk-16-2.png" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="s7-ect-storey-pi1" class="section level2">
@@ -3074,6 +3253,43 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
 
 p</code></pre>
 <p><img src="figure/revision_figures.Rmd/unnamed-chunk-17-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
+Past versions of unnamed-chunk-17-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-17-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/docs/figure/revision_figures.Rmd/unnamed-chunk-17-1.png" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="eas-2" class="section level3">
 <h3>EAS</h3>
@@ -3097,6 +3313,43 @@ p &lt;- ggplot(data, aes(x=labels, y=values, fill=labels)) +
 
 p</code></pre>
 <p><img src="figure/revision_figures.Rmd/unnamed-chunk-18-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
+Past versions of unnamed-chunk-18-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/docs/figure/revision_figures.Rmd/unnamed-chunk-18-1.png" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
