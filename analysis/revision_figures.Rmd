@@ -117,6 +117,8 @@ selected <- df_trait_fdr02 %>%
     pathwayName = paste0(pathwayName," ",factor)
   )
 
+selected <- selected[order(selected$p_ECT, decreasing = F), ]
+selected <- selected[1:6,]
 # Plot
 p <- ggplot(selected) +
   geom_col(
