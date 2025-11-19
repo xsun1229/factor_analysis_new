@@ -138,8 +138,8 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
       y = Inf,
       hjust = 1, vjust = 1.2,
       label = paste0(
-        "Count p ≤ FDR 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p ≤ FDR 0.2 cutoff: ", num_leq_fdr02
+        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
+        "Count p <= 0.2 cutoff: ", num_leq_fdr02
       ),
       size = 4,
       fill = "white",
@@ -224,8 +224,8 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
       y = Inf,
       hjust = 1, vjust = 1.2,
       label = paste0(
-        "Count p ≤ FDR 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p ≤ FDR 0.2 cutoff: ", num_leq_fdr02
+        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
+        "Count p <= 0.2 cutoff: ", num_leq_fdr02
       ),
       size = 4,
       fill = "white",
@@ -311,8 +311,8 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
       y = Inf,
       hjust = 1, vjust = 1.2,
       label = paste0(
-        "Count p ≤ FDR 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p ≤ FDR 0.2 cutoff: ", num_leq_fdr02
+        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
+        "Count p <= 0.2 cutoff: ", num_leq_fdr02
       ),
       size = 4,
       fill = "white",
@@ -397,8 +397,8 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
       y = Inf,
       hjust = 1, vjust = 1.2,
       label = paste0(
-        "Count p ≤ FDR 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p ≤ FDR 0.2 cutoff: ", num_leq_fdr02
+        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
+        "Count p <= 0.2 cutoff: ", num_leq_fdr02
       ),
       size = 4,
       fill = "white",
