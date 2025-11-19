@@ -68,7 +68,8 @@ Power was estimated as the proportion of simulation rounds in which the ECT resu
 
 ```{r}
 
-library(ggplot2)
+suppressMessages(library(ggplot2))
+suppressMessages(library(gridExtra))
 
 celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
 types <- c("B cell (CD19+)","Monocyte (CD14+)","Granulocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
@@ -108,9 +109,10 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 ```
 
-```{r}
+```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
 
 power_all <- c()
+p <- list()
 for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
@@ -118,7 +120,44 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
   tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
   power_all <- rbind(power_all, tmp)
+  
+  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
+  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
+  
+  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
+    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
+    
+    # cutoff lines
+    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
+    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
+    
+    # stacked annotation block
+    annotate(
+      "label",
+      x = max(-log10(ECT_res_allround_df$p_ECT)),
+      y = Inf,
+      hjust = 1, vjust = 1.2,
+      label = paste0(
+        "Count p ≤ FDR 0.1 cutoff: ", num_leq_fdr01, "\n",
+        "Count p ≤ FDR 0.2 cutoff: ", num_leq_fdr02
+      ),
+      size = 4,
+      fill = "white",
+      label.size = 0.3
+    ) +
+    
+    theme_bw(base_size = 13) +
+    labs(
+      x = "-log10(ECT p-value)",
+      y = "Count",
+      title = paste0("downsample size ", downsample_size)
+    )
+
+  
 }
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
 rownames(power_all) <- NULL
@@ -156,9 +195,10 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 ```
 
-```{r}
+```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
 
 power_all <- c()
+p <- list()
 for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
@@ -166,7 +206,44 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
   tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
   power_all <- rbind(power_all, tmp)
+  
+  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
+  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
+  
+  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
+    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
+    
+    # cutoff lines
+    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
+    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
+    
+    # stacked annotation block
+    annotate(
+      "label",
+      x = max(-log10(ECT_res_allround_df$p_ECT)),
+      y = Inf,
+      hjust = 1, vjust = 1.2,
+      label = paste0(
+        "Count p ≤ FDR 0.1 cutoff: ", num_leq_fdr01, "\n",
+        "Count p ≤ FDR 0.2 cutoff: ", num_leq_fdr02
+      ),
+      size = 4,
+      fill = "white",
+      label.size = 0.3
+    ) +
+    
+    theme_bw(base_size = 13) +
+    labs(
+      x = "-log10(ECT p-value)",
+      y = "Count",
+      title = paste0("downsample size ", downsample_size)
+    )
+
+  
 }
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
 rownames(power_all) <- NULL
@@ -177,15 +254,13 @@ DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-sid
 
 
 
-# Plots for all downsample size
-
-## Highlighted example 1: NF-kappa B signaling pathway - Platelet - HB-ebi-a-GCST90002384
+## Not highlighted but ECT FDR < 0.2 example 1: B_cell - RBC-ebi-a-GCST90002403 - 04217_PC4
 
 ```{r}
 
-trait="HB-ebi-a-GCST90002384"
-factor="04064_PC1"
-celltype="platelet"
+celltype <- "B_cell"
+trait <- "RBC-ebi-a-GCST90002403"
+factor <- "04217_PC4"
 
 df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
 
@@ -194,146 +269,84 @@ df$celltype <- types[df$celltype]
 dt_pair <- df[df$trait == trait & df$factor == factor,]
 p_obs <- dt_pair$p_ECT
 
-DT::datatable(dt_pair,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
+df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+
+DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 10) )
+
+df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+
+p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+
+```
+
+```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+
+power_all <- c()
+p <- list()
+for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+  
+  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+  ECT_res_allround_df<- readRDS(file_power)
+  
+  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
+  power_all <- rbind(power_all, tmp)
+  
+  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
+  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
+  
+  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
+    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
+    
+    # cutoff lines
+    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
+    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
+    
+    # stacked annotation block
+    annotate(
+      "label",
+      x = max(-log10(ECT_res_allround_df$p_ECT)),
+      y = Inf,
+      hjust = 1, vjust = 1.2,
+      label = paste0(
+        "Count p ≤ FDR 0.1 cutoff: ", num_leq_fdr01, "\n",
+        "Count p ≤ FDR 0.2 cutoff: ", num_leq_fdr02
+      ),
+      size = 4,
+      fill = "white",
+      label.size = 0.3
+    ) +
+    
+    theme_bw(base_size = 13) +
+    labs(
+      x = "-log10(ECT p-value)",
+      y = "Count",
+      title = paste0("downsample size ", downsample_size)
+    )
+
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+rownames(power_all) <- NULL
+
+DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
 
 ```
 
 
-### downsample: 30%
+## Not highlighted but ECT FDR < 0.2 example 1: B_cell - RBC-ebi-a-GCST90002403 - 03040_PC4
 
 ```{r}
 
-downsample_size <- 0.3
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-
-```
-
-
-
-### downsample: 50%
-
-```{r}
-
-downsample_size <- 0.5
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-
-```
-
-
-### downsample: 70%
-
-```{r}
-
-downsample_size <- 0.7
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-```
-
-
-### downsample: 100%
-
-```{r}
-
-downsample_size <- 1
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-
-```
-
-
-## Highlighted example 2: Leukocyte transendothelial migration - T cell (CD 8+) - IBD-ebi-a-GCST003043
-
-```{r}
-
-celltype <- "thymocyte"
-trait <- "IBD-ebi-a-GCST003043"
-factor <- "04670_PC1"
+celltype <- "B_cell"
+trait <- "RBC-ebi-a-GCST90002403"
+factor <- "03040_PC4"
 
 df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
 
@@ -342,281 +355,73 @@ df$celltype <- types[df$celltype]
 dt_pair <- df[df$trait == trait & df$factor == factor,]
 p_obs <- dt_pair$p_ECT
 
-DT::datatable(dt_pair,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
+df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+
+DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 10) )
+
+df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+
+p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 ```
 
-### downsample: 30%
-
-```{r}
-
-downsample_size <- 0.3
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-
-```
-
-
-
-### downsample: 50%
-
-```{r}
-
-downsample_size <- 0.5
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-
-```
-
-
-### downsample: 70%
-
-```{r}
-
-downsample_size <- 0.7
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-```
-
-
-### downsample: 100%
-
-```{r}
-
-downsample_size <- 1
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-
-```
-
-
-## Random example 1 
-
-```{r}
-
-trait="MCH-ebi-a-GCST90002390"
-factor="04926_PC4"
-celltype="B_cell"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-DT::datatable(dt_pair,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
-
-```
-
-### downsample: 30%
-
-```{r}
-
-downsample_size <- 0.3
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-
-```
-
-
-
-### downsample: 50%
-
-```{r}
-
-downsample_size <- 0.5
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-
-```
-
-
-### downsample: 70%
-
-```{r}
-
-downsample_size <- 0.7
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
-```
-
-
-### downsample: 100%
-
-```{r}
-
-downsample_size <- 1
-
-file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-
-ECT_res_allround_df<- readRDS(file_power)
-
-num_leq <- sum(ECT_res_allround_df$p_ECT <= p_obs)
-
-ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
-  geom_histogram(bins = 30, color = "white") +
-  geom_vline(xintercept = p_obs, color = "red", size = 1) +
-  annotate(
-    "text",
-    x = Inf, y = Inf,
-    hjust = 1.05, vjust = 1.5,   # adjust position
-    label = paste0("Number of simulated p_ECT \n<= original p_ECT = ", num_leq),
-    size = 4
-  ) +
-  theme_bw() +
-  labs(
-    x = "ECT p-value",
-    y = "Count",
-    title = "Distribution of simulated ECT p-values\n(Original p shown in red)"
-  )
+```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+
+power_all <- c()
+p <- list()
+for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+  
+  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+  ECT_res_allround_df<- readRDS(file_power)
+  
+  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
+  power_all <- rbind(power_all, tmp)
+  
+  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
+  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
+  
+  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
+    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
+    
+    # cutoff lines
+    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
+    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
+    
+    # stacked annotation block
+    annotate(
+      "label",
+      x = max(-log10(ECT_res_allround_df$p_ECT)),
+      y = Inf,
+      hjust = 1, vjust = 1.2,
+      label = paste0(
+        "Count p ≤ FDR 0.1 cutoff: ", num_leq_fdr01, "\n",
+        "Count p ≤ FDR 0.2 cutoff: ", num_leq_fdr02
+      ),
+      size = 4,
+      fill = "white",
+      label.size = 0.3
+    ) +
+    
+    theme_bw(base_size = 13) +
+    labs(
+      x = "-log10(ECT p-value)",
+      y = "Count",
+      title = paste0("downsample size ", downsample_size)
+    )
+
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+rownames(power_all) <- NULL
+
+DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
 
 ```
 
