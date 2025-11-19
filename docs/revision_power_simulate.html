@@ -544,15 +544,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreee39be066f9af70921b9cfe96a3e6037428309e62targetblanke39be06a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreed42343d6b42ab1e52cb3aa4c75d6170cded5cc3ctargetblankd42343da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/e39be066f9af70921b9cfe96a3e6037428309e62" target="_blank">e39be06</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c" target="_blank">d42343d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreee39be066f9af70921b9cfe96a3e6037428309e62targetblanke39be06a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreed42343d6b42ab1e52cb3aa4c75d6170cded5cc3ctargetblankd42343da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -562,7 +562,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/e39be066f9af70921b9cfe96a3e6037428309e62" target="_blank">e39be06</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c" target="_blank">d42343d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -624,6 +624,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c/analysis/revision_power_simulate.Rmd" target="_blank">d42343d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/analysis/revision_power_simulate.Rmd" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/977037c765dc7f77a1fec555ab6788033e846f25/docs/revision_power_simulate.html" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -856,7 +907,7 @@ p_cutoff_fdr01 &lt;- max(df_fdr01$p_ECT)
 
 p_cutoff_fdr02 &lt;- max(df_fdr02$p_ECT)</code></pre>
 <pre class="r"><code>power_all &lt;- c()
-for (downsample_size in c(0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/&quot;, celltype,&quot;-&quot;, factor, &quot;-&quot;, trait,&quot;_downsample_&quot;,downsample_size,&quot;_simulated.RDS&quot;)
   ECT_res_allround_df&lt;- readRDS(file_power)
@@ -870,7 +921,7 @@ rownames(power_all) &lt;- NULL
 
 DT::datatable(power_all ,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;power&#39;),options = list(pageLength = 10) )</code></pre>
 <div id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">power<\/caption>","data":[[0.3,0.5,0.7,1],[44,57,67,72],[44,57,67,72]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>downsample_size<\/th>\n      <th>power_fdr01<\/th>\n      <th>power_fdr02<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">power<\/caption>","data":[[0.01,0.1,0.3,0.5,0.7,1],[5,24,44,57,67,72],[5,24,44,57,67,72]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>downsample_size<\/th>\n      <th>power_fdr01<\/th>\n      <th>power_fdr02<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div
 id="highlighted-example-2-leukocyte-transendothelial-migration---t-cell-cd-8---ibd-ebi-a-gcst003043"
@@ -900,7 +951,7 @@ p_cutoff_fdr01 &lt;- max(df_fdr01$p_ECT)
 
 p_cutoff_fdr02 &lt;- max(df_fdr02$p_ECT)</code></pre>
 <pre class="r"><code>power_all &lt;- c()
-for (downsample_size in c(0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.3, 0.5, 0.7, 1)){
   
   file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/&quot;, celltype,&quot;-&quot;, factor, &quot;-&quot;, trait,&quot;_downsample_&quot;,downsample_size,&quot;_simulated.RDS&quot;)
   ECT_res_allround_df&lt;- readRDS(file_power)
@@ -914,7 +965,7 @@ rownames(power_all) &lt;- NULL
 
 DT::datatable(power_all ,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;power&#39;),options = list(pageLength = 10) )</code></pre>
 <div id="htmlwidget-1814506231684700bf53" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1814506231684700bf53">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">power<\/caption>","data":[[0.3,0.5,0.7,1],[96,98,100,100],[100,100,100,100]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>downsample_size<\/th>\n      <th>power_fdr01<\/th>\n      <th>power_fdr02<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-1814506231684700bf53">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">power<\/caption>","data":[[0.01,0.3,0.5,0.7,1],[4,96,98,100,100],[26,100,100,100,100]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>downsample_size<\/th>\n      <th>power_fdr01<\/th>\n      <th>power_fdr02<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div id="plots-for-all-downsample-size" class="section level1">
@@ -970,6 +1021,43 @@ This warning is displayed once every 8 hours.
 Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 generated.</code></pre>
 <p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-7-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="downsample-50" class="section level3">
 <h3>downsample: 50%</h3>
@@ -1020,6 +1108,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-8-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/6920c6bf856ac9c848365efe0a92384b867c3177/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-8-1.png" target="_blank">6920c6b</a>
@@ -1109,6 +1208,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-9-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/6920c6bf856ac9c848365efe0a92384b867c3177/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-9-1.png" target="_blank">6920c6b</a>
 </td>
 <td>
@@ -1196,6 +1306,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-10-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/6920c6bf856ac9c848365efe0a92384b867c3177/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-10-1.png" target="_blank">6920c6b</a>
 </td>
 <td>
@@ -1279,6 +1400,43 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
 <p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-12-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="downsample-50-1" class="section level3">
 <h3>downsample: 50%</h3>
@@ -1329,6 +1487,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-13-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/6920c6bf856ac9c848365efe0a92384b867c3177/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-13-1.png" target="_blank">6920c6b</a>
@@ -1407,6 +1576,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-14-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/6920c6bf856ac9c848365efe0a92384b867c3177/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-14-1.png" target="_blank">6920c6b</a>
 </td>
 <td>
@@ -1483,6 +1663,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-15-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/xsun1229/factor_analysis_new/blob/6920c6bf856ac9c848365efe0a92384b867c3177/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-15-1.png" target="_blank">6920c6b</a>
 </td>
 <td>
@@ -1552,6 +1743,43 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
 <p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
+Past versions of unnamed-chunk-17-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-17-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-17-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="downsample-50-2" class="section level3">
 <h3>downsample: 50%</h3>
@@ -1580,6 +1808,43 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
 <p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
+Past versions of unnamed-chunk-18-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-18-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="downsample-70-2" class="section level3">
 <h3>downsample: 70%</h3>
@@ -1608,6 +1873,43 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
 <p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-19-1">
+Past versions of unnamed-chunk-19-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-19-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-19-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="downsample-100-2" class="section level3">
 <h3>downsample: 100%</h3>
@@ -1636,6 +1938,43 @@ ggplot(ECT_res_allround_df, aes(x = p_ECT)) +
     title = &quot;Distribution of simulated ECT p-values\n(Original p shown in red)&quot;
   )</code></pre>
 <p><img src="figure/revision_power_simulate.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-20-1">
+Past versions of unnamed-chunk-20-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-20-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/977037c765dc7f77a1fec555ab6788033e846f25/docs/figure/revision_power_simulate.Rmd/unnamed-chunk-20-1.png" target="_blank">977037c</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
