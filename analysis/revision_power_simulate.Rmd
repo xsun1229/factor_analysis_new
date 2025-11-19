@@ -111,7 +111,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 ```{r}
 
 power_all <- c()
-for (downsample_size in c(0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -159,7 +159,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 ```{r}
 
 power_all <- c()
-for (downsample_size in c(0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)

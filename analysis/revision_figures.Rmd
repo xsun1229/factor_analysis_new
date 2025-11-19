@@ -191,6 +191,7 @@ platelets use an mTOR/S6K1 pathway to activate Rac1 and regulate platelet spread
 
 The PI3K/Akt signaling pathway has been implicated in playing an important role in platelet activation during hemostasis and thrombosis [PMID: 30972780]
 
+
 ### T1D-ebi-a-GCST90014023
 
 ```{r fig.height=6, fig.width=12, warning=F, message=F}
@@ -262,6 +263,19 @@ p <- ggplot(selected) +
 
 print(p) 
 ```
+
+
+- B cell
+
+B cells contribute to type 1 diabetes by losing normal tolerance and becoming autoreactive. They present islet antigens to T cells, greatly enhancing the autoimmune attack on pancreatic β cells. They also produce islet autoantibodies and inflammatory cytokines that reflect and support ongoing autoimmunity.[PMID: 29038537]
+
+1. Longevity regulating pathway
+
+The Longevity Regulating Pathway involves AMPK, mTOR, insulin/IGF-1, FOXO, autophagy, and mitochondrial regulation[PMID: 40136535].  Among these pathways, mTOR signaling controls B-cell activation and antibody production [PMID: 28583723]. AMP-activated protein kinase (AMPK) is an energy sensor that regulates cellular metabolism [PMID: 16823475], which can also regulate B cells.  FOXOs are critical to maintain the homeostasis of T- and B-cells within the immune system [PMID: 29782339]. Autophagy is are crucial for long-term B-cell survival. 
+
+2. Endocytosis
+
+Endocytosis refers to the active process allowing the absorption of various molecules and macromolecules from the extracellular fluid. Endocytosis is essential for B cells: it mediates antigen uptake, processing, MHC-II presentation, regulates BCR signaling, and supports germinal-center selection.
 
 
 ## Figure 4
@@ -684,41 +698,80 @@ print(paste0("Top 10 genes with largest abs loading: ", paste0(topgenes, collaps
 
 - Leukocyte transendothelial migration -> CD8⁺ T cells -> IBD
 
-Leukocyte transendothelial migration (TEM) is the process by which white blood cells (leukocytes) exit the bloodstream and enter tissues [PMID: 21073340, 33855018]. Because CD8⁺ T cells are leukocytes, TEM directly enables their recruitment to inflammatory sites, allowing them to exert their cytotoxic and cytokine-mediated functions.
+Leukocyte transendothelial migration (TEM) is a key early event in intestinal inflammation. Excessive or dysregulated leukocyte entry into tissues can lead to sustained inflammation, tissue damage, and autoimmunity [PMID: 26117594, 31580982, 11978082]. In the context of IBD, TEM is particularly important: PECAM-1, a major mediator of leukocyte transmigration, is strongly expressed at endothelial junctions, and experimental blockade of PECAM-1 significantly reduces colitis severity in mouse models [PMID: 17510197].
 
-Emerging evidence shows that CD8⁺ T cells play important roles in IBD. Chronic intestinal infection can drive epithelial barrier leakage through type I IFN signaling and CD8⁺ T-cell activity, and blocking CD8⁺ T cells prevents this barrier breakdown [PMID: 32880630]. At the same time, CD8⁺ T cells in IBD are highly heterogeneous: cytotoxic (Tc1) and IL-17–producing (Tc17) subsets promote inflammation, whereas other CD8⁺ subsets may be neutral or even protective [PMID: 34707610].
+Because CD8⁺ T cells are a major leukocyte subset, TEM serves as the gateway for their trafficking from the circulation into inflamed intestinal tissue. Once within the mucosa, CD8⁺ T cells can contribute directly to disease activity through cytotoxic effects and inflammatory cytokine production [PMID: 21073340, 33855018].
 
-- TOP loading genes -> CD8⁺ T cells
+Recent studies show that CD8⁺ T cells have multifaceted roles in IBD. Chronic intestinal infection and type I IFN signaling can drive epithelial barrier leakage in a CD8⁺ T-cell–dependent manner, and depleting CD8⁺ T cells prevents this barrier disruption [PMID: 32880630]. Moreover, CD8⁺ T cells in IBD are highly heterogeneous: pro-inflammatory Tc1 and Tc17 subsets exacerbate disease, while other subsets may be neutral or even protective [PMID: 34707610].
 
-1 & 2 . ITGAL & ITGB2
 
-<!-- ITGAL is essential for CD8⁺ T-cell activation, where its product, the CD11a α-subunit of LFA-1, supports magnesium-dependent immune synapse formation and antigen-specific cytotoxicity [PMID: 39605903].  -->
+- TOP loading genes -> CD8⁺ T cell migration
 
-ITGAL and ITGB2 form LFA-1, which has been shown to facilitate T-cell activation by functioning as a scavenger receptor on CD8⁺ dendritic cells, enabling them to acquire antigen from antigen-bearing DCs [PMID: 17641014]. 
+1. CTNNA1 (α-Catenin)
 
-3. RAC2 
+CTNNA1 (α-Catenin) links cadherins to the actin cytoskeleton [PMID:23417122] and, as shown in three-dimensional culture systems, can repress cell adhesion and invasion[PMID:29484367].
 
-RAC2 is a member of the Rac subfamily of Rho GTPases. It plays essential roles in T-cell development, cytoskeletal remodeling, and survival[PMID: 19088377, 11581314, 18579797].  **In the absence of Rac2, the motility of T cells in response to CXCL12, CCL19, and CCL21 was partially reduced [PMID: 20870900]**
+2. ACTB (β-Actin)
 
-4. SIPA1
+The ACTB gene encodes beta-actin, which is essential for a number of cytoplasmic functions, such as regulation of cell shape and migration[PMID: 29220674]
 
-Sipa1 was shown to inhibit  thymocyte development [PMID: 37545505]
+3. PIK3R2 (p85β Regulatory Subunit of PI3K)
 
-5. PIK3R2 
+PIK3R2 is a regulatory component of PI3K, which signaling is involved in cell survival, proliferation, and migration[PMID: 27511117].
 
-PIK3R2 is a key component of the PI3K–Akt signaling pathway, which plays a central role in T-cell exhaustion[PMID  17164340]
+4. ITGAL 
 
-6. MAPK13
+Is an important molecule in the interaction between leukocytes and other cells, and its main function is to participate in cell adhesion and migration, which are important for cellular immune responses, inflammatory responses, etc [PMID: 35844504,37723552, 37619906].
 
-MAPK13 phosphorylates TCF1, leading to increase of stem-like T cells [PMID 38272565].
+5. ACTN4
 
-7. MSN 
+ACTN4 has been shown to play important roles in cytoskeleton organization, cell adhesion, and cell migration [PMID: 25885339]. ACTN4 knockdown inhibits lamellipodia formation and cell migration [PMID: 39222868]. Also evidence that it contributes to the process of lung cancer metastasis to the brain could be mainly through regulation of actin cytoskeleton reorganization, cell motility, and focal adhesion.[ PMID: 25885339] 
 
-MSN (Moesin) are implicated in promoting T cell activation and polarity [PMID: 19124745]
+6. ITGB2
 
-8. ACTN4
+ITGB2 binding plays a critical role in mediating the rolling of stem cells on the surface of endothelial cells, adhesion and transmigration through the vascular wall into interstitial tissue, and homing to ischemic tissue.[PMID: 36111003]
 
-**ACTN4 has been shown to play important roles in cytoskeleton organization, cell adhesion, and cell migration [PMID: 25885339]**
+7. Rac2
+
+In the absence of Rac2, the motility of T cells in response to CXCL12, CCL19, and CCL21 was partially reduced [PMID: 20870900]
+
+8. MSN
+
+MSN silencing inhibits cell proliferation, adhesion, migration, and invasion in vitro [ PMID: 37446127]
+
+
+<!-- - TOP loading genes -> CD8⁺ T cell activation -->
+
+
+<!-- 1 & 2 . ITGAL & ITGB2 -->
+
+<!-- <!-- ITGAL is essential for CD8⁺ T-cell activation, where its product, the CD11a α-subunit of LFA-1, supports magnesium-dependent immune synapse formation and antigen-specific cytotoxicity [PMID: 39605903].  --> -->
+
+<!-- ITGAL and ITGB2 form LFA-1, which has been shown to facilitate T-cell activation by functioning as a scavenger receptor on CD8⁺ dendritic cells, enabling them to acquire antigen from antigen-bearing DCs [PMID: 17641014].  -->
+
+<!-- 3. RAC2  -->
+
+<!-- RAC2 is a member of the Rac subfamily of Rho GTPases. It plays essential roles in T-cell development, cytoskeletal remodeling, and survival[PMID: 19088377, 11581314, 18579797].  **In the absence of Rac2, the motility of T cells in response to CXCL12, CCL19, and CCL21 was partially reduced [PMID: 20870900]** -->
+
+<!-- 4. SIPA1 -->
+
+<!-- Sipa1 was shown to inhibit  thymocyte development [PMID: 37545505] -->
+
+<!-- 5. PIK3R2  -->
+
+<!-- PIK3R2 is a key component of the PI3K–Akt signaling pathway, which plays a central role in T-cell exhaustion[PMID  17164340] -->
+
+<!-- 6. MAPK13 -->
+
+<!-- MAPK13 phosphorylates TCF1, leading to increase of stem-like T cells [PMID 38272565]. -->
+
+<!-- 7. MSN  -->
+
+<!-- MSN (Moesin) are implicated in promoting T cell activation and polarity [PMID: 19124745] -->
+
+<!-- 8. ACTN4 -->
+
+<!-- **ACTN4 has been shown to play important roles in cytoskeleton organization, cell adhesion, and cell migration [PMID: 25885339]** -->
 
 
 # SI figures
@@ -869,6 +922,68 @@ all <- grid.arrange(p1,p2, nrow = 1)
 
 
 ```
+
+
+```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'}
+
+celltype <- "CD14_positive_monocyte"
+trait <- "WBC-ebi-a-GCST90002407"
+factor <- "04141_PC1"
+fdr_cutoff <- 0.2
+
+file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
+dt_harmo <- readRDS(file_harmo)
+
+df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+df_show <- df[df$trait == trait & df$factor == factor, ]
+df_show <- df_show[,c("celltype", "trait", "factor","pathwayName","num_supp_SNP","num_supp_SNP_MHC","p_ECT","acat_p_correct_noMHC_traitnull")]
+    
+df_show$celltype <- types[celltype]
+
+DT::datatable(df_show,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
+
+file_detail <- sprintf("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT_v2/results/acat_snpdetail_noMHCtraitnull/%s_%s_%s.RDS",
+                           celltype, factor, trait)
+dat_suppsnp <- readRDS(file_detail)
+
+
+DT::datatable(dat_suppsnp,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
+
+```
+
+The top SNPrs4761234 is associated with “Protein processing in endoplasmic reticulum” with p = 2.4E-10. The SNP is located in/near the gene LYZ, lysosome gene involved in protein degradation. 
+
+
+
+```{r fig.height=3, fig.width=3, warning=F, message=F, results='asis'}
+
+celltype <- "platelet"
+trait <- "RET-ebi-a-GCST90002405"
+factor <- "04390_PC5"
+fdr_cutoff <- 0.2
+
+file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
+dt_harmo <- readRDS(file_harmo)
+
+df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+df_show <- df[df$trait == trait & df$factor == factor, ]
+df_show <- df_show[,c("celltype", "trait", "factor","pathwayName","num_supp_SNP","num_supp_SNP_MHC","p_ECT","acat_p_correct_noMHC_traitnull")]
+    
+df_show$celltype <- types[celltype]
+
+DT::datatable(df_show,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Details for this pair'),options = list(pageLength = 10) )
+
+file_detail <- sprintf("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT_v2/results/acat_snpdetail_noMHCtraitnull/%s_%s_%s.RDS",
+                           celltype, factor, trait)
+dat_suppsnp <- readRDS(file_detail)
+
+
+DT::datatable(dat_suppsnp,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Supporting SNPs'),options = list(pageLength = 10) )
+
+```
+
+The top SNP: rs74199305 is associated with the pathway with p = 5E-7. The SNP is in the intron of EIF2AK1, a gene controlling stress response. Hippo signaling is also involved in stress response.
+
 
 ## S5 Number of supporting SNPs per pair
 
