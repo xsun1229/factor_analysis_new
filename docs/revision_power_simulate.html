@@ -410,7 +410,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-11-18
+<strong>Last updated:</strong> 2025-11-19
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -544,15 +544,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreed42343d6b42ab1e52cb3aa4c75d6170cded5cc3ctargetblankd42343da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreebb3beb06fe4f5af31ddb1995851a83492ca15718targetblankbb3beb0a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c" target="_blank">d42343d</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/bb3beb06fe4f5af31ddb1995851a83492ca15718" target="_blank">bb3beb0</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreed42343d6b42ab1e52cb3aa4c75d6170cded5cc3ctargetblankd42343da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreebb3beb06fe4f5af31ddb1995851a83492ca15718targetblankbb3beb0a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -562,7 +562,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/d42343d6b42ab1e52cb3aa4c75d6170cded5cc3c" target="_blank">d42343d</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/bb3beb06fe4f5af31ddb1995851a83492ca15718" target="_blank">bb3beb0</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -624,6 +624,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/bb3beb06fe4f5af31ddb1995851a83492ca15718/analysis/revision_power_simulate.Rmd" target="_blank">bb3beb0</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/bb3beb06fe4f5af31ddb1995851a83492ca15718/docs/revision_power_simulate.html" target="_blank">bb3beb0</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-11-18
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -951,7 +985,7 @@ p_cutoff_fdr01 &lt;- max(df_fdr01$p_ECT)
 
 p_cutoff_fdr02 &lt;- max(df_fdr02$p_ECT)</code></pre>
 <pre class="r"><code>power_all &lt;- c()
-for (downsample_size in c(0.01, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/&quot;, celltype,&quot;-&quot;, factor, &quot;-&quot;, trait,&quot;_downsample_&quot;,downsample_size,&quot;_simulated.RDS&quot;)
   ECT_res_allround_df&lt;- readRDS(file_power)
@@ -965,7 +999,7 @@ rownames(power_all) &lt;- NULL
 
 DT::datatable(power_all ,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;power&#39;),options = list(pageLength = 10) )</code></pre>
 <div id="htmlwidget-1814506231684700bf53" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1814506231684700bf53">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">power<\/caption>","data":[[0.01,0.3,0.5,0.7,1],[4,96,98,100,100],[26,100,100,100,100]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>downsample_size<\/th>\n      <th>power_fdr01<\/th>\n      <th>power_fdr02<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-1814506231684700bf53">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">power<\/caption>","data":[[0.01,0.1,0.3,0.5,0.7,1],[4,73,96,98,100,100],[26,94,100,100,100,100]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>downsample_size<\/th>\n      <th>power_fdr01<\/th>\n      <th>power_fdr02<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div id="plots-for-all-downsample-size" class="section level1">
