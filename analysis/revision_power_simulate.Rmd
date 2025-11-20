@@ -113,7 +113,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -156,7 +156,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -199,7 +199,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -242,7 +242,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -288,7 +288,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -331,7 +331,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -377,7 +377,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -420,7 +420,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -471,7 +471,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -514,7 +514,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -568,7 +568,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -611,7 +611,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -670,7 +670,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -713,7 +713,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -756,7 +756,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -799,7 +799,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -843,7 +843,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -886,7 +886,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -935,7 +935,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -978,7 +978,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -1026,7 +1026,7 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -1069,7 +1069,7 @@ for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
   
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
@@ -1120,8 +1120,8 @@ p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
 power_all <- c()
 p <- list()
-#for (downsample_size in c(0.01, 0.1, 0.3, 0.5, 0.7, 1)){
-for (downsample_size in c(0.3, 0.5, 0.7, 1)){  
+for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
+#for (downsample_size in c(0.3, 0.5, 0.7, 1)){  
   
   file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
   ECT_res_allround_df<- readRDS(file_power)
@@ -1164,8 +1164,8 @@ for (downsample_size in c(0.3, 0.5, 0.7, 1)){
   
 }
 
-#all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]], nrow = 2)
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
+#all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]], nrow = 2)
 
 
 colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
