@@ -70,1115 +70,538 @@ Power was estimated as the proportion of simulation rounds in which the ECT resu
 
 suppressMessages(library(ggplot2))
 suppressMessages(library(gridExtra))
+suppressMessages(library(data.table))
+suppressMessages(library(DT))
+suppressMessages(library(knitr))
+suppressMessages(library(htmltools))
+library(dplyr)
+library(ggplot2)
+library(tidyr)
 
 celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
 types <- c("B cell (CD19+)","Monocyte (CD14+)","Granulocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
 names(celltypes) <- types
 names(types) <- celltypes
 
+
+DT::datatable(matrix())
 ```
+
+
+# Summary for strong/weak pairs
+
+## Strong 
+
+```{r, results='asis'}
+
+df_all_fdr01 <- c()
+df_all_fdr02 <- c()
+for(celltype in celltypes){
+
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
+
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2 & df$ECT_FDR_5suppSNP > 0.1,]
+  df_all_fdr01 <- rbind(df_all_fdr01,df_fdr01)
+  df_all_fdr02 <- rbind(df_all_fdr02,df_fdr02)
+
+}
+
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP,decreasing = F),]
+df_all_fdr01 <- df_all_fdr01[order(df_all_fdr01$ECT_FDR_5suppSNP,decreasing = F),]
+
+```
+
+```{r, results='asis', warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+#for (i in 2:2) {
+
+power_all_pairs <- c()
+for (i in 1:nrow(df_all_fdr01)) {  
+  trait=df_all_fdr01$trait[i]
+  factor=df_all_fdr01$factor[i]
+  celltype=df_all_fdr01$celltype[i]
+
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+
+  df$celltype <- types[df$celltype]
+  
+  dt_pair <- df[df$trait == trait & df$factor == factor,]
+  p_obs <- dt_pair$p_ECT
+  
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+  
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+  p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+  
+  p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+  
+  power_all <- data.frame(
+    celltype = character(),
+    factor = character(),
+    trait = character(),
+    downsample_size = numeric(),
+    power_fdr01     = numeric(),
+    power_fdr02     = numeric(),
+    stringsAsFactors = FALSE
+  )
+  for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
+    
+    file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+    ECT_res_allround_df<- readRDS(file_power)
+    
+    power_all <- rbind(
+      power_all,
+      data.frame(
+        celltype = celltype,
+        factor = factor,
+        trait = trait,
+        downsample_size = downsample_size,
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02)
+      )
+    )
+    
+
+    
+  }
+  
+ 
+  # colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+  rownames(power_all) <- NULL
+  power_all <- as.data.frame(power_all)
+
+  
+  power_all_pairs <- rbind(power_all_pairs, power_all)
+  
+}
+
+
+power_summary <- power_all_pairs %>%
+  group_by(downsample_size) %>%
+  summarise(
+    mean_fdr01 = mean(power_fdr01, na.rm = TRUE),
+    se_fdr01   = sd(power_fdr01, na.rm = TRUE) / sqrt(n()),
+    mean_fdr02 = mean(power_fdr02, na.rm = TRUE),
+    se_fdr02   = sd(power_fdr02, na.rm = TRUE) / sqrt(n())
+  )
+
+# Reshape to long format for ggplot
+power_long <- power_summary %>%
+  pivot_longer(
+    cols = c(mean_fdr01, mean_fdr02, se_fdr01, se_fdr02),
+    names_to = c("metric", "fdr"),
+    names_pattern = "(mean|se)_(fdr\\d+)",
+    values_to = "value"
+  ) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = value
+  )
+
+ggplot(power_long, aes(x = downsample_size, y = mean, color = fdr, group = fdr)) +
+  geom_line(size = 1.1) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.02) +
+  theme_bw(base_size = 14) +
+  labs(
+    x = "Downsample proportion",
+    y = "Mean power",
+    color = "FDR cutoff",
+    title = "Power vs Downsample Size Across All Strong Pairs"
+  )
+
+
+```
+
+## Weak 
+
+
+## Summary for weak pairs
+
+```{r, results='asis', warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+#for (i in 2:2) {
+
+power_all_pairs <- c()
+for (i in 1:22) {  
+  trait=df_all_fdr02$trait[i]
+  factor=df_all_fdr02$factor[i]
+  celltype=df_all_fdr02$celltype[i]
+
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+
+  df$celltype <- types[df$celltype]
+  
+  dt_pair <- df[df$trait == trait & df$factor == factor,]
+  p_obs <- dt_pair$p_ECT
+  
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+  
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+  p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+  
+  p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+  
+  power_all <- data.frame(
+    celltype = character(),
+    factor = character(),
+    trait = character(),
+    downsample_size = numeric(),
+    power_fdr01     = numeric(),
+    power_fdr02     = numeric(),
+    stringsAsFactors = FALSE
+  )
+  for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
+    
+    file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+    ECT_res_allround_df<- readRDS(file_power)
+    
+    power_all <- rbind(
+      power_all,
+      data.frame(
+        celltype = celltype,
+        factor = factor,
+        trait = trait,
+        downsample_size = downsample_size,
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02)
+      )
+    )
+    
+
+    
+  }
+  
+ 
+  # colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+  rownames(power_all) <- NULL
+  power_all <- as.data.frame(power_all)
+
+  
+  power_all_pairs <- rbind(power_all_pairs, power_all)
+  
+}
+
+
+power_summary <- power_all_pairs %>%
+  group_by(downsample_size) %>%
+  summarise(
+    mean_fdr01 = mean(power_fdr01, na.rm = TRUE),
+    se_fdr01   = sd(power_fdr01, na.rm = TRUE) / sqrt(n()),
+    mean_fdr02 = mean(power_fdr02, na.rm = TRUE),
+    se_fdr02   = sd(power_fdr02, na.rm = TRUE) / sqrt(n())
+  )
+
+# Reshape to long format for ggplot
+power_long <- power_summary %>%
+  pivot_longer(
+    cols = c(mean_fdr01, mean_fdr02, se_fdr01, se_fdr02),
+    names_to = c("metric", "fdr"),
+    names_pattern = "(mean|se)_(fdr\\d+)",
+    values_to = "value"
+  ) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = value
+  )
+
+ggplot(power_long, aes(x = downsample_size, y = mean, color = fdr, group = fdr)) +
+  geom_line(size = 1.1) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.02) +
+  theme_bw(base_size = 14) +
+  labs(
+    x = "Downsample proportion",
+    y = "Mean power",
+    color = "FDR cutoff",
+    title = "Power vs Downsample Size Across All Weak Pairs"
+  )
+
+
+```
+
 
 # Strong examples ECT FDR < 0.1
 
-## Highlighted example 1: NF-kappa B signaling pathway - Platelet - HB-ebi-a-GCST90002384
+```{r, results='asis'}
 
-```{r}
+df_all_fdr01 <- c()
+df_all_fdr02 <- c()
+for(celltype in celltypes){
 
-trait="HB-ebi-a-GCST90002384"
-factor="04064_PC1"
-celltype="platelet"
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
+  df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
 
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2 & df$ECT_FDR_5suppSNP > 0.1,]
+  df_all_fdr01 <- rbind(df_all_fdr01,df_fdr01)
+  df_all_fdr02 <- rbind(df_all_fdr02,df_fdr02)
 
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
-
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
-
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
-
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
-
-```
-
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
-
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
-    )
-
-  
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
-
-
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP,decreasing = F),]
+df_all_fdr01 <- df_all_fdr01[order(df_all_fdr01$ECT_FDR_5suppSNP,decreasing = F),]
 
 ```
 
 
-## Highlighted example 2: Leukocyte transendothelial migration - T cell (CD 8+) - IBD-ebi-a-GCST003043
 
-```{r}
 
-celltype <- "thymocyte"
-trait <- "IBD-ebi-a-GCST003043"
-factor <- "04670_PC1"
 
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
 
-df$celltype <- types[df$celltype]
+```{r, results='asis', warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+#for (i in 2:2) {
 
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
+power_all_pairs <- c()
+for (i in 1:nrow(df_all_fdr01)) {
+  trait=df_all_fdr01$trait[i]
+  factor=df_all_fdr01$factor[i]
+  celltype=df_all_fdr01$celltype[i]
 
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+  cat(sprintf("<h3 style='margin-top:1px'>Top %d - %s - %s - %s </h3>", i, celltype, factor, trait))
 
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
 
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+  df$celltype <- types[df$celltype]
 
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+  dt_pair <- df[df$trait == trait & df$factor == factor,]
+  p_obs <- dt_pair$p_ECT
 
-```
 
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
 
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
+  htmltools::div(
+  style = "margin-top: 30px; margin-bottom: 30px;",
+  DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
+)
+
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+  p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+
+  p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+
+
+  p <- list()
+  power_all <- data.frame(
+  downsample_size = numeric(),
+  power_fdr01     = numeric(),
+  power_fdr02     = numeric(),
+  stringsAsFactors = FALSE
+)
+  for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
+
+    file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+    ECT_res_allround_df<- readRDS(file_power)
+
+    tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
+    # power_all <- rbind(power_all, tmp)
+
+    power_all <- rbind(
+      power_all,
+      data.frame(
+        celltype = celltype,
+        factor = factor,
+        trait = trait,
+        downsample_size = downsample_size,
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02)
+      )
     )
 
-  
+
+    num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
+    num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
+
+    p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
+      geom_histogram(bins = 30, color = "white", fill = "steelblue") +
+
+      # cutoff lines
+      geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
+      geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
+
+      # stacked annotation block
+      annotate(
+        "label",
+        x = max(-log10(ECT_res_allround_df$p_ECT)),
+        y = Inf,
+        hjust = 1, vjust = 1.2,
+        label = paste0(
+          "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
+          "Count p <= 0.2 cutoff: ", num_leq_fdr02
+        ),
+        size = 4,
+        fill = "white",
+        label.size = 0.3
+      ) +
+
+      theme_bw(base_size = 13) +
+      labs(
+        x = "-log10(ECT p-value)",
+        y = "Count",
+        title = paste0("downsample size ", downsample_size)
+      )
+
+
+  }
+
+  all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
+
+
+  colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+  rownames(power_all) <- NULL
+  power_all <- as.data.frame(power_all)
+
+  table <- DT::datatable(
+    power_all,
+    caption = htmltools::tags$caption(
+      style = 'caption-side:left; text-align:left; color:black; font-size:140%;',
+      paste0("Power for ", celltype, " - ", factor, " - ", trait)
+    ),
+    options = list(pageLength = 10)
+  )
+
+  cat(knit_print(table))
+
+  power_all_pairs <- rbind(power_all_pairs, power_all)
+
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
 
 ```
 
 
 
 
-## Top 1: CD15_positive_leukocyte	MCH-ebi-a-GCST90002390	04910_PC4
-
-```{r}
-
-trait="MCH-ebi-a-GCST90002390"
-factor="04910_PC4"
-celltype="CD15_positive_leukocyte"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
 
 
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
 
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
 
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+# Weak examples 0.1 < ECT FDR < 0.2
 
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
 
-```
+```{r, results='asis', warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+#for (i in 2:2) {
+for (i in 1: 22 ) {
 
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+  trait=df_all_fdr02$trait[i]
+  factor=df_all_fdr02$factor[i]
+  celltype=df_all_fdr02$celltype[i]
 
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
+  cat(sprintf("<h3 style='margin-top:1px'>Top %d - %s - %s - %s </h3>", i+8, celltype, factor, trait))
+
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+
+  df$celltype <- types[df$celltype]
+
+  dt_pair <- df[df$trait == trait & df$factor == factor,]
+  p_obs <- dt_pair$p_ECT
+
+
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+
+  htmltools::div(
+  style = "margin-top: 30px; margin-bottom: 30px;",
+  DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
+)
+
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+  p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+
+  p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+
+
+  p <- list()
+  power_all <- data.frame(
+  downsample_size = numeric(),
+  power_fdr01     = numeric(),
+  power_fdr02     = numeric(),
+  stringsAsFactors = FALSE
+)
+  for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
+
+    file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+    ECT_res_allround_df<- readRDS(file_power)
+
+    tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
+    # power_all <- rbind(power_all, tmp)
+
+    power_all <- rbind(
+      power_all,
+      data.frame(
+        downsample_size = downsample_size,
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02)
+      )
     )
 
-  
+
+    num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
+    num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
+
+    p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
+      geom_histogram(bins = 30, color = "white", fill = "steelblue") +
+
+      # cutoff lines
+      geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
+      geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
+
+      # stacked annotation block
+      annotate(
+        "label",
+        x = max(-log10(ECT_res_allround_df$p_ECT)),
+        y = Inf,
+        hjust = 1, vjust = 1.2,
+        label = paste0(
+          "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
+          "Count p <= 0.2 cutoff: ", num_leq_fdr02
+        ),
+        size = 4,
+        fill = "white",
+        label.size = 0.3
+      ) +
+
+      theme_bw(base_size = 13) +
+      labs(
+        x = "-log10(ECT p-value)",
+        y = "Count",
+        title = paste0("downsample size ", downsample_size)
+      )
+
+
+  }
+
+  all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
+
+
+  colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+  rownames(power_all) <- NULL
+  power_all <- as.data.frame(power_all)
+
+  table <- DT::datatable(
+    power_all,
+    caption = htmltools::tags$caption(
+      style = 'caption-side:left; text-align:left; color:black; font-size:140%;',
+      paste0("Power for ", celltype, " - ", factor, " - ", trait)
+    ),
+    options = list(pageLength = 10)
+  )
+
+  cat(knit_print(table))
+
+
 }
 
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
 
 ```
-
-
-
-
-## Top 3: platelet	RET-ebi-a-GCST90002405	04390_PC5
-
-```{r}
-
-trait="RET-ebi-a-GCST90002405"
-factor="04390_PC5"
-celltype="platelet"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
-
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
-
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
-
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
-
-```
-
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
-
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
-    )
-
-  
-}
-
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
-
-
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-
-
-
-
-
-## Top 4: platelet	RET-ebi-a-GCST90002405	04714_PC4
-
-```{r}
-
-trait="RET-ebi-a-GCST90002405"
-factor="04714_PC4"
-celltype="platelet"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
-
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
-
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
-
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
-
-```
-
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
-
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
-    )
-
-  
-}
-
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
-
-
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-## Top 5: platelet	RET-ebi-a-GCST90002405	00230_PC1
-
-```{r}
-
-trait="RET-ebi-a-GCST90002405"
-factor="00230_PC1"
-celltype="platelet"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
-
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
-
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
-
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
-
-```
-
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
-
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
-    )
-
-  
-}
-
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
-
-
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Weak examples - ECT FDR close to 0.2 
-
-## example 1: B_cell - RBC-ebi-a-GCST90002403 - 04217_PC4
-
-```{r}
-
-celltype <- "B_cell"
-trait <- "RBC-ebi-a-GCST90002403"
-factor <- "04217_PC4"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
-
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
-
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
-
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
-
-```
-
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
-
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
-    )
-
-  
-}
-
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
-
-
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
-
-```
-
-
-## example 2: B_cell - RBC-ebi-a-GCST90002403 - 03040_PC4
-
-```{r}
-
-celltype <- "B_cell"
-trait <- "RBC-ebi-a-GCST90002403"
-factor <- "03040_PC4"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
-
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
-
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
-
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
-
-```
-
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
-
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
-    )
-
-  
-}
-
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
-
-
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
-
-```
-
-
-
-## example 3: B_cell - MCV-ebi-a-GCST90002392 - 03040_PC4
-
-```{r}
-
-celltype <- "B_cell"
-trait <- "MCV-ebi-a-GCST90002392"
-factor <- "03040_PC4"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
-
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
-
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
-
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
-
-```
-
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
-
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
-    )
-
-  
-}
-
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
-
-
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-
-
-
-
-## example 4: B_cell - T1D-ebi-a-GCST90014023 - 00640_PC1
-
-```{r}
-
-celltype <- "B_cell"
-trait <- "T1D-ebi-a-GCST90014023"
-factor <- "00640_PC1"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
-
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
-
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
-
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
-
-```
-
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
-
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
-    )
-
-  
-}
-
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
-
-
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-
-
-
-## example 5: platelet - RET-ebi-a-GCST90002405 - 04625_PC3
-
-```{r}
-
-celltype <- "platelet"
-trait <- "RET-ebi-a-GCST90002405"
-factor <- "04625_PC3"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
-
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
-
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
-
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
-
-```
-
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
-
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
-    )
-
-  
-}
-
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
-
-
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-
-
-
-
-# Random examples 
-
-## example 1: B_cell- MCH-ebi-a-GCST90002390 - 04926_PC4
-
-```{r}
-
-celltype <- "platelet"
-trait <- "RET-ebi-a-GCST90002405"
-factor <- "04625_PC3"
-
-df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
-
-df$celltype <- types[df$celltype]
-
-dt_pair <- df[df$trait == trait & df$factor == factor,]
-p_obs <- dt_pair$p_ECT
-
-df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
-df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
-
-DT::datatable(df_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','pairs with FDR < 0.2'),options = list(pageLength = 5) )
-
-df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
-df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
-p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
-
-p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
-
-```
-
-```{r warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
-
-power_all <- c()
-p <- list()
-for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
-#for (downsample_size in c(0.3, 0.5, 0.7, 1)){  
-  
-  file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
-  ECT_res_allround_df<- readRDS(file_power)
-  
-  tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
-  power_all <- rbind(power_all, tmp)
-  
-  num_leq_fdr01 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01)
-  num_leq_fdr02 <- sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
-  
-  p[[as.character(downsample_size)]] <- ggplot(ECT_res_allround_df, aes(x = -log10(p_ECT))) +
-    geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-    
-    # cutoff lines
-    geom_vline(xintercept = -log10(p_cutoff_fdr01), color = "red", size = 1) +
-    geom_vline(xintercept = -log10(p_cutoff_fdr02), color = "red", linetype = "dashed", size = 1) +
-    
-    # stacked annotation block
-    annotate(
-      "label",
-      x = max(-log10(ECT_res_allround_df$p_ECT)),
-      y = Inf,
-      hjust = 1, vjust = 1.2,
-      label = paste0(
-        "Count p <= 0.1 cutoff: ", num_leq_fdr01, "\n",
-        "Count p <= 0.2 cutoff: ", num_leq_fdr02
-      ),
-      size = 4,
-      fill = "white",
-      label.size = 0.3
-    ) +
-    
-    theme_bw(base_size = 13) +
-    labs(
-      x = "-log10(ECT p-value)",
-      y = "Count",
-      title = paste0("downsample size ", downsample_size)
-    )
-
-  
-}
-
-all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
-#all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]], nrow = 2)
-
-
-colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-rownames(power_all) <- NULL
-
-DT::datatable(power_all ,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','power'),options = list(pageLength = 10) )
-
-```
-
-
-
-
-
-
-
-
