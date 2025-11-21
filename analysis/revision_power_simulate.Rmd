@@ -159,8 +159,8 @@ for (i in 1:nrow(df_all_fdr01)) {
         factor = factor,
         trait = trait,
         downsample_size = downsample_size,
-        power_fdr01     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01),
-        power_fdr02     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02)
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
       )
     )
     
@@ -170,8 +170,9 @@ for (i in 1:nrow(df_all_fdr01)) {
   
  
   # colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-  rownames(power_all) <- NULL
-  power_all <- as.data.frame(power_all)
+  # rownames(power_all) <- NULL
+  # power_all <- as.data.frame(power_all)
+  power_all$celltype <- types[celltype]
 
   
   power_all_pairs <- rbind(power_all_pairs, power_all)
@@ -219,8 +220,6 @@ ggplot(power_long, aes(x = downsample_size, y = mean, color = fdr, group = fdr))
 ## Weak 
 
 
-## Summary for weak pairs
-
 ```{r, results='asis', warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
 #for (i in 2:2) {
 
@@ -267,8 +266,8 @@ for (i in 1:22) {
         factor = factor,
         trait = trait,
         downsample_size = downsample_size,
-        power_fdr01     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01),
-        power_fdr02     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02)
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
       )
     )
     
@@ -278,8 +277,9 @@ for (i in 1:22) {
   
  
   # colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-  rownames(power_all) <- NULL
-  power_all <- as.data.frame(power_all)
+  # rownames(power_all) <- NULL
+  # power_all <- as.data.frame(power_all)
+  power_all$celltype <- types[celltype]
 
   
   power_all_pairs <- rbind(power_all_pairs, power_all)
@@ -399,7 +399,7 @@ for (i in 1:nrow(df_all_fdr01)) {
     file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
     ECT_res_allround_df<- readRDS(file_power)
 
-    tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
+    # tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02))
     # power_all <- rbind(power_all, tmp)
 
     power_all <- rbind(
@@ -409,8 +409,8 @@ for (i in 1:nrow(df_all_fdr01)) {
         factor = factor,
         trait = trait,
         downsample_size = downsample_size,
-        power_fdr01     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01),
-        power_fdr02     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02)
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
       )
     )
 
@@ -453,9 +453,10 @@ for (i in 1:nrow(df_all_fdr01)) {
   all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
-  colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-  rownames(power_all) <- NULL
-  power_all <- as.data.frame(power_all)
+  # colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+  # rownames(power_all) <- NULL
+  # power_all <- as.data.frame(power_all)
+  power_all$celltype <- types[celltype]
 
   table <- DT::datatable(
     power_all,
@@ -532,15 +533,15 @@ for (i in 1: 22 ) {
     file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
     ECT_res_allround_df<- readRDS(file_power)
 
-    tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02))
+    tmp <- c(downsample_size, sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01), sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02))
     # power_all <- rbind(power_all, tmp)
 
     power_all <- rbind(
       power_all,
       data.frame(
         downsample_size = downsample_size,
-        power_fdr01     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr01),
-        power_fdr02     = sum(ECT_res_allround_df$p_ECT < p_cutoff_fdr02)
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
       )
     )
 
@@ -583,9 +584,10 @@ for (i in 1: 22 ) {
   all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]], nrow = 2)
 
 
-  colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
-  rownames(power_all) <- NULL
-  power_all <- as.data.frame(power_all)
+  # colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+  # rownames(power_all) <- NULL
+  # power_all <- as.data.frame(power_all)
+  power_all$celltype <- types[celltype]
 
   table <- DT::datatable(
     power_all,
