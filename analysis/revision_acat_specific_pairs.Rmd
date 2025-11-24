@@ -50,6 +50,88 @@ qqplot <- function(pvalues,title=NULL) {
 DT::datatable(matrix())
 ```
 
+# Table --- Top 10 pairs for across all celltypes
+
+```{r fig.height=3, fig.width=3, warning=FALSE, message=FALSE, results='asis'}
+
+acat_allcelltypes <- c()
+for (celltype in celltypes) {
+  
+    # Load summary
+  file <- sprintf(
+    "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/%s_ECT_summary_EUR_SLEremoved_noMHCadded.RDS",
+    celltype)
+  acat_celltype <- readRDS(file)
+  acat_allcelltypes <- rbind(acat_allcelltypes, acat_celltype)
+  
+  
+}
+
+acat_allcelltypes <- acat_allcelltypes[order(acat_allcelltypes$acat_p_correct_noMHC_traitnull, decreasing = F),]
+acat_allcelltypes <- acat_allcelltypes[1:10,]
+
+merge_table_top10 <- c()
+for (i in seq_len(nrow(acat_allcelltypes))) {
+
+  celltype <- acat_allcelltypes$celltype[i]
+  trait  <- acat_allcelltypes$trait[i]
+  factor <- acat_allcelltypes$factor[i]
+  pathway <- acat_allcelltypes$pathwayName[i]
+  p_ECT <- acat_allcelltypes$p_ECT[i]
+  ECT_FDR_5suppSNP <- acat_allcelltypes$ECT_FDR_5suppSNP[i]
+  num_supp_SNP <- acat_allcelltypes$num_supp_SNP[i]
+  num_supp_SNP_MHC <- acat_allcelltypes$num_supp_SNP_MHC[i]
+  acat_p_correct_traitnull <- acat_allcelltypes$acat_p_correct_traitnull[i]
+  acat_p_correct_noMHC_traitnull <- acat_allcelltypes$acat_p_correct_noMHC_traitnull[i]
+  
+  # ================================
+  #     SUPPORTING SNP DETAILS
+  # ================================
+  file_detail <- sprintf(
+    "/project/xinhe/xsun/pathway_factor/analysis/2.ACAT_v2/results/acat_snpdetail_noMHCtraitnull/%s_%s_%s.RDS",
+    celltype, factor, trait)
+  
+  dat_suppsnp <- readRDS(file_detail)
+  
+  merged_table <- data.frame(
+    celltype    = rep(types[celltype],length =nrow(dat_suppsnp)),
+    trait       = rep(trait,length =nrow(dat_suppsnp)),
+    factor      = rep(factor,length =nrow(dat_suppsnp)),
+    pathway     = rep(pathway,length =nrow(dat_suppsnp)),
+    p_ECT       = rep(p_ECT,length =nrow(dat_suppsnp)),
+    ECT_FDR_5suppSNP     = rep(ECT_FDR_5suppSNP,length =nrow(dat_suppsnp)),
+    num_supp_SNP         = rep(num_supp_SNP,length =nrow(dat_suppsnp)),
+    num_supp_SNP_MHC     = rep(num_supp_SNP_MHC,length =nrow(dat_suppsnp)),
+    acat_p_correct_traitnull           = rep(acat_p_correct_traitnull,length =nrow(dat_suppsnp)),
+    acat_p_correct_noMHC_traitnull     = rep(acat_p_correct_noMHC_traitnull,length =nrow(dat_suppsnp)),
+    suppSNP      = dat_suppsnp$SNP,
+    genes_nearby = dat_suppsnp$`genes.nearby (+_100kb)`,     # <-- modify if your column name differs
+    p_exposure   = dat_suppsnp$pval.exposure,
+    fdr_exposure = dat_suppsnp$FDR.exposure,
+    p_outcome    = dat_suppsnp$pval.outcome
+  )
+  
+  merge_table_top10 <- rbind(merge_table_top10,merged_table)
+  rownames(merge_table_top10) <- NULL
+
+
+} # end loop over cell types
+
+
+snp_tbl <- datatable(
+  merge_table_top10,
+  caption = tags$caption(
+    style = 'caption-side:left; text-align:left; color:black; font-size:140%;',
+    'Pair + Supporting SNP Details (one row per SNP)'
+  ),
+  options = list(pageLength = 10)
+)
+
+cat(knit_print(snp_tbl))
+
+```
+
+
 
 # Table --- Top 5 pairs for each cell type
 
