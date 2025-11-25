@@ -10,6 +10,8 @@ output:
 
 **Results using updated functions**
 
+- CEDAR
+
 [GWAS Selection](revision_GWAS_selection.html)
 
 [Deciding the ECT settings](revision_deciding_ECT_setting.html)
@@ -27,6 +29,10 @@ output:
 [Power analysis](revision_power_simulate.html)
 
 [Figrues](revision_figures.html)
+
+- GTEx
+
+[Summarizing ECT results](revision_summarizing_ECT_setting_SLEremoved_gtex.html)
 
 
 **Old codes**

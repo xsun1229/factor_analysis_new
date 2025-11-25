@@ -90,7 +90,7 @@ DT::datatable(matrix())
 
 # Summary for strong/weak pairs
 
-## Strong 
+## Strong -- ECT FDR <0.1, 8 pairs
 
 ```{r, results='asis'}
 
@@ -217,11 +217,242 @@ ggplot(power_long, aes(x = downsample_size, y = mean, color = fdr, group = fdr))
 
 ```
 
-## Weak 
+
+
+## Weak -- Bottom 8 from  0.1 < ECT FDR < 0.2
 
 
 ```{r, results='asis', warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
 #for (i in 2:2) {
+
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP,decreasing = T),]
+
+power_all_pairs <- c()
+for (i in 1:8) {  
+  trait=df_all_fdr02$trait[i]
+  factor=df_all_fdr02$factor[i]
+  celltype=df_all_fdr02$celltype[i]
+
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+
+  df$celltype <- types[df$celltype]
+  
+  dt_pair <- df[df$trait == trait & df$factor == factor,]
+  p_obs <- dt_pair$p_ECT
+  
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+  
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+  p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+  
+  p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+  
+  power_all <- data.frame(
+    celltype = character(),
+    factor = character(),
+    trait = character(),
+    downsample_size = numeric(),
+    power_fdr01     = numeric(),
+    power_fdr02     = numeric(),
+    stringsAsFactors = FALSE
+  )
+  for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
+    
+    file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+    ECT_res_allround_df<- readRDS(file_power)
+    
+    power_all <- rbind(
+      power_all,
+      data.frame(
+        celltype = celltype,
+        factor = factor,
+        trait = trait,
+        downsample_size = downsample_size,
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
+      )
+    )
+    
+
+    
+  }
+  
+ 
+  # colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+  # rownames(power_all) <- NULL
+  # power_all <- as.data.frame(power_all)
+  power_all$celltype <- types[celltype]
+
+  
+  power_all_pairs <- rbind(power_all_pairs, power_all)
+  
+}
+
+
+power_summary <- power_all_pairs %>%
+  group_by(downsample_size) %>%
+  summarise(
+    mean_fdr01 = mean(power_fdr01, na.rm = TRUE),
+    se_fdr01   = sd(power_fdr01, na.rm = TRUE) / sqrt(n()),
+    mean_fdr02 = mean(power_fdr02, na.rm = TRUE),
+    se_fdr02   = sd(power_fdr02, na.rm = TRUE) / sqrt(n())
+  )
+
+# Reshape to long format for ggplot
+power_long <- power_summary %>%
+  pivot_longer(
+    cols = c(mean_fdr01, mean_fdr02, se_fdr01, se_fdr02),
+    names_to = c("metric", "fdr"),
+    names_pattern = "(mean|se)_(fdr\\d+)",
+    values_to = "value"
+  ) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = value
+  )
+
+ggplot(power_long, aes(x = downsample_size, y = mean, color = fdr, group = fdr)) +
+  geom_line(size = 1.1) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.02) +
+  theme_bw(base_size = 14) +
+  labs(
+    x = "Downsample proportion",
+    y = "Mean power",
+    color = "FDR cutoff",
+    title = "Power vs Downsample Size Across All Weak Pairs"
+  )
+
+
+```
+
+
+
+
+
+## Weak -- Bottom 15 from  0.1 < ECT FDR < 0.2
+
+
+```{r, results='asis', warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+#for (i in 2:2) {
+
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP,decreasing = T),]
+
+power_all_pairs <- c()
+for (i in 1:15) {  
+  trait=df_all_fdr02$trait[i]
+  factor=df_all_fdr02$factor[i]
+  celltype=df_all_fdr02$celltype[i]
+
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+
+  df$celltype <- types[df$celltype]
+  
+  dt_pair <- df[df$trait == trait & df$factor == factor,]
+  p_obs <- dt_pair$p_ECT
+  
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+  
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+  p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+  
+  p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+  
+  power_all <- data.frame(
+    celltype = character(),
+    factor = character(),
+    trait = character(),
+    downsample_size = numeric(),
+    power_fdr01     = numeric(),
+    power_fdr02     = numeric(),
+    stringsAsFactors = FALSE
+  )
+  for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
+    
+    file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+    ECT_res_allround_df<- readRDS(file_power)
+    
+    power_all <- rbind(
+      power_all,
+      data.frame(
+        celltype = celltype,
+        factor = factor,
+        trait = trait,
+        downsample_size = downsample_size,
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
+      )
+    )
+    
+
+    
+  }
+  
+ 
+  # colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+  # rownames(power_all) <- NULL
+  # power_all <- as.data.frame(power_all)
+  power_all$celltype <- types[celltype]
+
+  
+  power_all_pairs <- rbind(power_all_pairs, power_all)
+  
+}
+
+
+power_summary <- power_all_pairs %>%
+  group_by(downsample_size) %>%
+  summarise(
+    mean_fdr01 = mean(power_fdr01, na.rm = TRUE),
+    se_fdr01   = sd(power_fdr01, na.rm = TRUE) / sqrt(n()),
+    mean_fdr02 = mean(power_fdr02, na.rm = TRUE),
+    se_fdr02   = sd(power_fdr02, na.rm = TRUE) / sqrt(n())
+  )
+
+# Reshape to long format for ggplot
+power_long <- power_summary %>%
+  pivot_longer(
+    cols = c(mean_fdr01, mean_fdr02, se_fdr01, se_fdr02),
+    names_to = c("metric", "fdr"),
+    names_pattern = "(mean|se)_(fdr\\d+)",
+    values_to = "value"
+  ) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = value
+  )
+
+ggplot(power_long, aes(x = downsample_size, y = mean, color = fdr, group = fdr)) +
+  geom_line(size = 1.1) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.02) +
+  theme_bw(base_size = 14) +
+  labs(
+    x = "Downsample proportion",
+    y = "Mean power",
+    color = "FDR cutoff",
+    title = "Power vs Downsample Size Across All Weak Pairs"
+  )
+
+
+```
+
+
+
+
+
+
+## Weak -- TOP22 from  0.1 < ECT FDR < 0.2
+
+
+```{r, results='asis', warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+#for (i in 2:2) {
+
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP,decreasing = F),]
 
 power_all_pairs <- c()
 for (i in 1:22) {  
@@ -323,6 +554,120 @@ ggplot(power_long, aes(x = downsample_size, y = mean, color = fdr, group = fdr))
 
 
 ```
+
+
+
+## Weak -- all pairs with results (22 + 15 = 37) from  0.1 < ECT FDR < 0.2
+
+
+```{r, results='asis', warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
+#for (i in 2:2) {
+
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP,decreasing = F),]
+
+power_all_pairs <- c()
+for (i in c(1:22, 103:117)) {  
+  trait=df_all_fdr02$trait[i]
+  factor=df_all_fdr02$factor[i]
+  celltype=df_all_fdr02$celltype[i]
+  
+  
+
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final/", celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+
+  df$celltype <- types[df$celltype]
+  
+  dt_pair <- df[df$trait == trait & df$factor == factor,]
+  p_obs <- dt_pair$p_ECT
+  
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+  
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+  p_cutoff_fdr01 <- max(df_fdr01$p_ECT)
+  
+  p_cutoff_fdr02 <- max(df_fdr02$p_ECT)
+  
+  power_all <- data.frame(
+    celltype = character(),
+    factor = character(),
+    trait = character(),
+    downsample_size = numeric(),
+    power_fdr01     = numeric(),
+    power_fdr02     = numeric(),
+    stringsAsFactors = FALSE
+  )
+  for (downsample_size in c(0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 1)){
+    
+    file_power <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/power_res/simulation2/", celltype,"-", factor, "-", trait,"_downsample_",downsample_size,"_simulated.RDS")
+    ECT_res_allround_df<- readRDS(file_power)
+    
+    power_all <- rbind(
+      power_all,
+      data.frame(
+        celltype = celltype,
+        factor = factor,
+        trait = trait,
+        downsample_size = downsample_size,
+        power_fdr01     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr01),
+        power_fdr02     = sum(ECT_res_allround_df$p_ECT <= p_cutoff_fdr02)
+      )
+    )
+    
+
+    
+  }
+  
+ 
+  # colnames(power_all) <- c("downsample_size", "power_fdr01", "power_fdr02")
+  # rownames(power_all) <- NULL
+  # power_all <- as.data.frame(power_all)
+  power_all$celltype <- types[celltype]
+
+  
+  power_all_pairs <- rbind(power_all_pairs, power_all)
+  
+}
+
+
+power_summary <- power_all_pairs %>%
+  group_by(downsample_size) %>%
+  summarise(
+    mean_fdr01 = mean(power_fdr01, na.rm = TRUE),
+    se_fdr01   = sd(power_fdr01, na.rm = TRUE) / sqrt(n()),
+    mean_fdr02 = mean(power_fdr02, na.rm = TRUE),
+    se_fdr02   = sd(power_fdr02, na.rm = TRUE) / sqrt(n())
+  )
+
+# Reshape to long format for ggplot
+power_long <- power_summary %>%
+  pivot_longer(
+    cols = c(mean_fdr01, mean_fdr02, se_fdr01, se_fdr02),
+    names_to = c("metric", "fdr"),
+    names_pattern = "(mean|se)_(fdr\\d+)",
+    values_to = "value"
+  ) %>%
+  pivot_wider(
+    names_from = metric,
+    values_from = value
+  )
+
+ggplot(power_long, aes(x = downsample_size, y = mean, color = fdr, group = fdr)) +
+  geom_line(size = 1.1) +
+  geom_point(size = 2) +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.02) +
+  theme_bw(base_size = 14) +
+  labs(
+    x = "Downsample proportion",
+    y = "Mean power",
+    color = "FDR cutoff",
+    title = "Power vs Downsample Size Across All Weak Pairs"
+  )
+
+
+```
+
 
 
 # Strong examples ECT FDR < 0.1
@@ -485,12 +830,13 @@ for (i in 1:nrow(df_all_fdr01)) {
 
 
 
+
 # Weak examples 0.1 < ECT FDR < 0.2
 
 
 ```{r, results='asis', warning=FALSE, message=FALSE, fig.height=6, fig.width=12}
 #for (i in 2:2) {
-for (i in 1: 22 ) {
+for (i in c(1: 22,103:117) ) {
 
   trait=df_all_fdr02$trait[i]
   factor=df_all_fdr02$factor[i]
@@ -602,8 +948,6 @@ for (i in 1: 22 ) {
 
 
 }
-
-
 
 
 ```

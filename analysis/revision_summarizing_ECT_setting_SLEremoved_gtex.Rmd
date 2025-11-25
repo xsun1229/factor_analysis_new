@@ -1,0 +1,132 @@
+---
+title: "Summarizing ECT results -- ≥ 5 supporting SNPs & ≥ 20 genes, GTEx"
+author: "XSun"
+date: "2025-11-25"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+
+We used data from GTEx whole blood tissue, it contains 670 samples for the gene expression data.
+
+We applied cutoffs of 
++
+- `supporting SNP ≥ 5` and 
+- `gene number in pathway ≥ 20` 
+
+to filter the pairs before performing FDR control. All results presented below are based on this setting.
+
+
+```{r warning=F, message=F}
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+
+celltypes <- c("Whole_Blood")
+types <- c("Whole Blood")
+names(celltypes) <- types
+names(types) <- celltypes
+
+folder_ect_summary <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_gtex/ECT_summary/"
+
+```
+
+
+## Summary for the ECT results
+
+```{r fig.height=3, fig.width=3, warning=F, message=F}
+
+df <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_gtex/ECT_summary/Whole_Blood_ECT_summary_poolalltraits_selected.RDS")
+
+
+df_all <- df[complete.cases(df$ECT_FDR_5suppSNP),]
+df_all_fdr02 <- df_all[df_all$ECT_FDR_5suppSNP < 0.2 & df_all$ECT_FDR_5suppSNP >0.1,]
+df_all_fdr01 <- df_all[df_all$ECT_FDR_5suppSNP < 0.1,]
+
+
+df_count <- data.frame(
+  cutoff = c("FDR < 0.1", "0.1 < FDR < 0.2"),
+  count  = c(nrow(df_all_fdr01), nrow(df_all_fdr02))
+)
+
+df_count$cutoff <- factor(df_count$cutoff, 
+                          levels = c("FDR < 0.1", "0.1 < FDR < 0.2"))
+
+# bar plot
+ggplot(df_count, aes(x = cutoff, y = count, fill = cutoff)) +
+  geom_bar(stat = "identity", width = 0.6, color = "white") +
+  scale_fill_manual(values = c(
+    "FDR < 0.1" = "steelblue",
+    "0.1 < FDR < 0.2" = "steelblue"
+  )) +
+  labs(x = "Cutoff", y = "Number of pairs", 
+       title = "Number of Factor–Trait Pairs Passing FDR Cutoffs") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")
+
+```
+
+
+
+## Detailed results for all pairs at ECT FDR < 0.1
+
+```{r fig.height=3, fig.width=3, warning=F, message=F}
+DT::datatable(df_all_fdr01,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Pairs with ECT FDR <= 0.1 '),options = list(pageLength = 10) )
+
+```
+
+
+Highlight: 
+
+- Ubiquitin-mediated proteolysis  and  LDL cholesterol 
+
+ref: https://www.sciencedirect.com/science/article/abs/pii/S0962892423001927
+
+- Other O-glycan biosynthesis and LDL cholesterol
+
+ref: https://pmc.ncbi.nlm.nih.gov/articles/PMC4067166/
+
+The non-mucin O-glycans in this pathway include:
+
+  - O-fucose glycosylation (e.g., NOTCH signaling)
+  - O-mannose glycosylation (α-dystroglycan)
+  - O-GlcNAc modification
+  - O-linked glycans on LDLR and other lipoprotein receptors
+
+These modifications directly affect:
+
+  - LDLR stability
+  - LDLR recycling
+  - LDL particle clearance
+  - Apolipoprotein glycosylation (ApoE, ApoC-III)
+
+Changes in these O-glycans alter plasma LDL levels and cholesterol homeostasis.
+
+
+
+
+| Pathway                                 | Trait              | Evidence Level        | Mechanism Type                  | Short Rationale                                                                            |
+| --------------------------------------- | ------------------ | --------------------- | ------------------------------- | ------------------------------------------------------------------------------------------ |
+| Cell cycle                              | Hemoglobin         | **Strong**            | Cell-intrinsic                  | Erythroid progenitors require cell-cycle exit for globin expression; disruptions alter Hb. |
+| Axon guidance                           | Hematocrit         | **Indirect / Weak**   | Vascular/hematopoietic          | SLIT/ROBO, Eph/ephrin affect HSPC niches but not steady Hct directly.                      |
+| Oocyte meiosis                          | RBC count          | **None**              | None                            | No erythroid relevance; only generic cell-cycle overlap.                                   |
+| Platelet activation                     | Hematocrit         | **Indirect**          | Hemodynamic/platelet physiology | Hct modulates platelet activation; platelet pathways don’t determine RBC mass.             |
+| Sphingolipid signaling                  | Hematocrit         | **Moderate**          | Cell-intrinsic + Inflammatory   | S1P/ceramide regulate erythroid survival & inflammatory anemia.                            |
+| Progesterone-mediated oocyte maturation | Hemoglobin         | **Weak/Indirect**     | Endocrine systemic              | Progesterone alters plasma volume/iron loss, not via this KEGG pathway.                    |
+| Pyruvate metabolism                     | Hemoglobin         | **Strong**            | Cell-intrinsic (RBC glycolysis) | RBCs require glycolysis; pyruvate kinase defects cause low Hb.                             |
+| Ras signaling                           | Hematocrit         | **Strong**            | Cell-intrinsic                  | Key EPO/SCF pathway in erythropoiesis; modulates red-cell output.                          |
+| Leukocyte transendothelial migration    | Hematocrit         | **Indirect**          | Inflammation                    | LTM influences vascular inflammation; Hct affects flow, not vice versa.                    |
+| Other O-glycan biosynthesis             | LDL cholesterol    | **Moderate / Strong** | Metabolic                       | Glycosylation alters LDLR function and apo-protein clearance.                              |
+| NOD-like receptor signaling             | RBC count          | **Strong**            | Immune/inflammatory             | NLRP3 inflammasome drives ineffective erythropoiesis and inflammatory anemia.              |
+| Regulation of lipolysis in adipocytes   | Ulcerative colitis | **Indirect**          | Metabolic systemic              | Lipolytic pathways altered in UC; systemic metabolic consequence not primary cause.        |
+| Aminoacyl-tRNA biosynthesis             | Ulcerative colitis | **Indirect**          | Metabolic/cellular stress       | Commonly enriched signature in UC omics; reflects translational stress.                    |
+| Phospholipase D signaling               | Hematocrit         | **Weak / Indirect**   | Signaling                       | Broad signaling role; no direct erythropoietic mechanism.                                  |
+| RNA polymerase                          | RBC count          | **Strong**            | Cell-intrinsic                  | Essential for erythroid transcription and globin gene expression.                          |
+| mRNA surveillance                       | Hemoglobin         | **Strong**            | Cell-intrinsic                  | NMD regulates globin transcripts; central to thalassemia/β-globin expression.              |
+| Rap1 signaling                          | Hematocrit         | **Indirect**          | Vascular + RBC adhesion         | Influences integrin signaling and RBC adhesion; not a core Hct regulator.                  |
+| Oocyte meiosis                          | IBD                | **None**              | None                            | No relevance; pathway is oocyte-specific.                                                  |
+| Ubiquitin-mediated proteolysis          | LDL cholesterol    | **Strong**            | Metabolic                       | IDOL–LDLR axis controls LDL receptor degradation → LDL levels.                             |
+| Necroptosis                             | RBC count          | **Moderate / Strong** | Cell-intrinsic                  | RBCs undergo regulated necroptosis; contributes to hemolysis and low RBC count.            |
+
