@@ -132,6 +132,50 @@ cat(knit_print(snp_tbl))
 ```
 
 
+For these top pairs, we check the association of top 1 SNP with top 10 genes with the highest loadings in the pathway
+
+```{r fig.height=3, fig.width=3, warning=FALSE, message=FALSE, results='asis'}
+
+for (i in seq_len(nrow(acat_allcelltypes))) {
+
+  trait <- acat_allcelltypes$trait[i]
+  factor <- acat_allcelltypes$factor[i]
+  celltype <- acat_allcelltypes$celltype[i]
+  
+  file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
+  dt_harmo <- readRDS(file_harmo)
+  dat <- dt_harmo[[factor]]
+  
+  topsnp <- dat$SNP[which.min(as.numeric(dat$pval.exposure))]
+
+  
+   # ---- Header ----
+  cat(sprintf("<h2 style='margin-top:1px'>: top %d - %s</h2>", i, paste0(celltype,"-",factor,"-",trait)))
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/2.ACAT_v2/geneassoc_res/",celltype,"-",factor,"-",trait,".RDS"))
+  
+  snp_tbl <- datatable(
+    df,
+    caption = tags$caption(
+      style = 'caption-side:left; text-align:left; color:black; font-size:140%;',
+      paste0("top 1 SNP and top 10 genes for ",celltype,"-",factor,"-",trait,"\n",
+             " SNP association with pathway = ",dat$pval.exposure[dat$SNP == topsnp]) 
+    ),
+    options = list(pageLength = 10)
+  )
+  
+  cat(knit_print(snp_tbl))
+  
+}
+
+
+
+
+
+```
+
+
+
 
 # Table --- Top 5 pairs for each cell type
 
