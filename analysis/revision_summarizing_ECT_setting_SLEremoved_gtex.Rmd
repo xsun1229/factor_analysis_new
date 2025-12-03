@@ -130,3 +130,25 @@ Changes in these O-glycans alter plasma LDL levels and cholesterol homeostasis.
 | Ubiquitin-mediated proteolysis          | LDL cholesterol    | **Strong**            | Metabolic                       | IDOL–LDLR axis controls LDL receptor degradation → LDL levels.                             |
 | Necroptosis                             | RBC count          | **Moderate / Strong** | Cell-intrinsic                  | RBCs undergo regulated necroptosis; contributes to hemolysis and low RBC count.            |
 
+
+## Examing some pairs 
+
+### Oocyte meiosis > Red blood cell count
+
+We extract the top 10 genes with highest loadings on the factor, and then examine their common functions (by ChatGPT)
+
+
+
+| Gene        | Main Function                             | RBC Role Through This Function? | Explanation                                                                                                                  |
+| ----------- | ----------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **ADCY5**   | cAMP production, GPCR signaling           | **Possibly Yes**                | cAMP signaling modulates **EPO receptor signaling** and erythroid proliferation. Not RBC-specific, but pathway is relevant.  |
+| **RBX1**    | E3 ubiquitin ligase component             | **Possible**                    | Ubiquitin–proteasome system controls erythroblast cell-cycle and apoptosis, but RBX1 is **general**, not erythroid-specific. |
+| **PTTG2**   | Cell cycle / chromatid separation         | **Possible (weak)**             | Erythroblasts divide rapidly, so cell-cycle genes matter, but PTTG2 is **not known** to have an erythroid-specific role.     |
+| **CCNE2**   | Cyclin E2, G1/S transition                | **Possible**                    | G1/S regulators are essential during early erythroid expansion, but CCNE2 is **general**, not RBC-specific.                  |
+| **CDC16**   | APC/C subunit (mitosis control)           | **Possible (weak)**             | APC/C activity is required in all dividing cells; erythroblasts also rely on it, but CDC16 itself is **not RBC-enriched**.   |
+| **ANAPC13** | APC/C assembly                            | **Possible (weak)**             | Same as CDC16—mitotic machinery required, but not specific to erythropoiesis.                                                |
+| **CAMK2G**  | Ca²⁺-dependent kinase                     | **Unlikely**                    | Ca²⁺ signaling is important in many cells; erythropoiesis mainly depends on CaMKIIβ, not CAMK2G specifically.                |
+| **MAPK13**  | p38 MAPK signaling (stress, inflammation) | **Possible**                    | p38 MAPK pathway regulates erythroid differentiation; MAPK13 is **p38δ**, which is less studied but may have minor roles.    |
+| **SPDYA**   | Activates CDK1/2                          | **Possible**                    | CDKs are required for erythroblast cycling, but SPDYA is not a known erythroid regulator.                                    |
+| **IGF1**    | Growth factor                             | **Strong Yes**                  | IGF1 **directly stimulates erythroid progenitor proliferation and survival** (BFU-E, CFU-E). Clear RBC biology.              |
+
