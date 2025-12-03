@@ -10,20 +10,29 @@ output:
 
 We checked if the supporting SNPs are trans-eQTLs. The trans-eQTLs are downloaded from https://eqtlgen.org/trans-eqtls.html
 
+```{r message=F, warning=F}
+
+library(org.Hs.eg.db)
+library(dplyr)
+
+
+```
+
+
 # If supporting SNPs are trans-eqtls, comparing with totally trait-related SNPs
 
-We have 989 supporting SNPs for all pairs with ECT FDR < 0.2, when filter by gene num >= 20, SNP num >= 5 . There are 329 unique SNPs. 
+We have 989 supporting SNPs for all pairs with ECT FDR < 0.2, when filter by gene num >= 20, SNP num >= 5 . There are 159 unique SNPs. 
 
-For each trait, we extracted the SNPs with p-value < 5E-8, then use the collected SNPs as the pool for random SNP, sampled 10*329 SNPs from it, use them as the random SNPs
+For each trait, we extracted the SNPs with p-value < 5E-8, then use the collected SNPs as the pool for random SNP, sampled 10*159 SNPs from it, use them as the random SNPs
 
 We test whether supporting genes are more enriched in trans-eQTLs than the random genes.
 
 
-```{r}
+```{r message=F, warning=F}
 
 supp_snps <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTFDR02.RDS")
 snps <- supp_snps$SNP
-snps <- snps[duplicated(snps)]
+snps <- unique(snps)
 
 traits <- unique(supp_snps$trait)
 
@@ -56,8 +65,6 @@ mat <- matrix(c(num_supp_trans, num_supp_nottrans, num_random_trans, num_random_
                 c("Trans", "NotTrans")
               ))
 
-mat <- mat+1
-
 print(mat)
 
 # Fisher's exact test
@@ -66,12 +73,13 @@ fisher.test(mat)
 ```
 
 
+
 # If SNP-gene pairs were reported by eQTLGen
 
 We use top 10 genes with largest gene loading for a factor. Creat gene-snp pairs for the top genes and supporting SNPs.
 
 
-```{r}
+```{r message=F, warning=F}
 
 load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/trans_pairs.rdata")
 
@@ -83,5 +91,191 @@ DT::datatable(pairs_all[pairs_all$trans == T,],caption = htmltools::tags$caption
 ```
 
 
+We then did enrichment test for the pairs
+
+We focus on 22 supporting SNPs that are also trans-eQTLs in eQTLGen. To get the expected values, we choose 10/100/1000 “random” genes per SNP as control, and see how many gene-snp pairs can be found in eQTLGen.
+
+In reality, the background gene set are randomly chosen from all the pathways tested, 7012 in total.
 
 
+```{r message=F, warning=F}
+
+load("/project2/xinhe/xsun/pathways/kegg/pathway_gene.rdata")
+pathway_gene <- as.data.frame(pathway_gene)
+
+source("/project/xinhe/xsun/pathway_factor/data_v2/kegg_exclude.R")
+pathway_gene <- pathway_gene[!pathway_gene$pathway %in% kegg_ids,]
+
+
+## Map ENTREZ IDs -> SYMBOL
+symbol_map <- AnnotationDbi::select(
+  org.Hs.eg.db, 
+  keys = as.character(pathway_gene$gene), 
+  columns = "SYMBOL", 
+  keytype = "ENTREZID"
+)
+
+pwy_g <- pathway_gene %>%
+  inner_join(symbol_map, by = c("gene" = "ENTREZID")) %>%
+  distinct() %>%
+  arrange(pathway)
+
+genes_inallpwy <- unique(pwy_g$SYMBOL)
+
+
+supp_snps <- readRDS("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/supp_snps_ECTFDR02.RDS")
+snps <- supp_snps$SNP
+snps <- unique(snps)
+
+trans_eqtlgen <- read.table(gzfile("/project/xinhe/xsun/pathway_factor/analysis//3.results_analysis/data/data_eqtlgen/2018-09-04-trans-eQTLsFDR0.05-CohortInfoRemoved-BonferroniAdded.txt.gz"),header = T)
+
+trans_supp_snps <- snps[snps %in% trans_eqtlgen$SNP]
+
+```
+
+
+- 10 random genes per SNP
+
+```{r message=F, warning=F}
+
+set.seed(123)   # set seed for reproducibility
+
+# number of genes to sample per SNP
+k <- 10
+
+pairs_all_random <- do.call(rbind, lapply(trans_supp_snps, function(snp) {
+  data.frame(
+    snp  = snp,
+    gene = sample(genes_inallpwy, k, replace = FALSE),
+    stringsAsFactors = FALSE
+  )
+}))
+
+pairs_all_random$trans <- NA
+for (i in 1:nrow(pairs_all_random)) {
+  
+  gene <- as.character(pairs_all_random$gene[i])
+  snp <- as.character(pairs_all_random$snp[i])
+  trans_eqtl <- trans_eqtlgen$SNP[trans_eqtlgen$GeneSymbol == gene]
+  if (length(trans_eqtl) !=0) {
+    if (snp %in%trans_eqtl) {
+      pairs_all_random$trans[i] <- T
+    }else {
+      pairs_all_random$trans[i] <- F
+    }
+  }
+  
+}
+
+pairs_all_suppsnp <- get(load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/trans_pairs.rdata"))
+
+mat <- matrix(c(sum(pairs_all_suppsnp$trans, na.rm = T) , nrow(pairs_all_suppsnp) - sum(pairs_all_suppsnp$trans, na.rm = T), sum(pairs_all_random$trans, na.rm = T), nrow(pairs_all_random) -  sum(pairs_all_random$trans, na.rm = T)), nrow = 2, byrow = TRUE,
+              dimnames = list(
+                c("Supp_SNP_gene_pair", "Random_gene_pair"),
+                c("Trans", "NotTrans")
+              ))
+
+print(mat)
+
+# Fisher's exact test
+fisher.test(mat)
+
+```
+
+- 100 random genes per SNP
+
+```{r message=F, warning=F}
+
+set.seed(123)   # set seed for reproducibility
+
+# number of genes to sample per SNP
+k <- 100
+
+pairs_all_random <- do.call(rbind, lapply(trans_supp_snps, function(snp) {
+  data.frame(
+    snp  = snp,
+    gene = sample(genes_inallpwy, k, replace = FALSE),
+    stringsAsFactors = FALSE
+  )
+}))
+
+pairs_all_random$trans <- NA
+for (i in 1:nrow(pairs_all_random)) {
+  
+  gene <- as.character(pairs_all_random$gene[i])
+  snp <- as.character(pairs_all_random$snp[i])
+  trans_eqtl <- trans_eqtlgen$SNP[trans_eqtlgen$GeneSymbol == gene]
+  if (length(trans_eqtl) !=0) {
+    if (snp %in%trans_eqtl) {
+      pairs_all_random$trans[i] <- T
+    }else {
+      pairs_all_random$trans[i] <- F
+    }
+  }
+  
+}
+
+pairs_all_suppsnp <- get(load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/trans_pairs.rdata"))
+
+mat <- matrix(c(sum(pairs_all_suppsnp$trans, na.rm = T) , nrow(pairs_all_suppsnp) - sum(pairs_all_suppsnp$trans, na.rm = T), sum(pairs_all_random$trans, na.rm = T), nrow(pairs_all_random) -  sum(pairs_all_random$trans, na.rm = T)), nrow = 2, byrow = TRUE,
+              dimnames = list(
+                c("Supp_SNP_gene_pair", "Random_gene_pair"),
+                c("Trans", "NotTrans")
+              ))
+
+
+print(mat)
+
+# Fisher's exact test
+fisher.test(mat)
+
+```
+
+- 1000 random genes per SNP
+
+```{r message=F, warning=F}
+
+set.seed(123)   # set seed for reproducibility
+
+# number of genes to sample per SNP
+k <- 1000
+
+pairs_all_random <- do.call(rbind, lapply(trans_supp_snps, function(snp) {
+  data.frame(
+    snp  = snp,
+    gene = sample(genes_inallpwy, k, replace = FALSE),
+    stringsAsFactors = FALSE
+  )
+}))
+
+pairs_all_random$trans <- NA
+for (i in 1:nrow(pairs_all_random)) {
+  
+  gene <- as.character(pairs_all_random$gene[i])
+  snp <- as.character(pairs_all_random$snp[i])
+  trans_eqtl <- trans_eqtlgen$SNP[trans_eqtlgen$GeneSymbol == gene]
+  if (length(trans_eqtl) !=0) {
+    if (snp %in%trans_eqtl) {
+      pairs_all_random$trans[i] <- T
+    }else {
+      pairs_all_random$trans[i] <- F
+    }
+  }
+  
+}
+
+pairs_all_suppsnp <- get(load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/trans_pairs.rdata"))
+
+mat <- matrix(c(sum(pairs_all_suppsnp$trans, na.rm = T) , nrow(pairs_all_suppsnp) - sum(pairs_all_suppsnp$trans, na.rm = T), sum(pairs_all_random$trans, na.rm = T), nrow(pairs_all_random) -  sum(pairs_all_random$trans, na.rm = T)), nrow = 2, byrow = TRUE,
+              dimnames = list(
+                c("Supp_SNP_gene_pair", "Random_gene_pair"),
+                c("Trans", "NotTrans")
+              ))
+
+
+print(mat)
+
+# Fisher's exact test
+fisher.test(mat)
+
+```
