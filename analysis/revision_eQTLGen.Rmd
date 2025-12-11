@@ -21,9 +21,9 @@ library(dplyr)
 
 # If supporting SNPs are trans-eqtls, comparing with totally trait-related SNPs
 
-We have 989 supporting SNPs for all pairs with ECT FDR < 0.2, when filter by gene num >= 20, SNP num >= 5 . There are 159 unique SNPs. 
+We have 989 supporting SNPs for all pairs with ECT FDR < 0.2, when filter by gene num >= 20, SNP num >= 5 . There are 660 unique SNPs. 
 
-For each trait, we extracted the SNPs with p-value < 5E-8, then use the collected SNPs as the pool for random SNP, sampled 10*159 SNPs from it, use them as the random SNPs
+For each trait, we extracted the SNPs with p-value < 5E-8, then use the collected SNPs as the pool for random SNP, sampled 10*660 SNPs from it, use them as the random SNPs
 
 We test whether supporting genes are more enriched in trans-eQTLs than the random genes.
 
@@ -76,7 +76,7 @@ fisher.test(mat)
 
 # If SNP-gene pairs were reported by eQTLGen
 
-We use top 10 genes with largest gene loading for a factor. Creat gene-snp pairs for the top genes and supporting SNPs.
+We use top 10 genes with largest abs gene loading for a factor. Creat gene-snp pairs for the top genes and supporting SNPs. We have 9890 gene-supporting SNP pairs in total, among these, there are 17 pairs also reported by eQTLGen, see the table below.
 
 
 ```{r message=F, warning=F}
@@ -85,7 +85,7 @@ load("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/trans_pairs.r
 
 print(paste0("Total gene-transqtl pairs in eQTLGen = ", nrow(pairs_all[pairs_all$trans == T,])))
 
-DT::datatable(pairs_all[pairs_all$trans == T,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','gene-suppoting SNP pair reported by eQTLGen'),options = list(pageLength = 10) )
+DT::datatable(pairs_all[pairs_all$trans == T,],caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','gene-supporting SNP pair reported by eQTLGen'),options = list(pageLength = 10) )
 
 
 ```
@@ -93,7 +93,7 @@ DT::datatable(pairs_all[pairs_all$trans == T,],caption = htmltools::tags$caption
 
 We then did enrichment test for the pairs
 
-We focus on 22 supporting SNPs that are also trans-eQTLs in eQTLGen. To get the expected values, we choose 10/100/1000 “random” genes per SNP as control, and see how many gene-snp pairs can be found in eQTLGen.
+We focused on 55 supporting SNPs that are also trans-eQTLs in eQTLGen. To get the expected values, we choose 10/100/1000 “random” genes per SNP as control, and see how many gene-snp pairs can be found in eQTLGen.
 
 In reality, the background gene set are randomly chosen from all the pathways tested, 7012 in total.
 

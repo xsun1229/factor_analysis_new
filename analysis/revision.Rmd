@@ -34,6 +34,12 @@ output:
 
 [Summarizing ECT results](revision_summarizing_ECT_setting_SLEremoved_gtex.html)
 
+- Onek1k
+
+[Data Overview](revision_1k1k_data_overview.html)
+
+[Summarizing ECT results](revision_summarizing_ECT_setting_SLEremoved_1k1k.html)
+
 
 **Old codes**
 

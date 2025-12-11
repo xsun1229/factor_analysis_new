@@ -11,9 +11,9 @@
 
 <meta name="author" content="XSun" />
 
-<meta name="date" content="2025-09-16" />
+<meta name="date" content="2025-12-09" />
 
-<title>Revision R1</title>
+<title>Onek1k Data Overview</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -35,7 +35,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
@@ -234,9 +233,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -361,19 +357,11 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
-<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Revision R1</h1>
+<h1 class="title toc-ignore">Onek1k Data Overview</h1>
 <h4 class="author">XSun</h4>
-<h4 class="date">2025-09-16</h4>
+<h4 class="date">2025-12-09</h4>
 
 </div>
 
@@ -402,11 +390,11 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-12-11
+<strong>Last updated:</strong> 2025-12-09
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span> 1
 </p>
@@ -440,12 +428,96 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221201)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221201code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221201)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
@@ -486,11 +558,9 @@ were generated:
 <pre><code>
 Untracked files:
     Untracked:  analysis/revision_1k1k_data_overview.Rmd
-    Untracked:  analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k.Rmd
 
 Unstaged changes:
     Modified:   analysis/revision.Rmd
-    Modified:   analysis/revision_eQTLGen.Rmd
 
 </code></pre>
 <p>
@@ -505,652 +575,144 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/revision.Rmd</code>) and HTML
-(<code>docs/revision.html</code>) files. If you’ve configured a remote
-Git repository (see <code>?wflow_git_remote</code>), click on the
-hyperlinks in the table below to view the files as they were in that
-past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/901359f36b94ab4d723437369097da8b0b899a09/docs/revision.html" target="_blank">901359f</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-25
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/449bd0104148e8e21c4e4d42c2833f17e6764f39/analysis/revision.Rmd" target="_blank">449bd01</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-25
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/449bd0104148e8e21c4e4d42c2833f17e6764f39/docs/revision.html" target="_blank">449bd01</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-25
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/64ce668514ccfb856f49cdbcdb44f60dbb6127b2/docs/revision.html" target="_blank">64ce668</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa8e1ff98c4973ac339b20d1c40f779adca87417/analysis/revision.Rmd" target="_blank">aa8e1ff</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c16754472fd389d0401e7fa5ac368f182bac2c67/analysis/revision.Rmd" target="_blank">c167544</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-15
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/c16754472fd389d0401e7fa5ac368f182bac2c67/docs/revision.html" target="_blank">c167544</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-15
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/33e06f736eed2fbc1d073176551806e5cd0c37eb/analysis/revision.Rmd" target="_blank">33e06f7</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-11
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/33e06f736eed2fbc1d073176551806e5cd0c37eb/docs/revision.html" target="_blank">33e06f7</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-11
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c81644744954e1781983b8656df97d40ea6925f1/analysis/revision.Rmd" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/c81644744954e1781983b8656df97d40ea6925f1/docs/revision.html" target="_blank">c816447</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-07
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/f27fc60209b4226ef8ca5445caeaee77c5b5f83b/analysis/revision.Rmd" target="_blank">f27fc60</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-06
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/f27fc60209b4226ef8ca5445caeaee77c5b5f83b/docs/revision.html" target="_blank">f27fc60</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-06
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/06049450bde5df9e6d70d8434ee68557be96e0b1/analysis/revision.Rmd" target="_blank">0604945</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-04
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/06049450bde5df9e6d70d8434ee68557be96e0b1/docs/revision.html" target="_blank">0604945</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-11-04
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/ea8d0f34f5de215ec3252a17c26cb8dd831a26bd/analysis/revision.Rmd" target="_blank">ea8d0f3</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-24
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/ea8d0f34f5de215ec3252a17c26cb8dd831a26bd/docs/revision.html" target="_blank">ea8d0f3</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-24
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c1850407104e445781a3c4990a19486c63c29469/analysis/revision.Rmd" target="_blank">c185040</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-10
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/c1850407104e445781a3c4990a19486c63c29469/docs/revision.html" target="_blank">c185040</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-10
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/c2a157fb4823a87d7378e2c373d90e220d8085a0/analysis/revision.Rmd" target="_blank">c2a157f</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-08
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/c2a157fb4823a87d7378e2c373d90e220d8085a0/docs/revision.html" target="_blank">c2a157f</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-08
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/aa6fd6307c4c522e46ee9e32c9e65a6ba5d802f1/analysis/revision.Rmd" target="_blank">aa6fd63</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-08
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/aa6fd6307c4c522e46ee9e32c9e65a6ba5d802f1/docs/revision.html" target="_blank">aa6fd63</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-10-08
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/6614e17a7bcc6eb109c3388545b1e9466d02121a/analysis/revision.Rmd" target="_blank">6614e17</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-26
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/6614e17a7bcc6eb109c3388545b1e9466d02121a/docs/revision.html" target="_blank">6614e17</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-26
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/2c849fdefd0be16dd4229421de41556b6bcfda46/analysis/revision.Rmd" target="_blank">2c849fd</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-26
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/2c849fdefd0be16dd4229421de41556b6bcfda46/docs/revision.html" target="_blank">2c849fd</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-26
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/5f58507c31ee8753a6e22668c7564f078251479d/analysis/revision.Rmd" target="_blank">5f58507</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-21
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/c21a0cb49bd61fd77d64112cf5262929bd3b1178/docs/revision.html" target="_blank">c21a0cb</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/08af7bcaaf036d20c2bf7df2a9be7fb4d1139dd5/analysis/revision.Rmd" target="_blank">08af7bc</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/d822c1a198cce43369542a094761b9fe83d3ee92/analysis/revision.Rmd" target="_blank">d822c1a</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/d822c1a198cce43369542a094761b9fe83d3ee92/docs/revision.html" target="_blank">d822c1a</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/xsun1229/factor_analysis_new/blob/ff6ebdbfb7cee14b65c3da2bbfd2601b06bdf247/analysis/revision.Rmd" target="_blank">ff6ebdb</a>
-</td>
-<td>
-XSun
-</td>
-<td>
-2025-09-17
-</td>
-<td>
-update
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<p><strong>Results using updated functions</strong></p>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Data citation: Yazar S., Alquicira-Hernández J., Wing K., Senabouth
+A., Gordon G., Andersen S., Lu Q., Rowson A., Taylor T., Clarke L.,
+Maccora L., Chen C., Cook A., Ye J., Fairfax K., Hewitt A., Powell J.
+Single cell eQTL mapping identified cell type specific control of
+autoimmune disease. Science, 376, 6589 (2022)</p>
+<div id="basic-infomation-summary" class="section level2">
+<h2>Basic infomation summary</h2>
 <ul>
-<li>CEDAR</li>
-</ul>
-<p><a href="revision_GWAS_selection.html">GWAS Selection</a></p>
-<p><a href="revision_deciding_ECT_setting.html">Deciding the ECT
-settings</a></p>
-<p><a
-href="revision_summarizing_ECT_setting_SLEremoved.html">Summarizing ECT
-results</a></p>
-<p><a href="revision_acat_selectedtraits.html">ACAT for the selected EUR
-traits</a></p>
-<p><a href="revision_acat_specific_pairs.html">ACAT for specific
-pairs</a></p>
-<p><a href="revision_coloc_selectedtraits.html">Colocalization
-analysis</a></p>
-<p><a href="revision_eQTLGen.html">Comparing with eQTLGen</a></p>
-<p><a href="revision_power_simulate.html">Power analysis</a></p>
-<p><a href="revision_figures.html">Figrues</a></p>
+<li><p>Dimensions (genes x cells): 32738 x 1272489</p></li>
+<li><p>Number of Genes: 32738</p></li>
+<li><p>Number of Cells: 1272489</p></li>
+<li><p>Assays: RNA</p>
 <ul>
-<li>GTEx</li>
+<li>Layers: counts, data</li>
+<li>Variable Features: 0</li>
+</ul></li>
+<li><p>Metadata Columns: [1] “orig.ident” “nCount_RNA” “nFeature_RNA”
+“pool” “individual” “percent.mt” “latent” “nCount_SCT”<br />
+[9] “nFeature_SCT” “cell_type” “cell_label” “sex” “age”</p></li>
+<li><p>Cell Type Counts:</p>
+<pre><code>  B IN        B Mem       CD4 ET       CD4 NC     CD4 SOX4       CD8 ET       CD8 NC    CD8 S100B           DC Erythrocytes 
+ 82068        48023        61786       463528         4065       205077       133482        34528         8690          680 
+Mono C      Mono NC           NK         NK R       Plasma    Platelets 
+ 38233        15166       159820         9677         3625         4041 </code></pre></li>
+<li><p>Individual number: 981</p></li>
 </ul>
-<p><a
-href="revision_summarizing_ECT_setting_SLEremoved_gtex.html">Summarizing
-ECT results</a></p>
-<ul>
-<li>Onek1k</li>
-</ul>
-<p><a href="revision_1k1k_data_overview.html">Data Overview</a></p>
-<p><a
-href="revision_summarizing_ECT_setting_SLEremoved_1k1k.html">Summarizing
-ECT results</a></p>
-<p><strong>Old codes</strong></p>
-<p>Checking how the number of supporting SNPs impacts the ECT
-results</p>
-<ul>
-<li><a href="revision_numsnp.html">pathways with &gt;= 40 genes</a></li>
-<li><a href="revision_numsnp_20genes.html">pathways with &gt;= 20
-genes</a></li>
-</ul>
-<p>ACAT results</p>
-<p><a href="revision_acat.html">Link</a></p>
-<p>Colocalization analysis</p>
-<p><a href="revision_coloc.html">Link</a></p>
-<p>Analysis for the pathways with &gt;= 20 genes</p>
-<p><a
-href="https://xsun1229.github.io/factor_analysis_new/revision_ECT_20genes.html">ECT</a></p>
+</div>
+<div id="processing" class="section level2">
+<h2>Processing</h2>
+<div id="gene-expression-data" class="section level3">
+<h3>Gene expression data</h3>
+<p>The CEDAR dataset includes six immune cell types (CD4⁺ T cells, CD8⁺
+T cells, CD19⁺ B cells, CD14⁺ monocytes, CD15⁺ granulocytes, and
+platelets). Because the OneK1K dataset does not include CD15⁺
+granulocytes, we restricted our analysis to the remaining five shared
+cell types. All OneK1K cells were first subset by cell type and donor
+identity, and pseudobulk expression matrices were generated by summing
+raw UMI counts across all cells belonging to the same donor. This
+resulted in one gene-by-donor count matrix per cell type.</p>
+<p>Specifically, cells annotated as B IN or B Mem were combined into a
+single B cell group; CD4 ET, CD4 NC, and CD4 SOX4 were grouped as CD4+ T
+cell; CD8 ET, CD8 NC, and CD8 S100B were grouped as CD8+ T cell; Mono C
+and Mono NC were grouped as monocyte; and Platelets were retained as
+platelet.</p>
+<table>
+<colgroup>
+<col width="44%" />
+<col width="55%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Grouped Cell Type</strong></th>
+<th><strong>Original OneK1K Cell Labels</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>B cell</strong></td>
+<td>B IN, B Mem</td>
+</tr>
+<tr class="even">
+<td><strong>CD4 T cell</strong></td>
+<td>CD4 ET, CD4 NC, CD4 SOX4</td>
+</tr>
+<tr class="odd">
+<td><strong>CD8 T cell</strong></td>
+<td>CD8 ET, CD8 NC, CD8 S100B</td>
+</tr>
+<tr class="even">
+<td><strong>Monocyte</strong></td>
+<td>Mono C, Mono NC</td>
+</tr>
+<tr class="odd">
+<td><strong>Platelet</strong></td>
+<td>Platelets</td>
+</tr>
+</tbody>
+</table>
+<p>Each pseudobulk matrix was then processed and normalized. Only genes
+annotated as protein_coding were retained. After filtering, to account
+for differences in sequencing depth across donors, we applied
+counts-per-million (CPM) normalization using <code>edgeR</code>’s
+<code>cpm()</code> function with <code>log = TRUE</code> and a
+<code>prior count of 1</code>, producing <code>log₂-CPM</code> values
+that stabilize variance—particularly for low-abundance genes—and reduce
+library-size–related heterogeneity. For each cell type, the resulting
+normalized log₂-CPM matrix was used in downstream analyses.</p>
+</div>
+<div id="genotype-data" class="section level3">
+<h3>Genotype data</h3>
+<p>The process of genotype data is the same with the CEDAR data set.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 7 (Core)
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el7-x86_64/lib/libopenblas_haswellp-r0.3.13.so
+
+locale:
+[1] C
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.12      rstudioapi_0.13  knitr_1.39       magrittr_2.0.3  
+ [5] workflowr_1.7.0  R6_2.5.1         rlang_1.1.2      fastmap_1.1.0   
+ [9] fansi_1.0.3      stringr_1.5.1    tools_4.2.0      xfun_0.41       
+[13] utf8_1.2.2       cli_3.6.1        git2r_0.30.1     jquerylib_0.1.4 
+[17] htmltools_0.5.2  rprojroot_2.0.3  yaml_2.3.5       digest_0.6.29   
+[21] tibble_3.2.1     lifecycle_1.0.4  later_1.3.0      sass_0.4.1      
+[25] vctrs_0.6.5      promises_1.2.0.1 fs_1.5.2         glue_1.6.2      
+[29] evaluate_0.15    rmarkdown_2.25   stringi_1.7.6    bslib_0.3.1     
+[33] compiler_4.2.0   pillar_1.9.0     jsonlite_1.8.0   httpuv_1.6.5    
+[37] pkgconfig_2.0.3 </code></pre>
+</div>
+</div>
+</div>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -1201,11 +763,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
-});
-</script>
 
 <script>
 $(document).ready(function ()  {

@@ -410,7 +410,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-12-02
+<strong>Last updated:</strong> 2025-12-09
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -544,15 +544,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreefb5cb97872e5f5461e28621127749fa8576f209dtargetblankfb5cb97a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree7d83e96de1be27af28abe0a23136ce9188f66cf4targetblank7d83e96a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/fb5cb97872e5f5461e28621127749fa8576f209d" target="_blank">fb5cb97</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/7d83e96de1be27af28abe0a23136ce9188f66cf4" target="_blank">7d83e96</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreefb5cb97872e5f5461e28621127749fa8576f209dtargetblankfb5cb97a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree7d83e96de1be27af28abe0a23136ce9188f66cf4targetblank7d83e96a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -562,7 +562,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/fb5cb97872e5f5461e28621127749fa8576f209d" target="_blank">fb5cb97</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/7d83e96de1be27af28abe0a23136ce9188f66cf4" target="_blank">7d83e96</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -576,7 +576,12 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
+Untracked files:
+    Untracked:  analysis/revision_1k1k_data_overview.Rmd
+    Untracked:  analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k.Rmd
+
 Unstaged changes:
+    Modified:   analysis/revision.Rmd
     Modified:   analysis/revision_eQTLGen.Rmd
 
 </code></pre>
@@ -623,6 +628,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/8189e6f8a25542d8e53360d82cf082b1520d8b46/analysis/revision_eQTLGen.Rmd" target="_blank">8189e6f</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-02
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/8189e6f8a25542d8e53360d82cf082b1520d8b46/docs/revision_eQTLGen.html" target="_blank">8189e6f</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-02
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -811,10 +850,10 @@ class="section level1">
 <h1>If supporting SNPs are trans-eqtls, comparing with totally
 trait-related SNPs</h1>
 <p>We have 989 supporting SNPs for all pairs with ECT FDR &lt; 0.2, when
-filter by gene num &gt;= 20, SNP num &gt;= 5 . There are 159 unique
+filter by gene num &gt;= 20, SNP num &gt;= 5 . There are 660 unique
 SNPs.</p>
 <p>For each trait, we extracted the SNPs with p-value &lt; 5E-8, then
-use the collected SNPs as the pool for random SNP, sampled 10*159 SNPs
+use the collected SNPs as the pool for random SNP, sampled 10*660 SNPs
 from it, use them as the random SNPs</p>
 <p>We test whether supporting genes are more enriched in trans-eQTLs
 than the random genes.</p>
@@ -874,19 +913,22 @@ odds ratio
 <div id="if-snp-gene-pairs-were-reported-by-eqtlgen"
 class="section level1">
 <h1>If SNP-gene pairs were reported by eQTLGen</h1>
-<p>We use top 10 genes with largest gene loading for a factor. Creat
-gene-snp pairs for the top genes and supporting SNPs.</p>
+<p>We use top 10 genes with largest abs gene loading for a factor. Creat
+gene-snp pairs for the top genes and supporting SNPs. We have 9890
+gene-supporting SNP pairs in total, among these, there are 17 pairs also
+reported by eQTLGen, see the table below.</p>
 <pre class="r"><code>load(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/results/trans_pairs.rdata&quot;)
 
 print(paste0(&quot;Total gene-transqtl pairs in eQTLGen = &quot;, nrow(pairs_all[pairs_all$trans == T,])))</code></pre>
 <pre><code>[1] &quot;Total gene-transqtl pairs in eQTLGen = 17&quot;</code></pre>
-<pre class="r"><code>DT::datatable(pairs_all[pairs_all$trans == T,],caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;gene-suppoting SNP pair reported by eQTLGen&#39;),options = list(pageLength = 10) )</code></pre>
+<pre class="r"><code>DT::datatable(pairs_all[pairs_all$trans == T,],caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;gene-supporting SNP pair reported by eQTLGen&#39;),options = list(pageLength = 10) )</code></pre>
 <div id="htmlwidget-670e69b388757ee2eeef" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-670e69b388757ee2eeef">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">gene-suppoting SNP pair reported by eQTLGen<\/caption>","data":[["2238","2534","2884","4135","4136","4214","4571","4579","5289","5342","5343","5344","5347","5348","5497","5499","5805"],["TSC1","ACO2","NLK","PDE5A","ADCY3","ENO2","ITGB5","CCND3","GNAQ","GNG11","PTGS1","GNG8","GNAI2","ARAF","GNAQ","ADCY3","ITPR1"],["rs1701704","rs1354034","rs78744187","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs4795397"],["B_cell","B_cell","CD14_positive_monocyte","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet"],["04211_PC3","00630_PC4","04068_PC1","00230_PC1","00230_PC1","03018_PC2","04151_PC2","04151_PC2","04725_PC1","04726_PC4","04726_PC4","04726_PC4","04726_PC4","04726_PC4","04912_PC1","04912_PC1","04726_PC3"],["T1D-ebi-a-GCST90014023","lymphc-ebi-a-GCST90002388","RBC-ebi-a-GCST90002403","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","UC-ebi-a-GCST003045"],["Longevity regulating pathway","Glyoxylate and dicarboxylate metabolism","FoxO signaling pathway","Purine metabolism","Purine metabolism","RNA degradation","PI3K-Akt signaling pathway","PI3K-Akt signaling pathway","Cholinergic synapse","Serotonergic synapse","Serotonergic synapse","Serotonergic synapse","Serotonergic synapse","Serotonergic synapse","GnRH signaling pathway","GnRH signaling pathway","Serotonergic synapse"],["0.000195","0.0018998","7.1e-05","0.000177","0.000177","0.0027997","0.0037996","0.0037996","0.0031997","0.0018998","0.0018998","0.0018998","0.0018998","0.0018998","0.0024998","0.0024998","0.0035996"],[12,7,9,8,8,6,8,8,7,8,8,8,8,8,5,5,5],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genes<\/th>\n      <th>snps<\/th>\n      <th>celltype<\/th>\n      <th>factor<\/th>\n      <th>trait<\/th>\n      <th>pwy_name<\/th>\n      <th>p_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n      <th>trans<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":8},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-670e69b388757ee2eeef">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">gene-supporting SNP pair reported by eQTLGen<\/caption>","data":[["2238","2534","2884","4135","4136","4214","4571","4579","5289","5342","5343","5344","5347","5348","5497","5499","5805"],["TSC1","ACO2","NLK","PDE5A","ADCY3","ENO2","ITGB5","CCND3","GNAQ","GNG11","PTGS1","GNG8","GNAI2","ARAF","GNAQ","ADCY3","ITPR1"],["rs1701704","rs1354034","rs78744187","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs1354034","rs4795397"],["B_cell","B_cell","CD14_positive_monocyte","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet","platelet"],["04211_PC3","00630_PC4","04068_PC1","00230_PC1","00230_PC1","03018_PC2","04151_PC2","04151_PC2","04725_PC1","04726_PC4","04726_PC4","04726_PC4","04726_PC4","04726_PC4","04912_PC1","04912_PC1","04726_PC3"],["T1D-ebi-a-GCST90014023","lymphc-ebi-a-GCST90002388","RBC-ebi-a-GCST90002403","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","RET-ebi-a-GCST90002405","UC-ebi-a-GCST003045"],["Longevity regulating pathway","Glyoxylate and dicarboxylate metabolism","FoxO signaling pathway","Purine metabolism","Purine metabolism","RNA degradation","PI3K-Akt signaling pathway","PI3K-Akt signaling pathway","Cholinergic synapse","Serotonergic synapse","Serotonergic synapse","Serotonergic synapse","Serotonergic synapse","Serotonergic synapse","GnRH signaling pathway","GnRH signaling pathway","Serotonergic synapse"],["0.000195","0.0018998","7.1e-05","0.000177","0.000177","0.0027997","0.0037996","0.0037996","0.0031997","0.0018998","0.0018998","0.0018998","0.0018998","0.0018998","0.0024998","0.0024998","0.0035996"],[12,7,9,8,8,6,8,8,7,8,8,8,8,8,5,5,5],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>genes<\/th>\n      <th>snps<\/th>\n      <th>celltype<\/th>\n      <th>factor<\/th>\n      <th>trait<\/th>\n      <th>pwy_name<\/th>\n      <th>p_ECT<\/th>\n      <th>num_snp_pass_cutoff<\/th>\n      <th>trans<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":8},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <p>We then did enrichment test for the pairs</p>
-<p>We focus on 22 supporting SNPs that are also trans-eQTLs in eQTLGen.
-To get the expected values, we choose 10/100/1000 “random” genes per SNP
-as control, and see how many gene-snp pairs can be found in eQTLGen.</p>
+<p>We focused on 55 supporting SNPs that are also trans-eQTLs in
+eQTLGen. To get the expected values, we choose 10/100/1000 “random”
+genes per SNP as control, and see how many gene-snp pairs can be found
+in eQTLGen.</p>
 <p>In reality, the background gene set are randomly chosen from all the
 pathways tested, 7012 in total.</p>
 <pre class="r"><code>load(&quot;/project2/xinhe/xsun/pathways/kegg/pathway_gene.rdata&quot;)
@@ -1122,7 +1164,7 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] KEGGREST_1.36.3        tidyselect_1.2.0       xfun_0.41             
- [4] bslib_0.3.1            generics_0.1.2         vctrs_0.6.5           
+ [4] bslib_0.3.1            generics_0.1.4         vctrs_0.6.5           
  [7] htmltools_0.5.2        yaml_2.3.5             utf8_1.2.2            
 [10] blob_1.2.3             rlang_1.1.2            jquerylib_0.1.4       
 [13] later_1.3.0            pillar_1.9.0           glue_1.6.2            
