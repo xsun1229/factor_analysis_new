@@ -436,3 +436,80 @@ for (celltype in celltypes) {
 ```
 
 
+
+
+# Corrected ACAT p-values (global null)
+
+We applied this correction at three levels: pair null, trait null, and global null.
+
+- Under the pair null, the null distribution was derived from the 100 ACAT p-values of each individual factor–SNP pair.
+- Under the trait null, all factors corresponding to a given trait were pooled to form the null distribution.
+- Under the global null, we pooled all ACAT p-values across factors and traits within each cell type.
+
+When computing ACAT p-values, we used two settings:
+
+- All independent variants associated with the given 
+- Excluding variants within the MHC region.
+
+## MHC included 
+
+``````{r warning=FALSE, message=FALSE, fig.width=15, fig.height=3}
+
+
+p1 <- list()
+p2 <- list()
+for (celltype in celltypes) {
+  
+  acat_celltype <- acat_allcelltypes[[celltype]]
+  
+  p<-c()
+  for (trait in traits){
+    
+    acat_trait <- acat_celltype[acat_celltype$trait == trait,]
+    p <- c(as.numeric(acat_trait$acat_p_correct_globalnull),p)
+   
+  }
+  
+  p1[[celltype]] <- histogram(pvalues = p,title = type[celltype],xlab = "Corrected ACAT p-values - global Null")
+  p2[[celltype]] <- qqplot(pvalues = p,title = type[celltype])
+  
+ 
+}
+
+grid.arrange(grobs = p1, ncol = 6)
+grid.arrange(grobs = p2, ncol = 6)
+
+```
+
+
+## MHC removed 
+
+``````{r warning=FALSE, message=FALSE, fig.width=15, fig.height=3}
+
+p1 <- list()
+p2 <- list()
+for (celltype in celltypes) {
+  
+  acat_celltype <- acat_allcelltypes[[celltype]]
+  
+  p<-c()
+  for (trait in traits){
+    
+    acat_trait <- acat_celltype[acat_celltype$trait == trait,]
+    p <- c(as.numeric(acat_trait$acat_p_correct_noMHC_globalnull),p)
+   
+  }
+  
+  p1[[celltype]] <- histogram(pvalues = p,title = type[celltype],xlab = "Corrected ACAT p-values - global Null")
+  p2[[celltype]] <- qqplot(pvalues = p,title = type[celltype])
+  
+ 
+}
+
+grid.arrange(grobs = p1, ncol = 6)
+grid.arrange(grobs = p2, ncol = 6)
+
+
+```
+
+
