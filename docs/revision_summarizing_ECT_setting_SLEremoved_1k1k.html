@@ -411,7 +411,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-12-12
+<strong>Last updated:</strong> 2025-12-15
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -449,10 +449,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown file has staged changes. To know which version of the
+R Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -545,15 +545,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree50cff89925e94da1044d5411ddf7348e771056a4targetblank50cff89a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreebd83a1dfa6c172f111a57b3e2d0545bf42b0b1c0targetblankbd83a1da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/50cff89925e94da1044d5411ddf7348e771056a4" target="_blank">50cff89</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/bd83a1dfa6c172f111a57b3e2d0545bf42b0b1c0" target="_blank">bd83a1d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree50cff89925e94da1044d5411ddf7348e771056a4targetblank50cff89a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtreebd83a1dfa6c172f111a57b3e2d0545bf42b0b1c0targetblankbd83a1da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -563,7 +563,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/50cff89925e94da1044d5411ddf7348e771056a4" target="_blank">50cff89</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/bd83a1dfa6c172f111a57b3e2d0545bf42b0b1c0" target="_blank">bd83a1d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -578,6 +578,10 @@ were generated:
 </p>
 <pre><code>
 Unstaged changes:
+    Modified:   analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k.Rmd
+
+Staged changes:
+    New:        analysis/revision_power_realdata_1k1k.Rmd
     Modified:   analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k.Rmd
 
 </code></pre>
@@ -626,6 +630,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/bd83a1dfa6c172f111a57b3e2d0545bf42b0b1c0/analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k.Rmd" target="_blank">bd83a1d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-12
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/bd83a1dfa6c172f111a57b3e2d0545bf42b0b1c0/docs/revision_summarizing_ECT_setting_SLEremoved_1k1k.html" target="_blank">bd83a1d</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-12
+</td>
+<td>
+update
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -928,7 +966,7 @@ p1 &lt;- ggplot(df, aes(x = fct_inorder(celltype), y = total, fill = event)) +
   ) +
   labs(x = &quot;Cell types&quot;, y = &quot;Count&quot;) +
   ggtitle(&quot;# of pairs&quot;) +
-  ylim(0, 10) +
+  ylim(0, 30) +
   theme_bw(base_line_size = 0.3) +
   theme(
     axis.title.x = element_text(size = 14),
@@ -1001,137 +1039,15 @@ df_all_fdr01 &lt;- df_all_fdr02[df_all_fdr02$ECT_FDR_5suppSNP &lt; 0.1,]
 
 DT::datatable(df_all_fdr02,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Pairs with ECT FDR &lt;= 0.2 &#39;),options = list(pageLength = 10) )</code></pre>
 <div id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt;= 0.2 <\/caption>","data":[["17","1","2","3","4","5","6","7","18","19","20","21","8","9","10","11","12","13","14","15","16"],["T cell (CD8+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Monocyte (CD14+)","Platelet"],["04145_PC4","04514_PC5","04612_PC3","04213_PC5","04672_PC3","04514_PC4","04612_PC4","04530_PC5","04218_PC1","04713_PC4","04672_PC3","00140_PC2","04012_PC3","04340_PC5","04145_PC2","04380_PC1","04974_PC3","04972_PC3","03015_PC1","03020_PC1","04610_PC5"],["04145","04514","04612","04213","04672","04514","04612","04530","04218","04713","04672","00140","04012","04340","04145","04380","04974","04972","03015","03020","04610"],["Phagosome","Cell adhesion molecules","Antigen processing and presentation","Longevity regulating pathway - multiple species","Intestinal immune network for IgA production","Cell adhesion molecules","Antigen processing and presentation","Tight junction","Cellular senescence","Circadian entrainment","Intestinal immune network for IgA production","Steroid hormone biosynthesis","ErbB signaling pathway","Hedgehog signaling pathway","Phagosome","Osteoclast differentiation","Protein digestion and absorption","Pancreatic secretion","mRNA surveillance pathway","RNA polymerase","Complement and coagulation cascades"],["MCH-ebi-a-GCST90002390","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","Psoriasis-ebi-a-GCST90038681","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","UC-ebi-a-GCST003045","CD-ebi-a-GCST003044","HB-ebi-a-GCST90002384","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","CD-ebi-a-GCST003044","HB-ebi-a-GCST90002384","IBD-ebi-a-GCST003043","MCH-ebi-a-GCST90002390","MPV-ebi-a-GCST90002395","MPV-ebi-a-GCST90002395","UC-ebi-a-GCST003045","asthma_pmid36778051","UC-ebi-a-GCST003045"],["Mean Corpuscular Hemoglobin ","White blood cell count ","White blood cell count ","Psoriasis","White blood cell count ","White blood cell count ","White blood cell count ","Ulcerative colitis ","Crohn’s disease ","Hemoglobin ","White blood cell count ","White blood cell count ","Crohn’s disease ","Hemoglobin ","Inflammatory bowel disease ","Mean Corpuscular Hemoglobin ","Mean Platelet Volume","Mean Platelet Volume","Ulcerative colitis ","Asthma","Ulcerative colitis "],[6,14,14,5,9,5,12,6,5,5,12,6,6,6,6,8,6,5,5,6,6],[9.4e-05,0.000262,0.000455,0.0011999,0.000923,0.0020998,0.0027997,0.0032997,0.0012999,0.001038,0.001021,0.0010999,0.0021998,0.0051995,0.0022998,0.0038996,0.00125,0.0050995,0.0036996,0.0047995,0.00068],[0.062886,0.0639275,0.0639275,0.084292975,0.084292975,0.11800876,0.131119283333333,0.132459385714286,0.17392662,0.17392662,0.17392662,0.17392662,0.18978175,0.18978175,0.18978175,0.18978175,0.18978175,0.18978175,0.18978175,0.18978175,0.19992],[152,147,78,62,49,147,78,169,160,97,49,60,85,50,152,128,95,102,91,31,85],[144,138,68,61,44,138,68,166,155,95,44,55,83,46,144,123,94,100,86,29,85]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>trait_id<\/th>\n      <th>trait_name<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>p_ECT<\/th>\n      <th>ECT_FDR_5suppSNP<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-<p>Evidence for the pairs with ECT FDR &lt; 0.1</p>
-<table>
-<colgroup>
-<col width="1%" />
-<col width="1%" />
-<col width="5%" />
-<col width="3%" />
-<col width="3%" />
-<col width="1%" />
-<col width="1%" />
-<col width="2%" />
-<col width="19%" />
-<col width="26%" />
-<col width="34%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>celltype</th>
-<th>factor</th>
-<th>pathwayName</th>
-<th>trait_id</th>
-<th>trait_name</th>
-<th>num_supp_SNP</th>
-<th>p_ECT</th>
-<th>ECT_FDR_5suppSNP</th>
-<th>Cell type effect on pathway</th>
-<th>Pathway effects on trait</th>
-<th>cell type effects on trait</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>T cell (CD8+)</td>
-<td>04145_PC4</td>
-<td>Phagosome</td>
-<td>MCH-ebi-a-GCST90002390</td>
-<td>Mean Corpuscular Hemoglobin</td>
-<td>6</td>
-<td>0.000094</td>
-<td>0.062886</td>
-<td>CD8⁺ T cells are not part of phagosome biology.</td>
-<td>weak indirect influence via iron recycling. Phagosome activity in
-macrophages regulates clearance of aged RBCs and iron recycling. This
-can influence systemic iron availability, but does not directly regulate
-hemoglobin content per RBC.</td>
-<td>Indirect. CD8⁺ T cells do not regulate erythropoiesis or hemoglobin
-synthesis. Only severe inflammation (IFN-γ/TNF-α) can secondarily
-suppress RBC production and slightly impact MCH</td>
-</tr>
-<tr class="even">
-<td>B cell (CD19+)</td>
-<td>04514_PC5</td>
-<td>Cell adhesion molecules</td>
-<td>WBC-ebi-a-GCST90002407</td>
-<td>White blood cell count</td>
-<td>14</td>
-<td>0.000262</td>
-<td>0.0639275</td>
-<td>B cells express adhesion molecules (LFA-1, ICAM/VCAM partners,
-L-selectin) required for lymph node homing, germinal center entry, and
-interactions with T cells.</td>
-<td>CAMs control leukocyte adhesion, migration, and tissue trafficking.
-Increased adhesion or mobilization alters how many leukocytes remain in
-circulation.</td>
-<td>Yes. B cells constitute one subset of lymphocytes, affecting total
-WBC counts by their abundance. They also produce cytokines that can
-influence myelopoiesis.</td>
-</tr>
-<tr class="odd">
-<td>B cell (CD19+)</td>
-<td>04612_PC3</td>
-<td>Antigen processing and presentation</td>
-<td>WBC-ebi-a-GCST90002407</td>
-<td>White blood cell count</td>
-<td>14</td>
-<td>0.000455</td>
-<td>0.0639275</td>
-<td>B cells are professional MHC-II antigen-presenting cells; they
-capture antigen via BCR, process it, and present peptides to CD4⁺ T
-cells.</td>
-<td>Antigen presentation activates T cells → cytokine release (IL-2,
-IL-6, GM-CSF) → stimulates myelopoiesis and systemic leukocyte
-expansion, especially during infection/autoimmunity.</td>
-<td>Yes. B cells constitute one subset of lymphocytes, affecting total
-WBC counts by their abundance. They also produce cytokines that can
-influence myelopoiesis.</td>
-</tr>
-<tr class="even">
-<td>B cell (CD19+)</td>
-<td>04213_PC5</td>
-<td>Longevity regulating pathway - multiple species</td>
-<td>Psoriasis-ebi-a-GCST90038681</td>
-<td>Psoriasis</td>
-<td>5</td>
-<td>0.0012</td>
-<td>0.08429298</td>
-<td>Pathway includes mTOR, AMPK, FOXO, and insulin signaling, which
-regulate B-cell metabolism, activation, proliferation, and survival,
-though not B-cell–specific.</td>
-<td>Contains mTOR, AMPK, FOXO, insulin signaling components; these
-regulate keratinocyte proliferation and Th17/T-cell differentiation,
-which are central to psoriasis. Pathway is broad, not
-psoriasis-specific.</td>
-<td>Contribute to psoriasis but are not the main pathogenic driver.
-Psoriasis is driven mainly by the IL-23/Th17 axis. B cells contribute
-via antigen presentation, autoantibody production, and cytokine
-secretion. Rituximab studies show mixed improvement/worsening →
-indicates modulatory but not central role.</td>
-</tr>
-<tr class="odd">
-<td>B cell (CD19+)</td>
-<td>04672_PC3</td>
-<td>Intestinal immune network for IgA production</td>
-<td>WBC-ebi-a-GCST90002407</td>
-<td>White blood cell count</td>
-<td>9</td>
-<td>0.000923</td>
-<td>0.08429298</td>
-<td>IgA class switching and IgA-secreting plasma cell generation occur
-in B cells in gut-associated lymphoid tissues; this pathway is
-fundamentally centered on B-cell biology.</td>
-<td>IgA regulation affects mucosal immune homeostasis. Mucosal
-inflammation elevates systemic cytokines → enhances myelopoiesis and
-increases WBC. IgA deficiency/infection also elevate WBC.</td>
-<td>Yes. B cells constitute one subset of lymphocytes, affecting total
-WBC counts by their abundance. They also produce cytokines that can
-influence myelopoiesis.</td>
-</tr>
-</tbody>
-</table>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt;= 0.2 <\/caption>","data":[["1","2","33","40","3","4","5","6","7","8","9","10","11","12","13","14","31","32","15","16","17","41","42","43","44","34","35","36","37","38","39","18","19","20","21","22","23","24","25","26","27","28","29","30"],["B cell (CD19+)","B cell (CD19+)","Platelet","T cell (CD4+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","Monocyte (CD14+)","Monocyte (CD14+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","Platelet","Platelet","Platelet","Platelet","Platelet","Platelet","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)"],["04612_PC3","03420_PC3","00190_PC3","04392_PC2","04060_PC3","04060_PC3","04621_PC5","04012_PC5","04213_PC5","04810_PC2","04670_PC3","04610_PC2","04514_PC4","04612_PC4","04514_PC5","00010_PC3","03015_PC3","04724_PC3","04658_PC2","03010_PC5","00350_PC4","04714_PC1","04922_PC3","04978_PC1","00532_PC4","04261_PC3","00250_PC3","04360_PC3","04650_PC5","03420_PC4","04218_PC2","04144_PC4","04924_PC4","04080_PC3","04611_PC2","03008_PC2","00480_PC3","00190_PC5","03030_PC1","04080_PC3","03040_PC5","04080_PC3","04610_PC2","03060_PC4"],["04612","03420","00190","04392","04060","04060","04621","04012","04213","04810","04670","04610","04514","04612","04514","00010","03015","04724","04658","03010","00350","04714","04922","04978","00532","04261","00250","04360","04650","03420","04218","04144","04924","04080","04611","03008","00480","00190","03030","04080","03040","04080","04610","03060"],["Antigen processing and presentation","Nucleotide excision repair","Oxidative phosphorylation","Hippo signaling pathway - multiple species","Cytokine-cytokine receptor interaction","Cytokine-cytokine receptor interaction","NOD-like receptor signaling pathway","ErbB signaling pathway","Longevity regulating pathway - multiple species","Regulation of actin cytoskeleton","Leukocyte transendothelial migration","Complement and coagulation cascades","Cell adhesion molecules","Antigen processing and presentation","Cell adhesion molecules","Glycolysis / Gluconeogenesis","mRNA surveillance pathway","Glutamatergic synapse","Th1 and Th2 cell differentiation","Ribosome","Tyrosine metabolism","Thermogenesis","Glucagon signaling pathway","Mineral absorption","Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate","Adrenergic signaling in cardiomyocytes","Alanine, aspartate and glutamate metabolism","Axon guidance","Natural killer cell mediated cytotoxicity","Nucleotide excision repair","Cellular senescence","Endocytosis","Renin secretion","Neuroactive ligand-receptor interaction","Platelet activation","Ribosome biogenesis in eukaryotes","Glutathione metabolism","Oxidative phosphorylation","DNA replication","Neuroactive ligand-receptor interaction","Spliceosome","Neuroactive ligand-receptor interaction","Complement and coagulation cascades","Protein export"],["WBC-ebi-a-GCST90002407","MCH-ebi-a-GCST90002390","MPV-ebi-a-GCST90002395","RBC-ebi-a-GCST90002403","MCV-ebi-a-GCST90002392","MCH-ebi-a-GCST90002390","HCT-ebi-a-GCST90002383","Psoriasis-ebi-a-GCST90038681","Psoriasis-ebi-a-GCST90038681","Psoriasis-ebi-a-GCST90038681","UC-ebi-a-GCST003045","UC-ebi-a-GCST003045","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","HB-ebi-a-GCST90002384","HCT-ebi-a-GCST90002383","IBD-ebi-a-GCST003043","Psoriasis-ebi-a-GCST90038681","Psoriasis-ebi-a-GCST90038681","PLT-ebi-a-GCST90002402","T1D-ebi-a-GCST90014023","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","LDL-ukb-d-30780_irnt","MCH-ebi-a-GCST90002390","PLT-ebi-a-GCST90002402","RBC-ebi-a-GCST90002403","WBC-ebi-a-GCST90002407","MPV-ebi-a-GCST90002395","MCH-ebi-a-GCST90002390","MCV-ebi-a-GCST90002392","MPV-ebi-a-GCST90002395","Psoriasis-ebi-a-GCST90038681","Psoriasis-ebi-a-GCST90038681","Psoriasis-ebi-a-GCST90038681","Psoriasis-ebi-a-GCST90038681","asthma_pmid36778051","IBD-ebi-a-GCST003043","MCV-ebi-a-GCST90002392","T1D-ebi-a-GCST90014023","IBD-ebi-a-GCST003043","LDL-ukb-d-30780_irnt"],["White blood cell count ","Mean Corpuscular Hemoglobin ","Mean Platelet Volume","Red blood cell count ","Mean Corpuscular Volume","Mean Corpuscular Hemoglobin ","Hematocrit","Psoriasis","Psoriasis","Psoriasis","Ulcerative colitis ","Ulcerative colitis ","White blood cell count ","White blood cell count ","White blood cell count ","White blood cell count ","Hemoglobin ","Hematocrit","Inflammatory bowel disease ","Psoriasis","Psoriasis","Platelet count ","Type 1 diabetes ","White blood cell count ","White blood cell count ","LDL cholesterol ","Mean Corpuscular Hemoglobin ","Platelet count ","Red blood cell count ","White blood cell count ","Mean Platelet Volume","Mean Corpuscular Hemoglobin ","Mean Corpuscular Volume","Mean Platelet Volume","Psoriasis","Psoriasis","Psoriasis","Psoriasis","Asthma","Inflammatory bowel disease ","Mean Corpuscular Volume","Type 1 diabetes ","Inflammatory bowel disease ","LDL cholesterol "],[19,5,6,6,6,5,9,6,6,5,6,5,9,8,10,5,6,5,5,5,5,7,7,6,5,5,6,5,9,5,7,5,5,5,5,6,7,7,9,5,5,8,7,5],[3e-06,3.1e-05,0.000152,0.000164,0.000787,0.0011999,0.0052995,0.0044996,0.0017998,0.0042996,0.0052995,0.0026997,0.0025997,0.0033997,0.0035996,0.0044996,0.000503,0.000689,0.0067993,0.0083992,0.0083992,0.0015998,0.0014999,0.0016998,0.0018998,0.0022998,0.0020998,0.0019998,0.0013999,0.0024998,0.0029997,0.0121988,0.0119988,0.0122988,0.0115988,0.0136986,0.0146985,0.0152985,0.0152985,0.0167983,0.0162984,0.0170983,0.0179982,0.019698],[0.001053,0.0054405,0.039444,0.06232,0.092079,0.105291225,0.11625778125,0.11625778125,0.11625778125,0.11625778125,0.11625778125,0.11625778125,0.11625778125,0.11625778125,0.11625778125,0.11625778125,0.135733,0.135733,0.140385547058824,0.14740596,0.14740596,0.160427555555556,0.160427555555556,0.160427555555556,0.160427555555556,0.162174525,0.162174525,0.162174525,0.162174525,0.162174525,0.1729827,0.17986995,0.17986995,0.17986995,0.17986995,0.185164603448276,0.185164603448276,0.185164603448276,0.185164603448276,0.187546978125,0.187546978125,0.187546978125,0.1914354,0.1975428],[78,47,133,29,294,294,181,85,62,213,112,85,147,78,147,69,91,114,92,153,36,231,106,58,20,149,36,181,134,47,160,249,69,340,124,105,56,133,36,340,149,340,85,23],[68,46,104,28,279,279,172,83,61,209,109,85,138,68,138,67,86,111,89,131,35,202,101,58,20,148,34,177,126,46,155,235,66,331,120,69,54,104,36,331,128,331,85,22]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>trait_id<\/th>\n      <th>trait_name<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>p_ECT<\/th>\n      <th>ECT_FDR_5suppSNP<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<!-- Evidence for the pairs with ECT FDR < 0.1 -->
+<!-- | celltype       |  factor   |  pathwayName                                    |  trait_id                    |  trait_name                  |  num_supp_SNP |  p_ECT   |  ECT_FDR_5suppSNP | Pathway effects on cell type                                                                                                                                                | Pathway effects on trait                                                                                                                                                                                                                     | cell type effects on trait                                                                                                                                                                                                                                                                                       | -->
+<!-- |----------------|-----------|-------------------------------------------------|------------------------------|------------------------------|---------------|----------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| -->
+<!-- | T cell (CD8+)  | 04145_PC4 | Phagosome                                       | MCH-ebi-a-GCST90002390       | Mean Corpuscular Hemoglobin  | 6             | 0.000094 | 0.062886          | CD8⁺ T cells are not part of phagosome biology.                                                                                                                             | weak indirect influence via iron recycling. Phagosome activity in macrophages regulates clearance of aged RBCs and iron recycling. This can influence systemic iron availability, but does not directly regulate hemoglobin content per RBC. | Indirect. CD8⁺ T cells do not regulate erythropoiesis or hemoglobin synthesis. Only severe inflammation (IFN-γ/TNF-α) can secondarily suppress RBC production and slightly impact MCH                                                                                                                            | -->
+<!-- | B cell (CD19+) | 04514_PC5 | Cell adhesion molecules                         | WBC-ebi-a-GCST90002407       | White blood cell count       | 14            | 0.000262 | 0.0639275         | Cell adhesion molecules (CAMs) represent a general cellular pathway regulating tissue integrity and immune cell interactions. They are shared across immune lineages but contribute to B-cell development, migration, and activation.            | CAMs control leukocyte adhesion, migration, and tissue trafficking. Increased adhesion or mobilization alters how many leukocytes remain in circulation.                                                                                     | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   | -->
+<!-- | B cell (CD19+) | 04612_PC3 | Antigen processing and presentation             | WBC-ebi-a-GCST90002407       | White blood cell count       | 14            | 0.000455 | 0.0639275         | B cells are professional MHC-II antigen-presenting cells; they capture antigen via BCR, process it, and present peptides to CD4⁺ T cells.                                   | Antigen presentation activates T cells → cytokine release (IL-2, IL-6, GM-CSF) → stimulates myelopoiesis and systemic leukocyte expansion, especially during infection/autoimmunity.                                                         | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   | -->
+<!-- | B cell (CD19+) | 04213_PC5 | Longevity regulating pathway - multiple species | Psoriasis-ebi-a-GCST90038681 | Psoriasis                    | 5             | 0.0012   | 0.08429298        | Pathway includes mTOR, AMPK, FOXO, and insulin signaling, which regulate B-cell metabolism, activation, proliferation, and survival, though not B-cell–specific.            | Contains mTOR, AMPK, FOXO, insulin signaling components; these regulate keratinocyte proliferation and Th17/T-cell differentiation, which are central to psoriasis. Pathway is broad, not psoriasis-specific.                                | Contribute to psoriasis but are not the main pathogenic driver. Psoriasis is driven mainly by the IL-23/Th17 axis. B cells contribute via antigen presentation, autoantibody production, and cytokine secretion. Rituximab studies show mixed improvement/worsening → indicates modulatory but not central role. | -->
+<!-- | B cell (CD19+) | 04672_PC3 | Intestinal immune network for IgA production    | WBC-ebi-a-GCST90002407       | White blood cell count       | 9             | 0.000923 | 0.08429298        | IgA class switching and IgA-secreting plasma cell generation occur in B cells in gut-associated lymphoid tissues; this pathway is fundamentally centered on B-cell biology. | IgA regulation affects mucosal immune homeostasis. Mucosal inflammation elevates systemic cytokines → enhances myelopoiesis and increases WBC. IgA deficiency/infection also elevate WBC.                                                    | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   | -->
 </div>
 <div id="traits-and-pathways-identified-wbc-ebi-a-gcst90002407"
 class="section level1">
@@ -1268,50 +1184,24 @@ myelopoiesis.</li>
 measurable shifts in circulating WBC subsets.</li>
 </ul></li>
 </ol>
-<ul>
-<li><p>Roles of pathways in WBC</p>
-<ul>
-<li>Cell adhesion molecules, Antigen processing and presentation,
-Intestinal immune network for IgA production have been discussed
-above.</li>
-<li>Steroid hormone biosynthesis:</li>
-</ul></li>
-</ul>
-<p>The steroid hormone biosynthesis pathway produces: - Glucocorticoids
-(cortisol) - Mineralocorticoids - Sex hormones (estrogen, testosterone,
-progesterone)</p>
-<p>Among these, glucocorticoids have strong, well-known effects on WBC
-count:</p>
-<ol style="list-style-type: decimal">
-<li>Glucocorticoids increase circulating neutrophils</li>
-</ol>
-<ul>
-<li>They cause demargination, releasing neutrophils from vessel walls
-into the bloodstream. → WBC count rises, especially neutrophils.</li>
-</ul>
-<ol start="2" style="list-style-type: decimal">
-<li>Glucocorticoids decrease lymphocytes, eosinophils, and
-monocytes.</li>
-</ol>
-<ul>
-<li>They induce lymphocyte apoptosis and redistribution.</li>
-<li>They suppress eosinophils and monocytes.</li>
-</ul>
-<ol start="3" style="list-style-type: decimal">
-<li>Stress → increased endogenous cortisol → altered WBC</li>
-</ol>
-<ul>
-<li>This is why stress, illness, or exogenous steroids (e.g.,
-prednisone) raise WBC counts on labs.</li>
-</ul>
-<ol start="4" style="list-style-type: decimal">
-<li>Sex hormones also influence immunity. Although weaker than
-glucocorticoids:</li>
-</ol>
-<ul>
-<li>Estrogen modulates lymphocyte activity</li>
-<li>Testosterone is mildly immunosuppressive</li>
-</ul>
+<!-- - Roles of pathways in WBC -->
+<!--   - Cell adhesion molecules, Antigen processing and presentation, Intestinal immune network for IgA production have been discussed above.  -->
+<!--   - Steroid hormone biosynthesis:  -->
+<!-- The steroid hormone biosynthesis pathway produces: -->
+<!--   - Glucocorticoids (cortisol) -->
+<!--   - Mineralocorticoids -->
+<!--   - Sex hormones (estrogen, testosterone, progesterone) -->
+<!-- Among these, glucocorticoids have strong, well-known effects on WBC count: -->
+<!-- 1. Glucocorticoids increase circulating neutrophils -->
+<!--     - They cause demargination, releasing neutrophils from vessel walls into the bloodstream. → WBC count rises, especially neutrophils. -->
+<!-- 2. Glucocorticoids decrease lymphocytes, eosinophils, and monocytes. -->
+<!--     - They induce lymphocyte apoptosis and redistribution. -->
+<!--     - They suppress eosinophils and monocytes. -->
+<!-- 3. Stress → increased endogenous cortisol → altered WBC -->
+<!--     - This is why stress, illness, or exogenous steroids (e.g., prednisone) raise WBC counts on labs. -->
+<!-- 4. Sex hormones also influence immunity. Although weaker than glucocorticoids: -->
+<!--     - Estrogen modulates lymphocyte activity -->
+<!--     - Testosterone is mildly immunosuppressive -->
 </div>
 <div id="plots-for-all-pairs-at-ect-fdr-0.1" class="section level1">
 <h1>Plots for all pairs at ECT FDR &lt; 0.1</h1>
@@ -1483,7 +1373,7 @@ for (i in 1:nrow(df_all_fdr01)){
     print(paste0(&quot;Top 10 genes with largest abs loading: &quot;, paste0(topgenes, collapse = &quot;,&quot;)))
   
 }</code></pre>
-<pre><code>thymocyte--MCH-ebi-a-GCST90002390</code></pre>
+<pre><code>B_cell--WBC-ebi-a-GCST90002407</code></pre>
 <p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
@@ -1560,8 +1450,8 @@ XSun
 </table>
 </div>
 </div>
-<pre><code>[1] &quot;Top 10 genes with largest abs loading: TUBA1A,ACTG1,TUBB,TUBA1B,ATP6V0E2,TUBB4B,ITGAM,CORO1A,M6PR,CYBA&quot;
-B_cell--WBC-ebi-a-GCST90002407</code></pre>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: RFXAP,CREB1,NFYB,HLA-DOB,CIITA,HLA-C,TAP1,RFX5,NFYC,CD4&quot;
+B_cell--MCH-ebi-a-GCST90002390</code></pre>
 <p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-3">
@@ -1638,8 +1528,8 @@ XSun
 </table>
 </div>
 </div>
-<pre><code>[1] &quot;Top 10 genes with largest abs loading: HLA-DRB5,HLA-DQA2,ITGB1,CD86,CD34,HLA-DRB1,ITGAM,ICOSLG,ITGA9,MPZL1&quot;
-B_cell--WBC-ebi-a-GCST90002407</code></pre>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: MNAT1,CCNH,CUL4A,ERCC3,GTF2H3,ERCC4,RBX1,POLD2,ERCC5,RAD23A&quot;
+platelet--MPV-ebi-a-GCST90002395</code></pre>
 <p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k.Rmd/unnamed-chunk-8-5.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-5">
@@ -1716,8 +1606,8 @@ XSun
 </table>
 </div>
 </div>
-<pre><code>[1] &quot;Top 10 genes with largest abs loading: RFXAP,CREB1,NFYB,HLA-DOB,CIITA,HLA-C,TAP1,RFX5,NFYC,CD4&quot;
-B_cell--Psoriasis-ebi-a-GCST90038681</code></pre>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: UQCRH,COX7C,NDUFA6,ATP6V0E1,ATP6V1E1,NDUFA5,NDUFS5,ATP6V1D,NDUFA4,COX4I1&quot;
+T_cell--RBC-ebi-a-GCST90002403</code></pre>
 <p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k.Rmd/unnamed-chunk-8-7.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-7">
@@ -1794,8 +1684,8 @@ XSun
 </table>
 </div>
 </div>
-<pre><code>[1] &quot;Top 10 genes with largest abs loading: FOXO1,PRKAG2,KRAS,ADCY4,PIK3R1,HSPA2,HSPA1L,PIK3CD,ATG5,IRS1&quot;
-B_cell--WBC-ebi-a-GCST90002407</code></pre>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: LIMD1,RASSF1,MOB1B,TEAD3,NF2,WWTR1,RASSF2,MOB1A,AJUBA,PAK1&quot;
+B_cell--MCV-ebi-a-GCST90002392</code></pre>
 <p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k.Rmd/unnamed-chunk-8-9.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-9">
@@ -1872,7 +1762,7 @@ XSun
 </table>
 </div>
 </div>
-<pre><code>[1] &quot;Top 10 genes with largest abs loading: HLA-DRB5,HLA-DQA2,HLA-DRB1,CD40LG,HLA-DQB1,TGFB1,TNFSF13B,CCR10,HLA-DOB,CD40&quot;</code></pre>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: TNFRSF13B,CXCR4,IL4R,CD27,CCR7,CXCR3,CD70,CXCR5,CCL28,IL21R&quot;</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

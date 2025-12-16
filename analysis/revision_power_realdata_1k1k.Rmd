@@ -1,0 +1,394 @@
+---
+title: "Power analysis using 1k1k data"
+author: "XSun"
+date: "2025-12-12"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+To assess sample-size–dependent power, we performed a downsampling analysis using the OneK1K dataset. Specifically, we randomly subsampled 30%, 50%, and 70% of individuals and, each subset is a subset of a larger subset. For each subsample, we repeated the full ECT analysis pipeline. This pipeline included reconstruction of pathway-level expression factors, estimation of covariates (including genotype principal components and PEER factors), selection of supporting variants, and computation of ECT statistics. For each downsampling level, we quantified power by counting the number of trait–pathway pairs identified at FDR thresholds of 0.1 and 0.2.
+
+
+```{r warning=F, message=F}
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(gridExtra)
+library(forcats)
+
+celltypes <- c("B_cell","CD14_positive_monocyte","platelet","T_cell","thymocyte")
+types <- c("B cell (CD19+)","Monocyte (CD14+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+names(celltypes) <- types
+names(types) <- celltypes
+
+folder_ect_summary <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/ECT_summary/"
+
+source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection_SLEremoved.R")
+traits <- traits_EUR
+```
+
+# Plots for power analysis
+
+```{r fig.height=6, fig.width=15,warning=F, message=F}
+
+pair_num_FDR01 <- c()
+pair_num_FDR02 <- c()
+downsamplesize <- c()
+for(ds in c(30,50,70,100)) {
+  
+
+  if(ds == 100){
+    
+    num_fdr01 <- c()
+    num_fdr02 <- c()
+    for(celltype in celltypes){
+      
+      df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/ECT_summary/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+      
+      df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+      df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+      num_fdr01 <- c(num_fdr01, nrow(df_fdr01))
+      
+      df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+      df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+      num_fdr02 <- c(num_fdr02, nrow(df_fdr02))
+      
+    }
+    
+    downsamplesize <- c(downsamplesize,ds)
+    pair_num_FDR01 <- c(pair_num_FDR01,sum(num_fdr01))
+    pair_num_FDR02 <- c(pair_num_FDR02,sum(num_fdr02))
+  }else{
+    
+    num_fdr01 <- c()
+    num_fdr02 <- c()
+    for(celltype in celltypes){
+      
+      df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k_",ds,"/ECT_summary/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+      
+      df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+      df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+      num_fdr01 <- c(num_fdr01, nrow(df_fdr01))
+      
+      df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+      df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+      num_fdr02 <- c(num_fdr02, nrow(df_fdr02))
+      
+    }
+    
+    downsamplesize <- c(downsamplesize,ds)
+    pair_num_FDR01 <- c(pair_num_FDR01,sum(num_fdr01))
+    pair_num_FDR02 <- c(pair_num_FDR02,sum(num_fdr02))
+    
+    
+  }
+  
+  
+  
+}
+
+df <- data.frame(downsamplesize = downsamplesize,
+                      pair_num_FDR01 = pair_num_FDR01,
+                      pair_num_FDR02 = pair_num_FDR02)
+
+
+df_long <- pivot_longer(
+  df,
+  cols = c(pair_num_FDR01, pair_num_FDR02),
+  names_to = "metric",
+  values_to = "count"
+)
+
+ggplot(df_long, aes(x = downsamplesize, y = count, color = metric)) +
+  geom_line(size = 1) +
+  geom_point(size = 2) +
+  scale_x_continuous(breaks = df$downsamplesize) +
+  labs(
+    x = "Downsample size",
+    y = "Number of significant results",
+    color = NULL
+  ) +
+  theme_classic()
+
+
+```
+
+# Number of Supporting variants for each setting 
+
+## 100% samples 
+
+```{r fig.height=6, fig.width=15,warning=F, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/ECT_summary/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "# of factor–trait pairs") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]], nrow = 2, top ="downsample size 70%")
+
+
+```
+
+## 70% samples 
+
+```{r fig.height=6, fig.width=15,warning=F, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k_70/ECT_summary/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "# of factor–trait pairs") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]], nrow = 2, top ="downsample size 50%")
+
+
+```
+
+
+## 50% samples 
+
+```{r fig.height=6, fig.width=15,warning=F, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k_50/ECT_summary/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "# of factor–trait pairs") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]], nrow = 2, top ="downsample size 50%")
+
+
+```
+
+
+## 30% samples 
+
+```{r fig.height=6, fig.width=15,warning=F, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k_30/ECT_summary/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "# of factor–trait pairs") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]], nrow = 2, top ="downsample size 30%")
+
+
+```
+
+
+
+# Number of pairs identified at different cutoffs 
+
+
+```{r fig.height=6, fig.width=10,warning=F, message=F}
+
+p <- list()
+for(ds in c(30,50,70,100)) {
+  
+  if(ds == 100){
+    folder_ect_summary <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/ECT_summary/"
+  }else{
+    folder_ect_summary <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k_",ds,"/ECT_summary/")
+  }
+  
+  num_fdr01 <- c()
+  num_fdr02 <- c()
+  for(celltype in celltypes){
+    
+    df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+    
+    df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+    df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+    num_fdr01 <- c(num_fdr01, nrow(df_fdr01))
+    
+    df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2 & df$ECT_FDR_5suppSNP >= 0.1,]
+    df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+    num_fdr02 <- c(num_fdr02, nrow(df_fdr02))
+    
+  }
+  
+  sum <- data.frame(celltype = types,
+                    num_fdr01 = num_fdr01,
+                    num_fdr02 = num_fdr02)
+  
+  
+  df <- sum %>%
+    pivot_longer(cols = starts_with("num_fdr"), names_to = "event", values_to = "total") %>%
+    mutate(
+      event = recode(event,
+                     "num_fdr01" = "FDR < 0.1",
+                     "num_fdr02" = "0.1 < FDR < 0.2")
+    )
+  
+  df$event <- factor(df$event, levels = c("FDR < 0.1", "0.1 < FDR < 0.2"))
+  
+  # Plot
+  p[[length(p)+1]] <- ggplot(df, aes(x = fct_inorder(celltype), y = total, fill = event)) +
+    geom_bar(stat = "identity", position = position_dodge(width = 0.9), alpha = 0.9) +
+    scale_fill_manual(
+      name = "group",
+      values = c("#F8766D", "darkturquoise"),
+      labels = c("FDR < 0.1", "0.1 < FDR < 0.2")
+    ) +
+    geom_text(
+      aes(label = total),
+      position = position_dodge(width = 0.9),
+      color = "black",
+      size = 3,
+      vjust = -0.3
+    ) +
+    labs(x = "Cell types", y = "Count") +
+    ggtitle(paste0("downsample size ", ds, "%")) +
+    ylim(0, 50) +
+    theme_bw(base_line_size = 0.3) +
+    theme(
+      axis.title.x = element_text(size = 14),
+      axis.text.x = element_text(size = 8, color = "black", angle = 45, hjust = 1, vjust = 1.1),
+      axis.title.y = element_text(size = 14),
+      axis.text.y = element_text(size = 12, color = "black"),
+      text = element_text(family = "Times")
+    )
+  
+  
+  
+}
+  
+
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]], nrow = 2)
+
+```
+

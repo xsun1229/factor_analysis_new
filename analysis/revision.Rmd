@@ -40,6 +40,7 @@ output:
 
 [Summarizing ECT results](revision_summarizing_ECT_setting_SLEremoved_1k1k.html)
 
+[Power analysis](revision_power_realdata_1k1k.html)
 
 **Old codes**
 

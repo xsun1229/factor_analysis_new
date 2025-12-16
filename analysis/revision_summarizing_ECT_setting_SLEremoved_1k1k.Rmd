@@ -217,7 +217,7 @@ p1 <- ggplot(df, aes(x = fct_inorder(celltype), y = total, fill = event)) +
   ) +
   labs(x = "Cell types", y = "Count") +
   ggtitle("# of pairs") +
-  ylim(0, 10) +
+  ylim(0, 30) +
   theme_bw(base_line_size = 0.3) +
   theme(
     axis.title.x = element_text(size = 14),
@@ -258,15 +258,15 @@ DT::datatable(df_all_fdr02,caption = htmltools::tags$caption( style = 'caption-s
 
 ```
 
-Evidence for the pairs with ECT FDR < 0.1
+<!-- Evidence for the pairs with ECT FDR < 0.1 -->
 
-| celltype       |  factor   |  pathwayName                                    |  trait_id                    |  trait_name                  |  num_supp_SNP |  p_ECT   |  ECT_FDR_5suppSNP | Pathway effects on cell type                                                                                                                                                | Pathway effects on trait                                                                                                                                                                                                                     | cell type effects on trait                                                                                                                                                                                                                                                                                       |
-|----------------|-----------|-------------------------------------------------|------------------------------|------------------------------|---------------|----------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| T cell (CD8+)  | 04145_PC4 | Phagosome                                       | MCH-ebi-a-GCST90002390       | Mean Corpuscular Hemoglobin  | 6             | 0.000094 | 0.062886          | CD8⁺ T cells are not part of phagosome biology.                                                                                                                             | weak indirect influence via iron recycling. Phagosome activity in macrophages regulates clearance of aged RBCs and iron recycling. This can influence systemic iron availability, but does not directly regulate hemoglobin content per RBC. | Indirect. CD8⁺ T cells do not regulate erythropoiesis or hemoglobin synthesis. Only severe inflammation (IFN-γ/TNF-α) can secondarily suppress RBC production and slightly impact MCH                                                                                                                            |
-| B cell (CD19+) | 04514_PC5 | Cell adhesion molecules                         | WBC-ebi-a-GCST90002407       | White blood cell count       | 14            | 0.000262 | 0.0639275         | Cell adhesion molecules (CAMs) represent a general cellular pathway regulating tissue integrity and immune cell interactions. They are shared across immune lineages but contribute to B-cell development, migration, and activation.            | CAMs control leukocyte adhesion, migration, and tissue trafficking. Increased adhesion or mobilization alters how many leukocytes remain in circulation.                                                                                     | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   |
-| B cell (CD19+) | 04612_PC3 | Antigen processing and presentation             | WBC-ebi-a-GCST90002407       | White blood cell count       | 14            | 0.000455 | 0.0639275         | B cells are professional MHC-II antigen-presenting cells; they capture antigen via BCR, process it, and present peptides to CD4⁺ T cells.                                   | Antigen presentation activates T cells → cytokine release (IL-2, IL-6, GM-CSF) → stimulates myelopoiesis and systemic leukocyte expansion, especially during infection/autoimmunity.                                                         | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   |
-| B cell (CD19+) | 04213_PC5 | Longevity regulating pathway - multiple species | Psoriasis-ebi-a-GCST90038681 | Psoriasis                    | 5             | 0.0012   | 0.08429298        | Pathway includes mTOR, AMPK, FOXO, and insulin signaling, which regulate B-cell metabolism, activation, proliferation, and survival, though not B-cell–specific.            | Contains mTOR, AMPK, FOXO, insulin signaling components; these regulate keratinocyte proliferation and Th17/T-cell differentiation, which are central to psoriasis. Pathway is broad, not psoriasis-specific.                                | Contribute to psoriasis but are not the main pathogenic driver. Psoriasis is driven mainly by the IL-23/Th17 axis. B cells contribute via antigen presentation, autoantibody production, and cytokine secretion. Rituximab studies show mixed improvement/worsening → indicates modulatory but not central role. |
-| B cell (CD19+) | 04672_PC3 | Intestinal immune network for IgA production    | WBC-ebi-a-GCST90002407       | White blood cell count       | 9             | 0.000923 | 0.08429298        | IgA class switching and IgA-secreting plasma cell generation occur in B cells in gut-associated lymphoid tissues; this pathway is fundamentally centered on B-cell biology. | IgA regulation affects mucosal immune homeostasis. Mucosal inflammation elevates systemic cytokines → enhances myelopoiesis and increases WBC. IgA deficiency/infection also elevate WBC.                                                    | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   |
+<!-- | celltype       |  factor   |  pathwayName                                    |  trait_id                    |  trait_name                  |  num_supp_SNP |  p_ECT   |  ECT_FDR_5suppSNP | Pathway effects on cell type                                                                                                                                                | Pathway effects on trait                                                                                                                                                                                                                     | cell type effects on trait                                                                                                                                                                                                                                                                                       | -->
+<!-- |----------------|-----------|-------------------------------------------------|------------------------------|------------------------------|---------------|----------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| -->
+<!-- | T cell (CD8+)  | 04145_PC4 | Phagosome                                       | MCH-ebi-a-GCST90002390       | Mean Corpuscular Hemoglobin  | 6             | 0.000094 | 0.062886          | CD8⁺ T cells are not part of phagosome biology.                                                                                                                             | weak indirect influence via iron recycling. Phagosome activity in macrophages regulates clearance of aged RBCs and iron recycling. This can influence systemic iron availability, but does not directly regulate hemoglobin content per RBC. | Indirect. CD8⁺ T cells do not regulate erythropoiesis or hemoglobin synthesis. Only severe inflammation (IFN-γ/TNF-α) can secondarily suppress RBC production and slightly impact MCH                                                                                                                            | -->
+<!-- | B cell (CD19+) | 04514_PC5 | Cell adhesion molecules                         | WBC-ebi-a-GCST90002407       | White blood cell count       | 14            | 0.000262 | 0.0639275         | Cell adhesion molecules (CAMs) represent a general cellular pathway regulating tissue integrity and immune cell interactions. They are shared across immune lineages but contribute to B-cell development, migration, and activation.            | CAMs control leukocyte adhesion, migration, and tissue trafficking. Increased adhesion or mobilization alters how many leukocytes remain in circulation.                                                                                     | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   | -->
+<!-- | B cell (CD19+) | 04612_PC3 | Antigen processing and presentation             | WBC-ebi-a-GCST90002407       | White blood cell count       | 14            | 0.000455 | 0.0639275         | B cells are professional MHC-II antigen-presenting cells; they capture antigen via BCR, process it, and present peptides to CD4⁺ T cells.                                   | Antigen presentation activates T cells → cytokine release (IL-2, IL-6, GM-CSF) → stimulates myelopoiesis and systemic leukocyte expansion, especially during infection/autoimmunity.                                                         | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   | -->
+<!-- | B cell (CD19+) | 04213_PC5 | Longevity regulating pathway - multiple species | Psoriasis-ebi-a-GCST90038681 | Psoriasis                    | 5             | 0.0012   | 0.08429298        | Pathway includes mTOR, AMPK, FOXO, and insulin signaling, which regulate B-cell metabolism, activation, proliferation, and survival, though not B-cell–specific.            | Contains mTOR, AMPK, FOXO, insulin signaling components; these regulate keratinocyte proliferation and Th17/T-cell differentiation, which are central to psoriasis. Pathway is broad, not psoriasis-specific.                                | Contribute to psoriasis but are not the main pathogenic driver. Psoriasis is driven mainly by the IL-23/Th17 axis. B cells contribute via antigen presentation, autoantibody production, and cytokine secretion. Rituximab studies show mixed improvement/worsening → indicates modulatory but not central role. | -->
+<!-- | B cell (CD19+) | 04672_PC3 | Intestinal immune network for IgA production    | WBC-ebi-a-GCST90002407       | White blood cell count       | 9             | 0.000923 | 0.08429298        | IgA class switching and IgA-secreting plasma cell generation occur in B cells in gut-associated lymphoid tissues; this pathway is fundamentally centered on B-cell biology. | IgA regulation affects mucosal immune homeostasis. Mucosal inflammation elevates systemic cytokines → enhances myelopoiesis and increases WBC. IgA deficiency/infection also elevate WBC.                                                    | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   | -->
 
 
 
@@ -359,28 +359,28 @@ p
     - B cells secrete cytokines (e.g., IL-6, IL-10) that can modulate myelopoiesis.
     - B-cell activation or depletion (e.g., rituximab) often leads to measurable shifts in circulating WBC subsets.
 
-- Roles of pathways in WBC
+<!-- - Roles of pathways in WBC -->
 
-  - Cell adhesion molecules, Antigen processing and presentation, Intestinal immune network for IgA production have been discussed above. 
-  - Steroid hormone biosynthesis: 
-      
-The steroid hormone biosynthesis pathway produces:
-  - Glucocorticoids (cortisol)
-  - Mineralocorticoids
-  - Sex hormones (estrogen, testosterone, progesterone)
+<!--   - Cell adhesion molecules, Antigen processing and presentation, Intestinal immune network for IgA production have been discussed above.  -->
+<!--   - Steroid hormone biosynthesis:  -->
 
-Among these, glucocorticoids have strong, well-known effects on WBC count:
+<!-- The steroid hormone biosynthesis pathway produces: -->
+<!--   - Glucocorticoids (cortisol) -->
+<!--   - Mineralocorticoids -->
+<!--   - Sex hormones (estrogen, testosterone, progesterone) -->
 
-1. Glucocorticoids increase circulating neutrophils
-    - They cause demargination, releasing neutrophils from vessel walls into the bloodstream. → WBC count rises, especially neutrophils.
-2. Glucocorticoids decrease lymphocytes, eosinophils, and monocytes.
-    - They induce lymphocyte apoptosis and redistribution.
-    - They suppress eosinophils and monocytes.
-3. Stress → increased endogenous cortisol → altered WBC
-    - This is why stress, illness, or exogenous steroids (e.g., prednisone) raise WBC counts on labs.
-4. Sex hormones also influence immunity. Although weaker than glucocorticoids:
-    - Estrogen modulates lymphocyte activity
-    - Testosterone is mildly immunosuppressive
+<!-- Among these, glucocorticoids have strong, well-known effects on WBC count: -->
+
+<!-- 1. Glucocorticoids increase circulating neutrophils -->
+<!--     - They cause demargination, releasing neutrophils from vessel walls into the bloodstream. → WBC count rises, especially neutrophils. -->
+<!-- 2. Glucocorticoids decrease lymphocytes, eosinophils, and monocytes. -->
+<!--     - They induce lymphocyte apoptosis and redistribution. -->
+<!--     - They suppress eosinophils and monocytes. -->
+<!-- 3. Stress → increased endogenous cortisol → altered WBC -->
+<!--     - This is why stress, illness, or exogenous steroids (e.g., prednisone) raise WBC counts on labs. -->
+<!-- 4. Sex hormones also influence immunity. Although weaker than glucocorticoids: -->
+<!--     - Estrogen modulates lymphocyte activity -->
+<!--     - Testosterone is mildly immunosuppressive -->
 
 
 # Plots for all pairs at ECT FDR < 0.1
@@ -390,11 +390,11 @@ Among these, glucocorticoids have strong, well-known effects on WBC count:
 fdr_cutoff <- 0.2
 
 #for (i in 1:1){
-for (i in 1:nrow(df_all_fdr01)){
+for (i in 1:nrow(df_all_fdr02)){
   
-  celltype <- celltypes[df_all_fdr01$celltype[i]]
-  trait <- df_all_fdr01$trait_id[i]
-  factor <- df_all_fdr01$factor[i]
+  celltype <- celltypes[df_all_fdr02$celltype[i]]
+  trait <- df_all_fdr02$trait_id[i]
+  factor <- df_all_fdr02$factor[i]
   
   file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
   dt_harmo <- readRDS(file_harmo)
