@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="XSun" />
+
+<meta name="date" content="2025-12-09" />
+
+<title>Summarizing ECT results – ≥ 5 supporting SNPs (FDR &lt; 0.1) &amp; ≥ 20 genes, Onek1k,</title>
+
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="site_libs/font-awesome-6.2.1/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.2.1/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">factor_analysis_new</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/xsun1229/factor_analysis_new">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Summarizing ECT results – ≥ 5 supporting
+SNPs (FDR &lt; 0.1) &amp; ≥ 20 genes, Onek1k,</h1>
+<h4 class="author">XSun</h4>
+<h4 class="date">2025-12-09</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-12-16
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>factor_analysis_new/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221201code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221201)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221201code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221201)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree1827a83e2d6adfa226d548efeba3277a310dd5a6targetblank1827a83a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/1827a83e2d6adfa226d548efeba3277a310dd5a6" target="_blank">1827a83</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree1827a83e2d6adfa226d548efeba3277a310dd5a6targetblank1827a83a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/1827a83e2d6adfa226d548efeba3277a310dd5a6" target="_blank">1827a83</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    analysis/figure/
+    Ignored:    analysis/site_libs/
+
+Untracked files:
+    Untracked:  analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<p>We applied cutoffs of + - <code>supporting SNP ≥ 5</code> and -
+<code>gene number in pathway ≥ 20</code></p>
+<p>to filter the pairs before performing FDR control. All results
+presented below are based on this setting.</p>
+<pre class="r"><code>library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(forcats)
+library(tidyr)
+
+library(ensembldb)
+library(EnsDb.Hsapiens.v75)
+library(ggrepel)
+library(ggrastr)
+
+celltypes &lt;- c(&quot;B_cell&quot;,&quot;CD14_positive_monocyte&quot;,&quot;platelet&quot;,&quot;T_cell&quot;,&quot;thymocyte&quot;)
+types &lt;- c(&quot;B cell (CD19+)&quot;,&quot;Monocyte (CD14+)&quot;,&quot;Platelet&quot;,&quot;T cell (CD4+)&quot;,&quot;T cell (CD8+)&quot;)
+names(celltypes) &lt;- types
+names(types) &lt;- celltypes
+
+source(&quot;/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection_SLEremoved.R&quot;)
+
+folder_ect_summary &lt;- &quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/ECT_summary/&quot;</code></pre>
+<div id="overview-of-the-expression-data-and-expression-factors"
+class="section level1">
+<h1>Overview of the expression data and expression factors</h1>
+<pre class="r"><code>summary &lt;- c()
+for (celltype in celltypes){
+  
+  expr &lt;- readRDS(paste0(&quot;/project/xinhe/xsun/data/onek1k/expr/expr_normalized_grouped/&quot;, celltype, &quot;_pseudobulk.rds&quot;))
+  n_gene &lt;- nrow(expr)
+  
+  factors &lt;- data.table::fread(paste0(&quot;/project/xinhe/xsun/pathway_factor/data_1k1k/expr_phefiles/20genes/all_pathways_pcs_&quot;, celltype, &quot;.phen&quot;))
+  n_factors &lt;- ncol(factors) - 2
+  
+  tmp &lt;- c(celltype, n_gene, n_factors)
+  summary &lt;- rbind(summary,tmp)
+}
+
+summary &lt;- as.data.frame(summary)
+colnames(summary) &lt;- c(&quot;Celltype&quot;,&quot;n_genes_expressed&quot;,&quot;n_expr_factors&quot;)
+rownames(summary) &lt;- NULL
+
+summary$Celltype &lt;- types[summary$Celltype]
+
+DT::datatable(summary,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Number of genes expressed and number of expression factors&#39;),options = list(pageLength = 10) )</code></pre>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0c923cdc0df2ab45b6f5" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0c923cdc0df2ab45b6f5">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Number of genes expressed and number of expression factors<\/caption>","data":[["1","2","3","4","5"],["B cell (CD19+)","Monocyte (CD14+)","Platelet","T cell (CD4+)","T cell (CD8+)"],["18978","18978","18978","18978","18978"],["1505","1505","1505","1505","1505"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Celltype<\/th>\n      <th>n_genes_expressed<\/th>\n      <th>n_expr_factors<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="number-of-supporting-variants" class="section level1">
+<h1>Number of supporting variants</h1>
+<pre class="r"><code>p &lt;- list()
+for(celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/ECT_summary/&quot;, celltype,&quot;_ECT_summary_poolalltraits_selected.RDS&quot;))
+  df &lt;- df[df$trait_id %in% traits_EUR,]
+  
+  summary &lt;- df %&gt;%
+    count(num_supp_SNP, name = &quot;Freq&quot;)
+  
+  # Plot
+  p[[celltype]] &lt;- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = &quot;identity&quot;, fill = &quot;steelblue&quot;) +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = &quot;# of supporting SNPs in each pair&quot;, y = &quot;# of factor–trait pairs&quot;) +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), &quot;&quot;)),
+      colour = &quot;black&quot;, size = 2, vjust = -0.1, family = &quot;Times&quot;
+    ) +
+    annotate(
+      geom = &quot;text&quot;,
+      x = Inf, y = Inf,
+      label = paste0(&quot;# of candidate pairs = &quot;, sum(summary$Freq[summary$num_supp_SNP &gt;= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = &quot;Times&quot;, color = &quot;black&quot;
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = &quot;black&quot;),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = &quot;black&quot;),
+      text = element_text(family = &quot;Times&quot;)
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]], nrow = 2)</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-3-1.png" width="864" style="display: block; margin: auto;" /></p>
+</div>
+<div id="histogram-for-ect-p-values" class="section level1">
+<h1>Histogram for ECT p-values</h1>
+<pre class="r"><code>p &lt;- list()
+for(celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/ECT_summary/&quot;, celltype,&quot;_ECT_summary_poolalltraits_selected.RDS&quot;))
+  df &lt;- df[df$trait_id %in% traits_EUR,]
+  
+  df &lt;- df[complete.cases(df$p_ECT),]
+  
+  summary_p &lt;- df %&gt;%
+    mutate(bin = cut(p_ECT, breaks = seq(0, 1, by = 0.05), include.lowest = TRUE)) %&gt;%
+    count(bin, name = &quot;Freq&quot;)
+  
+  # Correctly handle both [ and ( at the start of interval labels
+  summary_p &lt;- summary_p %&gt;%
+    mutate(
+      bin_low  = as.numeric(sub(&quot;[^0-9\\.]*([0-9\\.]+),.*&quot;, &quot;\\1&quot;, bin)),
+      bin_high = as.numeric(sub(&quot;.*,([0-9\\.]+)\\]&quot;, &quot;\\1&quot;, bin)),
+      bin_mid  = (bin_low + bin_high) / 2
+    )
+  
+  p[[celltype]] &lt;- ggplot(summary_p, aes(x = bin_mid, y = Freq)) +
+    geom_bar(stat = &quot;identity&quot;, fill = &quot;steelblue&quot;) +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = &quot;ECT p-value&quot;, y = &quot;Count&quot;) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = &quot;black&quot;),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = &quot;black&quot;),
+      text = element_text(family = &quot;Times&quot;)
+    ) +
+    scale_x_continuous(breaks = seq(0, 1, 0.1), limits = c(0, 1))
+  
+}
+
+all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]], nrow = 2)</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-4-1.png" width="864" style="display: block; margin: auto;" /></p>
+</div>
+<div
+id="number-of-significant-pairs-at-different-cutoffs-for-each-cell-type"
+class="section level1">
+<h1>Number of significant pairs at different cutoffs, for each cell
+type</h1>
+<pre class="r"><code>num_fdr01 &lt;- c()
+num_fdr02 &lt;- c()
+for(celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect_summary, celltype,&quot;_ECT_summary_poolalltraits_selected.RDS&quot;))
+  
+  df_fdr01 &lt;- df[df$ECT_FDR_5suppSNP &lt; 0.1,]
+  df_fdr01 &lt;- df_fdr01[complete.cases(df_fdr01$p_ECT),]
+  num_fdr01 &lt;- c(num_fdr01, nrow(df_fdr01))
+  
+  df_fdr02 &lt;- df[df$ECT_FDR_5suppSNP &lt; 0.2 &amp; df$ECT_FDR_5suppSNP &gt;= 0.1,]
+  df_fdr02 &lt;- df_fdr02[complete.cases(df_fdr02$p_ECT),]
+  num_fdr02 &lt;- c(num_fdr02, nrow(df_fdr02))
+  
+}
+
+sum &lt;- data.frame(celltype = types,
+                  num_fdr01 = num_fdr01,
+                  num_fdr02 = num_fdr02)
+
+
+df &lt;- sum %&gt;%
+  pivot_longer(cols = starts_with(&quot;num_fdr&quot;), names_to = &quot;event&quot;, values_to = &quot;total&quot;) %&gt;%
+  mutate(
+    event = recode(event,
+                   &quot;num_fdr01&quot; = &quot;FDR &lt; 0.1&quot;,
+                   &quot;num_fdr02&quot; = &quot;0.1 &lt; FDR &lt; 0.2&quot;)
+  )
+
+df$event &lt;- factor(df$event, levels = c(&quot;FDR &lt; 0.1&quot;, &quot;0.1 &lt; FDR &lt; 0.2&quot;))
+
+# Plot
+p1 &lt;- ggplot(df, aes(x = fct_inorder(celltype), y = total, fill = event)) +
+  geom_bar(stat = &quot;identity&quot;, position = position_dodge(width = 0.9), alpha = 0.9) +
+  scale_fill_manual(
+    name = &quot;group&quot;,
+    values = c(&quot;#F8766D&quot;, &quot;darkturquoise&quot;),
+    labels = c(&quot;FDR &lt; 0.1&quot;, &quot;0.1 &lt; FDR &lt; 0.2&quot;)
+  ) +
+  geom_text(
+    aes(label = total),
+    position = position_dodge(width = 0.9),
+    color = &quot;black&quot;,
+    size = 3,
+    vjust = -0.3
+  ) +
+  labs(x = &quot;Cell types&quot;, y = &quot;Count&quot;) +
+  ggtitle(&quot;# of pairs&quot;) +
+  ylim(0, 30) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.title.x = element_text(size = 14),
+    axis.text.x = element_text(size = 8, color = &quot;black&quot;, angle = 45, hjust = 1, vjust = 1.1),
+    axis.title.y = element_text(size = 14),
+    axis.text.y = element_text(size = 12, color = &quot;black&quot;),
+    text = element_text(family = &quot;Times&quot;)
+  )
+
+p1</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-5-1.png" width="384" style="display: block; margin: auto;" /></p>
+</div>
+<div id="detailed-results-for-all-pairs-at-ect-fdr-0.2"
+class="section level1">
+<h1>Detailed results for all pairs at ECT FDR &lt; 0.2</h1>
+<pre class="r"><code>df_all_fdr02 &lt;- c()
+for(celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/ECT_summary/&quot;, celltype,&quot;_ECT_summary_poolalltraits_selected.RDS&quot;))
+  df &lt;- df[complete.cases(df$ECT_FDR_5suppSNP),]
+  
+  df_fdr02 &lt;- df[df$ECT_FDR_5suppSNP &lt; 0.2,]
+  df_all_fdr02 &lt;- rbind(df_all_fdr02,df_fdr02)
+  
+}
+
+rownames(df_all_fdr02) &lt;- NULL
+
+#df_all_fdr02$celltype &lt;- types[df_all_fdr02$celltype]
+df_all_fdr02 &lt;- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP),]
+
+df_all_fdr01 &lt;- df_all_fdr02[df_all_fdr02$ECT_FDR_5suppSNP &lt; 0.1,]
+
+DT::datatable(df_all_fdr02,caption = htmltools::tags$caption( style = &#39;caption-side: left; text-align: left; color:black;  font-size:150% ;&#39;,&#39;Pairs with ECT FDR &lt;= 0.2 &#39;),options = list(pageLength = 10) )</code></pre>
+<div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ad41175326dc68f35292" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ad41175326dc68f35292">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: left; text-align: left; color:black;  font-size:150% ;\">Pairs with ECT FDR &lt;= 0.2 <\/caption>","data":[["1","2","3","4","5","15","6","10","11","12","16","17","18","19","20","21","22","23","7","13","14","24","25","26","8","9","27"],["B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","B cell (CD19+)","T cell (CD8+)","B cell (CD19+)","T cell (CD4+)","T cell (CD4+)","T cell (CD4+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","B cell (CD19+)","T cell (CD4+)","T cell (CD4+)","T cell (CD8+)","T cell (CD8+)","T cell (CD8+)","B cell (CD19+)","B cell (CD19+)","T cell (CD8+)"],["04612_PC3","00480_PC3","04514_PC4","04514_PC5","04612_PC4","04145_PC4","04080_PC3","04922_PC3","04514_PC3","04612_PC2","04920_PC2","04145_PC4","04966_PC1","04658_PC4","04672_PC1","04672_PC3","04145_PC4","04310_PC5","04145_PC3","03022_PC3","04714_PC1","00270_PC5","03010_PC1","04022_PC5","00190_PC4","04612_PC3","00480_PC3"],["04612","00480","04514","04514","04612","04145","04080","04922","04514","04612","04920","04145","04966","04658","04672","04672","04145","04310","04145","03022","04714","00270","03010","04022","00190","04612","00480"],["Antigen processing and presentation","Glutathione metabolism","Cell adhesion molecules","Cell adhesion molecules","Antigen processing and presentation","Phagosome","Neuroactive ligand-receptor interaction","Glucagon signaling pathway","Cell adhesion molecules","Antigen processing and presentation","Adipocytokine signaling pathway","Phagosome","Collecting duct acid secretion","Th1 and Th2 cell differentiation","Intestinal immune network for IgA production","Intestinal immune network for IgA production","Phagosome","Wnt signaling pathway","Phagosome","Basal transcription factors","Thermogenesis","Cysteine and methionine metabolism","Ribosome","cGMP-PKG signaling pathway","Oxidative phosphorylation","Antigen processing and presentation","Glutathione metabolism"],["WBC-ebi-a-GCST90002407","Psoriasis-ebi-a-GCST90038681","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","MCH-ebi-a-GCST90002390","IBD-ebi-a-GCST003043","T1D-ebi-a-GCST90014023","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","HB-ebi-a-GCST90002384","MCV-ebi-a-GCST90002392","PLT-ebi-a-GCST90002402","celiac-ieu-a-1058","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","WBC-ebi-a-GCST90002407","CD-ebi-a-GCST003044","MPV-ebi-a-GCST90002395","MPV-ebi-a-GCST90002395","RBC-ebi-a-GCST90002403","WBC-ebi-a-GCST90002407","MCH-ebi-a-GCST90002390","UC-ebi-a-GCST003045","RBC-ebi-a-GCST90002403"],["White blood cell count ","Psoriasis","White blood cell count ","White blood cell count ","White blood cell count ","Mean Corpuscular Hemoglobin ","Inflammatory bowel disease ","Type 1 diabetes ","White blood cell count ","White blood cell count ","Hemoglobin ","Mean Corpuscular Volume","Platelet count ","Celiac disease","White blood cell count ","White blood cell count ","White blood cell count ","White blood cell count ","White blood cell count ","Crohn’s disease ","Mean Platelet Volume","Mean Platelet Volume","Red blood cell count ","White blood cell count ","Mean Corpuscular Hemoglobin ","Ulcerative colitis ","Red blood cell count "],[12,5,6,9,6,8,5,5,5,8,6,7,6,5,6,6,9,7,9,5,10,5,5,5,5,5,5],[2.8e-05,0.0074993,0.0061994,0.0061994,0.0075992,0.000415,0.0158984,0.0064994,0.0054995,0.0045995,0.0043996,0.0036996,0.0035996,0.0034997,0.0052995,0.0074993,0.009399100000000001,0.010099,0.0420958,0.0127987,0.0140986,0.0114989,0.0135986,0.0166983,0.06379360000000001,0.0623938,0.0192981],[0.000896,0.04692853333333333,0.04692853333333333,0.04692853333333333,0.04692853333333333,0.05395,0.0639936,0.08340896666666667,0.08340896666666667,0.08340896666666667,0.1143896,0.1143896,0.1143896,0.1143896,0.1148225,0.126737,0.131287,0.131287,0.1346775272727273,0.135699025,0.135699025,0.1358960909090909,0.1473181666666667,0.1550556428571429,0.1570304,0.1570304,0.1672502],[78,56,147,147,78,152,340,106,147,78,69,152,27,92,49,49,152,160,152,45,231,49,153,167,133,78,56],[68,54,138,138,68,144,331,101,138,68,67,144,27,89,44,44,144,158,144,42,202,46,131,160,104,68,54]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>celltype<\/th>\n      <th>factor<\/th>\n      <th>pathwayID<\/th>\n      <th>pathwayName<\/th>\n      <th>trait_id<\/th>\n      <th>trait_name<\/th>\n      <th>num_supp_SNP<\/th>\n      <th>p_ECT<\/th>\n      <th>ECT_FDR_5suppSNP<\/th>\n      <th>n_genes_inpathway<\/th>\n      <th>n_genes_expressed<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[7,8,9,10,11]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<!-- Evidence for the pairs with ECT FDR < 0.1 -->
+<!-- | celltype       |  factor   |  pathwayName                                    |  trait_id                    |  trait_name                  |  num_supp_SNP |  p_ECT   |  ECT_FDR_5suppSNP | Pathway effects on cell type                                                                                                                                                | Pathway effects on trait                                                                                                                                                                                                                     | cell type effects on trait                                                                                                                                                                                                                                                                                       | -->
+<!-- |----------------|-----------|-------------------------------------------------|------------------------------|------------------------------|---------------|----------|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| -->
+<!-- | T cell (CD8+)  | 04145_PC4 | Phagosome                                       | MCH-ebi-a-GCST90002390       | Mean Corpuscular Hemoglobin  | 6             | 0.000094 | 0.062886          | CD8⁺ T cells are not part of phagosome biology.                                                                                                                             | weak indirect influence via iron recycling. Phagosome activity in macrophages regulates clearance of aged RBCs and iron recycling. This can influence systemic iron availability, but does not directly regulate hemoglobin content per RBC. | Indirect. CD8⁺ T cells do not regulate erythropoiesis or hemoglobin synthesis. Only severe inflammation (IFN-γ/TNF-α) can secondarily suppress RBC production and slightly impact MCH                                                                                                                            | -->
+<!-- | B cell (CD19+) | 04514_PC5 | Cell adhesion molecules                         | WBC-ebi-a-GCST90002407       | White blood cell count       | 14            | 0.000262 | 0.0639275         | Cell adhesion molecules (CAMs) represent a general cellular pathway regulating tissue integrity and immune cell interactions. They are shared across immune lineages but contribute to B-cell development, migration, and activation.            | CAMs control leukocyte adhesion, migration, and tissue trafficking. Increased adhesion or mobilization alters how many leukocytes remain in circulation.                                                                                     | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   | -->
+<!-- | B cell (CD19+) | 04612_PC3 | Antigen processing and presentation             | WBC-ebi-a-GCST90002407       | White blood cell count       | 14            | 0.000455 | 0.0639275         | B cells are professional MHC-II antigen-presenting cells; they capture antigen via BCR, process it, and present peptides to CD4⁺ T cells.                                   | Antigen presentation activates T cells → cytokine release (IL-2, IL-6, GM-CSF) → stimulates myelopoiesis and systemic leukocyte expansion, especially during infection/autoimmunity.                                                         | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   | -->
+<!-- | B cell (CD19+) | 04213_PC5 | Longevity regulating pathway - multiple species | Psoriasis-ebi-a-GCST90038681 | Psoriasis                    | 5             | 0.0012   | 0.08429298        | Pathway includes mTOR, AMPK, FOXO, and insulin signaling, which regulate B-cell metabolism, activation, proliferation, and survival, though not B-cell–specific.            | Contains mTOR, AMPK, FOXO, insulin signaling components; these regulate keratinocyte proliferation and Th17/T-cell differentiation, which are central to psoriasis. Pathway is broad, not psoriasis-specific.                                | Contribute to psoriasis but are not the main pathogenic driver. Psoriasis is driven mainly by the IL-23/Th17 axis. B cells contribute via antigen presentation, autoantibody production, and cytokine secretion. Rituximab studies show mixed improvement/worsening → indicates modulatory but not central role. | -->
+<!-- | B cell (CD19+) | 04672_PC3 | Intestinal immune network for IgA production    | WBC-ebi-a-GCST90002407       | White blood cell count       | 9             | 0.000923 | 0.08429298        | IgA class switching and IgA-secreting plasma cell generation occur in B cells in gut-associated lymphoid tissues; this pathway is fundamentally centered on B-cell biology. | IgA regulation affects mucosal immune homeostasis. Mucosal inflammation elevates systemic cytokines → enhances myelopoiesis and increases WBC. IgA deficiency/infection also elevate WBC.                                                    | Yes. B cells constitute one subset of lymphocytes, affecting total WBC counts by their abundance. They also produce cytokines that can influence myelopoiesis.                                                                                                                                                   | -->
+</div>
+<div id="traits-and-pathways-identified-wbc-ebi-a-gcst90002407"
+class="section level1">
+<h1>Traits and pathways identified – WBC-ebi-a-GCST90002407</h1>
+<pre class="r"><code>trait &lt;- &quot;WBC-ebi-a-GCST90002407&quot;
+
+df_trait_fdr01 &lt;- c()
+df_trait_fdr02 &lt;- c()
+for(celltype in celltypes){
+  
+  df &lt;- readRDS(paste0(folder_ect_summary, celltype,&quot;_ECT_summary_poolalltraits_selected.RDS&quot;))
+  
+  df_fdr01 &lt;- df[df$trait_id == trait &amp; df$ECT_FDR_5suppSNP&lt; 0.1, ]
+  df_fdr01 &lt;- df_fdr01[complete.cases(df_fdr01$ECT_FDR_5suppSNP),]
+  df_trait_fdr01 &lt;- rbind(df_trait_fdr01,df_fdr01)
+  
+  df_fdr02 &lt;- df[df$trait_id == trait &amp; df$ECT_FDR_5suppSNP&lt; 0.2, ]
+  df_fdr02 &lt;- df_fdr02[complete.cases(df_fdr02$ECT_FDR_5suppSNP),]
+  df_trait_fdr02 &lt;- rbind(df_trait_fdr02,df_fdr02)
+  
+}
+
+# Prepare data
+selected &lt;- df_trait_fdr02 %&gt;%
+  dplyr::mutate(
+    lgectpval = -log10(p_ECT),
+    pathwayName = paste0(pathwayName,&quot; &quot;,factor,&quot; &quot;, celltype)
+  )
+
+# Plot
+p &lt;- ggplot(selected) +
+  geom_col(
+    aes(x = lgectpval, 
+        y = reorder(pathwayName, lgectpval), 
+        fill = celltype),
+    width = 0.75
+  ) +
+  geom_text(
+    aes(0, y = pathwayName, label = pathwayName),
+    hjust = 0,
+    nudge_x = 0.1,
+    colour = &quot;white&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  geom_text(
+    aes(lgectpval, y = pathwayName, label = num_supp_SNP),
+    hjust = 0,
+    nudge_x = 0.05,
+    colour = &quot;black&quot;,
+    size = 4.5,
+    family = &quot;Times&quot;
+  ) +
+  labs(
+    x = expression(paste(&quot;-log&quot;[10], &quot;(ECT p-value)&quot;)),
+    y = NULL,
+    title = paste0(unique(selected$trait),&quot; ECT FDR &lt; 0.2&quot;)
+  ) +
+  theme_bw(base_line_size = 0.3) +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    text = element_text(family = &quot;Times&quot;),
+    plot.title = element_text(hjust = 0.5)
+  ) +
+  xlim(0, 8)
+
+p</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<ul>
+<li><p>Roles of T cell CD 8+ in WBC</p>
+<ul>
+<li>CD8⁺ T cells are one subtype of lymphocytes, and lymphocytes are one
+major component of the total WBC count.</li>
+<li>Therefore, changes in CD8⁺ T-cell numbers (e.g., infection,
+immunosuppression, autoimmunity) will change the lymphocyte fraction and
+can shift the overall WBC count.</li>
+<li>Beyond being part of the WBC composition, CD8⁺ T cells produce
+cytokines that shape hematopoiesis, which may influence neutrophils,
+monocytes, etc.</li>
+</ul></li>
+<li><p>Roles of B cell in WBC</p></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Direct role (compositional)
+<ul>
+<li>B cells are one subtype of lymphocytes, which are a major component
+of the total WBC count.</li>
+<li>If B-cell numbers increase or decrease, the total WBC count will
+change accordingly.</li>
+</ul></li>
+<li>Indirect role (immune regulation)
+<ul>
+<li>B cells secrete cytokines (e.g., IL-6, IL-10) that can modulate
+myelopoiesis.</li>
+<li>B-cell activation or depletion (e.g., rituximab) often leads to
+measurable shifts in circulating WBC subsets.</li>
+</ul></li>
+</ol>
+<!-- - Roles of pathways in WBC -->
+<!--   - Cell adhesion molecules, Antigen processing and presentation, Intestinal immune network for IgA production have been discussed above.  -->
+<!--   - Steroid hormone biosynthesis:  -->
+<!-- The steroid hormone biosynthesis pathway produces: -->
+<!--   - Glucocorticoids (cortisol) -->
+<!--   - Mineralocorticoids -->
+<!--   - Sex hormones (estrogen, testosterone, progesterone) -->
+<!-- Among these, glucocorticoids have strong, well-known effects on WBC count: -->
+<!-- 1. Glucocorticoids increase circulating neutrophils -->
+<!--     - They cause demargination, releasing neutrophils from vessel walls into the bloodstream. → WBC count rises, especially neutrophils. -->
+<!-- 2. Glucocorticoids decrease lymphocytes, eosinophils, and monocytes. -->
+<!--     - They induce lymphocyte apoptosis and redistribution. -->
+<!--     - They suppress eosinophils and monocytes. -->
+<!-- 3. Stress → increased endogenous cortisol → altered WBC -->
+<!--     - This is why stress, illness, or exogenous steroids (e.g., prednisone) raise WBC counts on labs. -->
+<!-- 4. Sex hormones also influence immunity. Although weaker than glucocorticoids: -->
+<!--     - Estrogen modulates lymphocyte activity -->
+<!--     - Testosterone is mildly immunosuppressive -->
+</div>
+<div id="plots-for-all-pairs-at-ect-fdr-0.1" class="section level1">
+<h1>Plots for all pairs at ECT FDR &lt; 0.1</h1>
+<pre class="r"><code>fdr_cutoff &lt;- 0.2
+
+#for (i in 1:1){
+for (i in 1:nrow(df_all_fdr01)){
+
+  celltype &lt;- celltypes[df_all_fdr01$celltype[i]]
+  trait &lt;- df_all_fdr01$trait_id[i]
+  factor &lt;- df_all_fdr01$factor[i]
+
+  file_harmo &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/assoc_harmonize/&quot;,celltype, &quot;-&quot;, trait, &quot;_harmo.RDS&quot;)
+  dt_harmo &lt;- readRDS(file_harmo)
+
+  df &lt;- readRDS(paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/ECT_summary/&quot;, celltype,&quot;_ECT_summary_poolalltraits_selected.RDS&quot;))
+
+  dat &lt;- dt_harmo[[factor]]
+  snp_select &lt;- dat[dat$FDR.exposure &lt; fdr_cutoff,]
+  snp_select$chr &lt;- as.numeric(as.character(snp_select$chr.exposure))
+  snp_select$chr &lt;- factor(snp_select$chr, levels = sort(unique(snp_select$chr)))
+
+  fit &lt;- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+
+  ect_p &lt;- df$p_ECT[df$factor == factor &amp; df$trait ==trait]
+
+  pathwayname &lt;- df$pathwayName[df$factor == factor &amp; df$trait ==trait]
+
+  eff &lt;- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+    geom_point(size = 4) +
+    geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01, alpha=0.6) +
+    theme_bw(base_line_size = 0.3) +
+    theme(axis.title.x = element_text(size = 16),
+          axis.text.x = element_text(size = 14, color = &quot;black&quot;),
+          axis.title.y = element_text(size =16),
+          axis.text.y = element_text(size = 14, color = &quot;black&quot;),
+          text= element_text(family=&quot;Times&quot;),
+          legend.text = element_text(size=12),
+          legend.title = element_text(size=12)) +
+    geom_abline(slope = coef(fit)[1], intercept = 0, color = &quot;grey&quot;, size = 0.5) +
+    geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+               label = paste(&quot;R^2 = &quot;, signif(summary(fit)$r.squared, 3),
+                             &quot;\nECT p-value =&quot;, ect_p),
+               color = &quot;black&quot;, family = &quot;Times&quot;, size =3, label.size = NA,fill=NA) +
+    xlab(expression(hat(beta)[factor])) +
+    ylab(expression(hat(beta)[gwas])) +
+    geom_vline(xintercept = 0, color = &quot;grey&quot;, linetype = &quot;dashed&quot;) +
+    geom_hline(yintercept = 0, color = &quot;grey&quot;, linetype = &quot;dashed&quot;)
+
+
+  #snp_select &lt;- dat[dat$FDR.exposure &gt; fdr_cutoff &amp; dat$steiger_dir ==T,]
+  snp_select &lt;- dat[dat$FDR.exposure &gt; fdr_cutoff,]
+
+  fit &lt;- lm(snp_select$beta.exposure~ 0 + snp_select$beta.outcome)
+  coef &lt;- summary(fit)
+  p &lt;- round(coef$coefficients[,4], digits = 4)
+  #ect_p &lt;- df$p_ECT[df$factor == factor &amp; df$trait ==trait]
+
+  eff_rev &lt;- ggplot(snp_select, aes(x=beta.outcome, y=beta.exposure)) +
+    geom_point(size = 4, color =&quot;steelblue&quot;) +
+    theme_bw(base_line_size = 0.3) +
+    theme(axis.title.x = element_text(size = 16),
+          axis.text.x = element_text(size = 14, color = &quot;black&quot;),
+          axis.title.y = element_text(size =16),
+          axis.text.y = element_text(size = 14, color = &quot;black&quot;),
+          text= element_text(family=&quot;Times&quot;),
+          legend.text = element_text(size=12),
+          legend.title = element_text(size=12)) +
+    geom_abline(slope = coef(fit)[1], intercept = 0, color = &quot;grey&quot;, size = 0.5) +
+    geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+               label = paste(&quot;R^2 = &quot;, signif(summary(fit)$r.squared, 3),
+                             &quot;\n p-value =&quot;, p),
+               color = &quot;black&quot;, family = &quot;Times&quot;, size =3, label.size = NA,fill=NA) +
+    xlab(expression(hat(beta)[gwas])) +
+    ylab(expression(hat(beta)[factor])) +
+    geom_vline(xintercept = 0, color = &quot;grey&quot;, linetype = &quot;dashed&quot;) +
+    geom_hline(yintercept = 0, color = &quot;grey&quot;, linetype = &quot;dashed&quot;)
+
+
+
+  file_gene_loading &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/gene_loading/&quot;,celltype, &quot;_&quot;, factor, &quot;-&quot;, trait, &quot;.RDS&quot;)
+  gene_loadings_pc &lt;- readRDS(file_gene_loading)
+
+  gene_loadings_pc_abs &lt;- abs(gene_loadings_pc)
+  gene_loadings_pc_abs_sort &lt;- sort(gene_loadings_pc_abs,decreasing = T)
+  topgenes &lt;- names(gene_loadings_pc_abs_sort)[1:10]
+
+  gene_loadings_pc &lt;- as.data.frame(cbind(names(gene_loadings_pc),gene_loadings_pc))
+  names(gene_loadings_pc) &lt;- c(&quot;gene_name&quot;,&quot;gene_loadings_pc&quot;)
+
+  # Extract gene information based on the gene symbol
+  gene_info &lt;- genes(EnsDb.Hsapiens.v75, filter = ~ gene_name ==  gene_loadings_pc$gene_name)
+  gene_info &lt;- as.data.frame(gene_info)
+  gene_info &lt;- gene_info[!duplicated(gene_info$gene_name),]
+
+  gene_info &lt;- merge(gene_info,gene_loadings_pc, by=&quot;gene_name&quot;)
+  gene_info &lt;- gene_info[gene_info$seqnames %in%c(1:22),]
+
+  loading_plot &lt;- gene_info[,c(&quot;seqnames&quot;,&quot;start&quot;,&quot;gene_name&quot;,&quot;gene_loadings_pc&quot;)]
+  colnames(loading_plot) &lt;- c(&quot;chromosome_name&quot;,&quot;start_position&quot;,&quot;gene_name&quot;,&quot;loadings&quot;)
+  loading_plot$loadings &lt;- round(as.numeric(loading_plot$loadings),digits = 4)
+
+  don &lt;- loading_plot %&gt;%
+
+    # Compute chromosome size
+    group_by(chromosome_name) %&gt;%
+    summarise(chr_len=max(start_position)) %&gt;%
+
+    # Calculate cumulative position of each chromosome
+    mutate(tot=cumsum(as.numeric(chr_len))-as.numeric(chr_len)) %&gt;%
+    dplyr::select(-chr_len) %&gt;%
+
+    # Add this info to the initial dataset
+    left_join(loading_plot, ., by=c(&quot;chromosome_name&quot;=&quot;chromosome_name&quot;)) %&gt;%
+
+    # Add a cumulative position of each SNP
+    arrange(chromosome_name, start_position) %&gt;%
+    mutate( start_positioncum=start_position+tot) %&gt;%
+
+    # Add highlight and annotation information
+    #mutate( is_annotate=ifelse(gene_name %in% loading_plot_top10$gene_name, &quot;yes&quot;, &quot;no&quot;))
+    mutate( is_annotate=ifelse(gene_name %in% topgenes, &quot;yes&quot;, &quot;no&quot;))
+  # Then we need to prepare the X axis. Indeed we do not want to display the cumulative position of SNP in bp, but just show the chromosome name instead.
+  axisdf = don %&gt;% group_by(chromosome_name) %&gt;% summarize(center=( max(start_positioncum) + min(start_positioncum) ) / 2 )
+
+  manhplot_gene &lt;- ggplot(don, aes(x=start_positioncum, y=loadings)) +
+
+    # Show all points
+    #rasterise(geom_point( aes(color=as.factor(chromosome_name)), alpha=0.8, size=3),dpi=80 )+
+    geom_point( aes(color=as.factor(chromosome_name)), alpha=0.8, size=3) +
+    scale_color_manual(values = rep(c(&quot;red&quot;, &quot;steelblue&quot;), 22)) +
+
+    # custom X axis:
+    scale_x_continuous( label = as.integer(axisdf$chromosome_name), breaks= axisdf$center ) +
+    #scale_y_continuous(expand = c(0, 0) ) +     # remove space between plot area and x axis
+
+    #ylab(expression(paste(&quot;-log&quot;[10],&quot;(p-value)&quot;))) +
+    #ylim(0,max(-log10(don$loadings)) + 2) +
+    #ylim(min(as.numeric(don$loadings)),max(as.numeric(don$loadings))) +
+    #ylab(&quot;&quot;) +
+    ylab(&quot;Gene Loadings&quot;) +
+    xlab(&quot;Chromosome&quot;) +
+
+    # Custom the theme:
+    theme_bw() +
+    #ggtitle(i) + theme(plot.title = element_text(hjust = 0.5)) +
+    theme(
+      legend.position=&quot;none&quot;,
+      panel.border = element_blank(),
+      panel.grid.major.x = element_blank(),
+      panel.grid.minor.x = element_blank(),
+      axis.title.x = element_text(size = 18),
+      axis.text.x = element_text(size = 16, color = &quot;black&quot;),
+      axis.title.y = element_text(size = 18),
+      axis.text.y = element_text(size = 16, color = &quot;black&quot;),
+      text= element_text(family=&quot;Times&quot;),
+      #axis.text.y=element_blank(),
+      #axis.ticks.y=element_blank()
+    ) +
+    geom_label_repel( data=subset(don, is_annotate==&quot;yes&quot;), aes(label=gene_name), size=4)
+
+    cat(paste0(celltype,&quot;-&quot;, pathwayname, &quot;-&quot;, trait ))
+
+    all &lt;- grid.arrange(eff, eff_rev, nrow = 1)
+
+    print(manhplot_gene)
+    print(paste0(&quot;Top 10 genes with largest abs loading: &quot;, paste0(topgenes, collapse = &quot;,&quot;)))
+
+}</code></pre>
+<pre><code>B_cell--WBC-ebi-a-GCST90002407</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: RFXAP,CREB1,NFYB,HLA-DOB,CIITA,HLA-C,TAP1,RFX5,NFYC,CD4&quot;
+B_cell--Psoriasis-ebi-a-GCST90038681</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: MGST1,HPGDS,GSTM5,SRM,GPX4,SMS,GCLM,CHAC2,GSTP1,MGST2&quot;
+B_cell--WBC-ebi-a-GCST90002407</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-6.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: SELL,CD22,HLA-C,PTPRC,ICAM2,HLA-DOB,CD40,HLA-A,HLA-B,CNTNAP2&quot;
+B_cell--WBC-ebi-a-GCST90002407</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-8.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: HLA-DRB5,HLA-DQA2,ITGB1,CD86,CD34,HLA-DRB1,ITGAM,ICOSLG,ITGA9,MPZL1&quot;
+B_cell--WBC-ebi-a-GCST90002407</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-9.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-10.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: HLA-DRB5,HLA-DQA2,HLA-DRB1,CD8B,RFX5,HLA-DQB1,HSP90AA1,HSP90AB1,TNF,RFXAP&quot;
+thymocyte--MCH-ebi-a-GCST90002390</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-11.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-12.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: TUBA1A,ACTG1,TUBB,TUBA1B,ATP6V0E2,TUBB4B,ITGAM,CORO1A,M6PR,CYBA&quot;
+B_cell--IBD-ebi-a-GCST003043</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-13.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-14.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: RXFP1,F2RL1,HTR1F,PRSS3,AVP,GABRE,PRSS1,NTS,CHRM3,CYSLTR2&quot;
+T_cell--T1D-ebi-a-GCST90014023</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-15.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-16.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: CALM2,PRKACB,PPP3R1,PPP3CA,GNAQ,CREB1,FOXO1,SIRT1,PGAM1,PRKAG1&quot;
+T_cell--WBC-ebi-a-GCST90002407</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-17.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-18.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: PTPRC,CD40LG,HLA-C,HLA-A,ITGAL,ITGB1,ICAM3,CD6,HLA-E,SPN&quot;
+T_cell--WBC-ebi-a-GCST90002407</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-19.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr01.Rmd/unnamed-chunk-8-20.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: CANX,NFYB,CREB1,TNF,IFNG,HLA-A,HLA-C,HSPA5,RFXAP,HLA-DRA&quot;</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.0 (2022-04-22)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: CentOS Linux 8
+
+Matrix products: default
+BLAS/LAPACK: /software/openblas-0.3.13-el8-x86_64/lib/libopenblas_skylakexp-r0.3.13.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] ggrastr_1.0.2             ggrepel_0.9.3            
+ [3] EnsDb.Hsapiens.v75_2.99.0 ensembldb_2.22.0         
+ [5] AnnotationFilter_1.22.0   GenomicFeatures_1.50.4   
+ [7] AnnotationDbi_1.60.2      Biobase_2.58.0           
+ [9] GenomicRanges_1.50.2      GenomeInfoDb_1.34.9      
+[11] IRanges_2.32.0            S4Vectors_0.36.2         
+[13] BiocGenerics_0.44.0       tidyr_1.3.0              
+[15] forcats_1.0.0             gridExtra_2.3            
+[17] ggplot2_3.4.2             dplyr_1.1.2              
+[19] workflowr_1.7.1          
+
+loaded via a namespace (and not attached):
+  [1] ggbeeswarm_0.7.1            colorspace_2.0-3           
+  [3] rjson_0.2.21                ellipsis_0.3.2             
+  [5] rprojroot_2.0.3             XVector_0.38.0             
+  [7] fs_1.5.2                    rstudioapi_0.14            
+  [9] farver_2.1.0                DT_0.22                    
+ [11] bit64_4.0.5                 fansi_1.0.3                
+ [13] xml2_1.3.3                  codetools_0.2-18           
+ [15] cachem_1.0.6                knitr_1.42                 
+ [17] jsonlite_1.8.9              Rsamtools_2.14.0           
+ [19] dbplyr_2.3.2                png_0.1-7                  
+ [21] compiler_4.2.0              httr_1.4.7                 
+ [23] Matrix_1.6-1.1              fastmap_1.1.0              
+ [25] lazyeval_0.2.2              cli_3.6.2                  
+ [27] later_1.3.0                 htmltools_0.5.7            
+ [29] prettyunits_1.1.1           tools_4.2.0                
+ [31] gtable_0.3.0                glue_1.6.2                 
+ [33] GenomeInfoDbData_1.2.9      rappdirs_0.3.3             
+ [35] Rcpp_1.0.14                 jquerylib_0.1.4            
+ [37] vctrs_0.6.1                 Biostrings_2.66.0          
+ [39] rtracklayer_1.58.0          crosstalk_1.2.0            
+ [41] xfun_0.38                   stringr_1.5.0              
+ [43] ps_1.7.0                    lifecycle_1.0.4            
+ [45] restfulr_0.0.15             XML_3.99-0.9               
+ [47] getPass_0.2-2               zlibbioc_1.44.0            
+ [49] scales_1.2.0                hms_1.1.3                  
+ [51] promises_1.2.0.1            MatrixGenerics_1.10.0      
+ [53] ProtGenerics_1.30.0         parallel_4.2.0             
+ [55] SummarizedExperiment_1.28.0 yaml_2.3.5                 
+ [57] curl_4.3.2                  memoise_2.0.1              
+ [59] sass_0.4.1                  biomaRt_2.54.1             
+ [61] stringi_1.7.6               RSQLite_2.3.1              
+ [63] highr_0.9                   BiocIO_1.8.0               
+ [65] filelock_1.0.2              BiocParallel_1.32.6        
+ [67] rlang_1.1.2                 pkgconfig_2.0.3            
+ [69] bitops_1.0-7                matrixStats_1.2.0          
+ [71] evaluate_0.15               lattice_0.20-45            
+ [73] purrr_1.0.1                 labeling_0.4.2             
+ [75] GenomicAlignments_1.34.1    htmlwidgets_1.6.2          
+ [77] bit_4.0.4                   processx_3.5.3             
+ [79] tidyselect_1.2.0            magrittr_2.0.3             
+ [81] R6_2.5.1                    generics_0.1.3             
+ [83] DelayedArray_0.24.0         DBI_1.1.2                  
+ [85] pillar_1.9.0                whisker_0.4                
+ [87] withr_2.5.0                 KEGGREST_1.38.0            
+ [89] RCurl_1.98-1.12             tibble_3.2.1               
+ [91] crayon_1.5.1                utf8_1.2.2                 
+ [93] BiocFileCache_2.6.1         rmarkdown_2.21             
+ [95] progress_1.2.2              grid_4.2.0                 
+ [97] data.table_1.14.4           blob_1.2.3                 
+ [99] callr_3.7.0                 git2r_0.30.1               
+[101] digest_0.6.29               httpuv_1.6.5               
+[103] munsell_0.5.0               beeswarm_0.4.0             
+[105] vipor_0.4.5                 bslib_0.3.1                </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
