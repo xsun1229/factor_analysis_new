@@ -449,10 +449,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -545,15 +545,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree86f4076ea21668bd3beb347edf34156cac217225targetblank86f4076a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree4c9894ade9202e221cb805211f1b8931dfc19d4ftargetblank4c9894aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/86f4076ea21668bd3beb347edf34156cac217225" target="_blank">86f4076</a>
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/4c9894ade9202e221cb805211f1b8931dfc19d4f" target="_blank">4c9894a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree86f4076ea21668bd3beb347edf34156cac217225targetblank86f4076a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomxsun1229factoranalysisnewtree4c9894ade9202e221cb805211f1b8931dfc19d4ftargetblank4c9894aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -563,7 +563,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/xsun1229/factor_analysis_new/tree/86f4076ea21668bd3beb347edf34156cac217225" target="_blank">86f4076</a>.
+<a href="https://github.com/xsun1229/factor_analysis_new/tree/4c9894ade9202e221cb805211f1b8931dfc19d4f" target="_blank">4c9894a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -577,8 +577,15 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
+Ignored files:
+    Ignored:    analysis/figure/
+    Ignored:    analysis/site_libs/
+
 Untracked files:
-    Untracked:  analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd
+    Untracked:  analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.knit.md
+
+Unstaged changes:
+    Modified:   analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd
 
 </code></pre>
 <p>
@@ -593,10 +600,76 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd</code>)
+and HTML
+(<code>docs/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.html</code>)
+files. If you’ve configured a remote Git repository (see
+<code>?wflow_git_remote</code>), click on the hyperlinks in the table
+below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/analysis/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+<td>
+update
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/xsun1229/factor_analysis_new/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.html" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+<td>
+update
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -692,6 +765,43 @@ for(celltype in celltypes){
 
 all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]], nrow = 2)</code></pre>
 <p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-3-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-3-1.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="histogram-for-ect-p-values" class="section level1">
 <h1>Histogram for ECT p-values</h1>
@@ -734,6 +844,43 @@ for(celltype in celltypes){
 
 all &lt;- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]], nrow = 2)</code></pre>
 <p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-4-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-4-1.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div
 id="number-of-significant-pairs-at-different-cutoffs-for-each-cell-type"
@@ -800,6 +947,43 @@ p1 &lt;- ggplot(df, aes(x = fct_inorder(celltype), y = total, fill = event)) +
 
 p1</code></pre>
 <p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-5-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-5-1.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="detailed-results-for-all-pairs-at-ect-fdr-0.2"
 class="section level1">
@@ -902,6 +1086,43 @@ p &lt;- ggplot(selected) +
 
 p</code></pre>
 <p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-7-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-7-1.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <ul>
 <li><p>Roles of T cell CD 8+ in WBC</p>
 <ul>
@@ -951,16 +1172,16 @@ measurable shifts in circulating WBC subsets.</li>
 <!--     - Estrogen modulates lymphocyte activity -->
 <!--     - Testosterone is mildly immunosuppressive -->
 </div>
-<div id="plots-for-all-pairs-at-ect-fdr-0.1" class="section level1">
-<h1>Plots for all pairs at ECT FDR &lt; 0.1</h1>
-<pre class="r"><code>fdr_cutoff &lt;- 0.2
+<div id="plots-for-all-pairs-at-ect-fdr-0.2" class="section level1">
+<h1>Plots for all pairs at ECT FDR &lt; 0.2</h1>
+<pre class="r"><code>fdr_cutoff &lt;- 0.05
 
 #for (i in 1:1){
-for (i in 1:nrow(df_all_fdr01)){
+for (i in 1:nrow(df_all_fdr02)){
 
-  celltype &lt;- celltypes[df_all_fdr01$celltype[i]]
-  trait &lt;- df_all_fdr01$trait_id[i]
-  factor &lt;- df_all_fdr01$factor[i]
+  celltype &lt;- celltypes[df_all_fdr02$celltype[i]]
+  trait &lt;- df_all_fdr02$trait_id[i]
+  factor &lt;- df_all_fdr02$factor[i]
 
   file_harmo &lt;- paste0(&quot;/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/assoc_harmonize/&quot;,celltype, &quot;-&quot;, trait, &quot;_harmo.RDS&quot;)
   dt_harmo &lt;- readRDS(file_harmo)
@@ -1120,41 +1341,953 @@ for (i in 1:nrow(df_all_fdr01)){
 
 }</code></pre>
 <pre><code>B_cell--WBC-ebi-a-GCST90002407</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-1.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-2">
+Past versions of unnamed-chunk-8-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-2.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: RFXAP,CREB1,NFYB,HLA-DOB,CIITA,HLA-C,TAP1,RFX5,NFYC,CD4&quot;
 thymocyte--WBC-ebi-a-GCST90002407</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-3">
+Past versions of unnamed-chunk-8-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-3.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-4">
+Past versions of unnamed-chunk-8-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-4.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: TUBA1A,ACTG1,TUBB,TUBA1B,ATP6V0E2,TUBB4B,ITGAM,CORO1A,M6PR,CYBA&quot;
 T_cell--WBC-ebi-a-GCST90002407</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-5.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-5">
+Past versions of unnamed-chunk-8-5.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-5.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-6">
+Past versions of unnamed-chunk-8-6.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-6" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-6.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: CANX,NFYB,CREB1,TNF,IFNG,HLA-A,HLA-C,HSPA5,RFXAP,HLA-DRA&quot;
 T_cell--WBC-ebi-a-GCST90002407</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-7.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-7.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-7">
+Past versions of unnamed-chunk-8-7.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-7" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-7.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-8">
+Past versions of unnamed-chunk-8-8.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-8" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-8.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: PTPRC,CD40LG,HLA-C,HLA-A,ITGAL,ITGB1,ICAM3,CD6,HLA-E,SPN&quot;
 B_cell--Psoriasis-ebi-a-GCST90038681</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-9.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-10.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-9.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-9">
+Past versions of unnamed-chunk-8-9.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-9" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-9.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-10.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-10">
+Past versions of unnamed-chunk-8-10.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-10" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-10.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: MGST1,HPGDS,GSTM5,SRM,GPX4,SMS,GCLM,CHAC2,GSTP1,MGST2&quot;
 B_cell--WBC-ebi-a-GCST90002407</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-11.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-12.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-11.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-11">
+Past versions of unnamed-chunk-8-11.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-11" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-11.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-12.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-12">
+Past versions of unnamed-chunk-8-12.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-12" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-12.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: SELL,CD22,HLA-C,PTPRC,ICAM2,HLA-DOB,CD40,HLA-A,HLA-B,CNTNAP2&quot;
 B_cell--WBC-ebi-a-GCST90002407</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-13.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-14.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-13.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-13">
+Past versions of unnamed-chunk-8-13.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-13" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-13.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-14.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-14">
+Past versions of unnamed-chunk-8-14.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-14" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-14.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: HLA-DRB5,HLA-DQA2,HLA-DRB1,CD8B,RFX5,HLA-DQB1,HSP90AA1,HSP90AB1,TNF,RFXAP&quot;
 B_cell--WBC-ebi-a-GCST90002407</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-15.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-16.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-15.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-15">
+Past versions of unnamed-chunk-8-15.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-15" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-15.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-16.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-16">
+Past versions of unnamed-chunk-8-16.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-16" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-16.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: STX7,ATP6V1G1,ITGB1,HLA-DQB1,ATP6V0E1,HLA-DPA1,SEC61G,HLA-DRA,ACTB,HLA-C&quot;
 B_cell--MCH-ebi-a-GCST90002390</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-17.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-18.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-17.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-17">
+Past versions of unnamed-chunk-8-17.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-17" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-17.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-18.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-18">
+Past versions of unnamed-chunk-8-18.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-18" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-18.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: NDUFA4,ATP6V1F,ATP6V0A1,COX6C,NDUFV3,ATP6V1G1,ATP6V1E2,NDUFS2,UQCRB,UQCRH&quot;
 thymocyte--MCH-ebi-a-GCST90002390</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-19.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-20.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-19.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-19">
+Past versions of unnamed-chunk-8-19.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-19" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-19.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-20.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-20">
+Past versions of unnamed-chunk-8-20.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-20" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-20.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: ATP6V0E1,ATP6V1F,ATP6V0B,ATP6V0D1,AP2S1,ATP6V1E1,ATP6V1D,CLTB,NAPA,AP2M1&quot;
 thymocyte--WBC-ebi-a-GCST90002407</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-21.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-22.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-21.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-21">
+Past versions of unnamed-chunk-8-21.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-21" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-21.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-22.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-22">
+Past versions of unnamed-chunk-8-22.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-22" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-22.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>[1] &quot;Top 10 genes with largest abs loading: HLA-DQA2,CD40LG,HLA-DRB5,CXCR4,TNFSF13B,HLA-DQA1,CD28,ICOSLG,HLA-DOB,CCL28&quot;
 thymocyte--WBC-ebi-a-GCST90002407</code></pre>
-<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-23.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-24.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>[1] &quot;Top 10 genes with largest abs loading: JUN,FRAT1,FRAT2,DVL3,SKP1,CSNK1A1,PRKCA,PRKCB,BAMBI,PPP3CA&quot;</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-23.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-23">
+Past versions of unnamed-chunk-8-23.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-23" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-23.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-24.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-24">
+Past versions of unnamed-chunk-8-24.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-24" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/xsun1229/factor_analysis_new/blob/fd7de4e4eb00d3e39752933eae4de43062c1d1e3/docs/figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-24.png" target="_blank">fd7de4e</a>
+</td>
+<td>
+XSun
+</td>
+<td>
+2025-12-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: JUN,FRAT1,FRAT2,DVL3,SKP1,CSNK1A1,PRKCA,PRKCB,BAMBI,PPP3CA&quot;
+platelet--MPV-ebi-a-GCST90002395</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-25.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-26.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: FOS,NFKBIA,TNFRSF1B,IL1B,CEBPB,MAPK1,CREB5,JUN,MAP3K8,TNFAIP3&quot;
+platelet--WBC-ebi-a-GCST90002407</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-27.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-28.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: GRM3,GRM4,ITPR3,TRPC1,PPP3CC,SLC38A2,GRIN3A,CACNA1D,ITPR2,DLG4&quot;
+thymocyte--MCV-ebi-a-GCST90002392</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-29.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-30.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: NFKBIA,SOCS3,STAT3,IRS2,NFKBIE,NFKBIB,MAPK8,PRKCQ,TNFRSF1A,IKBKB&quot;
+CD14_positive_monocyte--Psoriasis-ebi-a-GCST90038681</code></pre>
+<p><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-31.png" width="672" style="display: block; margin: auto;" /><img src="figure/revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.Rmd/unnamed-chunk-8-32.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>[1] &quot;Top 10 genes with largest abs loading: ARPC3,ARPC1B,ARF6,PTPRC,PLA2G4A,FCGR2A,RAC2,NCF1,FCGR3B,LYN&quot;</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1227,21 +2360,22 @@ loaded via a namespace (and not attached):
  [69] pkgconfig_2.0.3             bitops_1.0-7               
  [71] matrixStats_0.62.0          evaluate_0.15              
  [73] lattice_0.20-45             purrr_1.0.2                
- [75] labeling_0.4.2              GenomicAlignments_1.32.0   
- [77] htmlwidgets_1.5.4           bit_4.0.4                  
+ [75] labeling_0.4.2              htmlwidgets_1.5.4          
+ [77] GenomicAlignments_1.32.0    bit_4.0.4                  
  [79] tidyselect_1.2.0            magrittr_2.0.3             
  [81] R6_2.5.1                    generics_0.1.4             
  [83] DelayedArray_0.22.0         DBI_1.2.2                  
- [85] pillar_1.9.0                withr_2.5.0                
- [87] KEGGREST_1.36.3             RCurl_1.98-1.7             
- [89] tibble_3.2.1                crayon_1.5.1               
- [91] utf8_1.2.2                  BiocFileCache_2.4.0        
- [93] rmarkdown_2.25              progress_1.2.2             
- [95] grid_4.2.0                  data.table_1.14.2          
- [97] blob_1.2.3                  git2r_0.30.1               
- [99] S7_0.2.0                    digest_0.6.29              
-[101] httpuv_1.6.5                beeswarm_0.4.0             
-[103] vipor_0.4.5                 bslib_0.3.1                </code></pre>
+ [85] pillar_1.9.0                whisker_0.4                
+ [87] withr_2.5.0                 KEGGREST_1.36.3            
+ [89] RCurl_1.98-1.7              tibble_3.2.1               
+ [91] crayon_1.5.1                utf8_1.2.2                 
+ [93] BiocFileCache_2.4.0         rmarkdown_2.25             
+ [95] progress_1.2.2              grid_4.2.0                 
+ [97] data.table_1.14.2           blob_1.2.3                 
+ [99] git2r_0.30.1                S7_0.2.0                   
+[101] digest_0.6.29               httpuv_1.6.5               
+[103] beeswarm_0.4.0              vipor_0.4.5                
+[105] bslib_0.3.1                </code></pre>
 </div>
 </div>
 

@@ -30,6 +30,13 @@ output:
 
 [Figrues](revision_figures.html)
 
+- CEDAR -- Permutating the sample ID
+
+[The number of pairs at ECT FDR < 0.1 & 0.2](revision_num_pair_permut_ECT.html)
+
+[Checking the number of pairs with no less than 5 supporting SNPs](revision_num_pair_pass_5supp_permut.html)
+
+
 - GTEx
 
 [Summarizing ECT results](revision_summarizing_ECT_setting_SLEremoved_gtex.html)
@@ -45,6 +52,9 @@ output:
 [Summarizing ECT results, supp_snp cutoff FDR < 0.05](revision_summarizing_ECT_setting_SLEremoved_1k1k_snpfdr005.html)
 
 [Power analysis](revision_power_realdata_1k1k.html)
+
+
+
 
 **Old codes**
 

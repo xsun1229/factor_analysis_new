@@ -1,0 +1,564 @@
+---
+title: "Checking the number of pairs with no less than 5 supporting SNPs"
+author: "XSun"
+date: "2026-01-02"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+We permuted the genotype and expression data in CEDAR by shuffling sample labels 10 times and performed association tests on each permuted dataset.
+
+We then examined, across the 10 permutations, the number of pairs with at least five supporting SNPs.
+
+```{r warning=FALSE, message=F}
+library(gridExtra)
+library(ggplot2)
+library(dplyr)
+
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+types <- c("B cell (CD19+)","Monocyte (CD14+)","Granulocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+names(celltypes) <- types
+names(types) <- celltypes
+
+source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection_SLEremoved.R")
+
+```
+
+
+# Real data
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final_FDR02/", celltype,"_ECT_summary_EUR.RDS"))
+  df <- df[df$trait %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+
+# Permutation 1
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm1/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+
+
+# Permutation 2
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm2/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+
+
+# Permutation 3
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm3/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+
+# Permutation 4
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm4/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+
+# Permutation 5
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm5/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+# Permutation 6
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm6/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+# Permutation 7
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm7/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+# Permutation 8
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm8/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+# Permutation 9
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm9/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+
+# Permutation 10
+
+```{r warning=FALSE, message=F}
+
+p <- list()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm10/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[df$trait_id %in% traits_EUR,]
+  
+  summary <- df %>%
+    count(num_supp_SNP, name = "Freq")
+  
+  # Plot
+  p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
+    geom_bar(stat = "identity", fill = "steelblue") +
+    theme_bw(base_line_size = 0.3) +
+    ggtitle(types[celltype]) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    labs(x = "# of supporting SNPs in each pair", y = "Count") +
+    geom_text(
+      aes(label = ifelse(num_supp_SNP %% 5 == 0, as.character(Freq), "")),
+      colour = "black", size = 2, vjust = -0.1, family = "Times"
+    ) +
+    annotate(
+      geom = "text",
+      x = Inf, y = Inf,
+      label = paste0("# of candidate pairs = ", sum(summary$Freq[summary$num_supp_SNP >= 5])),
+      hjust = 1.1, vjust = 1.5, size = 3, family = "Times", color = "black"
+    ) +
+    theme(
+      axis.title.x = element_text(size = 10),
+      axis.text.x  = element_text(size = 8, color = "black"),
+      axis.title.y = element_text(size = 10),
+      axis.text.y  = element_text(size = 8, color = "black"),
+      text = element_text(family = "Times")
+    ) +
+    scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
+  
+}
+
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+
+```
+
+

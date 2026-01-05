@@ -383,18 +383,18 @@ p
 <!--     - Testosterone is mildly immunosuppressive -->
 
 
-# Plots for all pairs at ECT FDR < 0.1
+# Plots for all pairs at ECT FDR < 0.2
 
 ```{r fig.height=3, fig.width=7, warning=F, message=F}
 
-fdr_cutoff <- 0.2
+fdr_cutoff <- 0.05
 
 #for (i in 1:1){
-for (i in 1:nrow(df_all_fdr01)){
+for (i in 1:nrow(df_all_fdr02)){
 
-  celltype <- celltypes[df_all_fdr01$celltype[i]]
-  trait <- df_all_fdr01$trait_id[i]
-  factor <- df_all_fdr01$factor[i]
+  celltype <- celltypes[df_all_fdr02$celltype[i]]
+  trait <- df_all_fdr02$trait_id[i]
+  factor <- df_all_fdr02$factor[i]
 
   file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_1k1k/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
   dt_harmo <- readRDS(file_harmo)
