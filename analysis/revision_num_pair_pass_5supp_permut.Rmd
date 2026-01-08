@@ -34,7 +34,7 @@ source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection_SLEremo
 p <- list()
 for(celltype in celltypes){
   
-  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final_FDR02/", celltype,"_ECT_summary_EUR.RDS"))
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final_FDR02/", celltype,"_ECT_summary_EUR_SLEremoved.RDS"))
   df <- df[df$trait %in% traits_EUR,]
   
   summary <- df %>%

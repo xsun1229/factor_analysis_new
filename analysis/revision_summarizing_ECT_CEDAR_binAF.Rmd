@@ -41,6 +41,7 @@ source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection_SLEremo
 
 folder_ect_summary <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_binAF/"
 
+DT::datatable(matrix())
 ```
 
 # Number of supporting variants
@@ -49,13 +50,13 @@ folder_ect_summary <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_
 
 p <- list()
 for(celltype in celltypes){
-  
+
   df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_poolalltraits_selected.RDS"))
   df <- df[df$trait_id %in% traits_EUR,]
-  
+
   summary <- df %>%
     count(num_supp_SNP, name = "Freq")
-  
+
   # Plot
   p[[celltype]] <- ggplot(summary, aes(x = num_supp_SNP, y = Freq)) +
     geom_bar(stat = "identity", fill = "steelblue") +
@@ -81,7 +82,7 @@ for(celltype in celltypes){
       text = element_text(family = "Times")
     ) +
     scale_x_continuous(breaks = seq(0, max(summary$num_supp_SNP), 5))
-  
+
 }
 
 
@@ -96,16 +97,16 @@ all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
 
 p <- list()
 for(celltype in celltypes){
-  
+
   df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_poolalltraits_selected.RDS"))
   df <- df[df$trait_id %in% traits_EUR,]
-  
+
   df <- df[complete.cases(df$p_ECT),]
-  
+
   summary_p <- df %>%
     mutate(bin = cut(p_ECT, breaks = seq(0, 1, by = 0.05), include.lowest = TRUE)) %>%
     count(bin, name = "Freq")
-  
+
   # Correctly handle both [ and ( at the start of interval labels
   summary_p <- summary_p %>%
     mutate(
@@ -113,7 +114,7 @@ for(celltype in celltypes){
       bin_high = as.numeric(sub(".*,([0-9\\.]+)\\]", "\\1", bin)),
       bin_mid  = (bin_low + bin_high) / 2
     )
-  
+
   p[[celltype]] <- ggplot(summary_p, aes(x = bin_mid, y = Freq)) +
     geom_bar(stat = "identity", fill = "steelblue") +
     theme_bw(base_line_size = 0.3) +
@@ -128,7 +129,7 @@ for(celltype in celltypes){
       text = element_text(family = "Times")
     ) +
     scale_x_continuous(breaks = seq(0, 1, 0.1), limits = c(0, 1))
-  
+
 }
 
 all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
@@ -143,17 +144,17 @@ all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
 num_fdr01 <- c()
 num_fdr02 <- c()
 for(celltype in celltypes){
-  
+
   df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_poolalltraits_selected.RDS"))
-  
+
   df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
   df_fdr01 <- df_fdr01[complete.cases(df_fdr01$p_ECT),]
   num_fdr01 <- c(num_fdr01, nrow(df_fdr01))
-  
+
   df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2 & df$ECT_FDR_5suppSNP >= 0.1,]
   df_fdr02 <- df_fdr02[complete.cases(df_fdr02$p_ECT),]
   num_fdr02 <- c(num_fdr02, nrow(df_fdr02))
-  
+
 }
 
 sum <- data.frame(celltype = types,
@@ -209,13 +210,13 @@ p1
 
 df_all_fdr02 <- c()
 for(celltype in celltypes){
-  
+
   df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_poolalltraits_selected.RDS"))
   df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
-  
+
   df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
   df_all_fdr02 <- rbind(df_all_fdr02,df_fdr02)
-  
+
 }
 
 rownames(df_all_fdr02) <- NULL
@@ -226,5 +227,99 @@ df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP),]
 df_all_fdr01 <- df_all_fdr02[df_all_fdr02$ECT_FDR_5suppSNP < 0.1,]
 
 DT::datatable(df_all_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Pairs with ECT FDR <= 0.2 '),options = list(pageLength = 10) )
+
+```
+
+
+
+
+
+
+# Comparing the ECT p-values from old and new ECT strategy
+
+```{r fig.height=6, fig.width=9, warning=F, message=F, results='asis'}
+
+library(DT)
+library(htmltools)
+library(knitr)
+
+p <- list()
+tables <- list()
+for(celltype in celltypes){
+  
+  df_new <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df_new$id <- paste0(df_new$factor,"-", df_new$trait_id)
+  df_new <- df_new[df_new$num_supp_SNP >=5,]
+  df_new <- df_new[c("id","p_ECT","ECT_FDR_5suppSNP")]
+  
+  df_old <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_originalECT/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df_old$id <- paste0(df_old$factor,"-", df_old$trait_id)
+  df_old <- df_old[df_old$num_supp_SNP >=5,]
+  df_old <- df_old[c("id","p_ECT","ECT_FDR_5suppSNP","pathwayName","trait_id","trait_name")]
+  
+  df_merge <- merge(df_new,df_old, by = "id")
+  colnames(df_merge)[1:5] <- c("id","p_ECT_new","FDR_ECT_new" ,"p_ECT_old","FDR_ECT_old")
+  
+  df_plot <- df_merge %>%
+    filter(!is.na(p_ECT_new), !is.na(p_ECT_old)) %>%
+    mutate(
+      logp_old = -log10(p_ECT_old),
+      logp_new = -log10(p_ECT_new)
+    )
+  
+  p[[celltype]] <- ggplot(df_plot, aes(x = logp_old, y = logp_new)) +
+    geom_point(alpha = 0.6, size = 2) +
+    geom_abline(slope = 1, intercept = 0,
+                linetype = "dashed", color = "red") +
+    ggtitle(types[celltype]) +
+    labs(
+      x = expression(-log[10](p[ECT~old_strategy])),
+      y = expression(-log[10](p[ECT~new_binAF]))
+    ) +
+    theme_classic()
+  
+  df_show <- df_merge[order(df_merge$p_ECT_new, decreasing = F),]
+  df_show <- df_show[1:20,]
+  
+  tables[[celltype]] <- DT::datatable(
+    df_show,
+    caption = tags$caption(
+      style = 'caption-side: left; text-align: left; color:black; font-size:150%;',
+      paste0('Pairs with lowest new ECT p-values - ', types[celltype])
+    ),
+    options = list(pageLength = 10)
+  )
+  
+  tables[[celltype]] <- datatable(
+    df_show,
+    caption = tags$caption(
+      style = 'caption-side:left; text-align:left; color:black; font-size:140%;',
+      paste0('Pairs with lowest new ECT p-values - ', types[celltype])
+    ),
+    options = list(pageLength = 10)
+  )
+  
+  # print(
+  #   DT::datatable(
+  #     df_show,
+  #     caption = tags$caption(
+  #       style = 'caption-side: left; text-align: left; color:black; font-size:150%;',
+  #       paste0('Pairs with lowest new ECT p-values - ', types[celltype])
+  #     ),
+  #     options = list(pageLength = 10)
+  #   )
+  # )
+  # 
+  # cat("\n\n")
+  
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]], nrow = 2)
+
+for(celltype in celltypes) {
+ 
+  cat(knit_print(tables[[celltype]]))
+}
 
 ```
