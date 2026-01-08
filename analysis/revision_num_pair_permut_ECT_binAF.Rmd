@@ -1,0 +1,255 @@
+---
+title: "The number of pairs at ECT FDR < 0.1 & 0.2, ECT: bin AF"
+author: "XSun"
+date: "2026-01-07"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+
+```{r warning=FALSE, message=FALSE}
+
+library(ggplot2)
+library(tidyr)
+
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+names(type) <- celltypes
+names(celltypes) <- type
+
+```
+
+
+**ECT strategy: When generating “random” GWAS effects of a SNP, we sample from GWAS SNPs with comparable AF with that SNP.**
+
+
+# The number of pairs at ECT FDR < 0.1 & 0.2 for each permutation and real data
+
+We permuted the genotype and expression data in CEDAR by shuffling sample labels 10 times and performed the entire pipeline on each permuted dataset.
+
+We then examined, across the 10 permutations, the number of pairs passing ECT FDR <0.1 & 0.2.
+
+
+```{r warning=FALSE, message=FALSE}
+num_fdr01 <- c()
+num_fdr02 <- c()
+for (permu in 1:10){
+  
+  folder_ect_summary <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary_bin/perm",permu,"/")
+  
+  df_all_fdr02 <- c()
+  for(celltype in celltypes){
+    
+    df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+    df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
+    
+    df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+    df_all_fdr02 <- rbind(df_all_fdr02,df_fdr02)
+    
+  }
+  
+  rownames(df_all_fdr02) <- NULL
+  df_all_fdr01 <- df_all_fdr02[df_all_fdr02$ECT_FDR_5suppSNP < 0.1,]
+  
+  num_fdr01 <- c(num_fdr01, nrow(df_all_fdr01))
+  num_fdr02 <- c(num_fdr02, nrow(df_all_fdr02))
+}
+
+
+df <- data.frame(
+  Permutation = seq_along(num_fdr01),
+  num_fdr01 = num_fdr01,
+  num_fdr02 = num_fdr02
+)
+
+df_long <- pivot_longer(
+  df,
+  cols = c(num_fdr01, num_fdr02),
+  names_to = "metric",
+  values_to = "value"
+)
+
+p <- ggplot(df_long, aes(x = Permutation, y = value, color = metric)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  
+  # dashed reference lines
+  geom_hline(yintercept = 3,
+             linetype = "dashed",
+             color = "#1f77b4") +
+  geom_hline(yintercept = 3,
+             linetype = "dashed",
+             color = "#d62728") +
+  
+  # labels on dashed lines
+  annotate(
+    "text",
+    x = Inf, y = 3,
+    label = "Original pairs at FDR < 0.1 = 8",
+    color = "#1f77b4",
+    hjust = 1.05, vjust = -0.5,
+    size = 3.5
+  ) +
+  annotate(
+    "text",
+    x = Inf, y = 3,
+    label = "Original pairs at FDR < 0.2 = 125",
+    color = "#d62728",
+    hjust = 1.05, vjust = -0.5,
+    size = 3.5
+  ) +
+  
+  scale_color_manual(
+    values = c(
+      num_fdr01 = "#1f77b4",
+      num_fdr02 = "#d62728"
+    ),
+    labels = c(
+      num_fdr01 = "FDR < 0.1",
+      num_fdr02 = "FDR < 0.2"
+    )
+  ) +
+  
+  labs(
+    x = "Permutation",
+    y = "Number of pairs",
+    color = NULL,
+    title = "FDR results across permutations"
+  ) +
+  
+  theme_bw(base_size = 12) +
+  theme(
+    legend.position = "top"
+  ) + 
+  scale_x_continuous(breaks = 1:10)
+
+p
+
+DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Number of pairs passing ECT FDR < 0.1 & 0.2'),options = list(pageLength = 10) )
+
+```
+
+
+
+
+# Examing the permutation with large number of pairs
+
+## Permutation 2
+
+```{r warning=FALSE, message=FALSE}
+
+permu <- 2
+
+folder_ect_summary <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary_bin/perm",permu,"/")
+
+df_all_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
+  
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_all_fdr02 <- rbind(df_all_fdr02,df_fdr02)
+  
+}
+
+rownames(df_all_fdr02) <- NULL
+
+df_all_fdr02 <- df_all_fdr02[df_all_fdr02$ECT_FDR_5suppSNP < 0.2,]
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP, decreasing = F),]
+
+DT::datatable(df_all_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('Pairs with ECT FDR < 0.2 for permutation ', permu)),options = list(pageLength = 10) )
+```
+
+### effect size plots for the top pairs (ECT FDR < 0.1)
+
+
+```{r warning=FALSE, message=FALSE, fig.height=3, fig.width=4}
+
+df_all_fdr01 <- df_all_fdr02[df_all_fdr02$ECT_FDR_5suppSNP < 0.1,]
+df_all_fdr01$celltype <- celltypes[df_all_fdr01$celltype]
+
+fdr_cutoff <- 0.2
+
+for (i in 1:nrow(df_all_fdr01)){
+  
+  celltype <- df_all_fdr01$celltype[i]
+  trait <- df_all_fdr01$trait_id[i]
+  factor <- df_all_fdr01$factor[i]
+  
+  file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/assoc_harmonize/perm",permu,"/",celltype, "-", trait, "_harmo.RDS")
+  dt_harmo <- readRDS(file_harmo)
+  
+  dat <- dt_harmo[[factor]]
+  snp_select <- dat[dat$FDR.exposure < fdr_cutoff,]
+  snp_select$chr <- as.numeric(as.character(snp_select$chr.exposure))
+  snp_select$chr <- factor(snp_select$chr, levels = sort(unique(snp_select$chr)))
+  
+  fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  
+  ect_p <- df_all_fdr01$p_ECT[i]
+  
+  pathwayname <- df$pathwayName[df$factor == factor & df$trait ==trait]
+  
+  eff <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+    geom_point(size = 4) + 
+    geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01, alpha=0.6) +
+    theme_bw(base_line_size = 0.3) +
+    theme(axis.title.x = element_text(size = 16),
+          axis.text.x = element_text(size = 14, color = "black"),
+          axis.title.y = element_text(size =16),
+          axis.text.y = element_text(size = 14, color = "black"),
+          text= element_text(family="Times"),
+          legend.text = element_text(size=12),
+          legend.title = element_text(size=12)) + 
+    geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+    geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+               label = paste("R^2 = ", signif(summary(fit)$r.squared, 3), 
+                             "\nECT p-value =", ect_p),
+               color = "black", family = "Times", size =3, label.size = NA,fill=NA) +
+    xlab(expression(hat(beta)[factor])) + 
+    ylab(expression(hat(beta)[gwas])) +
+    geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+    geom_hline(yintercept = 0, color = "grey", linetype = "dashed")
+  
+  
+  print(paste0("TOP ",i))
+  print(eff)
+  
+}
+
+
+
+```
+
+
+## Permutation 6
+
+```{r warning=FALSE, message=FALSE}
+
+permu <- 6
+
+folder_ect_summary <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary_bin/perm",permu,"/")
+
+df_all_fdr02 <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary, celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
+  
+  df_fdr02 <- df[df$ECT_FDR_5suppSNP < 0.2,]
+  df_all_fdr02 <- rbind(df_all_fdr02,df_fdr02)
+  
+}
+
+rownames(df_all_fdr02) <- NULL
+
+df_all_fdr02 <- df_all_fdr02[df_all_fdr02$ECT_FDR_5suppSNP < 0.2,]
+df_all_fdr02 <- df_all_fdr02[order(df_all_fdr02$ECT_FDR_5suppSNP, decreasing = F),]
+
+DT::datatable(df_all_fdr02,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0('Pairs with ECT FDR < 0.2 for permutation ', permu)),options = list(pageLength = 10) )
+```
+
+

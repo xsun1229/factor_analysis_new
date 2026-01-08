@@ -54,6 +54,18 @@ output:
 [Power analysis](revision_power_realdata_1k1k.html)
 
 
+**Different ECT strategy**
+
+- Bin SNPs by AF
+
+CEDAR -- Real data
+
+[ECT results](revision_summarizing_ECT_CEDAR_binAF.html)
+
+CEDAR -- Permutating the sample ID
+
+[The number of pairs at ECT FDR < 0.1 & 0.2](revision_num_pair_permut_ECT_binAF.html)
+
 
 
 **Old codes**
