@@ -1,0 +1,206 @@
+---
+title: "Understanding why the top pairs identified by the no bin strategy are missed"
+author: "XSun"
+date: "2026-01-12"
+output:
+  workflowr::wflow_html:
+    code_folding: hide
+    toc: true
+---
+
+# Introduction
+
+We are trying to understand why the p-values of our previous top pairs get worse. So add AF information in the effect size plots.
+
+The detailed previous results are here: https://xsun1229.github.io/factor_analysis_new/revision_summarizing_ECT_setting_SLEremoved.html
+
+
+```{r warning=F, message=F, fig.height=3, fig.width=12}
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(forcats)
+library(tidyr)
+
+celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
+types <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
+names(celltypes) <- types
+names(types) <- celltypes
+
+folder_ect_summary_nobin <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_final_FDR02/"
+folder_ect_summary_binAF <- "/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_binAF/"
+
+```
+
+```{r warning=F, message=F, fig.height=4, fig.width=16}
+
+df_all_fdr01_nobin <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary_nobin, celltype,"_ECT_summary_EUR_SLEremoved_noMHCadded.RDS"))
+  df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
+  
+  df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_all_fdr01_nobin <- rbind(df_all_fdr01_nobin,df_fdr01)
+  
+}
+
+
+df_all_fdr01_nobin$celltype <- types[df_all_fdr01_nobin$celltype]
+df_all_fdr01_nobin <- df_all_fdr01_nobin[order(df_all_fdr01_nobin$ECT_FDR_5suppSNP),]
+
+df_all_fdr01_nobin <- df_all_fdr01_nobin[,c("celltype","trait", "factor", "pathwayName", "num_supp_SNP", "p_ECT", "ECT_FDR_5suppSNP")]
+
+
+df_all_binAF <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0(folder_ect_summary_binAF, celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+  df <- df[complete.cases(df$ECT_FDR_5suppSNP),]
+  
+  #df_fdr01 <- df[df$ECT_FDR_5suppSNP < 0.1,]
+  df_all_binAF <- rbind(df_all_binAF,df)
+  
+}
+
+df_all_binAF <- df_all_binAF[,c("celltype","factor","pathwayName","trait_id","p_ECT","ECT_FDR_5suppSNP")]
+colnames(df_all_binAF)[colnames(df_all_binAF) == "trait_id"] <- "trait"
+
+df_merged <- merge(
+  df_all_fdr01_nobin,
+  df_all_binAF,
+  by = c("celltype", "trait", "factor", "pathwayName"),
+  all.x = TRUE,
+  suffixes = c("_nobin", "_binAF")
+)
+
+df_merged <- df_merged[order(df_merged$ECT_FDR_5suppSNP_nobin, decreasing = F),]
+
+DT::datatable(df_merged,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;','Previous top pairs'),options = list(pageLength = 10) )
+
+
+fdr_cutoff <- 0.2
+df_all_fdr01_nobin$celltype <- celltypes[df_all_fdr01_nobin$celltype]
+
+for (i in 1:nrow(df_all_fdr01_nobin)){
+  
+  celltype <- df_all_fdr01_nobin$celltype[i]
+  trait <- df_all_fdr01_nobin$trait[i]
+  factor <- df_all_fdr01_nobin$factor[i]
+  pwy <- df_all_fdr01_nobin$pathwayName[i]
+  
+  file_harmo <- paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/assoc_harmonize/",celltype, "-", trait, "_harmo.RDS")
+  dt_harmo <- readRDS(file_harmo)
+  
+  dat <- dt_harmo[[factor]]
+  snp_select <- dat[dat$FDR.exposure < fdr_cutoff,]
+  snp_select$chr <- as.numeric(as.character(snp_select$chr.exposure))
+  snp_select$chr <- factor(snp_select$chr, levels = sort(unique(snp_select$chr)))
+  
+  fit <- lm(snp_select$beta.outcome ~ 0 + snp_select$beta.exposure)
+  
+
+  ect_p <- df_all_fdr01_nobin$p_ECT[i]
+  ect_p_bin <- df_merged$p_ECT_binAF[i]
+  
+  eff_chr <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=chr)) +
+    geom_point(size = 4) + 
+    geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=chr), width=0.01, alpha=0.6) +
+    theme_bw(base_line_size = 0.3) +
+    theme(axis.title.x = element_text(size = 16),
+          axis.text.x = element_text(size = 14, color = "black"),
+          axis.title.y = element_text(size =16),
+          axis.text.y = element_text(size = 14, color = "black"),
+          text= element_text(family="Times"),
+          legend.text = element_text(size=12),
+          legend.title = element_text(size=12)) + 
+    geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+    geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+               label = paste("R^2 = ", signif(summary(fit)$r.squared, 3), 
+                             "\nECT p-value(nobin) =", ect_p,
+                             "\nECT p-value(binAF) =", ect_p_bin),
+               color = "black", family = "Times", size =3, label.size = NA,fill=NA) +
+    xlab(expression(hat(beta)[factor])) + 
+    ylab(expression(hat(beta)[gwas])) +
+    geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+    geom_hline(yintercept = 0, color = "grey", linetype = "dashed") #+
+    #ggtitle(paste0(pwy, "-", trait))
+  
+  
+  eaf_breaks <- c(0, 0.01, 0.05, 0.10, 0.20, 0.30, 0.50)
+  eaf_labels <- c("<0.01","0.01-0.05", "0.05-0.1", "0.1-0.2",
+                  "0.2-0.3", "0.3-0.5")
+  
+  snp_select$AF_bin <- cut(
+    snp_select[["eaf.exposure"]],
+    breaks = eaf_breaks, labels = eaf_labels,
+    include.lowest = TRUE, right = TRUE
+  )
+  
+  eff_AF <- ggplot(snp_select, aes(x=beta.exposure, y=beta.outcome, color=AF_bin)) +
+    geom_point(size = 4) + 
+    geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=AF_bin), width=0.01, alpha=0.6) +
+    theme_bw(base_line_size = 0.3) +
+    theme(axis.title.x = element_text(size = 16),
+          axis.text.x = element_text(size = 14, color = "black"),
+          axis.title.y = element_text(size =16),
+          axis.text.y = element_text(size = 14, color = "black"),
+          text= element_text(family="Times"),
+          legend.text = element_text(size=12),
+          legend.title = element_text(size=12)) + 
+    geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+    geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+               label = paste("R^2 = ", signif(summary(fit)$r.squared, 3), 
+                             "\nECT p-value(nobin) =", ect_p,
+                             "\nECT p-value(binAF) =", ect_p_bin),
+               color = "black", family = "Times", size =3, label.size = NA,fill=NA) +
+    xlab(expression(hat(beta)[factor])) + 
+    ylab(expression(hat(beta)[gwas])) +
+    geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+    geom_hline(yintercept = 0, color = "grey", linetype = "dashed") #+
+    #ggtitle(paste0(pwy, "-", trait))
+  
+  
+  dat$AF_bin <- cut(
+    dat[["eaf.exposure"]],
+    breaks = eaf_breaks, labels = eaf_labels,
+    include.lowest = TRUE, right = TRUE
+  )
+  
+  eff_AF_allsnp <- ggplot(dat, aes(x=beta.exposure, y=beta.outcome, color=AF_bin)) +
+    geom_point(size = 4) + 
+    geom_errorbar(aes(ymin=beta.outcome-se.outcome, ymax=beta.outcome+se.outcome, color=AF_bin), width=0.01, alpha=0.6) +
+    theme_bw(base_line_size = 0.3) +
+    theme(axis.title.x = element_text(size = 16),
+          axis.text.x = element_text(size = 14, color = "black"),
+          axis.title.y = element_text(size =16),
+          axis.text.y = element_text(size = 14, color = "black"),
+          text= element_text(family="Times"),
+          legend.text = element_text(size=12),
+          legend.title = element_text(size=12)) + 
+    geom_abline(slope = coef(fit)[1], intercept = 0, color = "grey", size = 0.5) +
+    geom_label(aes(x = Inf, y = Inf), hjust = 1, vjust = 1,
+               label = paste("R^2 = ", signif(summary(fit)$r.squared, 3), 
+                             "\nECT p-value(nobin) =", ect_p,
+                             "\nECT p-value(binAF) =", ect_p_bin),
+               color = "black", family = "Times", size =3, label.size = NA,fill=NA) +
+    xlab(expression(hat(beta)[factor])) + 
+    ylab(expression(hat(beta)[gwas])) +
+    geom_vline(xintercept = 0, color = "grey", linetype = "dashed") +
+    geom_hline(yintercept = 0, color = "grey", linetype = "dashed") #+
+    #ggtitle(paste0(pwy, "-", trait))
+  
+  hist_af <- ggplot(dat, aes(x = AF_bin)) +
+    geom_bar() +
+    labs(
+      x = "Allele frequency bin",
+      y = "Count"
+    ) +
+    theme_bw()
+  
+  all <- grid.arrange(eff_chr, eff_AF, eff_AF_allsnp, hist_af, nrow = 1, top = paste0(pwy, "-", trait))
+  #print(all)
+  
+}
+```
+

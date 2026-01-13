@@ -66,7 +66,9 @@ CEDAR -- Permutating the sample ID
 
 [The number of pairs at ECT FDR < 0.1 & 0.2](revision_num_pair_permut_ECT_binAF.html)
 
+CEDAR -- Understanding why the top pairs identified by the no bin strategy are missed
 
+[Link](revision_check_nobin_toppairs.html)
 
 **Old codes**
 

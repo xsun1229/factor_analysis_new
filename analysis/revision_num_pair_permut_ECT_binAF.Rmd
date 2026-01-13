@@ -13,16 +13,95 @@ output:
 
 library(ggplot2)
 library(tidyr)
+library(gridExtra)
 
 celltypes <- c("B_cell","CD14_positive_monocyte","CD15_positive_leukocyte","platelet","T_cell","thymocyte")
 type <- c("B cell (CD19+)","Monocyte (CD14+)","Leukocyte (CD15+)","Platelet","T cell (CD4+)","T cell (CD8+)")
 names(type) <- celltypes
 names(celltypes) <- type
 
+source("/project/xinhe/xsun/pathway_factor/data_v2/traits_finalselection_SLEremoved.R")
+source("/project/xinhe/xsun/r_functions/qqplot_sigle.R")
+
 ```
 
 
 **ECT strategy: When generating “random” GWAS effects of a SNP, we sample from GWAS SNPs with comparable AF with that SNP.**
+
+```{r warning=FALSE, message=FALSE}
+
+
+df_all_celltype_real <- c()
+for(celltype in celltypes){
+  
+  df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_v2/ECT_summary_binAF/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+ 
+  df_all_celltype_real <- rbind(df_all_celltype_real, df)
+  
+ 
+}
+
+df_all_celltype_real_5snps <- df_all_celltype_real[df_all_celltype_real$num_supp_SNP >=5, ]
+num_candidate_pair_real <- nrow(df_all_celltype_real_5snps)
+
+
+
+
+num_candidate_pair_perm <- c()
+df_candidate_pair_perm_all <- c()
+for (perm in c(1:10)){
+  
+  df_all_celltype_perm <- c()
+  for(celltype in celltypes){
+    
+    df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary_bin/perm", perm, "/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+    
+    df_all_celltype_perm <- rbind(df_all_celltype_perm, df)
+  }
+  
+  df_all_celltype_perm_5snps <- df_all_celltype_perm[df_all_celltype_perm$num_supp_SNP >=5, ]
+  df_candidate_pair_perm_all <- rbind(df_candidate_pair_perm_all,df_all_celltype_perm_5snps)
+  num_candidate_pair_perm <- c(num_candidate_pair_perm, nrow(df_all_celltype_perm_5snps))
+  
+}
+
+
+```
+
+# QQ plots for the ECT pvalues
+
+```{r warning=FALSE, message=FALSE, fig.width=6, fig.height=3}
+
+qq_real <- qqplot(df_all_celltype_real_5snps$p_ECT, title = "ECT p (real data)")
+
+qq_random <- qqplot(df_candidate_pair_perm_all$p_ECT, title = "ECT p (permutation data, 10 permutation pooled)")
+
+all <- grid.arrange(qq_real,qq_random, nrow = 1)
+```
+
+```{r warning=FALSE, message=FALSE, fig.width=12, fig.height=9}
+
+p <- list()
+for (perm in c(1:10)){
+  
+  df_all_celltype_perm <- c()
+  for(celltype in celltypes){
+    
+    df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm", perm, "/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+    df <- df[df$trait_id %in% traits_EUR,]
+    
+    df_all_celltype_perm <- rbind(df_all_celltype_perm, df)
+  }
+  
+  df_all_celltype_perm_5snps <- df_all_celltype_perm[df_all_celltype_perm$num_supp_SNP >=5, ]
+  
+  p[[perm]] <- qqplot(df_all_celltype_perm_5snps$p_ECT, title = paste0("Permutation ", perm))
+  
+}
+
+all <- grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],p[[7]],p[[8]],p[[9]],p[[10]], nrow = 3)
+
+```
 
 
 # The number of pairs at different cutoffs for each permutation and real data
@@ -31,12 +110,13 @@ We permuted the genotype and expression data in CEDAR by shuffling sample labels
 
 We then examined, across the 10 permutations, the number of pairs passing different cutoffs.
 
+
+
 ## Cutoff: ECT p < 0.05
 
 ```{r warning=FALSE, message=FALSE}
 
 cutoff <- 0.05
-
 
 ## permutation data
 num_passcutoff <- c()
@@ -88,45 +168,84 @@ for(celltype in celltypes){
 num_passcutoff_real <- nrow(df_all_real[df_all_real$p_ECT < cutoff,])
 
 
-p <- ggplot(df_long, aes(x = Permutation, y = value, color = metric)) +
-  geom_line(linewidth = 1) +
-  geom_point(size = 2) +
+expected_real <- num_candidate_pair_real * cutoff
+expected_perm <- num_candidate_pair_perm * cutoff
+
+df_expected_perm <- data.frame(
+  Permutation = 1:length(expected_perm),
+  expected = expected_perm
+)
+
+p <- ggplot(df_long, aes(x = Permutation, y = value)) +
   
-  # dashed reference lines
-  geom_hline(yintercept = num_passcutoff_real,
-             linetype = "dashed",
-             color = "#1f77b4") +
+  ## observed permutation (solid red)
+  geom_line(color = "#d62728", linewidth = 1) +
+  geom_point(color = "#d62728", size = 2) +
   
-  # labels on dashed lines
+  ## observed real-data reference
+  geom_hline(
+    yintercept = num_passcutoff_real,
+    color = "#1f77b4"
+  ) +
+  
   annotate(
     "text",
     x = Inf, y = num_passcutoff_real,
-    label = paste0("Real data: pairs at ECT p < ", cutoff," = ", num_passcutoff_real),
+    label = paste0(
+      "Observed (real): ECT p < ", cutoff, 
+      " = ", num_passcutoff_real
+    ),
     color = "#1f77b4",
     hjust = 1.05, vjust = -0.5,
     size = 3.5
   ) +
   
-  scale_color_manual(
-    values = c(
-      num_passcutoff= "#1f77b4"
+  ## expected real data (dashed blue)
+  geom_hline(
+    yintercept = expected_real,
+    linetype = "dashed",
+    color = "#1f77b4"
+  ) +
+  
+  annotate(
+    "text",
+    x = Inf, y = expected_real,
+    label = paste0(
+      "Expected (real): ", num_candidate_pair_real, " * ", cutoff, 
+      " = ", round(expected_real, 2)
     ),
-    labels = c(
-      num_passcutoff= paste0("ECT p < ", cutoff)
+    color = "#1f77b4",
+    hjust = 1.05, vjust = -0.5,
+    size = 3.5
+  ) +
+  
+  ## expected permutation data (dashed red)
+  geom_line(
+    data = df_expected_perm,
+    aes(x = Permutation, y = expected),
+    inherit.aes = FALSE,
+    linetype = "dashed",
+    linewidth = 1,
+    color = "#d62728"
+  ) +
+  
+  ggtitle(
+    paste0(
+      "ECT p < ", cutoff, "\n",
+      "dashed: expected, solid: observed\n",
+      "blue: real, red: permutation"
     )
   ) +
   
   labs(
     x = "Permutation",
-    y = "Number of pairs",
-    color = NULL
+    y = "Number of pairs"
   ) +
   
-  theme_bw(base_size = 12) +
-  theme(
-    legend.position = "top"
-  ) + 
-  scale_x_continuous(breaks = 1:10)
+  scale_x_continuous(breaks = 1:10) +
+  
+  theme_bw(base_size = 12)
+
 
 p
 
@@ -193,46 +312,83 @@ for(celltype in celltypes){
 
 num_passcutoff_real <- nrow(df_all_real[df_all_real$p_ECT < cutoff,])
 
+expected_real <- num_candidate_pair_real * cutoff
+expected_perm <- num_candidate_pair_perm * cutoff
 
-p <- ggplot(df_long, aes(x = Permutation, y = value, color = metric)) +
-  geom_line(linewidth = 1) +
-  geom_point(size = 2) +
+df_expected_perm <- data.frame(
+  Permutation = 1:length(expected_perm),
+  expected = expected_perm
+)
+
+p <- ggplot(df_long, aes(x = Permutation, y = value)) +
   
-  # dashed reference lines
-  geom_hline(yintercept = num_passcutoff_real,
-             linetype = "dashed",
-             color = "#1f77b4") +
+  ## observed permutation (solid red)
+  geom_line(color = "#d62728", linewidth = 1) +
+  geom_point(color = "#d62728", size = 2) +
   
-  # labels on dashed lines
+  ## observed real-data reference
+  geom_hline(
+    yintercept = num_passcutoff_real,
+    color = "#1f77b4"
+  ) +
+  
   annotate(
     "text",
     x = Inf, y = num_passcutoff_real,
-    label = paste0("Real data: pairs at ECT p < ", cutoff," = ", num_passcutoff_real),
+    label = paste0(
+      "Observed (real): ECT p < ", cutoff, 
+      " = ", num_passcutoff_real
+    ),
     color = "#1f77b4",
     hjust = 1.05, vjust = -0.5,
     size = 3.5
   ) +
   
-  scale_color_manual(
-    values = c(
-      num_passcutoff= "#1f77b4"
+  ## expected real data (dashed blue)
+  geom_hline(
+    yintercept = expected_real,
+    linetype = "dashed",
+    color = "#1f77b4"
+  ) +
+  
+  annotate(
+    "text",
+    x = Inf, y = expected_real,
+    label = paste0(
+      "Expected (real): ", num_candidate_pair_real, " * ", cutoff, 
+      " = ", round(expected_real, 2)
     ),
-    labels = c(
-      num_passcutoff= paste0("ECT p < ", cutoff)
+    color = "#1f77b4",
+    hjust = 1.05, vjust = -0.5,
+    size = 3.5
+  ) +
+  
+  ## expected permutation data (dashed red)
+  geom_line(
+    data = df_expected_perm,
+    aes(x = Permutation, y = expected),
+    inherit.aes = FALSE,
+    linetype = "dashed",
+    linewidth = 1,
+    color = "#d62728"
+  ) +
+  
+  ggtitle(
+    paste0(
+      "ECT p < ", cutoff, "\n",
+      "dashed: expected, solid: observed\n",
+      "blue: real, red: permutation"
     )
   ) +
   
   labs(
     x = "Permutation",
-    y = "Number of pairs",
-    color = NULL
+    y = "Number of pairs"
   ) +
   
-  theme_bw(base_size = 12) +
-  theme(
-    legend.position = "top"
-  ) + 
-  scale_x_continuous(breaks = 1:10)
+  scale_x_continuous(breaks = 1:10) +
+  
+  theme_bw(base_size = 12)
 
 p
 
@@ -297,47 +453,83 @@ for(celltype in celltypes){
 
 num_passcutoff_real <- nrow(df_all_real[df_all_real$p_ECT < cutoff,])
 
+expected_real <- num_candidate_pair_real * cutoff
+expected_perm <- num_candidate_pair_perm * cutoff
 
-p <- ggplot(df_long, aes(x = Permutation, y = value, color = metric)) +
-  geom_line(linewidth = 1) +
-  geom_point(size = 2) +
+df_expected_perm <- data.frame(
+  Permutation = 1:length(expected_perm),
+  expected = expected_perm
+)
+
+p <- ggplot(df_long, aes(x = Permutation, y = value)) +
   
-  # dashed reference lines
-  geom_hline(yintercept = num_passcutoff_real,
-             linetype = "dashed",
-             color = "#1f77b4") +
+  ## observed permutation (solid red)
+  geom_line(color = "#d62728", linewidth = 1) +
+  geom_point(color = "#d62728", size = 2) +
   
-  # labels on dashed lines
+  ## observed real-data reference
+  geom_hline(
+    yintercept = num_passcutoff_real,
+    color = "#1f77b4"
+  ) +
+  
   annotate(
     "text",
     x = Inf, y = num_passcutoff_real,
-    label = paste0("Real data: pairs at ECT p < ", cutoff," = ", num_passcutoff_real),
+    label = paste0(
+      "Observed (real): ECT p < ", cutoff, 
+      " = ", num_passcutoff_real
+    ),
     color = "#1f77b4",
     hjust = 1.05, vjust = -0.5,
     size = 3.5
   ) +
   
-  scale_color_manual(
-    values = c(
-      num_passcutoff= "#1f77b4"
+  ## expected real data (dashed blue)
+  geom_hline(
+    yintercept = expected_real,
+    linetype = "dashed",
+    color = "#1f77b4"
+  ) +
+  
+  annotate(
+    "text",
+    x = Inf, y = expected_real,
+    label = paste0(
+      "Expected (real): ", num_candidate_pair_real, " * ", cutoff, 
+      " = ", round(expected_real, 2)
     ),
-    labels = c(
-      num_passcutoff= paste0("ECT p < ", cutoff)
+    color = "#1f77b4",
+    hjust = 1.05, vjust = -0.5,
+    size = 3.5
+  ) +
+  
+  ## expected permutation data (dashed red)
+  geom_line(
+    data = df_expected_perm,
+    aes(x = Permutation, y = expected),
+    inherit.aes = FALSE,
+    linetype = "dashed",
+    linewidth = 1,
+    color = "#d62728"
+  ) +
+  
+  ggtitle(
+    paste0(
+      "ECT p < ", cutoff, "\n",
+      "dashed: expected, solid: observed\n",
+      "blue: real, red: permutation"
     )
   ) +
   
   labs(
     x = "Permutation",
-    y = "Number of pairs",
-    color = NULL
+    y = "Number of pairs"
   ) +
   
-  theme_bw(base_size = 12) +
-  theme(
-    legend.position = "top"
-  ) + 
-  scale_x_continuous(breaks = 1:10)
-
+  scale_x_continuous(breaks = 1:10) +
+  
+  theme_bw(base_size = 12)
 p
 
 DT::datatable(df,caption = htmltools::tags$caption( style = 'caption-side: left; text-align: left; color:black;  font-size:150% ;',paste0("Number of pairs passing ECT p < ", cutoff)),options = list(pageLength = 10) )
@@ -400,46 +592,83 @@ for(celltype in celltypes){
 
 num_passcutoff_real <- nrow(df_all_real[df_all_real$p_ECT < cutoff,])
 
+expected_real <- num_candidate_pair_real * cutoff
+expected_perm <- num_candidate_pair_perm * cutoff
 
-p <- ggplot(df_long, aes(x = Permutation, y = value, color = metric)) +
-  geom_line(linewidth = 1) +
-  geom_point(size = 2) +
+df_expected_perm <- data.frame(
+  Permutation = 1:length(expected_perm),
+  expected = expected_perm
+)
+
+p <- ggplot(df_long, aes(x = Permutation, y = value)) +
   
-  # dashed reference lines
-  geom_hline(yintercept = num_passcutoff_real,
-             linetype = "dashed",
-             color = "#1f77b4") +
+  ## observed permutation (solid red)
+  geom_line(color = "#d62728", linewidth = 1) +
+  geom_point(color = "#d62728", size = 2) +
   
-  # labels on dashed lines
+  ## observed real-data reference
+  geom_hline(
+    yintercept = num_passcutoff_real,
+    color = "#1f77b4"
+  ) +
+  
   annotate(
     "text",
     x = Inf, y = num_passcutoff_real,
-    label = paste0("Real data: pairs at ECT p < ", cutoff," = ", num_passcutoff_real),
+    label = paste0(
+      "Observed (real): ECT p < ", cutoff, 
+      " = ", num_passcutoff_real
+    ),
     color = "#1f77b4",
     hjust = 1.05, vjust = -0.5,
     size = 3.5
   ) +
   
-  scale_color_manual(
-    values = c(
-      num_passcutoff= "#1f77b4"
+  ## expected real data (dashed blue)
+  geom_hline(
+    yintercept = expected_real,
+    linetype = "dashed",
+    color = "#1f77b4"
+  ) +
+  
+  annotate(
+    "text",
+    x = Inf, y = expected_real,
+    label = paste0(
+      "Expected (real): ", num_candidate_pair_real, " * ", cutoff, 
+      " = ", round(expected_real, 2)
     ),
-    labels = c(
-      num_passcutoff= paste0("ECT p < ", cutoff)
+    color = "#1f77b4",
+    hjust = 1.05, vjust = -0.5,
+    size = 3.5
+  ) +
+  
+  ## expected permutation data (dashed red)
+  geom_line(
+    data = df_expected_perm,
+    aes(x = Permutation, y = expected),
+    inherit.aes = FALSE,
+    linetype = "dashed",
+    linewidth = 1,
+    color = "#d62728"
+  ) +
+  
+  ggtitle(
+    paste0(
+      "ECT p < ", cutoff, "\n",
+      "dashed: expected, solid: observed\n",
+      "blue: real, red: permutation"
     )
   ) +
   
   labs(
     x = "Permutation",
-    y = "Number of pairs",
-    color = NULL
+    y = "Number of pairs"
   ) +
   
-  theme_bw(base_size = 12) +
-  theme(
-    legend.position = "top"
-  ) + 
-  scale_x_continuous(breaks = 1:10)
+  scale_x_continuous(breaks = 1:10) +
+  
+  theme_bw(base_size = 12)
 
 p
 
@@ -504,46 +733,83 @@ for(celltype in celltypes){
 
 num_passcutoff_real <- nrow(df_all_real[df_all_real$p_ECT < cutoff,])
 
+expected_real <- num_candidate_pair_real * cutoff
+expected_perm <- num_candidate_pair_perm * cutoff
 
-p <- ggplot(df_long, aes(x = Permutation, y = value, color = metric)) +
-  geom_line(linewidth = 1) +
-  geom_point(size = 2) +
+df_expected_perm <- data.frame(
+  Permutation = 1:length(expected_perm),
+  expected = expected_perm
+)
+
+p <- ggplot(df_long, aes(x = Permutation, y = value)) +
   
-  # dashed reference lines
-  geom_hline(yintercept = num_passcutoff_real,
-             linetype = "dashed",
-             color = "#1f77b4") +
+  ## observed permutation (solid red)
+  geom_line(color = "#d62728", linewidth = 1) +
+  geom_point(color = "#d62728", size = 2) +
   
-  # labels on dashed lines
+  ## observed real-data reference
+  geom_hline(
+    yintercept = num_passcutoff_real,
+    color = "#1f77b4"
+  ) +
+  
   annotate(
     "text",
     x = Inf, y = num_passcutoff_real,
-    label = paste0("Real data: pairs at ECT p < ", cutoff," = ", num_passcutoff_real),
+    label = paste0(
+      "Observed (real): ECT p < ", cutoff, 
+      " = ", num_passcutoff_real
+    ),
     color = "#1f77b4",
     hjust = 1.05, vjust = -0.5,
     size = 3.5
   ) +
   
-  scale_color_manual(
-    values = c(
-      num_passcutoff= "#1f77b4"
+  ## expected real data (dashed blue)
+  geom_hline(
+    yintercept = expected_real,
+    linetype = "dashed",
+    color = "#1f77b4"
+  ) +
+  
+  annotate(
+    "text",
+    x = Inf, y = expected_real,
+    label = paste0(
+      "Expected (real): ", num_candidate_pair_real, " * ", cutoff, 
+      " = ", round(expected_real, 2)
     ),
-    labels = c(
-      num_passcutoff= paste0("ECT p < ", cutoff)
+    color = "#1f77b4",
+    hjust = 1.05, vjust = -0.5,
+    size = 3.5
+  ) +
+  
+  ## expected permutation data (dashed red)
+  geom_line(
+    data = df_expected_perm,
+    aes(x = Permutation, y = expected),
+    inherit.aes = FALSE,
+    linetype = "dashed",
+    linewidth = 1,
+    color = "#d62728"
+  ) +
+  
+  ggtitle(
+    paste0(
+      "ECT p < ", cutoff, "\n",
+      "dashed: expected, solid: observed\n",
+      "blue: real, red: permutation"
     )
   ) +
   
   labs(
     x = "Permutation",
-    y = "Number of pairs",
-    color = NULL
+    y = "Number of pairs"
   ) +
   
-  theme_bw(base_size = 12) +
-  theme(
-    legend.position = "top"
-  ) + 
-  scale_x_continuous(breaks = 1:10)
+  scale_x_continuous(breaks = 1:10) +
+  
+  theme_bw(base_size = 12)
 
 p
 
