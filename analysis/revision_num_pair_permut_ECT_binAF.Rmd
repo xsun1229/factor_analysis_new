@@ -87,7 +87,7 @@ for (perm in c(1:10)){
   df_all_celltype_perm <- c()
   for(celltype in celltypes){
     
-    df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary/perm", perm, "/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
+    df <- readRDS(paste0("/project/xinhe/xsun/pathway_factor/analysis/1.ECT_CEDAR_permu/ECT_summary_bin/perm", perm, "/", celltype,"_ECT_summary_poolalltraits_selected.RDS"))
     df <- df[df$trait_id %in% traits_EUR,]
     
     df_all_celltype_perm <- rbind(df_all_celltype_perm, df)
